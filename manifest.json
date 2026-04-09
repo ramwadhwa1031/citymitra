@@ -1,0 +1,42 @@
+  "name": "City Mitra",
+  "short_name": "City Mitra",
+  "description": "City Mitra — Kurukshetra's smart civic AI companion. Instant help with officers, services, tourism & emergency contacts.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4338CA",
+  "background_color": "#312E81",
+  "lang": "en",
+  "categories": ["government", "utilities"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Emergency Contacts",
+      "short_name": "Emergency",
+      "description": "Get emergency numbers instantly",
+      "url": "./index.html?q=emergency+contacts",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tourist Places",
+      "short_name": "Tourism",
+      "description": "Explore Kurukshetra heritage",
+      "url": "./index.html?q=tourist+places",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
