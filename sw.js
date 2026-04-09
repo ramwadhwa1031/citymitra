@@ -3,7 +3,7 @@
 //  Cache-first for local assets, network-first for API calls
 // ============================================================
 
-const CACHE_NAME = 'infobot-v1.2';
+const CACHE_NAME = 'infobot-v1.3';
 
 // All local assets to pre-cache on install
 const PRECACHE_ASSETS = [
