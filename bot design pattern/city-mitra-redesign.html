@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>City Mitra — Kurukshetra</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07080f;
+    --surface: rgba(255,255,255,0.05);
+    --surface-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.10);
+    --accent: #7c6af7;
+    --accent2: #e8855a;
+    --accent3: #4fc9a4;
+    --text: #f0eff8;
+    --muted: rgba(240,239,248,0.45);
+    --glow: rgba(124,106,247,0.35);
+  }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background blobs */
+  .bg-blobs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+  }
+  .blob-1 { width: 320px; height: 320px; background: #7c6af7; top: -80px; left: -60px; animation: drift1 12s ease-in-out infinite alternate; }
+  .blob-2 { width: 260px; height: 260px; background: #e8855a; bottom: 100px; right: -80px; animation: drift2 15s ease-in-out infinite alternate; }
+  .blob-3 { width: 200px; height: 200px; background: #4fc9a4; top: 50%; left: 50%; transform: translate(-50%,-50%); animation: drift3 18s ease-in-out infinite alternate; }
+
+  @keyframes drift1 { from { transform: translate(0,0); } to { transform: translate(30px, 40px); } }
+  @keyframes drift2 { from { transform: translate(0,0); } to { transform: translate(-25px, -35px); } }
+  @keyframes drift3 { from { transform: translate(-50%,-50%); } to { transform: translate(-45%,-55%); } }
+
+  .phone {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 390px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(160deg, #0d0e1c 0%, #07080f 60%);
+    overflow: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px 14px;
+    background: rgba(13,14,28,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px var(--glow);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 16px var(--glow); }
+    50% { box-shadow: 0 0 28px var(--glow), 0 0 48px rgba(124,106,247,0.15); }
+  }
+
+  .topbar-info { flex: 1; }
+  .topbar-name {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    background: linear-gradient(90deg, #fff 0%, #b8b0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .topbar-sub {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .topbar-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .lang-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.2s;
+  }
+  .lang-pill:hover { background: var(--surface-hover); }
+  .icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .icon-btn:hover { background: var(--surface-hover); }
+
+  /* ── TRUST BADGE ── */
+  .trust-banner {
+    margin: 14px 16px;
+    padding: 10px 14px;
+    background: rgba(76,201,164,0.08);
+    border: 1px solid rgba(76,201,164,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--accent3);
+    letter-spacing: 0.02em;
+    animation: fadeSlide 0.6s ease both;
+  }
+  .trust-icon { font-size: 14px; }
+  .trust-banner strong { color: #a8f0d8; }
+
+  /* ── WELCOME CARD ── */
+  .welcome-card {
+    margin: 0 16px 16px;
+    padding: 22px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    animation: fadeSlide 0.7s 0.1s ease both;
+  }
+  .welcome-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    border-radius: 20px 20px 0 0;
+  }
+  .welcome-card::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(124,106,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .greeting-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .greeting-emoji { font-size: 22px; }
+  .greeting-text {
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #fff 0%, #c4beff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .greeting-devanagari {
+    font-family: 'Noto Serif Devanagari', serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .welcome-body {
+    font-size: 13px;
+    color: rgba(240,239,248,0.7);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .welcome-body strong { color: #fff; }
+
+  /* Topic chips */
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .topic-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .topic-chip:hover { transform: translateY(-1px); }
+  .tc-purple { background: rgba(124,106,247,0.15); border-color: rgba(124,106,247,0.3); color: #c0b8ff; }
+  .tc-orange { background: rgba(232,133,90,0.12); border-color: rgba(232,133,90,0.25); color: #f5b898; }
+  .tc-teal   { background: rgba(76,201,164,0.10); border-color: rgba(76,201,164,0.22); color: #86e8cd; }
+  .tc-blue   { background: rgba(80,150,230,0.12); border-color: rgba(80,150,230,0.25); color: #99c4f0; }
+  .tc-pink   { background: rgba(220,100,160,0.12); border-color: rgba(220,100,160,0.25); color: #f0a8d0; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    padding: 0 20px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    animation: fadeSlide 0.7s 0.2s ease both;
+  }
+
+  /* ── QUICK ACTIONS ── */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 16px 16px;
+    animation: fadeSlide 0.7s 0.25s ease both;
+  }
+  .qa-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .qa-card:hover {
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.18);
+  }
+  .qa-card:active { transform: scale(0.97); }
+  .qa-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .qa-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .qa-sub {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .qa-card::after {
+    content: '→';
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.2s;
+  }
+  .qa-card:hover::after { opacity: 1; transform: translateX(0); }
+
+  /* Accent top line per card */
+  .qa-purple::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background: linear-gradient(90deg,var(--accent),transparent); border-radius:16px 16px 0 0; }
+  .qa-orange::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background: linear-gradient(90deg,var(--accent2),transparent); border-radius:16px 16px 0 0; }
+  .qa-teal::before   { content:''; position:absolute; top:0;left:0;right:0; height:2px; background: linear-gradient(90deg,var(--accent3),transparent); border-radius:16px 16px 0 0; }
+  .qa-blue::before   { content:''; position:absolute; top:0;left:0;right:0; height:2px; background: linear-gradient(90deg,#5096e6,transparent); border-radius:16px 16px 0 0; }
+
+  /* ── STAT ROW ── */
+  .stats-row {
+    display: flex;
+    gap: 10px;
+    padding: 0 16px 20px;
+    animation: fadeSlide 0.7s 0.3s ease both;
+  }
+  .stat-pill {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .stat-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+    background: linear-gradient(90deg,#fff,#b8b0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-lbl {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+    display: block;
+  }
+
+  /* ── CHAT AREA ── */
+  .chat-area {
+    flex: 1;
+    padding: 0 16px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeSlide 0.7s 0.35s ease both;
+  }
+
+  /* A sample AI message bubble for context */
+  .msg {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+  .msg-avatar {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .msg-bubble {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 16px 16px 16px 4px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: rgba(240,239,248,0.85);
+    line-height: 1.5;
+    max-width: 85%;
+    backdrop-filter: blur(8px);
+  }
+  .msg-time {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 4px;
+    padding-left: 36px;
+  }
+
+  /* ── INPUT BAR ── */
+  .input-bar {
+    padding: 12px 16px 20px;
+    background: rgba(13,14,28,0.85);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+  }
+  .input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 10px 14px;
+    gap: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .input-wrap:focus-within {
+    border-color: rgba(124,106,247,0.5);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.1);
+  }
+  .input-field {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .input-field::placeholder { color: var(--muted); }
+  .mic-btn {
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+  .mic-btn:hover { opacity: 0.9; }
+  .send-btn {
+    width: 42px; height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), #9b88ff);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #fff;
+    box-shadow: 0 4px 15px var(--glow);
+    transition: transform 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+  }
+  .send-btn:hover { transform: scale(1.06); box-shadow: 0 6px 20px var(--glow); }
+  .send-btn:active { transform: scale(0.95); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+  /* Online dot */
+  .online-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent3);
+    display: inline-block;
+    margin-right: 4px;
+    animation: blink 2.5s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity:1; } 50% { opacity:0.35; }
+  }
+
+  .divider-label {
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin: 4px 0 10px;
+    position: relative;
+  }
+  .divider-label::before, .divider-label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 28%;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider-label::before { left: 6px; }
+  .divider-label::after { right: 6px; }
+</style>
+</head>
+<body>
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<div class="phone">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="avatar">🏛️</div>
+    <div class="topbar-info">
+      <div class="topbar-name">City Mitra</div>
+      <div class="topbar-sub"><span class="online-dot"></span>Kurukshetra's Civic AI &nbsp;·&nbsp; 24/7</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="lang-pill">🇬🇧 EN</div>
+      <div class="icon-btn">⋯</div>
+    </div>
+  </div>
+
+  <!-- TRUST BANNER -->
+  <div class="trust-banner">
+    <span class="trust-icon">🛡️</span>
+    <span>Official data sourced from <strong>kurukshetra.gov.in</strong></span>
+  </div>
+
+  <!-- WELCOME CARD -->
+  <div class="welcome-card">
+    <div class="greeting-row">
+      <span class="greeting-emoji">🙏</span>
+      <span class="greeting-text">Namaste!</span>
+    </div>
+    <div class="greeting-devanagari">नमस्ते — स्वागत है कुरुक्षेत्र में</div>
+    <div class="welcome-body">
+      I'm <strong>City Mitra</strong>, your intelligent civic companion for Kurukshetra district. What can I help you with today?
+    </div>
+    <div class="topics">
+      <span class="topic-chip tc-purple">👤 Officers</span>
+      <span class="topic-chip tc-orange">🏛️ Heritage</span>
+      <span class="topic-chip tc-teal">📋 Schemes</span>
+      <span class="topic-chip tc-blue">📊 District Info</span>
+      <span class="topic-chip tc-pink">🚨 Emergency</span>
+    </div>
+  </div>
+
+  <!-- SECTION: QUICK ACTIONS -->
+  <div class="section-label">Quick Access</div>
+  <div class="quick-grid">
+    <div class="qa-card qa-purple">
+      <span class="qa-icon">🏛️</span>
+      <div class="qa-title">Tourist Places</div>
+      <div class="qa-sub">Heritage & sacred sites</div>
+    </div>
+    <div class="qa-card qa-orange">
+      <span class="qa-icon">🚨</span>
+      <div class="qa-title">Emergency</div>
+      <div class="qa-sub">Contacts & helplines</div>
+    </div>
+    <div class="qa-card qa-teal">
+      <span class="qa-icon">👤</span>
+      <div class="qa-title">Who is DC?</div>
+      <div class="qa-sub">District Collector info</div>
+    </div>
+    <div class="qa-card qa-blue">
+      <span class="qa-icon">📊</span>
+      <div class="qa-title">Population</div>
+      <div class="qa-sub">Census & demographics</div>
+    </div>
+  </div>
+
+  <!-- STAT ROW -->
+  <div class="stats-row">
+    <div class="stat-pill">
+      <span class="stat-val">964K+</span>
+      <span class="stat-lbl">Population</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-val">8</span>
+      <span class="stat-lbl">Sub-Divisions</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-val">400+</span>
+      <span class="stat-lbl">Sacred Sites</span>
+    </div>
+  </div>
+
+  <!-- CHAT AREA -->
+  <div class="divider-label">Conversation</div>
+  <div class="chat-area">
+    <div class="msg">
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">
+        How can I assist you today? You can ask about government services, tourist destinations, or emergency contacts in Kurukshetra.
+      </div>
+    </div>
+    <div class="msg-time">Just now</div>
+  </div>
+
+  <!-- INPUT BAR -->
+  <div class="input-bar">
+    <div class="input-wrap">
+      <input class="input-field" type="text" placeholder="Ask anything about Kurukshetra…" />
+      <span class="mic-btn">🎙️</span>
+    </div>
+    <button class="send-btn">➤</button>
+  </div>
+
+</div>
+</body>
+</html>

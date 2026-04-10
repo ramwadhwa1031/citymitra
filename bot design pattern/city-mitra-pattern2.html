@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>City Mitra — Pattern 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --saffron: #E8712A;
+    --deep: #1A0A00;
+    --warm-bg: #FDF6EC;
+    --card-bg: #FFFFFF;
+    --terracotta: #C4502A;
+    --gold: #D4992B;
+    --ink: #1A0A00;
+    --muted: #7A6050;
+    --border: rgba(200,140,80,0.2);
+    --green: #2D7A4F;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .phone {
+    width: 100%;
+    max-width: 390px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--warm-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Geometric mandala bg pattern */
+  .phone::before {
+    content: '';
+    position: fixed;
+    top: -120px;
+    right: -120px;
+    width: 340px;
+    height: 340px;
+    background:
+      radial-gradient(circle at center, transparent 60px, rgba(232,113,42,0.06) 61px, rgba(232,113,42,0.06) 62px, transparent 63px),
+      radial-gradient(circle at center, transparent 90px, rgba(212,153,43,0.05) 91px, rgba(212,153,43,0.05) 92px, transparent 93px),
+      radial-gradient(circle at center, transparent 120px, rgba(232,113,42,0.04) 121px, rgba(232,113,42,0.04) 122px, transparent 123px),
+      radial-gradient(circle at center, transparent 150px, rgba(212,153,43,0.03) 151px, rgba(212,153,43,0.03) 152px, transparent 153px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .phone::after {
+    content: '';
+    position: fixed;
+    bottom: 60px;
+    left: -80px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(232,113,42,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--deep);
+    padding: 0 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* Decorative top strip */
+  .header-strip {
+    height: 3px;
+    background: repeating-linear-gradient(90deg,
+      var(--saffron) 0px, var(--saffron) 12px,
+      var(--gold) 12px, var(--gold) 24px,
+      var(--green) 24px, var(--green) 36px
+    );
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px 14px;
+  }
+
+  .logo-block {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--saffron), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .header-text { flex: 1; }
+  .header-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.01em;
+  }
+  .header-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .header-actions { display: flex; gap: 8px; }
+  .h-btn {
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    display: flex; align-items: center; gap: 4px;
+    transition: background 0.2s;
+  }
+  .h-btn:hover { background: rgba(255,255,255,0.14); }
+
+  /* ── HERO BAND ── */
+  .hero-band {
+    background: linear-gradient(135deg, var(--saffron) 0%, var(--terracotta) 100%);
+    padding: 22px 20px 20px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero-band::before {
+    content: '✦';
+    position: absolute;
+    font-size: 120px;
+    color: rgba(255,255,255,0.07);
+    top: -20px;
+    right: -10px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .hero-devanagari {
+    font-family: 'Noto Serif Devanagari', serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 14px;
+  }
+  .hero-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+    max-width: 290px;
+  }
+  .hero-desc strong { color: #fff; }
+
+  /* trust chip in hero */
+  .hero-trust {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 14px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 20px;
+    padding: 5px 11px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ── TOPICS ROW ── */
+  .topics-scroll {
+    display: flex;
+    gap: 8px;
+    padding: 14px 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .topics-scroll::-webkit-scrollbar { display: none; }
+  .topic-tag {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 13px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .topic-tag:hover { transform: translateY(-1px); }
+  .tt-1 { background:#FFF3EA; border-color:#E8712A; color:#C4502A; }
+  .tt-2 { background:#FFF9EE; border-color:#D4992B; color:#9A6A10; }
+  .tt-3 { background:#EDF7F2; border-color:#2D7A4F; color:#1A5535; }
+  .tt-4 { background:#EEF4FF; border-color:#4A6FB5; color:#2A4A8A; }
+  .tt-5 { background:#FFF0F5; border-color:#C0507A; color:#8A2A4A; }
+
+  /* ── SECTION HEADER ── */
+  .sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 18px 10px;
+    animation: fadeUp 0.5s 0.15s ease both;
+  }
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .sec-more {
+    font-size: 11px;
+    color: var(--saffron);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ── CARD GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 18px 16px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .qcard {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 14px 14px;
+    cursor: pointer;
+    transition: all 0.22s;
+    box-shadow: 0 2px 8px rgba(150,80,20,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+  .qcard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(150,80,20,0.1);
+    border-color: rgba(232,113,42,0.35);
+  }
+  .qcard-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 12px; right: 12px;
+  }
+  .dot-orange { background: var(--saffron); }
+  .dot-red    { background: #D94040; }
+  .dot-green  { background: var(--green); }
+  .dot-blue   { background: #3D6BB5; }
+
+  .qcard-icon { font-size: 24px; margin-bottom: 9px; display: block; }
+  .qcard-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .qcard-sub { font-size: 10px; color: var(--muted); }
+
+  /* ── STATS BAND ── */
+  .stats-band {
+    background: var(--deep);
+    margin: 4px 18px 18px;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    gap: 0;
+    animation: fadeUp 0.5s 0.25s ease both;
+    overflow: hidden;
+    position: relative;
+  }
+  .stats-band::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(90deg,
+      var(--saffron) 0, var(--saffron) 8px,
+      var(--gold) 8px, var(--gold) 16px,
+      var(--green) 16px, var(--green) 24px
+    );
+  }
+  .stat-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+  }
+  .stat-item + .stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 10%; bottom: 10%;
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--saffron);
+    display: block;
+  }
+  .stat-lbl {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* ── CHAT BUBBLE ── */
+  .chat-zone {
+    padding: 0 18px 10px;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+  .bubble-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .ai-bubble {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+  }
+  .ai-avatar {
+    width: 30px; height: 30px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--saffron), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ai-text {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 4px 16px 16px 16px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+    box-shadow: 0 2px 8px rgba(150,80,20,0.06);
+  }
+
+  /* ── INPUT ── */
+  .input-bar {
+    padding: 10px 18px 22px;
+    background: #fff;
+    border-top: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 -4px 20px rgba(150,80,20,0.05);
+  }
+  .inp-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: var(--warm-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 9px 13px;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+  .inp-wrap:focus-within { border-color: var(--saffron); }
+  .inp-field {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .inp-field::placeholder { color: var(--muted); }
+  .mic { font-size: 15px; opacity: 0.4; cursor: pointer; }
+  .send {
+    width: 40px; height: 40px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--saffron), var(--terracotta));
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: #fff;
+    box-shadow: 0 4px 12px rgba(232,113,42,0.35);
+    transition: transform 0.15s;
+    flex-shrink: 0;
+  }
+  .send:hover { transform: scale(1.07); }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="header">
+    <div class="header-strip"></div>
+    <div class="header-inner">
+      <div class="logo-block">🏛️</div>
+      <div class="header-text">
+        <div class="header-name">City Mitra</div>
+        <div class="header-sub">Kurukshetra's Civic AI · 24/7</div>
+      </div>
+      <div class="header-actions">
+        <div class="h-btn">🇬🇧 EN</div>
+        <div class="h-btn">⋯</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-band">
+    <div class="hero-eyebrow">Your District Companion</div>
+    <div class="hero-title">Namaste, Welcome<br>to Kurukshetra</div>
+    <div class="hero-devanagari">नमस्ते — आपकी सेवा में हाज़िर हैं</div>
+    <div class="hero-desc">I'm <strong>City Mitra</strong>. Ask me about officers, heritage sites, schemes, or emergency contacts.</div>
+    <div class="hero-trust">🛡️ Sourced from kurukshetra.gov.in</div>
+  </div>
+
+  <!-- TOPICS SCROLL -->
+  <div class="topics-scroll">
+    <div class="topic-tag tt-1">👤 Officers & Dept</div>
+    <div class="topic-tag tt-2">🏛️ Tourist Places</div>
+    <div class="topic-tag tt-3">📋 Services</div>
+    <div class="topic-tag tt-4">📊 District Info</div>
+    <div class="topic-tag tt-5">🚨 Emergency</div>
+  </div>
+
+  <!-- QUICK ACCESS -->
+  <div class="sec-head">
+    <span class="sec-title">Quick Access</span>
+    <span class="sec-more">View all →</span>
+  </div>
+  <div class="card-grid">
+    <div class="qcard">
+      <div class="qcard-dot dot-orange"></div>
+      <span class="qcard-icon">🏛️</span>
+      <div class="qcard-title">Tourist Places</div>
+      <div class="qcard-sub">Sacred & heritage sites</div>
+    </div>
+    <div class="qcard">
+      <div class="qcard-dot dot-red"></div>
+      <span class="qcard-icon">🚨</span>
+      <div class="qcard-title">Emergency</div>
+      <div class="qcard-sub">Contacts & helplines</div>
+    </div>
+    <div class="qcard">
+      <div class="qcard-dot dot-green"></div>
+      <span class="qcard-icon">👤</span>
+      <div class="qcard-title">Who is DC?</div>
+      <div class="qcard-sub">District Collector</div>
+    </div>
+    <div class="qcard">
+      <div class="qcard-dot dot-blue"></div>
+      <span class="qcard-icon">📊</span>
+      <div class="qcard-title">Population</div>
+      <div class="qcard-sub">Census & data</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-band">
+    <div class="stat-item">
+      <span class="stat-num">964K</span>
+      <span class="stat-lbl">Population</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">400+</span>
+      <span class="stat-lbl">Sacred Sites</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">8</span>
+      <span class="stat-lbl">Sub-Divisions</span>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-zone">
+    <div class="bubble-label">Today</div>
+    <div class="ai-bubble">
+      <div class="ai-avatar">🤖</div>
+      <div class="ai-text">How can I assist you today? Ask me about government services, tourist destinations, or emergency contacts.</div>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-bar">
+    <div class="inp-wrap">
+      <input class="inp-field" type="text" placeholder="Ask anything about Kurukshetra…" />
+      <span class="mic">🎙️</span>
+    </div>
+    <button class="send">➤</button>
+  </div>
+
+</div>
+</body>
+</html>

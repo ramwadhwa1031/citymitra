@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kurukshetra InfoBot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+     <script src="js/whatsapp-adapter.js"></script>
+    <style>
+        /* Reset and base styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        /* WhatsApp-specific tweaks */
+        .wa-bg { 
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); 
+            background-opacity: 0.4; 
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .message-box { box-shadow: 0 1px 0.5px rgba(0,0,0,0.13); }
+        .triangle-left::before {
+            content: ""; position: absolute; left: -8px; top: 0; width: 0; height: 0;
+            border-top: 0px solid transparent; border-bottom: 15px solid transparent; border-right: 15px solid white;
+        }
+        .triangle-right::before {
+            content: ""; position: absolute; right: -8px; top: 0; width: 0; height: 0;
+            border-top: 0px solid transparent; border-bottom: 15px solid transparent; border-left: 15px solid #d9fdd3;
+        }
+        
+        /* Enhanced chip styles */
+        .chip-button {
+            transition: all 0.25s ease;
+            font-weight: 600;
+        }
+        .chip-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 128, 105, 0.25);
+        }
+        .chip-button:active {
+            transform: scale(0.98);
+        }
+        
+        /* Chips container gradient background */
+        #chips-container {
+            pointer-events: auto;
+        }
+        
+        #chips-grid {
+            pointer-events: auto;
+        }
+        
+        /* Language switcher animation */
+        #lang-flag {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        button:has(#lang-flag):hover #lang-flag {
+            transform: scale(1.2);
+        }
+        
+        /* Gradient header */
+        .gradient-header {
+            background: linear-gradient(135deg, #008069 0%, #00a884 100%);
+        }
+
+        /* Autocomplete dropdown styles */
+        .autocomplete-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 30;
+        }
+        
+        .autocomplete-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .autocomplete-item:hover {
+            background: #f0f9ff;
+        }
+        
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        
+        .autocomplete-highlight {
+            color: #008069;
+            font-weight: 600;
+        }
+        
+        .autocomplete-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .autocomplete-dropdown::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+       /* ============================================
+           MICROPHONE BUTTON STYLES (NEW!)
+           ============================================ */
+        
+        #mic-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        #mic-btn:hover {
+            background: #e5e7eb !important;
+        }
+        
+        /* Recording state - red pulsing animation */
+        #mic-btn.recording {
+            background: #ef4444 !important;
+            animation: pulse-red 1.5s ease-in-out infinite;
+        }
+        
+        #mic-btn.recording i {
+            color: white !important;
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+        }
+        
+        /* Listening state - blue pulsing */
+        #mic-btn.listening {
+            background: #3b82f6 !important;
+            animation: pulse-blue 1s ease-in-out infinite;
+        }
+        
+        #mic-btn.listening i {
+            color: white !important;
+        }
+        
+        @keyframes pulse-blue {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+            }
+        }
+        
+        /* Voice indicator tooltip */
+        .voice-indicator {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .voice-indicator.show {
+            opacity: 1;
+        }
+        
+        .voice-indicator::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.8);
+        }
+   /* ============================================
+   WHATSAPP SHARE BUTTON STYLES
+   ============================================ */
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.75rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3);
+}
+
+.share-btn:hover {
+    background: #20BA5A;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+.share-btn:active {
+    transform: translateY(0);
+}
+
+.share-btn svg,
+.share-btn i {
+    width: 16px;
+    height: 16px;
+}
+
+/* Share button container */
+.message-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Compact share icon button */
+.action-icon {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-icon:hover {
+    background: rgba(37, 211, 102, 0.1);
+    color: #25D366;
+}
+
+.action-icon svg {
+    width: 18px;
+    height: 18px;
+}
+    </style>
+</head>
+<body class="min-h-screen md:flex md:justify-center md:items-center" style="background: #008069;">
+
+    <div class="w-full h-[100dvh] md:max-w-md md:h-[90vh] bg-[#efeae2] relative flex flex-col md:shadow-2xl md:rounded-xl overflow-hidden">
+        
+        <!-- Enhanced Header -->
+        <div class="gradient-header p-3 flex items-center justify-between text-white shadow-lg z-20">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#008069] font-bold text-xl shadow-md">
+                    <i data-lucide="bot" class="w-6 h-6"></i>
+                </div>
+                <div class="leading-tight">
+                    <h1 class="font-semibold text-base" id="header-title">Kurukshetra InfoBot</h1>
+                    <p class="text-[11px] opacity-90" id="header-subtitle">Powered by AI • 24/7 Available</p>
+                </div>
+            </div>
+            <div class="flex gap-3 items-center relative">
+                <!-- Language Switcher -->
+                <button onclick="toggleLanguage()" class="bg-white/20 hover:bg-white/30 rounded-lg px-2 py-1 text-xs font-semibold transition-all flex items-center gap-1 backdrop-blur-sm">
+                    <span id="lang-flag">🇬🇧</span>
+                    <span id="lang-code">EN</span>
+                </button>
+ <!-- Share App Button -->
+<button onclick="shareApp()" class="text-white px-3 py-2 rounded-lg hover:bg-white/20 transition-colors" title="Share this chatbot">
+    <i data-lucide="share-2" class="w-5 h-5"></i>
+</button>
+                <button onclick="toggleMenu()"><i data-lucide="more-vertical" class="w-5 h-5"></i></button>
+                
+                <div id="menu-dropdown" class="hidden absolute right-0 top-10 bg-white text-gray-800 shadow-xl rounded-lg py-2 w-48 z-30">
+                     <button onclick="clearChat()" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm flex items-center gap-2">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i> <span id="menu-clear">Clear chat</span>
+                    </button>
+                    <button onclick="window.location.href='settings.html'" 
+        class="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition text-left">
+    <i data-lucide="settings" class="w-5 h-5"></i>
+    <span>Settings</span>
+</button>
+                    <button onclick="window.open('https://kurukshetra.gov.in', '_blank')" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm flex items-center gap-2">
+                        <i data-lucide="external-link" class="w-4 h-4"></i> <span id="menu-visit">Visit Website</span>
+                    </button>
+<a href="feedback.html" target="_blank" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-white/20 rounded transition">
+    <i data-lucide="message-square" class="w-4 h-4"></i>
+    <span id="menu-feedback-text">Give Feedback</span>
+</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-3 wa-bg relative">
+            
+            <!-- Enhanced Welcome Badge -->
+            <div class="flex justify-center mb-4">
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-[#008069]/20 px-4 py-2 rounded-xl shadow-sm text-center max-w-[85%]">
+                    <div class="flex items-center justify-center gap-2 mb-1">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-[#008069]"></i>
+                        <span class="text-xs font-semibold text-gray-700" id="official-info-title">Official Information</span>
+                    </div>
+                    <p class="text-[10px] text-gray-600"><span id="official-info-desc">All responses are sourced from</span> <b>kurukshetra.gov.in</b></p>
+                </div>
+            </div>
+
+            <!-- Welcome Message -->
+            <div id="welcome-message" class="flex justify-start">
+                <div class="max-w-[85%] p-3 rounded-lg rounded-tl-none shadow-sm bg-white message-box triangle-left">
+                    <div class="text-gray-800 text-[14px] leading-relaxed">
+                        👋 <b id="welcome-title">Namaste!</b><br><br>
+                        <span id="welcome-text">I'm your AI assistant for Kurukshetra district. Ask me about:</span>
+                        <br>• 👤 <span id="welcome-officers">Officers & Departments</span>
+                        <br>• 🏛️ <span id="welcome-tourist">Tourist Places & Heritage</span>
+                        <br>• 📋 <span id="welcome-services">Services & Schemes</span>
+                        <br>• 📊 <span id="welcome-district">District Information</span>
+                        <br>• 🚨 <span id="welcome-emergency">Emergency Contacts</span>
+                        <br><br>
+                        <span class="text-xs text-gray-500" id="welcome-suggestion">Try the suggestions below to get started!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="messages-list" class="space-y-2 pb-12"></div>
+            
+            <div id="loading-indicator" class="hidden flex justify-start animate-pulse">
+                <div class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm text-sm text-gray-500 flex items-center gap-2">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                    <span id="typing-text">Typing...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Quick Questions Chips with Manual Navigation -->
+        <div id="chips-container" class="hidden absolute bottom-[75px] left-0 right-0 px-4 py-2 bg-gradient-to-t from-[#efeae2] from-90% to-transparent z-10 transition-all">
+            <div class="flex items-center justify-between mb-1.5">
+                <button onclick="previousQuestionSet()" class="text-[#008069] hover:bg-white/50 rounded-full p-1 transition-all">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <div id="chips-title" class="text-center text-xs font-bold text-[#008069]/80 tracking-wide"></div>
+                <button onclick="nextQuestionSet()" class="text-[#008069] hover:bg-white/50 rounded-full p-1 transition-all">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5 mb-1.5" id="chips-grid"></div>
+            <div class="flex justify-center gap-1.5" id="indicators"></div>
+        </div>
+
+        <!-- Toggle Suggestions Button -->
+        <div id="toggle-chips-btn" class="absolute bottom-[72px] right-4 z-10">
+            <button onclick="toggleChipsVisibility()" class="bg-white text-[#008069] border-2 border-[#008069] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg hover:bg-[#008069] hover:text-white transition-all flex items-center gap-1">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                <span id="suggestions-btn-text">Suggestions</span>
+            </button>
+        </div>
+
+        <!-- Input Area with Autocomplete -->
+        <div class="bg-[#f0f2f5] p-2 flex items-center gap-2 z-20 shadow-lg relative">
+            <!-- Autocomplete Dropdown -->
+            <div id="autocomplete-dropdown" class="autocomplete-dropdown hidden"></div>          
+            <input type="text" id="user-input" placeholder="Ask me anything about Kurukshetra..." 
+                class="flex-1 py-2 px-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-[#008069]/20 text-sm h-10 shadow-sm"
+                onkeypress="handleKeyPress(event)"
+                oninput="handleAutocomplete(event)"
+                autocomplete="off">
+                <button id="mic-btn" class="text-gray-500 p-1 hover:bg-gray-200 rounded-full transition relative" title="Voice Input">
+                <i data-lucide="mic" class="w-6 h-6"></i>
+                <div class="voice-indicator" id="voice-indicator"></div>
+            </button>       
+            <button onclick="sendMessage()" class="bg-gradient-to-r from-[#008069] to-[#00a884] p-2.5 rounded-full text-white hover:shadow-md transition-all">
+                <i data-lucide="send" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="script.js?v=6.0"></script>
+    <script src="script_mic.js?v=6.0"></script>
+    <script src="script_listen.js?v=6.0"></script>
+    <script src="settings-integration.js?v=6.0"></script>
+<script>
+console.log('💪 ULTRA-STRONG Settings Loader Started');
+
+window.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Page loaded, applying settings with MAXIMUM FORCE...');
+    
+    const saved = localStorage.getItem('infobotSettings');
+    
+    if (!saved) {
+        console.log('⚠️ No saved settings found');
+        return;
+    }
+    
+    const settings = JSON.parse(saved);
+    console.log('✅ Settings found:', settings);
+    
+    // ============================================
+    // APPLY ALL SETTINGS WITH MAXIMUM SPECIFICITY
+    // ============================================
+    
+    const ultraStyle = document.createElement('style');
+    ultraStyle.id = 'ultra-settings-override';
+    
+    let css = `
+        /* ============================================
+           ULTRA OVERRIDE STYLES - HIGHEST PRIORITY
+           ============================================ */
+    `;
+    
+    // ============================================
+    // 1. DARK MODE
+    // ============================================
+    if (settings.theme === 'dark') {
+        console.log('🌙 Applying DARK MODE with ultra-strength...');
+        
+        document.body.classList.add('dark-mode');
+        
+        css += `
+            /* Dark Mode - Ultra Override */
+            body.dark-mode,
+            body.dark-mode * {
+                background-color: #0b141a !important;
+                color: #e9edef !important;
+            }
+            
+            body.dark-mode .wa-bg,
+            body.dark-mode div[class*="wa"],
+            body.dark-mode main,
+            body.dark-mode #app-container {
+                background-color: #0b141a !important;
+                background-image: none !important;
+            }
+            
+            /* User Messages - Green */
+            body.dark-mode .message-box.bg-\\[\\#d9fdd3\\],
+            body.dark-mode div[class*="d9fdd3"],
+            body.dark-mode .user-message,
+            body.dark-mode [class*="user"] {
+                background-color: #005c4b !important;
+                color: #e9edef !important;
+            }
+            
+            /* Bot Messages - Dark Gray */
+            body.dark-mode .message-box.bg-white,
+            body.dark-mode .bot-message,
+            body.dark-mode [class*="bot"]:not(button) {
+                background-color: #1f2c34 !important;
+                color: #e9edef !important;
+            }
+            
+            /* Header */
+            body.dark-mode header,
+            body.dark-mode .gradient-header,
+            body.dark-mode [class*="header"] {
+                background: linear-gradient(135deg, #005c4b 0%, #00a884 100%) !important;
+            }
+            
+            /* Inputs */
+            body.dark-mode input,
+            body.dark-mode textarea,
+            body.dark-mode select {
+                background-color: #1f2c34 !important;
+                color: #e9edef !important;
+                border-color: #3b4a54 !important;
+            }
+            
+            /* Buttons keep their colors */
+            body.dark-mode button {
+                color: inherit;
+            }
+        `;
+    }
+    
+    // ============================================
+    // 2. FONT SIZE - ULTRA OVERRIDE
+    // ============================================
+    if (settings.fontSize && settings.fontSize !== 'medium') {
+        console.log('📝 Applying FONT SIZE with ultra-strength:', settings.fontSize);
+        
+        const fontSizes = {
+            small: '12px',
+            medium: '14px',
+            large: '16px',
+            xlarge: '18px'
+        };
+        
+        const fontSize = fontSizes[settings.fontSize];
+        
+        css += `
+            /* Font Size - Ultra Override */
+            .message-box,
+            .message-box *,
+            .message,
+            .message *,
+            [class*="message"] p,
+            [class*="message"] span,
+            [class*="message"] div,
+            #messages-list > div,
+            #messages-list > div *,
+            .chat-message,
+            .chat-message * {
+                font-size: ${fontSize} !important;
+            }
+            
+            /* Also apply to new messages added dynamically */
+            * [data-message],
+            * [data-message] * {
+                font-size: ${fontSize} !important;
+            }
+        `;
+        
+        // Also set CSS variable for JavaScript-added messages
+        document.documentElement.style.setProperty('--message-font-size', fontSize);
+        
+        console.log('✅ Font size applied:', fontSize);
+    }
+    
+    // ============================================
+    // 3. ACCENT COLOR - ULTRA OVERRIDE
+    // ============================================
+if (settings.accentColor && settings.accentColor !== '#008069') {
+    console.log('🎨 Applying ACCENT COLOR with ULTRA-FORCE:', settings.accentColor);
+    
+    const accent = settings.accentColor;
+    const accentLight = lightenColor(accent, 20);
+    const accentDark = darkenColor(accent, 10);
+    
+    css += `
+        /* ============================================
+           ACCENT COLOR - NUCLEAR OPTION
+           ============================================ */
+        
+        /* HEADER - Every possible selector */
+        header,
+        .gradient-header,
+        div[class*="gradient-header"],
+        div[class*="header"]:first-child,
+        body > div:first-child > div:first-child,
+        [class*="bg-gradient"],
+        nav,
+        .navbar {
+            background: linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%) !important;
+        }
+        
+        /* Tailwind gradient utilities that might be used */
+        .bg-gradient-to-r,
+        .bg-gradient-to-br,
+        .bg-gradient-to-bl {
+            background: linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%) !important;
+        }
+        
+        /* GREEN BACKGROUNDS - All variations */
+        .bg-\\[\\#008069\\],
+        .bg-\\[\\#00a884\\],
+        .bg-green-50,
+        .bg-green-100,
+        .bg-green-200,
+        .bg-green-300,
+        .bg-green-400,
+        .bg-green-500,
+        .bg-green-600,
+        .bg-green-700,
+        .bg-green-800,
+        .bg-green-900,
+        [class*="bg-green"],
+        button[class*="bg-green"],
+        a[class*="bg-green"] {
+            background-color: ${accent} !important;
+        }
+        
+        /* HOVER STATES */
+        .hover\\:bg-green-700:hover,
+        .hover\\:bg-green-600:hover,
+        .hover\\:bg-\\[\\#00a884\\]:hover,
+        button:hover[class*="bg-green"] {
+            background-color: ${accentDark} !important;
+        }
+        
+        /* TEXT COLORS - All green text */
+        .text-\\[\\#008069\\],
+        .text-\\[\\#00a884\\],
+        .text-green-500,
+        .text-green-600,
+        .text-green-700,
+        .text-green-800,
+        [class*="text-green"],
+        a[class*="text-green"] {
+            color: ${accent} !important;
+        }
+        
+        /* BORDERS */
+        .border-\\[\\#008069\\],
+        .border-green-500,
+        .border-green-600,
+        .border-green-700,
+        [class*="border-green"] {
+            border-color: ${accent} !important;
+        }
+        
+        /* BUTTONS - Specific targeting */
+        button.bg-\\[\\#008069\\],
+        button[class*="green"],
+        .chip-button,
+        .btn-primary,
+        [role="button"][class*="green"] {
+            background-color: ${accent} !important;
+        }
+        
+        /* FOCUS STATES */
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: ${accent} !important;
+            ring-color: ${accent} !important;
+        }
+        
+        /* RING UTILITIES (Tailwind focus rings) */
+        .ring-green-500,
+        .ring-green-600,
+        .focus\\:ring-green-500:focus,
+        .focus\\:ring-green-600:focus {
+            --tw-ring-color: ${accent} !important;
+        }
+        
+        /* USER MESSAGE BUBBLES (if they use green) */
+        .bg-\\[\\#d9fdd3\\]:not(.dark-mode *) {
+            background-color: ${lightenColor(accent, 30)} !important;
+        }
+        
+        /* LINKS */
+        a:not([class*="text-"]) {
+            color: ${accent} !important;
+        }
+    `;
+    
+    // ALSO: Directly modify the header element in JavaScript
+    setTimeout(() => {
+        // Find header by multiple methods
+        const headers = [
+            document.querySelector('header'),
+            document.querySelector('.gradient-header'),
+            document.querySelector('[class*="gradient-header"]'),
+            document.querySelector('body > div:first-child > div:first-child'),
+            document.querySelector('[class*="header"]')
+        ];
+        
+        for (let header of headers) {
+            if (header && header.tagName !== 'META') {
+                header.style.background = `linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%)`;
+                header.style.setProperty('background', `linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%)`, 'important');
+                console.log('✅ Header element directly styled:', header.className);
+                break;
+            }
+        }
+        
+        // Find and style all green buttons
+        const greenButtons = document.querySelectorAll('button[class*="green"], button.bg-\\[\\#008069\\], .chip-button');
+        greenButtons.forEach(btn => {
+            btn.style.setProperty('background-color', accent, 'important');
+        });
+        console.log(`✅ Styled ${greenButtons.length} green buttons`);
+        
+    }, 100); // Small delay to ensure DOM is ready
+    
+    // Set CSS variables for good measure
+    document.documentElement.style.setProperty('--accent-color', accent);
+    document.documentElement.style.setProperty('--accent-light', accentLight);
+    document.documentElement.style.setProperty('--accent-dark', accentDark);
+    document.documentElement.style.setProperty('--tw-ring-color', accent);
+    
+    console.log('✅ Accent color FORCE-APPLIED:', accent);
+}
+    // ============================================
+    // 4. BACKGROUND - ULTRA OVERRIDE
+    // ============================================
+    if (settings.background && settings.background !== 'whatsapp') {
+        console.log('🖼️ Applying BACKGROUND:', settings.background);
+        
+        if (settings.background === 'solid') {
+            css += `
+                .wa-bg,
+                [class*="wa-bg"],
+                #messages-container,
+                main,
+                .chat-container {
+                    background-image: none !important;
+                    background-color: #ffffff !important;
+                }
+            `;
+        } else if (settings.background === 'gradient') {
+            css += `
+                .wa-bg,
+                [class*="wa-bg"],
+                #messages-container,
+                main,
+                .chat-container {
+                    background-image: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%) !important;
+                    background-color: transparent !important;
+                }
+            `;
+        }
+        
+        console.log('✅ Background applied');
+    }
+    
+    // ============================================
+    // 5. WIDTH - ULTRA OVERRIDE
+    // ============================================
+    if (settings.width && settings.width !== 100) {
+        console.log('📏 Applying WIDTH:', settings.width + '%');
+        
+        css += `
+            #app-container,
+            .max-w-screen-xl,
+            .container,
+            main > div:first-child,
+            body > div:first-child {
+                max-width: ${settings.width}% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        `;
+        
+        console.log('✅ Width applied');
+    }
+    
+    // ============================================
+    // 6. BUBBLE STYLE
+    // ============================================
+    if (settings.bubbleStyle === 'sharp') {
+        console.log('💬 Applying SHARP BUBBLES');
+        
+        css += `
+            .message-box,
+            [class*="message"] {
+                border-radius: 4px !important;
+            }
+            
+            .triangle-left::before,
+            .triangle-right::before {
+                display: none !important;
+            }
+        `;
+        
+        console.log('✅ Sharp bubbles applied');
+    }
+    
+    // ============================================
+    // 7. ANIMATIONS
+    // ============================================
+    if (settings.animations === false) {
+        console.log('⚡ DISABLING animations');
+        
+        css += `
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0s !important;
+                animation-duration: 0s !important;
+                transition: none !important;
+                animation: none !important;
+            }
+        `;
+        
+        console.log('✅ Animations disabled');
+    }
+    
+    // ============================================
+    // 8. COMPACT MODE
+    // ============================================
+    if (settings.compact) {
+        console.log('📱 Applying COMPACT MODE');
+        
+        css += `
+            .message-box {
+                padding: 0.5rem 0.75rem !important;
+                margin-top: 0.25rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+            
+            #messages-list,
+            [class*="message-list"],
+            .messages-container {
+                gap: 0.25rem !important;
+            }
+        `;
+        
+        console.log('✅ Compact mode applied');
+    }
+    
+    // ============================================
+    // 9. TIMESTAMPS
+    // ============================================
+    if (settings.timestamps === false) {
+        console.log('🕐 HIDING timestamps');
+        
+        css += `
+            .message-time,
+            .timestamp,
+            time,
+            [class*="time"]:not(button) {
+                display: none !important;
+            }
+        `;
+        
+        console.log('✅ Timestamps hidden');
+    }
+    
+    // ============================================
+    // INJECT THE ULTRA-STRONG STYLESHEET
+    // ============================================
+    ultraStyle.textContent = css;
+    document.head.appendChild(ultraStyle);
+    
+    console.log('🎉 ULTRA-STRONG settings applied successfully!');
+// ============================================
+    // ACCENT COLOR INLINE STYLE OVERRIDE
+    // ============================================
+    setTimeout(() => {
+        if (settings.accentColor && settings.accentColor !== '#008069') {
+            const accent = settings.accentColor;
+            const accentLight = lightenColor(accent, 20);
+            
+            // Override .gradient-header inline style
+            const header = document.querySelector('.gradient-header');
+            if (header) {
+                header.removeAttribute('style');
+                header.style.setProperty('background', `linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%)`, 'important');
+                console.log('✅ Header accent forced:', accent);
+            }
+            
+            // Override send button gradient
+            const sendBtn = document.querySelector('button.bg-gradient-to-r.from-\\[\\#008069\\]');
+            if (sendBtn) {
+                sendBtn.style.setProperty('background', `linear-gradient(to right, ${accent}, ${lightenColor(accent, 10)})`, 'important');
+                console.log('✅ Send button accent forced');
+            }
+        }
+    }, 300);
+    console.log('📋 Applied settings:', settings);
+});
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+function lightenColor(color, percent) {
+    const num = parseInt(color.replace("#",""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = Math.min(255, (num >> 16) + amt);
+    const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
+    const B = Math.min(255, (num & 0x0000FF) + amt);
+    return "#" + (0x1000000 + R*0x10000 + G*0x100 + B).toString(16).slice(1);
+}
+
+function darkenColor(color, percent) {
+    const num = parseInt(color.replace("#",""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = Math.max(0, (num >> 16) - amt);
+    const G = Math.max(0, (num >> 8 & 0x00FF) - amt);
+    const B = Math.max(0, (num & 0x0000FF) - amt);
+    return "#" + (0x1000000 + R*0x10000 + G*0x100 + B).toString(16).slice(1);
+}
+
+console.log('💪 ULTRA-STRONG Settings Loader Ready!');
+</script>
+
+
+    
+</body>
+</html>

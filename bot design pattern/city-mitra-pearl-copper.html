@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>City Mitra — Kurukshetra</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --pearl:      #FAF8F3;
+  --pearl2:     #F3EFEA;
+  --pearl3:     #EDE7DC;
+  --copper:     #B5733A;
+  --copper2:    #D4935A;
+  --copper-lt:  #F0D9C0;
+  --copper-xlt: #FBF0E6;
+  --ink:        #1C1510;
+  --ink2:       #3A2E26;
+  --muted:      #9A8878;
+  --border:     rgba(181,115,58,0.18);
+  --border2:    rgba(181,115,58,0.08);
+  --green:      #3A7A55;
+  --crimson:    #A02828;
+  --cobalt:     #2845A0;
+  --shadow-sm:  0 2px 12px rgba(60,30,10,0.07);
+  --shadow-md:  0 6px 28px rgba(60,30,10,0.10);
+  --shadow-lg:  0 16px 48px rgba(60,30,10,0.12);
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--pearl);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* ─── PHONE SHELL ─── */
+.phone {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--pearl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle linen texture via svg */
+.phone::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23FAF8F3'/%3E%3Crect width='1' height='1' x='0' y='0' fill='%23EDE7DC' opacity='0.4'/%3E%3Crect width='1' height='1' x='2' y='2' fill='%23EDE7DC' opacity='0.3'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* Devanagari watermark */
+.watermark {
+  position: fixed;
+  bottom: 120px;
+  right: -20px;
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 100px;
+  font-weight: 700;
+  color: rgba(181,115,58,0.055);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  writing-mode: vertical-rl;
+  letter-spacing: -4px;
+  transform: rotate(180deg);
+  user-select: none;
+}
+
+/* ─── TOP BAR ─── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(250,248,243,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+}
+
+/* Top ornamental line */
+.topbar::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--copper) 0px, var(--copper) 3px,
+    transparent 3px, transparent 6px
+  );
+  opacity: 0.6;
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 0;
+}
+
+.logo-wrap {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.logo-bg {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--copper) 0%, var(--copper2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  box-shadow: 0 4px 14px rgba(181,115,58,0.35);
+}
+/* Corner ornament */
+.logo-bg::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 13px;
+  border: 1px solid rgba(255,255,255,0.5);
+  pointer-events: none;
+}
+
+.topbar-text { flex: 1; }
+.topbar-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+.topbar-name span { color: var(--copper); }
+.topbar-sub {
+  font-size: 9.5px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: livepulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes livepulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.topbar-btns { display: flex; gap: 7px; align-items: center; }
+.tb-btn {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--copper-xlt);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--copper);
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.tb-btn:hover { background: var(--copper-lt); border-color: var(--copper2); }
+.tb-dot-btn {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--pearl2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: background 0.2s;
+}
+.tb-dot-btn:hover { background: var(--pearl3); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 22px 22px 0;
+  animation: lift 0.55s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* Ornamental frame box */
+.hero-frame {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--pearl2);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+/* Corner ornaments SVG-style via box shadows + pseudo */
+.hero-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--copper) 0%, var(--copper2) 40%, rgba(181,115,58,0.1) 100%);
+}
+
+.hero-inner {
+  padding: 20px 20px 18px;
+  position: relative;
+}
+
+/* Arch / dome decorative bg */
+.hero-inner::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -30px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 40px solid rgba(181,115,58,0.05);
+  pointer-events: none;
+}
+.hero-inner::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 20px solid rgba(181,115,58,0.07);
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--copper-xlt);
+  border: 1px solid var(--border);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--copper);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.hero-namaste {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--copper);
+}
+
+.hero-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.hero-desc strong { font-weight: 600; color: var(--ink); }
+
+/* Topic pills */
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+  background: var(--pearl);
+}
+.pill:hover { transform: translateY(-1px); }
+.p-copper  { border-color: rgba(181,115,58,0.3); color: var(--copper); }
+.p-green   { border-color: rgba(58,122,85,0.25); color: var(--green); }
+.p-crimson { border-color: rgba(160,40,40,0.22); color: var(--crimson); }
+.p-cobalt  { border-color: rgba(40,69,160,0.22); color: var(--cobalt); }
+.p-muted   { border-color: rgba(154,136,120,0.3); color: var(--muted); }
+
+/* Trust strip at bottom of hero card */
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: var(--pearl3);
+  border-top: 1px solid var(--border2);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.trust-shield {
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.hero-trust strong { color: var(--ink2); font-weight: 600; }
+
+/* ─── QUICK ACCESS ─── */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 20px 22px 0;
+  animation: lift 0.55s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 10px;
+  position: relative;
+  top: -3px;
+}
+.sec-more {
+  font-size: 10.5px;
+  color: var(--copper);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* 2-col grid */
+.qa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.qa {
+  background: var(--pearl);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 14px 13px;
+  cursor: pointer;
+  transition: all 0.22s;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.qa:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--copper2);
+}
+.qa:active { transform: scale(0.97); }
+
+/* colored left bar */
+.qa::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 16px 0 0 16px;
+  transition: width 0.2s;
+}
+.qa:hover::before { width: 4px; }
+.qa-copper::before  { background: var(--copper); }
+.qa-crimson::before { background: var(--crimson); }
+.qa-green::before   { background: var(--green); }
+.qa-cobalt::before  { background: var(--cobalt); }
+
+.qa-icon { font-size: 22px; margin-bottom: 9px; display: block; }
+.qa-title { font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.qa-sub { font-size: 10px; color: var(--muted); font-weight: 400; }
+
+/* ─── STATS ROW ─── */
+.stats-section {
+  position: relative;
+  z-index: 1;
+  padding: 18px 22px 0;
+  animation: lift 0.55s 0.18s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.stats-frame {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--copper-xlt) 0%, var(--pearl) 100%);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  position: relative;
+}
+.stats-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--copper), var(--copper2), rgba(181,115,58,0.1));
+}
+
+.stats-inner {
+  display: flex;
+  padding: 14px 0;
+}
+.st {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  padding: 4px 0;
+}
+.st + .st::before {
+  content: '✦';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  color: var(--copper-lt);
+}
+.st-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  display: block;
+  line-height: 1;
+}
+.st-lbl {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-top: 3px;
+}
+
+/* ─── CHAT ─── */
+.chat-section {
+  position: relative;
+  z-index: 1;
+  padding: 20px 22px 10px;
+  animation: lift 0.55s 0.24s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.chat-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.chat-divider::before, .chat-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.chat-divider span {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.msg-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.msg-av {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--copper), var(--copper2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(181,115,58,0.3);
+  margin-top: 2px;
+}
+.msg-content { flex: 1; }
+.msg-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--copper);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.msg-bubble {
+  background: var(--pearl);
+  border: 1px solid var(--border);
+  border-radius: 3px 14px 14px 14px;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink2);
+  line-height: 1.6;
+  box-shadow: var(--shadow-sm);
+}
+.msg-bubble strong { font-weight: 600; color: var(--ink); }
+
+/* ─── INPUT BAR ─── */
+.input-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  background: rgba(250,248,243,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  padding: 11px 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* ornamental top line on input */
+.input-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--copper) 0px, var(--copper) 3px,
+    transparent 3px, transparent 6px
+  );
+  opacity: 0.35;
+}
+
+.inp-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--pearl2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inp-wrap:focus-within {
+  border-color: var(--copper2);
+  box-shadow: 0 0 0 3px rgba(181,115,58,0.1);
+}
+.inp-field {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.inp-field::placeholder { color: var(--muted); }
+.mic-btn {
+  font-size: 15px;
+  opacity: 0.35;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+.mic-btn:hover { opacity: 0.7; }
+
+.send-btn {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--copper) 0%, var(--copper2) 100%);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(181,115,58,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+.send-btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 6px 20px rgba(181,115,58,0.5);
+}
+.send-btn:active { transform: scale(0.95); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes lift {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--copper-lt); border-radius: 3px; }
+
+/* spacer at bottom */
+.bottom-spacer { height: 6px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="watermark">कुरुक्षेत्र</div>
+
+  <!-- ── TOP BAR ── -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo-wrap">
+        <div class="logo-bg">🏛️</div>
+      </div>
+      <div class="topbar-text">
+        <div class="topbar-name">City <span>Mitra</span></div>
+        <div class="topbar-sub">
+          <span class="live-dot"></span>
+          Kurukshetra's Civic AI &nbsp;·&nbsp; 24/7 Available
+        </div>
+      </div>
+      <div class="topbar-btns">
+        <div class="tb-btn">🇬🇧 EN</div>
+        <div class="tb-dot-btn">⋯</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-frame">
+      <div class="hero-inner">
+        <div class="hero-tag">✦ Official Civic Assistant</div>
+        <div class="hero-namaste">नमस्ते — स्वागत है</div>
+        <div class="hero-title">Namaste,<br>Welcome to<br><em>Kurukshetra</em></div>
+        <div class="hero-desc">
+          I'm <strong>City Mitra</strong>, your intelligent companion for Kurukshetra district. Explore heritage, connect with officials, access services — all in one place.
+        </div>
+        <div class="pill-row">
+          <span class="pill p-copper">👤 Officers</span>
+          <span class="pill p-green">🏛️ Heritage</span>
+          <span class="pill p-crimson">🚨 Emergency</span>
+          <span class="pill p-cobalt">📊 District</span>
+          <span class="pill p-muted">📋 Schemes</span>
+        </div>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-shield">🛡</div>
+        <span>Official data sourced from <strong>kurukshetra.gov.in</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUICK ACCESS ── -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-title">Quick Access</span>
+      <div class="sec-line"></div>
+      <span class="sec-more">All →</span>
+    </div>
+    <div class="qa-grid">
+      <div class="qa qa-green">
+        <span class="qa-icon">🏛️</span>
+        <div class="qa-title">Tourist Places</div>
+        <div class="qa-sub">Heritage & sacred sites</div>
+      </div>
+      <div class="qa qa-crimson">
+        <span class="qa-icon">🚨</span>
+        <div class="qa-title">Emergency</div>
+        <div class="qa-sub">Contacts & helplines</div>
+      </div>
+      <div class="qa qa-copper">
+        <span class="qa-icon">👤</span>
+        <div class="qa-title">Who is DC?</div>
+        <div class="qa-sub">District Collector info</div>
+      </div>
+      <div class="qa qa-cobalt">
+        <span class="qa-icon">📊</span>
+        <div class="qa-title">Population</div>
+        <div class="qa-sub">Census & demographics</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats-section">
+    <div class="stats-frame">
+      <div class="stats-inner">
+        <div class="st">
+          <span class="st-val">964K</span>
+          <span class="st-lbl">Population</span>
+        </div>
+        <div class="st">
+          <span class="st-val">400+</span>
+          <span class="st-lbl">Sacred Sites</span>
+        </div>
+        <div class="st">
+          <span class="st-val">8</span>
+          <span class="st-lbl">Sub-Divisions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHAT ── -->
+  <div class="chat-section">
+    <div class="chat-divider">
+      <span>✦ &nbsp;Conversation</span>
+    </div>
+    <div class="msg-row">
+      <div class="msg-av">🤖</div>
+      <div class="msg-content">
+        <div class="msg-name">City Mitra</div>
+        <div class="msg-bubble">
+          How can I assist you today? Ask me about <strong>government services</strong>, tourist destinations, or emergency contacts in Kurukshetra.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-spacer"></div>
+
+  <!-- ── INPUT BAR ── -->
+  <div class="input-bar">
+    <div class="inp-wrap">
+      <input class="inp-field" type="text" placeholder="Ask anything about Kurukshetra…" />
+      <span class="mic-btn">🎙️</span>
+    </div>
+    <button class="send-btn">➤</button>
+  </div>
+
+</div>
+
+</body>
+</html>
