@@ -683,11 +683,29 @@ function toggleLanguage() {
 function updateUI() {
     const t = translations[currentLanguage];
 
-    // Update header
-    document.getElementById('header-title').textContent = t.title;
-    document.getElementById('header-subtitle').textContent = t.subtitle;
+    // Update header (supports both old flat header and new illustrated header)
+    const headerTitleEl = document.getElementById('header-title');
+    if (headerTitleEl) {
+        // New illustrated header uses innerHTML with <em> for accent
+        if (headerTitleEl.classList.contains('hdr-title') || headerTitleEl.closest('.hdr-name')) {
+            headerTitleEl.innerHTML = currentLanguage === 'hi' ? 'सिटी <em>मित्र</em>' : 'City <em>Mitra</em>';
+        } else {
+            headerTitleEl.textContent = t.title;
+        }
+    }
+    const headerSubEl = document.getElementById('header-subtitle');
+    if (headerSubEl) {
+        // New header subtitle is inside a pill, keep it compact
+        const subtitleText = currentLanguage === 'hi' ? 'ऑनलाइन' : 'Online';
+        if (headerSubEl.classList.contains('hdr-pill')) {
+            headerSubEl.innerHTML = '<span class="live-dot"></span><span>' + subtitleText + '</span>';
+        } else {
+            headerSubEl.textContent = t.subtitle;
+        }
+    }
     document.getElementById('lang-flag').textContent = currentLanguage === 'en' ? '🇬🇧' : '🇮🇳';
-    document.getElementById('lang-code').textContent = currentLanguage.toUpperCase();
+    const langCodeEl = document.getElementById('lang-code');
+    if (langCodeEl) langCodeEl.textContent = currentLanguage.toUpperCase();
 
     // Update official info badge
     document.getElementById('official-info-title').textContent = t.officialInfo;
@@ -865,6 +883,11 @@ async function sendMessage() {
 
     // Show toggle button after first message
     document.getElementById('toggle-chips-btn').classList.remove('hidden');
+
+    // Collapse the illustrated ghat header on first message
+    if (typeof collapseGhatHeader === 'function') {
+        collapseGhatHeader();
+    }
 
     // Stop rotation after first message
     stopRotation();

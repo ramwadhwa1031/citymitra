@@ -3,9 +3,9 @@
 // Add this to your script.js
 // ============================================
 
-// Global variable for speech synthesis
-let currentSpeech = null;
-let isSpeaking = false;
+// Global variable for speech synthesis (use var to avoid duplicate 'let' error if already declared in script.js)
+if (typeof currentSpeech === 'undefined') var currentSpeech = null;
+if (typeof isSpeaking === 'undefined') var isSpeaking = false;
 
 // ============================================
 // MODIFIED addMessage() FUNCTION

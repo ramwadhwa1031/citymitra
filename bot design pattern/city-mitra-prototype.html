@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>City Mitra — Live Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito:wght@300;400;500;600;700;800&family=Noto+Serif+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sky-top:   #7A3860;
+  --sky-mid:   #F07840;
+  --sky-gold:  #FFD98A;
+  --water:     #2E6880;
+  --teal:      #1E6878;
+  --teal2:     #2A9080;
+  --ivory:     #FAF7F0;
+  --stone:     #EDE4D4;
+  --stone2:    #DDD0BA;
+  --ink:       #1E1610;
+  --ink2:      #3C2E20;
+  --muted:     #8A7060;
+  --gold:      #C88030;
+  --border:    rgba(180,130,60,0.18);
+  --ghat:      #C89050;
+  --red:       #B03030;
+  --green2:    #2A7050;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Nunito', sans-serif;
+  background: #C8C0B0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+/* ── PHONE FRAME ── */
+.phone {
+  width: 100%;
+  max-width: 390px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ivory);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ════════════════════
+   HEADER
+════════════════════ */
+.header {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  flex-shrink: 0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: height 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.header.collapsed { height: 58px; }
+
+.sky-layer {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    #7A3860 0%, #C0485A 16%, #F07840 34%,
+    #FFAE5C 52%, #FFD98A 66%, #FFF3C8 80%, #E8F4FF 100%);
+  transition: opacity 0.4s;
+}
+.header.collapsed .sky-layer { opacity: 0.15; }
+
+.sun {
+  position: absolute;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: radial-gradient(circle, #FFF5A0 0%, #FFD84A 45%, #FFAC30 100%);
+  top: 28px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 0 0 8px rgba(255,220,80,0.15), 0 0 0 20px rgba(255,200,60,0.08);
+  animation: sunpulse 4s ease-in-out infinite alternate;
+  transition: opacity 0.4s;
+}
+.header.collapsed .sun { opacity: 0; }
+@keyframes sunpulse { from{box-shadow:0 0 0 8px rgba(255,220,80,0.15),0 0 0 20px rgba(255,200,60,0.08)} to{box-shadow:0 0 0 12px rgba(255,220,80,0.2),0 0 0 28px rgba(255,200,60,0.1)} }
+
+.birds {
+  position: absolute; top: 22px; right: 36px;
+  display: flex; gap: 5px;
+  animation: birdfloat 5s ease-in-out infinite alternate;
+  transition: opacity 0.4s;
+}
+.header.collapsed .birds { opacity: 0; }
+@keyframes birdfloat { from{transform:translateY(0)} to{transform:translateY(-4px)} }
+.bird { width: 12px; height: 5px; position: relative; }
+.bird::before, .bird::after {
+  content: ''; position: absolute; top: 0;
+  width: 6px; height: 5px;
+  border-top: 2px solid rgba(80,30,40,0.5);
+  border-radius: 50% 50% 0 0;
+}
+.bird::before { left:0; border-right:none; transform:rotate(-8deg); }
+.bird::after  { right:0; border-left:none; transform:rotate(8deg); }
+.bird.s { transform:scale(0.65); opacity:0.55; margin-top:5px; }
+
+/* temples */
+.temples {
+  position: absolute; bottom: 58px; left:0; right:0; height:70px;
+  display: flex; align-items: flex-end; justify-content: center; gap:4px;
+  transition: opacity 0.4s;
+}
+.header.collapsed .temples { opacity: 0; }
+.tp { display: flex; flex-direction: column; align-items: center; }
+.t-sp { background: rgba(50,18,28,0.55); clip-path: polygon(50% 0%,0% 100%,100% 100%); }
+.t-bd { background: rgba(50,18,28,0.55); }
+.t-bs { background: rgba(50,18,28,0.55); height: 7px; }
+.tree-w { display: flex; flex-direction:column; align-items:center; }
+.tree-t { background: rgba(25,70,40,0.5); clip-path: polygon(50% 0%,0% 100%,100% 100%); }
+.tree-k { background: rgba(40,20,8,0.45); }
+
+/* ghat */
+.ghat-steps {
+  position: absolute; bottom: 36px; left:0; right:0; height: 26px;
+  transition: opacity 0.4s;
+}
+.header.collapsed .ghat-steps { opacity: 0; }
+.stp { position: absolute; bottom:0; left:0; right:0; border-top:1px solid rgba(255,255,255,0.2); }
+.stp:nth-child(1) { height:9px; background:#8A5820; }
+.stp:nth-child(2) { height:7px; bottom:9px; background:#B88040; left:10px; right:10px; }
+.stp:nth-child(3) { height:6px; bottom:16px; background:#D4A870; left:24px; right:24px; }
+.stp:nth-child(4) { height:5px; bottom:22px; background:rgba(212,168,112,0.7); left:40px; right:40px; }
+
+/* diya */
+.diya {
+  position: absolute; bottom:34px;
+  width:5px; height:4px; border-radius:50% 50% 0 0; background:#B88040;
+  transition: opacity 0.4s;
+}
+.header.collapsed .diya { opacity:0; }
+.diya::after {
+  content:''; position:absolute; top:-5px; left:50%; transform:translateX(-50%);
+  width:3px; height:5px;
+  background: radial-gradient(ellipse at center,#FFE060 0%,rgba(255,180,40,0.3) 70%,transparent 100%);
+  border-radius:50%;
+  animation: flick 1.6s ease-in-out infinite alternate;
+}
+@keyframes flick { from{opacity:0.6;transform:translateX(-50%) scaleY(0.8)} to{opacity:1;transform:translateX(-50%) scaleY(1.2)} }
+.d1{left:28px} .d2{left:56px;animation-delay:.4s} .d3{right:56px;animation-delay:.8s} .d4{right:28px;animation-delay:.2s}
+
+/* water */
+.water-layer {
+  position: absolute; bottom:0; left:0; right:0; height:38px;
+  background: linear-gradient(180deg,#4A8EA8 0%,#2E6880 50%,#1A4860 100%);
+  overflow:hidden;
+  transition: height 0.4s;
+}
+.header.collapsed .water-layer { height: 58px; background: linear-gradient(180deg,var(--teal) 0%,#1A4860 100%); }
+.water-layer::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:36px; height:38px;
+  background: linear-gradient(180deg,rgba(255,220,80,0.45) 0%,rgba(255,180,40,0.08) 100%);
+  filter:blur(5px);
+  transition: opacity 0.4s;
+}
+.header.collapsed .water-layer::before { opacity:0; }
+.ripples { position:absolute; top:6px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; gap:4px; width:200px; }
+.rip { height:1.5px; border-radius:50%; background:rgba(255,255,255,0.14); animation:ripw 3s ease-in-out infinite; }
+.rip:nth-child(1){width:50px;margin:0 auto;animation-delay:0s}
+.rip:nth-child(2){width:90px;margin:0 auto;animation-delay:.5s}
+.rip:nth-child(3){width:130px;margin:0 auto;animation-delay:1s}
+.rip:nth-child(4){width:170px;margin:0 auto;animation-delay:1.5s}
+@keyframes ripw{0%,100%{opacity:.12;transform:scaleX(.9)}50%{opacity:.4;transform:scaleX(1)}}
+.lotus { position:absolute; bottom:6px; font-size:13px; animation:lf 4s ease-in-out infinite alternate; }
+.lotus.l1{left:22px} .lotus.l2{right:32px;animation-delay:1.5s}
+@keyframes lf{from{transform:translateX(0)}to{transform:translateX(5px)}}
+
+/* Header name overlay */
+.header-name-overlay {
+  position:absolute; bottom:44px; left:0; right:0;
+  display:flex; flex-direction:column; align-items:center;
+  pointer-events:none;
+  transition: bottom 0.4s, opacity 0.4s;
+}
+.header.collapsed .header-name-overlay { bottom: 14px; }
+.h-deva {
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:10px; font-weight:500;
+  color:rgba(255,245,210,0.7);
+  letter-spacing:.1em; margin-bottom:2px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  transition: opacity 0.3s;
+}
+.header.collapsed .h-deva { opacity:0; }
+.h-title {
+  font-family:'Yeseva One',serif;
+  font-size:26px; color:#FFFAE8;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 24px rgba(255,200,80,0.3);
+  letter-spacing:.03em; line-height:1;
+}
+.h-title span { color:#FFD84A; }
+
+/* Topbar action row */
+.header-bar {
+  position:absolute; top:0; left:0; right:0;
+  display:flex; justify-content:space-between; align-items:center;
+  padding: 12px 16px;
+  z-index:5;
+}
+.hb-pill {
+  display:flex; align-items:center; gap:4px;
+  padding:5px 10px; border-radius:20px;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.28);
+  font-size:11px; font-weight:700; color:#fff;
+  cursor:pointer; transition:background .2s;
+}
+.hb-pill:hover{background:rgba(255,255,255,0.26)}
+.lring {
+  width:6px;height:6px;border-radius:50%;background:#7AE878;
+  box-shadow:0 0 0 2px rgba(122,232,120,0.3);
+  animation:lrp 2s ease-in-out infinite;
+}
+@keyframes lrp{0%,100%{box-shadow:0 0 0 2px rgba(122,232,120,0.3)}50%{box-shadow:0 0 0 5px rgba(122,232,120,0.1)}}
+.hb-right{display:flex;gap:6px}
+.hib{
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.28);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;color:#fff;
+}
+
+/* Collapse hint */
+.collapse-hint {
+  position:absolute; bottom:2px; left:50%; transform:translateX(-50%);
+  font-size:9px; color:rgba(255,255,255,0.5);
+  letter-spacing:.06em; text-transform:uppercase;
+  pointer-events:none; transition:opacity .3s;
+}
+.header.collapsed .collapse-hint { opacity:0; }
+
+/* ════════════════════
+   TOPIC BAR
+════════════════════ */
+.topic-bar {
+  display:flex; gap:7px;
+  padding:10px 14px;
+  overflow-x:auto; scrollbar-width:none;
+  background:var(--ivory);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.topic-bar::-webkit-scrollbar{display:none}
+.topic {
+  flex-shrink:0; display:flex; align-items:center; gap:4px;
+  padding:6px 12px; border-radius:8px;
+  font-size:11.5px; font-weight:700;
+  cursor:pointer; border:1.5px solid transparent;
+  transition:all .2s; white-space:nowrap;
+  background:var(--stone); color:var(--ink2); border-color:var(--border);
+}
+.topic:hover { background:var(--stone2); border-color:var(--gold); }
+.topic.active { background:var(--teal); color:#fff; border-color:var(--teal); box-shadow:0 3px 10px rgba(30,104,120,0.25); }
+
+/* ════════════════════
+   CHAT AREA
+════════════════════ */
+.chat-area {
+  flex:1; overflow-y:auto; overflow-x:hidden;
+  padding:16px 0 8px;
+  position:relative;
+  scroll-behavior: smooth;
+}
+.chat-area::-webkit-scrollbar{width:3px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--stone2);border-radius:3px}
+
+/* Timeline spine */
+.chat-area::before {
+  content:''; position:absolute;
+  top:0; bottom:0; left:30px; width:1px;
+  background:repeating-linear-gradient(180deg,var(--border) 0,var(--border) 5px,transparent 5px,transparent 11px);
+  pointer-events:none;
+}
+
+/* Date separator */
+.chat-date {
+  display:flex; align-items:center; gap:8px;
+  padding:0 18px 14px 18px;
+}
+.chat-date::before,.chat-date::after{content:'';flex:1;height:1px;background:var(--border)}
+.chat-date span {
+  font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); white-space:nowrap; padding:3px 8px;
+  background:var(--stone); border-radius:20px; border:1px solid var(--border);
+}
+
+/* AI Message row */
+.msg-ai-row {
+  display:flex; align-items:flex-start; gap:0;
+  padding:0 16px 16px 16px;
+}
+.tln { width:24px; display:flex; flex-direction:column; align-items:center; flex-shrink:0; padding-top:6px; position:relative; z-index:1; }
+.tld { width:11px;height:11px;border-radius:50%;background:var(--ivory);border:2px solid var(--teal);box-shadow:0 0 0 3px rgba(30,104,120,0.1); }
+.ai-av {
+  width:34px;height:34px;border-radius:11px;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;margin-left:6px;
+  box-shadow:0 4px 12px rgba(30,104,120,0.28);
+}
+.ai-body { flex:1; margin-left:9px; }
+.ai-name {
+  font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:5px;
+  display:flex;align-items:center;gap:5px;
+}
+.ai-name::after{content:'';height:1px;width:36px;background:linear-gradient(90deg,var(--teal),transparent);opacity:.4}
+.ai-bub {
+  background:#fff; border:1px solid var(--border);
+  border-radius:3px 16px 16px 16px;
+  padding:13px 15px; font-size:13.5px; font-weight:400;
+  color:var(--ink2); line-height:1.65;
+  box-shadow:0 2px 8px rgba(60,30,10,0.06);
+  position:relative;
+}
+.ai-bub::before {
+  content:''; position:absolute; top:0;left:0;
+  width:38px;height:3px;
+  background:linear-gradient(90deg,var(--teal),transparent);
+  border-radius:3px 0 0 0;
+}
+.ai-bub strong{font-weight:700;color:var(--ink)}
+.ai-bub em{font-style:italic;color:var(--teal)}
+.ai-time{font-size:9px;color:var(--muted);margin-top:4px;padding-left:2px}
+
+/* Quick replies */
+.qrs { display:flex;flex-wrap:wrap;gap:6px;margin-top:11px; }
+.qr {
+  display:inline-flex;align-items:center;gap:4px;
+  padding:5px 10px;border-radius:6px;font-size:11.5px;font-weight:700;
+  cursor:pointer;border:1.5px solid var(--border);
+  background:var(--stone);color:var(--ink2);
+  transition:all .18s;
+}
+.qr:hover,.qr:active{background:var(--teal);color:#fff;border-color:var(--teal);transform:translateY(-1px);box-shadow:0 3px 9px rgba(30,104,120,0.22)}
+
+/* Info card grid */
+.ic-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.ic {
+  background:var(--stone);border:1px solid var(--border);
+  border-radius:10px;padding:9px;cursor:pointer;transition:all .2s;
+}
+.ic:hover{background:var(--stone2);transform:translateY(-2px);box-shadow:0 4px 12px rgba(60,30,10,0.08)}
+.ic-ico{font-size:17px;margin-bottom:4px;display:block}
+.ic-t{font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:1px}
+.ic-s{font-size:9.5px;color:var(--muted)}
+
+/* User message */
+.msg-user-row {
+  display:flex;justify-content:flex-end;
+  padding:0 16px 16px 54px;
+}
+.user-bub {
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  border-radius:16px 3px 16px 16px;
+  padding:11px 15px;
+  font-size:13.5px;font-weight:500;color:#fff;
+  line-height:1.55;max-width:86%;
+  box-shadow:0 4px 14px rgba(30,104,120,0.3);
+  position:relative;word-break:break-word;
+}
+.user-bub::after{
+  content:'';position:absolute;top:0;right:0;
+  width:11px;height:11px;
+  background:rgba(255,255,255,0.15);
+  border-radius:0 3px 0 11px;
+}
+.user-t{font-size:9px;color:rgba(255,255,255,0.6);margin-top:4px;text-align:right}
+
+/* Typing indicator */
+.typing-row{
+  display:flex;align-items:center;gap:9px;
+  padding:0 16px 14px 62px;
+}
+.typing-bub{
+  display:flex;align-items:center;gap:4px;
+  background:var(--stone);border:1px solid var(--border);
+  border-radius:3px 12px 12px 12px;padding:9px 13px;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--muted)}
+.dot:nth-child(1){animation:bnc 1.2s 0s ease-in-out infinite}
+.dot:nth-child(2){animation:bnc 1.2s .2s ease-in-out infinite}
+.dot:nth-child(3){animation:bnc 1.2s .4s ease-in-out infinite}
+@keyframes bnc{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
+
+/* Fade in animation for new messages */
+@keyframes msgIn {
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.msg-new { animation: msgIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ════════════════════
+   INPUT BAR
+════════════════════ */
+.input-bar {
+  flex-shrink:0;
+  background:#fff;
+  border-top:1px solid var(--border);
+  padding:8px 14px 20px;
+  box-shadow:0 -4px 18px rgba(60,30,10,0.06);
+}
+
+.suggestions {
+  display:flex;gap:6px;margin-bottom:9px;overflow-x:auto;scrollbar-width:none;
+}
+.suggestions::-webkit-scrollbar{display:none}
+.sug {
+  flex-shrink:0;padding:5px 10px;border-radius:6px;
+  background:var(--stone);border:1px solid var(--border);
+  font-size:11px;font-weight:700;color:var(--ink2);
+  cursor:pointer;white-space:nowrap;transition:all .18s;
+}
+.sug:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+.inp-row{display:flex;align-items:center;gap:9px}
+.inp-wrap {
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:var(--stone);border:1.5px solid var(--border);
+  border-radius:14px;padding:10px 13px;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.inp-wrap.focused{border-color:var(--teal);box-shadow:0 0 0 3px rgba(30,104,120,0.1);background:#fff}
+.inp-field{
+  flex:1;background:none;border:none;outline:none;
+  font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--ink);
+}
+.inp-field::placeholder{color:var(--muted)}
+.mic-btn{font-size:16px;opacity:.35;cursor:pointer;transition:opacity .2s;flex-shrink:0}
+.mic-btn:hover{opacity:.8}
+.send-btn{
+  width:44px;height:44px;border-radius:13px;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:#fff;
+  box-shadow:0 4px 14px rgba(30,104,120,0.35);
+  flex-shrink:0;transition:transform .15s,box-shadow .15s,background .2s;
+}
+.send-btn:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(30,104,120,0.45)}
+.send-btn:active{transform:scale(0.95)}
+.send-btn:disabled{background:#ccc;box-shadow:none;cursor:not-allowed}
+
+/* char counter */
+.char-count{font-size:9px;color:var(--muted);text-align:right;margin-top:4px;height:12px;transition:opacity .2s;opacity:0}
+.char-count.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- ════ HEADER ════ -->
+  <div class="header" id="header" onclick="toggleHeader()">
+    <div class="sky-layer"></div>
+
+    <div style="position:absolute;top:30px;left:50%;transform:translateX(-50%);width:160px;height:100px;overflow:hidden;pointer-events:none">
+      <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%)">
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(-50deg);transform-origin:bottom center"></div>
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(-35deg);transform-origin:bottom center"></div>
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(-20deg);transform-origin:bottom center"></div>
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(0deg);transform-origin:bottom center"></div>
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(20deg);transform-origin:bottom center"></div>
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(35deg);transform-origin:bottom center"></div>
+        <div style="width:1px;height:100px;background:linear-gradient(to top,rgba(255,220,100,0.2),transparent);position:absolute;transform:rotate(50deg);transform-origin:bottom center"></div>
+      </div>
+    </div>
+    <div class="sun"></div>
+
+    <div class="birds">
+      <div class="bird"></div>
+      <div class="bird s"></div>
+      <div class="bird"></div>
+    </div>
+
+    <div class="temples">
+      <div class="tree-w" style="margin-right:6px"><div class="tree-t" style="width:16px;height:26px"></div><div class="tree-k" style="width:4px;height:7px"></div></div>
+      <div class="tp" style="margin-right:5px">
+        <div class="t-sp" style="width:12px;height:26px"></div>
+        <div class="t-bd" style="width:18px;height:18px"></div>
+        <div class="t-bs" style="width:24px"></div>
+      </div>
+      <div class="tp" style="margin-right:6px">
+        <div class="t-sp" style="width:16px;height:40px"></div>
+        <div class="t-bd" style="width:22px;height:22px"></div>
+        <div class="t-bs" style="width:30px"></div>
+      </div>
+      <div class="tp" style="margin-right:5px">
+        <div class="t-sp" style="width:12px;height:28px"></div>
+        <div class="t-bd" style="width:18px;height:18px"></div>
+        <div class="t-bs" style="width:24px"></div>
+      </div>
+      <div class="tree-w" style="margin-left:6px"><div class="tree-t" style="width:16px;height:26px"></div><div class="tree-k" style="width:4px;height:7px"></div></div>
+    </div>
+
+    <div class="ghat-steps">
+      <div class="stp"></div><div class="stp"></div>
+      <div class="stp"></div><div class="stp"></div>
+    </div>
+    <div class="diya d1"></div>
+    <div class="diya d2"></div>
+    <div class="diya d3"></div>
+    <div class="diya d4"></div>
+
+    <div class="water-layer">
+      <div class="ripples">
+        <div class="rip"></div><div class="rip"></div>
+        <div class="rip"></div><div class="rip"></div>
+      </div>
+      <div class="lotus l1">🪷</div>
+      <div class="lotus l2">🪷</div>
+    </div>
+
+    <div class="header-name-overlay">
+      <div class="h-deva">कुरुक्षेत्र की सेवा में</div>
+      <div class="h-title">City <span>Mitra</span></div>
+    </div>
+
+    <div class="header-bar">
+      <div class="hb-pill"><span class="lring"></span> Online</div>
+      <div class="hb-right">
+        <div class="hib">🇬🇧</div>
+        <div class="hib" onclick="event.stopPropagation()">⋯</div>
+      </div>
+    </div>
+
+    <div class="collapse-hint">▲ tap to collapse</div>
+  </div>
+
+  <!-- ════ TOPIC BAR ════ -->
+  <div class="topic-bar">
+    <div class="topic active" onclick="setTopic(this,'all')">✦ All</div>
+    <div class="topic" onclick="setTopic(this,'officers')">👤 Officers</div>
+    <div class="topic" onclick="setTopic(this,'heritage')">🏛️ Heritage</div>
+    <div class="topic" onclick="setTopic(this,'schemes')">📋 Schemes</div>
+    <div class="topic" onclick="setTopic(this,'emergency')">🚨 Emergency</div>
+    <div class="topic" onclick="setTopic(this,'district')">📊 District</div>
+  </div>
+
+  <!-- ════ CHAT AREA ════ -->
+  <div class="chat-area" id="chatArea">
+    <div class="chat-date"><span>Today · April 2026</span></div>
+
+    <!-- Welcome AI message -->
+    <div class="msg-ai-row">
+      <div class="tln"><div class="tld"></div></div>
+      <div class="ai-av">🏛️</div>
+      <div class="ai-body">
+        <div class="ai-name">City Mitra</div>
+        <div class="ai-bub">
+          🙏 <strong>Namaste!</strong> Welcome to <em>Kurukshetra's</em> official civic AI.<br><br>
+          I can help you with tourist places, government officers, services, schemes & emergency contacts. What would you like to explore?
+          <div class="qrs">
+            <div class="qr" onclick="sendQuick('🏛️ Tourist Places')">🏛️ Tourist Places</div>
+            <div class="qr" onclick="sendQuick('👤 Who is the DC?')">👤 Who is DC?</div>
+            <div class="qr" onclick="sendQuick('🚨 Emergency contacts')">🚨 Emergency</div>
+            <div class="qr" onclick="sendQuick('📊 Population & stats')">📊 Population</div>
+          </div>
+        </div>
+        <div class="ai-time">8:30 AM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ INPUT BAR ════ -->
+  <div class="input-bar">
+    <div class="suggestions" id="suggestions">
+      <div class="sug" onclick="sendQuick('Famous temples in Kurukshetra')">🛕 Temples</div>
+      <div class="sug" onclick="sendQuick('How to contact the DC office?')">📞 DC Office</div>
+      <div class="sug" onclick="sendQuick('Government schemes for farmers')">🌾 Schemes</div>
+      <div class="sug" onclick="sendQuick('Emergency helpline numbers')">🚑 Helplines</div>
+      <div class="sug" onclick="sendQuick('Best time to visit Kurukshetra')">🗓️ Best Time</div>
+    </div>
+    <div class="inp-row">
+      <div class="inp-wrap" id="inpWrap">
+        <input class="inp-field" id="msgInput" type="text"
+          placeholder="Ask anything about Kurukshetra…"
+          maxlength="200"
+          oninput="onInput()"
+          onkeydown="onKey(event)"
+          onfocus="document.getElementById('inpWrap').classList.add('focused')"
+          onblur="document.getElementById('inpWrap').classList.remove('focused')" />
+        <span class="mic-btn" onclick="toggleMic()">🎙️</span>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>➤</button>
+    </div>
+    <div class="char-count" id="charCount">0 / 200</div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let headerCollapsed = false;
+let isTyping = false;
+let msgCount = 0;
+let currentTopic = 'all';
+
+// ── Header collapse ──
+function toggleHeader() {
+  headerCollapsed = !headerCollapsed;
+  document.getElementById('header').classList.toggle('collapsed', headerCollapsed);
+}
+
+// ── Topic select ──
+function setTopic(el, topic) {
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentTopic = topic;
+}
+
+// ── Input handling ──
+function onInput() {
+  const input = document.getElementById('msgInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const charCount = document.getElementById('charCount');
+  const val = input.value.trim();
+
+  sendBtn.disabled = val.length === 0;
+  charCount.textContent = input.value.length + ' / 200';
+  charCount.classList.toggle('show', input.value.length > 0);
+}
+
+function onKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+// ── Get time ──
+function getTime() {
+  const now = new Date();
+  return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+}
+
+// ── Send quick reply ──
+function sendQuick(text) {
+  document.getElementById('msgInput').value = text;
+  onInput();
+  sendMessage();
+}
+
+// ── Send message ──
+function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  // Add user bubble
+  appendUserMessage(text);
+  input.value = '';
+  onInput();
+
+  // Auto collapse header if it's open
+  if (!headerCollapsed) {
+    headerCollapsed = true;
+    document.getElementById('header').classList.add('collapsed');
+  }
+
+  // Show typing then reply
+  setTimeout(() => showTyping(), 400);
+  setTimeout(() => {
+    removeTyping();
+    appendAIMessage(text);
+  }, 1800 + Math.random() * 800);
+}
+
+// ── Append user message ──
+function appendUserMessage(text) {
+  const chat = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'msg-user-row msg-new';
+  div.innerHTML = `
+    <div class="user-bub">
+      ${escapeHtml(text)}
+      <div class="user-t">${getTime()} ✓✓</div>
+    </div>`;
+  chat.appendChild(div);
+  scrollBottom();
+}
+
+// ── Show typing ──
+function showTyping() {
+  if (isTyping) return;
+  isTyping = true;
+  const chat = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'typing-row msg-new';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="typing-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  chat.appendChild(div);
+  scrollBottom();
+}
+
+function removeTyping() {
+  isTyping = false;
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+// ── Smart AI responses ──
+function getResponse(text) {
+  const t = text.toLowerCase();
+
+  if (t.includes('tourist') || t.includes('place') || t.includes('visit') || t.includes('heritage') || t.includes('temple')) {
+    return {
+      text: `Kurukshetra has incredible heritage sites! Here are the top ones to visit:`,
+      cards: [
+        { icon:'🕌', title:'Brahma Sarovar', sub:'Largest sacred tank in India' },
+        { icon:'⚔️', title:'Jyotisar', sub:'Birthplace of the Bhagavad Gita' },
+        { icon:'🛕', title:'Sthaneshwar Temple', sub:'Ancient Shiva temple, 5000+ yrs' },
+        { icon:'🏺', title:'KGN Panorama', sub:'State-of-art museum & panorama' },
+      ],
+      suggestions: ['🕐 Temple timings', '🗺️ How to reach', '🏨 Where to stay', '🎟️ Entry fees']
+    };
+  }
+
+  if (t.includes('dc') || t.includes('collector') || t.includes('officer') || t.includes('department')) {
+    return {
+      text: `<strong>District Collector (DC)</strong> of Kurukshetra:<br><br>
+        📋 <strong>Office:</strong> Mini Secretariat, Kurukshetra<br>
+        📞 <strong>Phone:</strong> 01744-220045<br>
+        🕒 <strong>Hours:</strong> Mon–Fri, 9 AM – 5 PM<br>
+        🌐 <strong>Web:</strong> kurukshetra.gov.in<br><br>
+        <em>For appointments, visit the DC office directly or call during working hours.</em>`,
+      suggestions: ['📋 Other officers', '🏢 Departments list', '📝 RTI application', '📞 Call DC office']
+    };
+  }
+
+  if (t.includes('emergency') || t.includes('helpline') || t.includes('ambulance') || t.includes('police') || t.includes('fire')) {
+    return {
+      text: `🚨 <strong>Emergency Contacts — Kurukshetra</strong><br><br>
+        🚔 <strong>Police:</strong> 100<br>
+        🚑 <strong>Ambulance:</strong> 108<br>
+        🔥 <strong>Fire Brigade:</strong> 101<br>
+        🏥 <strong>District Hospital:</strong> 01744-220033<br>
+        👮 <strong>SP Office:</strong> 01744-220075<br>
+        🆘 <strong>Women Helpline:</strong> 1091<br><br>
+        <em>In case of emergency, call 112 for all services.</em>`,
+      suggestions: ['🏥 Hospitals list', '👮 Police stations', '🌊 Flood helpline', '📍 Nearest station']
+    };
+  }
+
+  if (t.includes('population') || t.includes('stat') || t.includes('data') || t.includes('census') || t.includes('district info')) {
+    return {
+      text: `📊 <strong>Kurukshetra District — Key Facts</strong><br><br>
+        👥 <strong>Population:</strong> 9,64,231 (Census 2011)<br>
+        🗺️ <strong>Area:</strong> 1,530 sq km<br>
+        🏘️ <strong>Sub-Divisions:</strong> 4 (Kurukshetra, Thanesar, Pehowa, Ladwa)<br>
+        🏙️ <strong>Tehsils:</strong> 8<br>
+        📍 <strong>Villages:</strong> 420+<br>
+        📚 <strong>Literacy Rate:</strong> 76.3%<br>
+        🌾 <strong>Main crops:</strong> Wheat, Rice, Mustard`,
+      suggestions: ['📊 Literacy data', '🌾 Agriculture', '🏫 Schools count', '🏥 Health infra']
+    };
+  }
+
+  if (t.includes('scheme') || t.includes('welfare') || t.includes('farmer') || t.includes('benefit') || t.includes('yojna')) {
+    return {
+      text: `📋 <strong>Key Schemes in Kurukshetra</strong><br><br>
+        🌾 <strong>PM-KISAN:</strong> ₹6,000/yr direct to farmers<br>
+        🏠 <strong>PM Awas Yojana:</strong> Housing for rural poor<br>
+        💊 <strong>Ayushman Bharat:</strong> Health cover upto ₹5 lakh<br>
+        📚 <strong>Beti Bachao Beti Padhao:</strong> Girl child scheme<br>
+        ⚡ <strong>PM KUSUM:</strong> Solar pump for irrigation<br><br>
+        <em>Visit the DC office or call 01744-220045 to apply.</em>`,
+      suggestions: ['🌾 Farmer schemes', '🏠 Housing scheme', '👩 Women welfare', '📝 Apply online']
+    };
+  }
+
+  if (t.includes('best time') || t.includes('when') || t.includes('weather') || t.includes('season')) {
+    return {
+      text: `🗓️ <strong>Best Time to Visit Kurukshetra</strong><br><br>
+        ❄️ <strong>Oct – Feb (Best):</strong> Pleasant weather, 10–25°C. Ideal for sightseeing. Geeta Jayanti festival in Nov/Dec.<br><br>
+        🌸 <strong>Mar – May:</strong> Warm, upto 40°C. Manageable in mornings.<br><br>
+        🌧️ <strong>Jun – Sep:</strong> Monsoon. Lush greenery but humid.<br><br>
+        ✨ <strong>Geeta Jayanti (Nov/Dec)</strong> is the most special time — thousands of pilgrims visit.`,
+      suggestions: ['🎪 Geeta Jayanti', '🌡️ Current weather', '🏨 Book hotels', '🚂 Train schedule']
+    };
+  }
+
+  // Default response
+  return {
+    text: `Thanks for asking about <strong>"${escapeHtml(text.substring(0,40))}"</strong>.<br><br>
+      I can help you find information about Kurukshetra's tourist places, government officers, welfare schemes, emergency contacts, and district statistics.<br><br>
+      <em>Try asking something more specific!</em>`,
+    suggestions: ['🏛️ Tourist places', '👤 DC contact', '🚨 Emergency', '📊 District info']
+  };
+}
+
+// ── Append AI message ──
+function appendAIMessage(userText) {
+  const chat = document.getElementById('chatArea');
+  const response = getResponse(userText);
+
+  let cardsHtml = '';
+  if (response.cards) {
+    cardsHtml = `<div class="ic-grid">`;
+    response.cards.forEach(c => {
+      cardsHtml += `<div class="ic"><span class="ic-ico">${c.icon}</span><div class="ic-t">${c.title}</div><div class="ic-s">${c.sub}</div></div>`;
+    });
+    cardsHtml += `</div>`;
+  }
+
+  let qrsHtml = '';
+  if (response.suggestions) {
+    qrsHtml = `<div class="qrs">`;
+    response.suggestions.forEach(s => {
+      qrsHtml += `<div class="qr" onclick="sendQuick('${s.replace(/'/g,"\\'")}')>${s}</div>`;
+    });
+    qrsHtml += `</div>`;
+
+    // Update bottom suggestions
+    updateSuggestions(response.suggestions);
+  }
+
+  const div = document.createElement('div');
+  div.className = 'msg-ai-row msg-new';
+  div.innerHTML = `
+    <div class="tln"><div class="tld"></div></div>
+    <div class="ai-av">🏛️</div>
+    <div class="ai-body">
+      <div class="ai-name">City Mitra</div>
+      <div class="ai-bub">
+        ${response.text}
+        ${cardsHtml}
+        ${qrsHtml}
+      </div>
+      <div class="ai-time">${getTime()}</div>
+    </div>`;
+  chat.appendChild(div);
+  scrollBottom();
+}
+
+// ── Update suggestions ──
+function updateSuggestions(sugs) {
+  const bar = document.getElementById('suggestions');
+  bar.innerHTML = '';
+  sugs.forEach(s => {
+    const d = document.createElement('div');
+    d.className = 'sug';
+    d.textContent = s;
+    d.onclick = () => sendQuick(s);
+    bar.appendChild(d);
+  });
+}
+
+// ── Scroll to bottom ──
+function scrollBottom() {
+  const chat = document.getElementById('chatArea');
+  setTimeout(() => { chat.scrollTop = chat.scrollHeight; }, 60);
+}
+
+// ── Toggle mic (visual only) ──
+function toggleMic() {
+  const mic = document.querySelector('.mic-btn');
+  mic.style.opacity = mic.style.opacity === '0.8' ? '0.35' : '0.8';
+}
+
+// ── Escape HTML ──
+function escapeHtml(text) {
+  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Focus input on load
+window.onload = () => {
+  setTimeout(() => document.getElementById('msgInput').focus(), 600);
+};
+</script>
+</body>
+</html>
