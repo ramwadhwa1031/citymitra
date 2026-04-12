@@ -1420,33 +1420,65 @@
                 return;
             }
 
-            const q = botResponse.toLowerCase();
+            // Combine bot response with last user message for better context
+            let fullText = botResponse;
+            if (typeof messages !== 'undefined' && Array.isArray(messages)) {
+                for (let i = messages.length - 1; i >= 0; i--) {
+                    if (messages[i].role === 'user') {
+                        // User's query is highly weighted (added 3 times) to ensure user intent drives suggestions
+                        fullText = messages[i].content + " " + messages[i].content + " " + messages[i].content + " " + fullText;
+                        break;
+                    }
+                }
+            }
 
-            if (/\b(tourist|tourism|heritage|temple|gita|sarovar|jyotisar|mandir|पर्यटन|मंदिर|विरासत|तीर्थ)\b/i.test(q)) {
+            const q = fullText.toLowerCase();
+
+            // Calculate keyword matches for each category through scoring
+            const scores = {
+                tourist: (q.match(/\b(tourist|tourism|heritage|temple|sarovar|jyotisar|mandir|पर्यटन|मंदिर|विरासत|तीर्थ)\b/gi) || []).length,
+                emergency: (q.match(/\b(emergency|helpline|ambulance|police|fire|accident|112|108|100|hospital|आपातकालीन|पुलिस|अस्पताल)\b/gi) || []).length,
+                admin: (q.match(/\b(dc|commissioner|collector|officer|official|department|admin|administration|tehsil|sdm|अधिकारी|विभाग|प्रशासन)\b/gi) || []).length,
+                district: (q.match(/\b(population|stat|census|data|fact|area|info|district|demographic|जनसंख्या|आंकड़े|जिला)\b/gi) || []).length,
+                scheme: (q.match(/\b(scheme|yojna|welfare|benefit|farmer|kisan|housing|ayushman|subsidy|scholarship|योजना|कल्याण|किसान|लाभ)\b/gi) || []).length,
+                weather: (q.match(/\b(best time|season|weather|month|trip|plan|मौसम|यात्रा)\b/gi) || []).length,
+                gita: (q.match(/\b(gita|geeta|bhagavad|bhagwad|verse|chapter|krishna|arjun|karma|dharma|moksha|गीता|कृष्ण|कर्म)\b/gi) || []).length
+            };
+
+            let maxScore = 0;
+            let bestCategory = null;
+            for (const cat in scores) {
+                if (scores[cat] > maxScore) {
+                    maxScore = scores[cat];
+                    bestCategory = cat;
+                }
+            }
+
+            if (bestCategory === 'tourist') {
                 ctx = isHi
                     ? ['🕐 मंदिर का समय', '🗺️ दिशा-निर्देश', '🏨 ठहरने के विकल्प', '📸 फोटो टिप्स', '🎟️ प्रवेश शुल्क']
                     : ['🕐 Temple timings', '🗺️ Directions', '🏨 Stay options', '📸 Photo tips', '🎟️ Entry fees'];
-            } else if (/\b(emergency|helpline|ambulance|police|fire|accident|112|108|100|hospital|आपातकालीन|पुलिस|अस्पताल)\b/i.test(q)) {
+            } else if (bestCategory === 'emergency') {
                 ctx = isHi
                     ? ['🏥 अस्पताल', '👮 पुलिस स्टेशन', '🩸 ब्लड बैंक', '🚒 फायर स्टेशन', '🩺 डॉक्टर']
                     : ['🏥 Hospitals', '👮 Police stations', '🩸 Blood bank', '🚒 Fire stations', '🩺 Doctors'];
-            } else if (/\b(dc|commissioner|collector|officer|official|department|admin|administration|tehsil|sdm|अधिकारी|विभाग|प्रशासन)\b/i.test(q)) {
+            } else if (bestCategory === 'admin') {
                 ctx = isHi
                     ? ['📋 सभी अधिकारी', '🏢 सभी विभाग', '📝 शिकायत दर्ज करें', '🔍 RTI अनुरोध', '📞 संपर्क नंबर']
                     : ['📋 All officers', '🏢 All departments', '📝 File complaint', '🔍 RTI request', '📞 Numbers'];
-            } else if (/\b(population|stat|census|data|fact|area|info|district|demographic|जनसंख्या|आंकड़े|जिला)\b/i.test(q)) {
+            } else if (bestCategory === 'district') {
                 ctx = isHi
                     ? ['📈 विकास के आंकड़े', '🌾 कृषि', '🏫 शिक्षा', '🏥 स्वास्थ्य देखभाल', '🏭 उद्योग']
                     : ['📈 Growth data', '🌾 Agriculture', '🏫 Education', '🏥 Healthcare', '🏭 Industry'];
-            } else if (/\b(scheme|yojna|welfare|benefit|farmer|kisan|housing|ayushman|subsidy|scholarship|योजना|कल्याण|किसान|लाभ)\b/i.test(q)) {
+            } else if (bestCategory === 'scheme') {
                 ctx = isHi
                     ? ['🌾 पीएम-किसान', '🏠 आवास योजना', '👩 महिला कल्याण', '🎓 छात्रवृत्ति', '📝 आवेदन कैसे करें']
                     : ['🌾 PM-KISAN', '🏠 Housing scheme', '👩 Women welfare', '🎓 Scholarships', '📝 How to apply'];
-            } else if (/\b(best time|season|weather|month|trip|plan|मौसम|यात्रा)\b/i.test(q)) {
+            } else if (bestCategory === 'weather') {
                 ctx = isHi
                     ? ['🎪 गीता जयंती', '🌡️ मौसम', '🚂 ट्रेनें', '✈️ उड़ानें', '🏨 होटल']
                     : ['🎪 Geeta Jayanti', '🌡️ Weather', '🚂 Trains', '✈️ Flights', '🏨 Hotels'];
-            } else if (/\b(gita|geeta|bhagavad|bhagwad|verse|chapter|krishna|arjun|karma|dharma|moksha|गीता|कृष्ण|कर्म)\b/i.test(q)) {
+            } else if (bestCategory === 'gita') {
                 ctx = isHi
                     ? ['📖 गीता के अध्याय', '🙏 कर्म योग', '🧘 ध्यान', '⚔️ अर्जुन की दुविधा', '🕉️ मुख्य शिक्षाएं']
                     : ['📖 Gita chapters', '🙏 Karma Yoga', '🧘 Meditation', '⚔️ Arjuna\'s dilemma', '🕉️ Key teachings'];
