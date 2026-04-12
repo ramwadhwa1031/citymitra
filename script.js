@@ -216,20 +216,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Show or hide elements based on chat history
     if (messages.length > 0) {
-        // Has chat history: hide welcome, hide chips, show toggle button
+        // Has chat history: hide welcome
         document.getElementById('welcome-message').style.display = 'none';
-        document.getElementById('chips-container').classList.add('hidden');
-        document.getElementById('toggle-chips-btn').classList.remove('hidden');
+        const chipsEl = document.getElementById('chips-container');
+        if (chipsEl) chipsEl.classList.add('hidden');
         stopRotation();
     } else {
-        // No chat history: show welcome, show chips, show toggle button (as "Hide")
-        document.getElementById('welcome-message').style.display = 'flex';
-        document.getElementById('chips-container').classList.remove('hidden');
-        document.getElementById('toggle-chips-btn').classList.remove('hidden'); // CHANGED: Show button
-        document.getElementById('suggestions-btn-text').textContent =
-            currentLanguage === 'hi' ? 'छुपाएं' : 'Hide'; // Set text to "Hide"
-        renderChips();
-        renderIndicators();
+        // No chat history: show welcome
+        document.getElementById('welcome-message').style.display = '';
     }
 
     renderMessages();
@@ -239,7 +233,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.addEventListener('click', (e) => {
         const dropdown = document.getElementById('autocomplete-dropdown');
         const input = document.getElementById('user-input');
-        if (e.target !== input && e.target !== dropdown) {
+        if (dropdown && input && e.target !== input && e.target !== dropdown) {
             dropdown.classList.add('hidden');
         }
     });
@@ -386,64 +380,87 @@ function escapeRegex(text) {
 
 function renderMessages() {
     const container = document.getElementById('messages-list');
-    container.innerHTML = messages.map((msg, index) => {
-        // Format the message content
-        const formattedContent = formatText(msg.content);
+    if (!container) return;
 
-        // Add share button HTML only for bot messages
-        const shareButton = (msg.role === 'bot' && whatsappAdapter) ? `
-            <button class="share-btn" onclick="shareBotMessage(${index})">
-                <i data-lucide="share-2"></i> Share
-            </button>
-        ` : '';
+    let html = '';
 
-        // Add listen button HTML only for bot messages (NEW!)
-        const listenButton = (msg.role === 'bot') ? `
-            <button onclick="speakText(this)" 
-                    class="text-gray-500 hover:text-[#008069] transition-all p-1 rounded-full hover:bg-gray-100" 
-                    title="Listen to response" 
-                    data-text="${msg.content.replace(/"/g, '&quot;').replace(/<[^>]*>/g, '')}">
-                <i data-lucide="volume-2" class="w-4 h-4"></i>
-            </button>
-        ` : '';
+    // Date separator — always show with actual date
+    const today = new Date();
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    html += `<div class="dsep"><span>Today · ${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}</span></div>`;
 
-        return `
-            <div class="flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}">
-                <div class="max-w-[85%] p-2 px-3 rounded-lg shadow-sm text-[14px] leading-relaxed relative message-box 
-                    ${msg.role === 'user' ? 'bg-[#d9fdd3] rounded-tr-none triangle-right' : 'bg-white rounded-tl-none triangle-left'}">
-                    
-                    ${msg.role === 'bot' ? `
-                        <div class="flex items-center justify-between mb-2 pb-1 border-b border-gray-200">
-                            <span class="text-xs font-semibold text-[#008069]">Response</span>
-                            ${listenButton}
-                        </div>
-                    ` : ''}
-                    
-                    <div class="text-gray-800 break-words">${formattedContent}</div>
-                    <div class="text-[10px] text-gray-500 text-right mt-1 flex justify-end gap-1">
-                        ${msg.time} ${msg.role === 'user' ? '<span class="text-[#53bdeb]">✓✓</span>' : ''}
+    // ── Welcome bot bubble — Only shown once chat begins to replace the Hero Card ──
+    if (messages.length > 0) {
+        const isHi = (typeof currentLanguage !== 'undefined' && currentLanguage === 'hi');
+        const greeting = isHi
+            ? '🙏 <strong>नमस्ते!</strong> मैं <em>कुरुक्षेत्र जिले</em> के लिए आपका समर्पित नागरिक सहायक हूँ — City Mitra द्वारा संचालित।<br><br>मुझसे पर्यटन स्थलों, सरकारी अधिकारियों, कल्याण योजनाओं, या आपातकालीन संपर्कों के बारे में पूछें। मैं 24×7 यहाँ हूँ।'
+            : '🙏 <strong>Namaste!</strong> I\'m your dedicated civic assistant for <em>Kurukshetra district</em> — powered by City Mitra.<br><br>Ask me about tourist spots, government officers, welfare schemes, or emergency contacts. I\'m here 24×7.';
+
+        const chipHeritage = isHi ? '🏛️ पर्यटन स्थल' : '🏛️ Tourist Places';
+        const chipOfficers = isHi ? '👤 DC कौन हैं?' : '👤 Who is DC?';
+        const chipEmergency = isHi ? '🚨 आपातकालीन नंबर' : '🚨 Emergency Numbers';
+        const chipSchemes = isHi ? '📋 सरकारी योजनाएं' : '📋 Govt Schemes';
+        const chipDistrict = isHi ? '📊 जिला जानकारी' : '📊 District Info';
+
+        html += `<div class="ai-row new spaced">
+            <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <div class="ai-content">
+                <div class="ai-sender">Kurukshetra Guide <span class="powered-badge">✦ City Mitra</span></div>
+                <div class="bubble">
+                    ${greeting}
+                    <div class="qchips">
+                        <div class="qc" onclick="handleChipClick('Tourist places in Kurukshetra')">${chipHeritage}</div>
+                        <div class="qc" onclick="handleChipClick('Who is the DC of Kurukshetra?')">${chipOfficers}</div>
+                        <div class="qc" onclick="handleChipClick('Emergency contacts Kurukshetra')">${chipEmergency}</div>
+                        <div class="qc" onclick="handleChipClick('Government schemes in Kurukshetra')">${chipSchemes}</div>
+                        <div class="qc" onclick="handleChipClick('District information Kurukshetra')">${chipDistrict}</div>
                     </div>
-                    ${shareButton}
                 </div>
             </div>
-        `;
-    }).join('');
-
-    // Ensure correct UI state based on messages
-    if (messages.length === 0) {
-        // No messages: show toggle button as "Hide", show chips
-        document.getElementById('toggle-chips-btn').classList.remove('hidden');
-        document.getElementById('suggestions-btn-text').textContent =
-            currentLanguage === 'hi' ? 'छुपाएं' : 'Hide';
-        document.getElementById('chips-container').classList.remove('hidden');
-    } else {
-        // Has messages: show toggle button as "Suggestions", chips controlled by toggle state
-        document.getElementById('toggle-chips-btn').classList.remove('hidden');
-        document.getElementById('suggestions-btn-text').textContent =
-            currentLanguage === 'hi' ? 'सुझाव' : 'Suggestions';
+        </div>`;
     }
 
-    // Render Lucide icons (for share icon and arrows)
+    messages.forEach(function(msg, index) {
+        const formattedContent = formatText(msg.content);
+
+        if (msg.role === 'user') {
+            // ── User bubble (brand style) ──
+            html += `<div class="user-row new"><div class="ubub">${formattedContent}<div class="umeta">
+                <svg viewBox="0 0 16 10" fill="none">
+                    <path d="M1 5L5 9L15 1" stroke="rgba(255,255,255,0.45)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 5L10 9" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>${msg.time}</div></div></div>`;
+        } else {
+            // ── AI bubble (brand style) ──
+            const cleanText = msg.content.replace(/<[^>]*>/g, '').replace(/"/g, '&quot;');
+            const shareBtn = (typeof whatsappAdapter !== 'undefined' && whatsappAdapter) ?
+                `<button class="share-btn" onclick="shareBotMessage(${index})"><i data-lucide="share-2"></i> Share</button>` : '';
+            const listenBtn = `<button class="bubble-action-btn" onclick="speakText(this)" data-text="${cleanText}" title="Listen">
+                <i data-lucide="volume-2"></i> Listen
+            </button>`;
+
+            html += `<div class="ai-row new spaced">
+                <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+                <div class="ai-content">
+                    <div class="ai-sender">Kurukshetra Guide <span class="powered-badge">✦ City Mitra</span></div>
+                    <div class="bubble">
+                        ${formattedContent}
+                        <div class="bubble-actions">${listenBtn}${shareBtn}</div>
+                    </div>
+                    <div class="ai-time">${msg.time}</div>
+                </div>
+            </div>`;
+
+            // Auto-detect context from last bot message for dynamic suggestions
+            if (index === messages.length - 1 && typeof detectAndUpdateContext === 'function') {
+                setTimeout(function() { detectAndUpdateContext(msg.content); }, 50);
+            }
+        }
+    });
+
+    container.innerHTML = html;
+
+    // Render Lucide icons
     lucide.createIcons();
 }
 
@@ -678,64 +695,87 @@ function toggleLanguage() {
     updateUI();
     renderChips();
     renderIndicators();
+
+    // Re-render chat area context (Welcome or Chat history)
+    if (typeof renderMessages === 'function') {
+        renderMessages();
+    }
+    
+    // Refresh dynamic footer context based on the current last message (if any)
+    if (typeof detectAndUpdateContext === 'function') {
+        const lastMsgObj = messages.length > 0 ? messages[messages.length - 1] : null;
+        if (lastMsgObj && lastMsgObj.role === 'bot') {
+            detectAndUpdateContext(lastMsgObj.content);
+        } else {
+            detectAndUpdateContext(""); // Triggers the default welcome chips in the active language
+        }
+    }
 }
 
 function updateUI() {
     const t = translations[currentLanguage];
 
-    // Update header (supports both old flat header and new illustrated header)
+    // Update header — brand bar style
     const headerTitleEl = document.getElementById('header-title');
     if (headerTitleEl) {
-        // New illustrated header uses innerHTML with <em> for accent
-        if (headerTitleEl.classList.contains('hdr-title') || headerTitleEl.closest('.hdr-name')) {
-            headerTitleEl.innerHTML = currentLanguage === 'hi' ? 'सिटी <em>मित्र</em>' : 'City <em>Mitra</em>';
-        } else {
-            headerTitleEl.textContent = t.title;
-        }
+        headerTitleEl.textContent = t.title;
     }
     const headerSubEl = document.getElementById('header-subtitle');
     if (headerSubEl) {
-        // New header subtitle is inside a pill, keep it compact
-        const subtitleText = currentLanguage === 'hi' ? 'ऑनलाइन' : 'Online';
-        if (headerSubEl.classList.contains('hdr-pill')) {
-            headerSubEl.innerHTML = '<span class="live-dot"></span><span>' + subtitleText + '</span>';
-        } else {
-            headerSubEl.textContent = t.subtitle;
-        }
+        headerSubEl.textContent = currentLanguage === 'hi' ? 'नागरिक AI प्लेटफॉर्म' : 'Civic AI Platform';
     }
-    document.getElementById('lang-flag').textContent = currentLanguage === 'en' ? '🇬🇧' : '🇮🇳';
+    const langFlagEl = document.getElementById('lang-flag');
+    if (langFlagEl) langFlagEl.textContent = currentLanguage === 'en' ? '🇬🇧' : '🇮🇳';
     const langCodeEl = document.getElementById('lang-code');
     if (langCodeEl) langCodeEl.textContent = currentLanguage.toUpperCase();
 
-    // Update official info badge
-    document.getElementById('official-info-title').textContent = t.officialInfo;
-    document.getElementById('official-info-desc').textContent = t.officialDesc;
+    // Update official info badge (safely)
+    const oitEl = document.getElementById('official-info-title');
+    if (oitEl) oitEl.textContent = t.officialInfo;
+    const oidEl = document.getElementById('official-info-desc');
+    if (oidEl) oidEl.textContent = t.officialDesc;
 
-    // Update welcome message
-    document.getElementById('welcome-title').textContent = t.welcomeTitle;
-    document.getElementById('welcome-text').textContent = t.welcomeText;
-    document.getElementById('welcome-officers').textContent = t.welcomeOfficers;
-    document.getElementById('welcome-tourist').textContent = t.welcomeTourist;
-    document.getElementById('welcome-services').textContent = t.welcomeServices;
-    document.getElementById('welcome-district').textContent = t.welcomeDistrict;
-    document.getElementById('welcome-emergency').textContent = t.welcomeEmergency;
-    document.getElementById('welcome-suggestion').textContent = t.welcomeSuggestion;
+    // Update welcome — brand hero uses different structure
+    const wtEl = document.getElementById('welcome-title');
+    if (wtEl) {
+        wtEl.innerHTML = currentLanguage === 'hi' ? 'कुरुक्षेत्र<br><em id="welcome-subtitle">नागरिक गाइड</em>' : 'Kurukshetra<br><em id="welcome-subtitle">Civic Guide</em>';
+    }
+    const wTextEl = document.getElementById('welcome-text');
+    if (wTextEl) {
+        wTextEl.innerHTML = currentLanguage === 'hi'
+            ? 'मैं <strong>सिटी मित्र</strong> हूँ, कुरुक्षेत्र जिले का आपका बुद्धिमान साथी। विरासत खोजें, अधिकारियों से जुड़ें, सेवाओं तक पहुंचें — सब एक ही जगह।'
+            : 'I\'m <strong>City Mitra</strong>, your intelligent companion for Kurukshetra district. Explore heritage, connect with officials, access services — all in one place.';
+    }
+    const woEl = document.getElementById('welcome-officers');
+    if (woEl) woEl.textContent = currentLanguage === 'hi' ? '👤 अधिकारी' : '👤 Officers';
+    const wtouristEl = document.getElementById('welcome-tourist');
+    if (wtouristEl) wtouristEl.textContent = currentLanguage === 'hi' ? '🏛️ विरासत' : '🏛️ Heritage';
+    const wsEl = document.getElementById('welcome-services');
+    if (wsEl) wsEl.textContent = currentLanguage === 'hi' ? '📋 योजनाएं' : '📋 Schemes';
+    const wdEl = document.getElementById('welcome-district');
+    if (wdEl) wdEl.textContent = currentLanguage === 'hi' ? '📊 जिला' : '📊 District';
+    const weEl = document.getElementById('welcome-emergency');
+    if (weEl) weEl.textContent = currentLanguage === 'hi' ? '🚨 आपातकालीन' : '🚨 Emergency';
+    const wSugEl = document.getElementById('welcome-suggestion');
+    if (wSugEl) wSugEl.textContent = currentLanguage === 'hi' ? t.welcomeSuggestion : t.welcomeSuggestion;
 
     // Update input placeholder
-    document.getElementById('user-input').placeholder = t.inputPlaceholder;
+    const inputEl = document.getElementById('user-input');
+    if (inputEl) inputEl.placeholder = t.inputPlaceholder;
 
-    // Update menu items
-    document.getElementById('menu-feedback-text').textContent = t.menuFeedback;
-    document.getElementById('menu-clear').textContent = t.clearChat;
-    document.getElementById('menu-visit').textContent = t.visitWebsite;
+    // Update menu items (safely)
+    const mfEl = document.getElementById('menu-feedback-text');
+    if (mfEl) mfEl.textContent = t.menuFeedback;
+    const mcEl = document.getElementById('menu-clear');
+    if (mcEl) mcEl.textContent = t.clearChat;
+    const mvEl = document.getElementById('menu-visit');
+    if (mvEl) mvEl.textContent = t.visitWebsite;
 
-    // Update suggestions button
-    document.getElementById('suggestions-btn-text').textContent = t.suggestions;
+    // Update suggestions button (safely)
+    const sbtEl = document.getElementById('suggestions-btn-text');
+    if (sbtEl) sbtEl.textContent = t.suggestions;
 
-    // Update typing indicator
-    document.getElementById('typing-text').textContent = t.typing;
-
-    // Update feedback modal
+    // Update feedback modal (safely)
     if (document.getElementById('feedback-title')) {
         document.getElementById('feedback-title').textContent = t.feedbackTitle;
         document.getElementById('feedback-subtitle').textContent = t.feedbackSubtitle;
@@ -851,13 +891,10 @@ function handleKeyPress(e) {
 
 function handleChipClick(text) {
     document.getElementById('user-input').value = text;
-    document.getElementById('chips-container').classList.add('hidden');
-    document.getElementById('autocomplete-dropdown').classList.add('hidden');
-    // Show the toggle button after selecting a chip
-    document.getElementById('toggle-chips-btn').classList.remove('hidden');
-    // Update button text to "Suggestions"
-    document.getElementById('suggestions-btn-text').textContent =
-        currentLanguage === 'hi' ? 'सुझाव' : 'Suggestions';
+    const acDropdown = document.getElementById('autocomplete-dropdown');
+    if (acDropdown) acDropdown.classList.add('hidden');
+    const chipsEl = document.getElementById('chips-container');
+    if (chipsEl) chipsEl.classList.add('hidden');
     stopRotation();
     sendMessage();
 }
@@ -873,21 +910,15 @@ async function sendMessage() {
     if (!text) return;
 
     // Hide autocomplete
-    document.getElementById('autocomplete-dropdown').classList.add('hidden');
+    const acDropdown = document.getElementById('autocomplete-dropdown');
+    if (acDropdown) acDropdown.classList.add('hidden');
 
     // Hide welcome message after first interaction
     document.getElementById('welcome-message').style.display = 'none';
 
-    // Hide chips container after sending message
-    document.getElementById('chips-container').classList.add('hidden');
-
-    // Show toggle button after first message
-    document.getElementById('toggle-chips-btn').classList.remove('hidden');
-
-    // Collapse the illustrated ghat header on first message
-    if (typeof collapseGhatHeader === 'function') {
-        collapseGhatHeader();
-    }
+    // Hide chips container after sending message (safely)
+    const chipsEl = document.getElementById('chips-container');
+    if (chipsEl) chipsEl.classList.add('hidden');
 
     // Stop rotation after first message
     stopRotation();
@@ -910,6 +941,11 @@ async function sendMessage() {
     renderMessages();
     scrollToBottom();
     inputEl.value = '';
+
+    // Immediately update suggestions context to match user's action
+    if (typeof detectAndUpdateContext === 'function') {
+        detectAndUpdateContext(text);
+    }
 
     // Show Loading
     document.getElementById('loading-indicator').classList.remove('hidden');
@@ -1011,9 +1047,15 @@ async function sendMessage() {
 
     } finally {
         document.getElementById('loading-indicator').classList.add('hidden');
+
+        // Detect context from last bot response for dynamic suggestions
         if (messages.length > 0) {
-            document.getElementById('toggle-chips-btn').classList.remove('hidden');
+            const lastMsg = messages[messages.length - 1];
+            if (lastMsg.role === 'bot' && typeof detectAndUpdateContext === 'function') {
+                detectAndUpdateContext(lastMsg.content);
+            }
         }
+
         lucide.createIcons();
         renderMessages();
         scrollToBottom();
@@ -1050,19 +1092,15 @@ function clearChat() {
         messages = [];
         localStorage.removeItem('kwr_chat_history');
 
-        // Reset UI state - back to initial load state
-        document.getElementById('welcome-message').style.display = 'flex';
-        document.getElementById('chips-container').classList.remove('hidden');
-        document.getElementById('toggle-chips-btn').classList.remove('hidden'); // SHOW button
+        // Reset UI state — show welcome hero again
+        document.getElementById('welcome-message').style.display = '';
 
-        // Set button text to "Hide" since chips are visible
-        document.getElementById('suggestions-btn-text').textContent =
-            currentLanguage === 'hi' ? 'छुपाएं' : 'Hide';
-
-        // Reset chips to first set
-        currentSetIndex = 0;
-        renderChips(true);
-        renderIndicators();
+        // Reset default suggestions
+        if (typeof updateDynamicSuggestions === 'function') {
+            updateDynamicSuggestions([
+                '🛕 Temples', '📞 DC Office', '🌾 Schemes', '🚑 Helplines', '🗓️ Best Time'
+            ]);
+        }
 
         // Render empty messages (will clear the chat display)
         renderMessages();
@@ -1070,7 +1108,7 @@ function clearChat() {
         // Close menu
         toggleMenu();
 
-        // Recreate icons for arrows
+        // Recreate icons
         lucide.createIcons();
     }
 }

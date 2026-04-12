@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Kurukshetra — Powered by City Mitra</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Serif+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  /* City Mitra Brand */
+  --brand:        #2D46B9;
+  --brand-deep:   #1A2E8A;
+  --brand-lt:     #EEF1FF;
+  --brand-mid:    #4560D4;
+  --brand-xlt:    #F5F7FF;
+
+  /* City color — Kurukshetra saffron */
+  --city:         #E07B2A;
+  --city-lt:      #FFF4EB;
+  --city-deep:    #B85E18;
+
+  /* Neutrals */
+  --ink:          #111318;
+  --ink2:         #2E333D;
+  --ink3:         #6B7280;
+  --ink4:         #9CA3AF;
+  --bg:           #F7F8FA;
+  --surface:      #FFFFFF;
+  --line:         #E8EAED;
+  --line2:        #F1F3F5;
+
+  /* Chat */
+  --ai-bg:        #FFFFFF;
+  --user-bg:      #2D46B9;
+}
+
+html, body {
+  height: 100%;
+  background: #C8CAD4;
+  display: flex;
+  justify-content: center;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  overflow: hidden;
+}
+
+.app {
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ══════════════════════════════════════
+   BRAND HEADER — City Mitra identity
+══════════════════════════════════════ */
+.brand-bar {
+  background: var(--brand);
+  padding: 11px 18px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle diagonal texture */
+.brand-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 18px,
+    rgba(255,255,255,0.025) 18px,
+    rgba(255,255,255,0.025) 36px
+  );
+  pointer-events: none;
+}
+
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.brand-icon {
+  width: 26px; height: 26px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-icon svg {
+  width: 14px; height: 14px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand-wordmark {
+  display: flex;
+  flex-direction: column;
+}
+.brand-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.brand-tagline {
+  font-size: 8.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 1.5px;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255,255,255,0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.city-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+.city-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #F59E0B;
+  box-shadow: 0 0 0 2px rgba(245,158,11,0.3);
+  animation: cityPulse 2.5s ease-in-out infinite;
+}
+@keyframes cityPulse {
+  0%,100% { box-shadow: 0 0 0 2px rgba(245,158,11,0.3); }
+  50%      { box-shadow: 0 0 0 5px rgba(245,158,11,0.1); }
+}
+.city-name-sm {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.01em;
+}
+
+.brand-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+  z-index: 1;
+}
+.lang-btn {
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: background 0.15s;
+}
+.lang-btn:hover { background: rgba(255,255,255,0.2); }
+.menu-btn {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+}
+.menu-btn span {
+  width: 12px; height: 1.5px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.85);
+  display: block;
+}
+.menu-btn span:last-child { width: 8px; }
+
+/* ══════════════════════════════════════
+   CITY HERO — Kurukshetra identity card
+══════════════════════════════════════ */
+.city-hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 18px 14px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* City accent band on left edge */
+.city-hero::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--city), var(--city-deep));
+}
+
+.city-hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-bottom: 13px;
+}
+
+.city-seal {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--city-lt), #FFE8CC);
+  border: 1.5px solid rgba(224,123,42,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 26px;
+  box-shadow: 0 2px 10px rgba(224,123,42,0.15);
+}
+
+.city-info { flex: 1; }
+.city-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.city-label::before {
+  content: '';
+  width: 14px; height: 1.5px;
+  background: var(--brand);
+  border-radius: 2px;
+}
+
+.city-title {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+.city-title em {
+  font-style: italic;
+  color: var(--city);
+}
+
+.city-deva {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink4);
+  letter-spacing: 0.03em;
+}
+
+/* Topic tags */
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ttag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 27px;
+  padding: 0 10px;
+  border-radius: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.ttag:hover { transform: translateY(-1px); filter: brightness(0.95); }
+.ttag-orange { background: var(--city-lt); color: var(--city-deep); border-color: rgba(224,123,42,0.2); }
+.ttag-blue   { background: var(--brand-lt); color: var(--brand); border-color: rgba(45,70,185,0.15); }
+.ttag-green  { background: #ECFDF5; color: #065F46; border-color: rgba(6,95,70,0.15); }
+.ttag-red    { background: #FFF5F5; color: #991B1B; border-color: rgba(153,27,27,0.12); }
+.ttag-purple { background: #FAF5FF; color: #6B21A8; border-color: rgba(107,33,168,0.12); }
+
+/* ══════════════════════════════════════
+   CHAT AREA
+══════════════════════════════════════ */
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  padding: 18px 16px 10px;
+  scroll-behavior: smooth;
+  position: relative;
+}
+.chat::-webkit-scrollbar { width: 0; }
+
+/* Warm gradient at top of chat — pleasant */
+.chat::before {
+  content: '';
+  position: sticky;
+  top: 0;
+  display: block;
+  height: 20px;
+  margin: -18px -16px 0;
+  background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Date sep */
+.dsep {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.dsep span {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 3px 12px;
+}
+
+/* ── AI message row ── */
+.ai-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  margin-bottom: 3px;
+}
+.ai-row + .ai-row { margin-top: 1px; }
+.ai-row.spaced { margin-top: 12px; }
+
+.av {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: flex-end;
+  box-shadow: 0 2px 8px rgba(45,70,185,0.25);
+}
+.av svg {
+  width: 16px; height: 16px;
+  fill: none;
+  stroke: rgba(255,255,255,0.9);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.av-spacer {
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.ai-content { flex: 1; min-width: 0; max-width: calc(100% - 42px); }
+
+.ai-sender {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 4px;
+  padding-left: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.powered-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 8.5px;
+  font-weight: 600;
+  color: var(--ink4);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  background: var(--line2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+.bubble {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px 16px 16px 16px;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 3px 10px rgba(0,0,0,0.04);
+  word-break: break-word;
+}
+.bubble strong { font-weight: 700; color: var(--ink); }
+.bubble em { font-style: italic; color: var(--city); font-family: 'Lora', serif; font-size: 15px; }
+
+.ai-time {
+  font-size: 10px;
+  color: var(--ink4);
+  margin-top: 4px;
+  padding-left: 2px;
+}
+
+/* Quick chips */
+.qchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+.qc {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--brand-xlt);
+  color: var(--brand);
+  border: 1.5px solid rgba(45,70,185,0.14);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.qc:hover {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(45,70,185,0.25);
+}
+
+/* Info cards */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.icard {
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.icard::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.icard:hover { background: var(--surface); transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.08); }
+.icard:hover::after { opacity: 1; }
+.ic-o::after { background: linear-gradient(90deg, var(--city), var(--city-lt)); }
+.ic-b::after { background: linear-gradient(90deg, var(--brand), var(--brand-lt)); }
+.ic-g::after { background: linear-gradient(90deg, #059669, #ECFDF5); }
+.ic-r::after { background: linear-gradient(90deg, #DC2626, #FFF5F5); }
+.icard-icon { font-size: 22px; margin-bottom: 7px; display: block; }
+.icard-t { font-size: 12px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 2px; }
+.icard-s { font-size: 10.5px; color: var(--ink3); font-weight: 400; }
+
+/* Stat grid */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-top: 12px;
+}
+.stat {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+}
+.stat-n {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--brand);
+  display: block;
+  line-height: 1;
+}
+.stat-l {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--ink4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 3px;
+  display: block;
+}
+
+/* ── User message ── */
+.user-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 3px;
+  margin-top: 12px;
+}
+.ubub {
+  background: var(--user-bg);
+  border-radius: 16px 4px 16px 16px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  max-width: 80%;
+  line-height: 1.65;
+  word-break: break-word;
+  box-shadow: 0 2px 8px rgba(45,70,185,0.25), 0 5px 20px rgba(45,70,185,0.12);
+}
+.umeta {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 5px;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.umeta svg { width: 14px; height: 9px; }
+
+/* Typing */
+.typing-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.tbub {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px 16px 16px 16px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.td {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #D1D5DB;
+}
+.td:nth-child(1) { animation: tdot 1.2s 0.0s ease-in-out infinite; }
+.td:nth-child(2) { animation: tdot 1.2s 0.18s ease-in-out infinite; }
+.td:nth-child(3) { animation: tdot 1.2s 0.36s ease-in-out infinite; }
+@keyframes tdot {
+  0%,100% { transform: translateY(0); background: #D1D5DB; }
+  50% { transform: translateY(-5px); background: var(--brand); }
+}
+
+/* Entry animation */
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.new { animation: msgIn 0.32s cubic-bezier(0.34, 1.3, 0.64, 1) both; }
+
+/* ══════════════════════════════════════
+   INPUT ZONE
+══════════════════════════════════════ */
+.input-zone {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+/* Context suggestions */
+.ctx {
+  display: flex;
+  gap: 6px;
+  padding: 10px 16px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ctx::-webkit-scrollbar { display: none; }
+.csug {
+  flex-shrink: 0;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 7px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink2);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s;
+}
+.csug:hover {
+  background: var(--brand-lt);
+  border-color: rgba(45,70,185,0.2);
+  color: var(--brand);
+}
+
+/* Input row */
+.inp-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  padding: 9px 16px 20px;
+}
+.inp-inner {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 11px 14px;
+  transition: all 0.2s;
+}
+.inp-inner.on {
+  border-color: var(--brand);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(45,70,185,0.1);
+}
+.inp-field {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+  resize: none;
+  max-height: 90px;
+  min-height: 20px;
+  line-height: 1.5;
+}
+.inp-field::placeholder { color: var(--ink4); }
+.mic {
+  flex-shrink: 0;
+  width: 20px; height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.mic:hover { opacity: 0.7; }
+.mic svg { width: 16px; height: 16px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+
+.send-btn {
+  width: 46px; height: 46px;
+  border-radius: 14px;
+  background: var(--brand);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(45,70,185,0.35);
+  transition: all 0.15s;
+}
+.send-btn:hover { background: var(--brand-deep); transform: scale(1.05); box-shadow: 0 6px 18px rgba(45,70,185,0.45); }
+.send-btn:active { transform: scale(0.95); }
+.send-btn:disabled { background: #E5E7EB; box-shadow: none; cursor: not-allowed; }
+.send-btn svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.send-btn:disabled svg { stroke: #9CA3AF; }
+
+/* ══════════════════════════════════════
+   CITY MITRA FOOTER BRAND STRIP
+══════════════════════════════════════ */
+.brand-footer {
+  background: var(--brand-xlt);
+  border-top: 1px solid rgba(45,70,185,0.1);
+  padding: 7px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.bf-text {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--ink3);
+  letter-spacing: 0.01em;
+}
+.bf-brand {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--brand);
+  letter-spacing: -0.01em;
+}
+.bf-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--brand);
+  opacity: 0.4;
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- ════ BRAND BAR ════ -->
+  <div class="brand-bar">
+    <div class="brand-left">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-wordmark">
+          <div class="brand-name">City Mitra</div>
+          <div class="brand-tagline">Civic AI Platform</div>
+        </div>
+      </div>
+      <div class="brand-divider"></div>
+      <div class="city-badge">
+        <div class="city-dot"></div>
+        <div class="city-name-sm">Kurukshetra</div>
+      </div>
+    </div>
+    <div class="brand-right">
+      <div class="lang-btn">🇬🇧 EN</div>
+      <div class="menu-btn">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ CITY HERO ════ -->
+  <div class="city-hero">
+    <div class="city-hero-top">
+      <div class="city-seal">🏛️</div>
+      <div class="city-info">
+        <div class="city-label">Your City Assistant</div>
+        <div class="city-title">Kurukshetra<br><em>Civic Guide</em></div>
+        <div class="city-deva">कुरुक्षेत्र — आपकी सेवा में</div>
+      </div>
+    </div>
+    <div class="topic-tags">
+      <div class="ttag ttag-orange" onclick="sq('Tourist places in Kurukshetra')">🏛️ Heritage</div>
+      <div class="ttag ttag-blue"   onclick="sq('Who is the District Collector?')">👤 Officers</div>
+      <div class="ttag ttag-red"    onclick="sq('Emergency helpline numbers')">🚨 Emergency</div>
+      <div class="ttag ttag-green"  onclick="sq('Government welfare schemes')">📋 Schemes</div>
+      <div class="ttag ttag-purple" onclick="sq('Kurukshetra population and district statistics')">📊 District</div>
+    </div>
+  </div>
+
+  <!-- ════ CHAT ════ -->
+  <div class="chat" id="chat">
+    <div class="dsep"><span>Today · April 2026</span></div>
+
+    <div class="ai-row new">
+      <div class="av">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="ai-content">
+        <div class="ai-sender">
+          Kurukshetra Guide
+          <span class="powered-badge">✦ City Mitra</span>
+        </div>
+        <div class="bubble">
+          🙏 <strong>Namaste!</strong> I'm your dedicated civic assistant for <em>Kurukshetra district</em> — powered by City Mitra.<br><br>
+          Ask me about tourist spots, government officers, welfare schemes, or emergency contacts. I'm here 24×7.
+          <div class="qchips">
+            <div class="qc" onclick="sq('Famous tourist places in Kurukshetra')">🏛️ Tourist Places</div>
+            <div class="qc" onclick="sq('Who is the District Collector of Kurukshetra?')">👤 Who is DC?</div>
+            <div class="qc" onclick="sq('Emergency helpline numbers in Kurukshetra')">🚨 Emergency</div>
+            <div class="qc" onclick="sq('Kurukshetra population and district facts')">📊 District Info</div>
+          </div>
+        </div>
+        <div class="ai-time">Just now</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ INPUT ZONE ════ -->
+  <div class="input-zone">
+    <div class="ctx" id="ctxRow">
+      <div class="csug" onclick="sq('Famous temples in Kurukshetra')">🛕 Temples</div>
+      <div class="csug" onclick="sq('Contact details of DC office')">📞 DC Office</div>
+      <div class="csug" onclick="sq('Government schemes for farmers')">🌾 Schemes</div>
+      <div class="csug" onclick="sq('Best time to visit Kurukshetra')">🗓️ Best Time</div>
+      <div class="csug" onclick="sq('Hospitals in Kurukshetra')">🏥 Hospitals</div>
+    </div>
+    <div class="inp-wrap">
+      <div class="inp-inner" id="inpBox">
+        <textarea class="inp-field" id="inp" rows="1"
+          placeholder="Ask anything about Kurukshetra…"
+          oninput="grow(this)"
+          onkeydown="onKey(event)"></textarea>
+        <div class="mic">
+          <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+        </div>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="send()" disabled>
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ════ BRAND FOOTER ════ -->
+  <div class="brand-footer">
+    <span class="bf-text">Powered by</span>
+    <span class="bf-brand">City Mitra</span>
+    <div class="bf-dot"></div>
+    <span class="bf-text">Civic AI for Every Indian City</span>
+  </div>
+
+</div>
+
+<script>
+/* ── Textarea grow ── */
+function grow(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 90) + 'px';
+  document.getElementById('sendBtn').disabled = !el.value.trim();
+}
+
+const inp = document.getElementById('inp');
+const box = document.getElementById('inpBox');
+inp.addEventListener('focus',  () => box.classList.add('on'));
+inp.addEventListener('blur',   () => box.classList.remove('on'));
+
+function onKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+}
+
+/* ── Time ── */
+function ts() {
+  const d = new Date();
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
+
+/* ── Scroll ── */
+function scr() {
+  const c = document.getElementById('chat');
+  setTimeout(() => c.scrollTo({ top: c.scrollHeight, behavior: 'smooth' }), 60);
+}
+
+/* ── Quick send ── */
+function sq(text) {
+  inp.value = text;
+  grow(inp);
+  send();
+}
+
+/* ── Send ── */
+function send() {
+  const text = inp.value.trim();
+  if (!text) return;
+  addUser(text);
+  inp.value = ''; inp.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  setTimeout(showTyping, 300);
+  setTimeout(() => { killTyping(); addBot(text); }, 1600 + Math.random() * 600);
+}
+
+/* ── User bubble ── */
+function addUser(text) {
+  const c = document.getElementById('chat');
+  const d = document.createElement('div');
+  d.className = 'user-row new';
+  d.innerHTML = `<div class="ubub">${esc(text)}<div class="umeta">
+    <svg viewBox="0 0 16 10" fill="none">
+      <path d="M1 5L5 9L15 1" stroke="rgba(255,255,255,0.45)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6 5L10 9" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>${ts()}</div></div>`;
+  c.appendChild(d); scr();
+}
+
+/* ── Typing ── */
+function showTyping() {
+  const c = document.getElementById('chat');
+  const d = document.createElement('div');
+  d.id = 'typing'; d.className = 'typing-row new';
+  d.innerHTML = `<div class="av"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="tbub"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+  c.appendChild(d); scr();
+}
+function killTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+/* ── Responses ── */
+function reply(text) {
+  const q = text.toLowerCase();
+
+  if (/tourist|place|visit|heritage|temple|gita|sarovar|jyotisar|site|sightse/.test(q)) return {
+    html: `Kurukshetra is where the <strong>Bhagavad Gita</strong> was spoken — one of India's most sacred lands. Top places to visit:`,
+    cards: [
+      { cls:'ic-o', e:'🕌', t:'Brahma Sarovar',       s:'India\'s largest sacred tank' },
+      { cls:'ic-b', e:'⚔️', t:'Jyotisar',              s:'Birthplace of the Gita' },
+      { cls:'ic-g', e:'🛕', t:'Sthaneshwar Mahadev',   s:'Ancient Shiva temple, 5000+ yrs' },
+      { cls:'ic-r', e:'🏺', t:'KGN Panorama & Museum', s:'State-of-art immersive museum' },
+    ],
+    chips: ['🕐 Timings & fees', '🗺️ How to reach', '🏨 Hotels nearby', '📅 Best season'],
+    ctx:   ['🕐 Temple timings', '🗺️ Directions', '🏨 Stay options', '📸 Photo tips', '🎟️ Entry fees']
+  };
+
+  if (/dc|collector|officer|official|department|admin/.test(q)) return {
+    html: `<strong>District Collector (DC)</strong> — Kurukshetra<br><br>🏢 &nbsp;Mini Secretariat, Sector 3, Kurukshetra<br>📞 &nbsp;<strong>01744-220045</strong><br>🕒 &nbsp;Monday – Saturday · 9 AM – 5 PM<br>🌐 &nbsp;kurukshetra.gov.in<br><br>Walk in or call ahead for appointments.`,
+    chips: ['📋 All officers', '🏢 Departments', '📝 File complaint', '🔍 RTI request'],
+    ctx:   ['📋 All officers', '🏢 All departments', '📝 Complaint', '🔍 RTI', '📞 Numbers']
+  };
+
+  if (/emergency|helpline|ambulance|police|fire|accident|112|108|100/.test(q)) return {
+    html: `<strong>Emergency Contacts — Kurukshetra</strong><br><br>🚔 &nbsp;Police &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="font-size:15px">100</strong><br>🚑 &nbsp;Ambulance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="font-size:15px">108</strong><br>🔥 &nbsp;Fire Brigade &nbsp;&nbsp;<strong style="font-size:15px">101</strong><br>🆘 &nbsp;All Services &nbsp;&nbsp;&nbsp;<strong style="font-size:15px">112</strong><br><br>🏥 &nbsp;District Hospital &nbsp;&nbsp;01744-220033<br>👮 &nbsp;SP Office &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;01744-220075<br>👩 &nbsp;Women Helpline &nbsp;&nbsp;&nbsp;&nbsp;<strong>1091</strong><br>🧒 &nbsp;Child Helpline &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>1098</strong>`,
+    chips: ['🏥 Hospitals', '👮 Police stations', '🩸 Blood bank', '🚒 Fire stations'],
+    ctx:   ['🏥 Hospitals', '👮 Police', '🩸 Blood bank', '🚒 Fire', '🩺 Doctors']
+  };
+
+  if (/population|stat|census|data|fact|area|info|district|demographic/.test(q)) return {
+    html: `<strong>Kurukshetra — District Overview</strong>`,
+    stats: [{ v:'964K', l:'Population' }, { v:'1530', l:'Sq. Km' }, { v:'420+', l:'Villages' }],
+    extra: `<br>🏙️ <strong>Sub-Divisions:</strong> 4 &nbsp;·&nbsp; <strong>Tehsils:</strong> 8<br>📚 <strong>Literacy Rate:</strong> 76.3%<br>🌾 <strong>Main Crops:</strong> Wheat · Rice · Mustard<br>🏛️ <strong>Sacred Sites:</strong> 400+`,
+    chips: ['📈 Growth data', '🌾 Agriculture', '🏫 Education', '🏥 Healthcare'],
+    ctx:   ['📈 Growth', '🌾 Agriculture', '🏫 Schools', '🏥 Health infra', '🏭 Industry']
+  };
+
+  if (/scheme|yojna|welfare|benefit|farmer|kisan|housing|ayushman|subsidy|scholarship/.test(q)) return {
+    html: `<strong>Government Schemes</strong> for Kurukshetra residents:<br><br>🌾 &nbsp;<strong>PM-KISAN</strong> · ₹6,000/year for farmers<br>🏠 &nbsp;<strong>PM Awas Yojana</strong> · Rural housing for all<br>💊 &nbsp;<strong>Ayushman Bharat</strong> · ₹5 Lakh health cover<br>⚡ &nbsp;<strong>PM KUSUM</strong> · Solar irrigation pumps<br>👧 &nbsp;<strong>Beti Bachao Beti Padhao</strong> · Girl child welfare<br>🎓 &nbsp;<strong>NSP Scholarship</strong> · Students benefit<br><br>📞 Apply at DC office · <strong>01744-220045</strong>`,
+    chips: ['🌾 Farmer benefits', '🏠 Housing apply', '👩 Women welfare', '🎓 Scholarships'],
+    ctx:   ['🌾 PM-KISAN', '🏠 Housing scheme', '👩 Women welfare', '🎓 Scholarships', '📝 How to apply']
+  };
+
+  if (/best time|when|season|weather|month|trip|plan/.test(q)) return {
+    html: `<strong>Best Time to Visit Kurukshetra</strong><br><br>❄️ &nbsp;<strong>Oct – Feb</strong> &nbsp;★ Best · Pleasant 10–22°C<br>🌸 &nbsp;<strong>Mar – May</strong> &nbsp;Warm · up to 42°C<br>🌧️ &nbsp;<strong>Jun – Sep</strong> &nbsp;Monsoon · lush, humid<br><br>✨ &nbsp;<strong>Geeta Jayanti (Nov/Dec)</strong> is the most spectacular time — the Gita Mahotsav festival draws thousands of pilgrims and features incredible cultural events across the city.`,
+    chips: ['🎪 Geeta Jayanti', '🌡️ Weather now', '🚂 Trains from Delhi', '✈️ How to reach'],
+    ctx:   ['🎪 Geeta Jayanti', '🌡️ Weather', '🚂 Trains', '✈️ Flights', '🏨 Hotels']
+  };
+
+  if (/hospital|blood|doctor|medical|health|clinic/.test(q)) return {
+    html: `<strong>Healthcare — Kurukshetra</strong><br><br>🏥 &nbsp;<strong>District Civil Hospital</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;01744-220033<br>🏥 &nbsp;<strong>KCGMC Karnal</strong> (30 km) · Major referral<br>🩸 &nbsp;<strong>Blood Bank</strong> at Civil Hospital<br>🚑 &nbsp;<strong>Free Ambulance:</strong> Call 108<br>💊 &nbsp;<strong>Jan Aushadhi</strong> stores for affordable medicines`,
+    chips: ['🩸 Blood bank', '🚑 Ambulance 108', '💊 Medicines', '🏥 Private hospitals'],
+    ctx:   ['🩸 Blood bank', '🚑 Ambulance', '💊 Jan Aushadhi', '🏥 Private', '👨‍⚕️ Specialists']
+  };
+
+  return {
+    html: `I can help with information about <strong>"${esc(text.slice(0,50))}${text.length>50?'…':''}"</strong>.<br><br>Try asking about tourist places, officers, schemes, emergency contacts, or district facts.`,
+    chips: ['🏛️ Tourist Places', '👤 DC Contact', '🚨 Emergency', '📊 District Info'],
+    ctx:   ['🏛️ Tourist places', '👤 DC contact', '🚨 Helplines', '📊 District', '📋 Schemes']
+  };
+}
+
+/* ── Add bot ── */
+function addBot(userText) {
+  const c = document.getElementById('chat');
+  const r = reply(userText);
+  let body = r.html;
+
+  if (r.stats) {
+    body += `<div class="stats">`;
+    r.stats.forEach(s => { body += `<div class="stat"><span class="stat-n">${s.v}</span><span class="stat-l">${s.l}</span></div>`; });
+    body += `</div>`;
+    if (r.extra) body += r.extra;
+  }
+  if (r.cards) {
+    body += `<div class="cards">`;
+    r.cards.forEach(cd => {
+      body += `<div class="icard ${cd.cls}"><span class="icard-icon">${cd.e}</span><div class="icard-t">${cd.t}</div><div class="icard-s">${cd.s}</div></div>`;
+    });
+    body += `</div>`;
+  }
+  if (r.chips) {
+    body += `<div class="qchips">`;
+    r.chips.forEach(ch => { body += `<div class="qc" onclick="sq('${ch.replace(/'/g,"\\'")}')">${ch}</div>`; });
+    body += `</div>`;
+  }
+
+  const d = document.createElement('div');
+  d.className = 'ai-row new spaced';
+  d.innerHTML = `
+    <div class="av"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+    <div class="ai-content">
+      <div class="ai-sender">Kurukshetra Guide <span class="powered-badge">✦ City Mitra</span></div>
+      <div class="bubble">${body}</div>
+      <div class="ai-time">${ts()}</div>
+    </div>`;
+  c.appendChild(d);
+  if (r.ctx) setCtx(r.ctx);
+  scr();
+}
+
+function setCtx(arr) {
+  const row = document.getElementById('ctxRow');
+  row.innerHTML = '';
+  arr.forEach(s => {
+    const d = document.createElement('div');
+    d.className = 'csug'; d.textContent = s;
+    d.onclick = () => sq(s);
+    row.appendChild(d);
+  });
+}
+
+function esc(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+setTimeout(() => inp.focus(), 600);
+</script>
+</body>
+</html>
