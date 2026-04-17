@@ -1,11 +1,12 @@
 // ============================================================
 //  Kurukshetra InfoBot — Service Worker (PWA)
-//  Cache-first for local assets, network-first for API calls
+//  v2.0 — Network-first for local assets to prevent stale cache
+//  BUMP THIS VERSION every time you deploy changes!
 // ============================================================
 
-const CACHE_NAME = 'infobot-v1.3';
+const CACHE_NAME = 'infobot-v2.0';
 
-// All local assets to pre-cache on install
+// Assets to pre-cache on install (offline fallback)
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -19,31 +20,47 @@ const PRECACHE_ASSETS = [
   './js/whatsapp-adapter.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/city-mitra-bot.png',
+  './icons/city-mitra-new-logo.png',
   './manifest.json'
 ];
 
-// Patterns that should always go network-first (API calls)
-const NETWORK_FIRST_PATTERNS = [
+// Patterns that should ALWAYS go network-first (API calls)
+const API_PATTERNS = [
   'n8n-workflow-test',
   'kurukshetra.gov.in/api',
   'webhook'
 ];
 
+// Patterns for heavy static assets that are safe to cache-first
+// (images, fonts, CDN libraries — these rarely change)
+const CACHE_FIRST_PATTERNS = [
+  'fonts.googleapis.com',
+  'fonts.gstatic.com',
+  'cdnjs.cloudflare.com',
+  'unpkg.com',
+  '/icons/'
+];
+
 // ── Install: pre-cache all local assets ─────────────────────
 self.addEventListener('install', event => {
+  console.log('[SW] Installing new version:', CACHE_NAME);
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       console.log('[SW] Pre-caching assets...');
       return cache.addAll(PRECACHE_ASSETS);
     }).then(() => {
-      console.log('[SW] Pre-cache complete');
+      console.log('[SW] Pre-cache complete, activating immediately');
+      // Skip waiting — activate this SW immediately instead of
+      // waiting for all tabs to close
       return self.skipWaiting();
     })
   );
 });
 
-// ── Activate: delete old caches ──────────────────────────────
+// ── Activate: delete ALL old caches & claim clients ──────────
 self.addEventListener('activate', event => {
+  console.log('[SW] Activating:', CACHE_NAME);
   event.waitUntil(
     caches.keys().then(keys => {
       return Promise.all(
@@ -54,29 +71,76 @@ self.addEventListener('activate', event => {
             return caches.delete(key);
           })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      console.log('[SW] Now controlling all clients');
+      // Take control of all open tabs immediately
+      return self.clients.claim();
+    })
   );
+});
+
+// ── Message: allow page to force skip waiting ────────────────
+self.addEventListener('message', event => {
+  if (event.data === 'SKIP_WAITING') {
+    console.log('[SW] Force skip waiting requested');
+    self.skipWaiting();
+  }
 });
 
 // ── Fetch: smart routing ─────────────────────────────────────
 self.addEventListener('fetch', event => {
   const url = event.request.url;
 
-  // Skip non-GET requests
+  // Skip non-GET requests (POST to n8n webhooks, etc.)
   if (event.request.method !== 'GET') return;
 
-  // Network-first for API/webhook calls
-  const isNetworkFirst = NETWORK_FIRST_PATTERNS.some(p => url.includes(p));
-  if (isNetworkFirst) {
-    event.respondWith(networkFirst(event.request));
+  // 1. API/webhook calls → network only (no cache)
+  const isAPI = API_PATTERNS.some(p => url.includes(p));
+  if (isAPI) {
+    event.respondWith(networkOnly(event.request));
     return;
   }
 
-  // Cache-first for everything else (local assets, CDNs)
-  event.respondWith(cacheFirst(event.request));
+  // 2. Heavy static assets (CDN, fonts, icons) → cache-first
+  const isCacheFirst = CACHE_FIRST_PATTERNS.some(p => url.includes(p));
+  if (isCacheFirst) {
+    event.respondWith(cacheFirst(event.request));
+    return;
+  }
+
+  // 3. Everything else (HTML, JS, CSS, JSON) → NETWORK-FIRST
+  //    This ensures design changes show immediately!
+  event.respondWith(networkFirst(event.request));
 });
 
-// Cache-first strategy
+// ── Network-first strategy (for local assets) ────────────────
+// Try network first; if offline, fall back to cache
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    if (response && response.status === 200) {
+      // Update cache with fresh version
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    // Offline — serve from cache
+    const cached = await caches.match(request);
+    if (cached) {
+      console.log('[SW] Serving from cache (offline):', request.url);
+      return cached;
+    }
+    // Last resort: if it's a page navigation, serve index.html
+    if (request.destination === 'document') {
+      return caches.match('./index.html');
+    }
+    return new Response('', { status: 503, statusText: 'Offline' });
+  }
+}
+
+// ── Cache-first strategy (for static assets) ─────────────────
+// Serve from cache if available; fetch + cache if not
 async function cacheFirst(request) {
   const cached = await caches.match(request);
   if (cached) return cached;
@@ -88,23 +152,18 @@ async function cacheFirst(request) {
       cache.put(request, response.clone());
     }
     return response;
-  } catch {
-    // Return a simple offline fallback for navigation requests
-    if (request.destination === 'document') {
-      return caches.match('./index.html');
-    }
+  } catch (error) {
     return new Response('', { status: 503, statusText: 'Offline' });
   }
 }
 
-// Network-first strategy
-async function networkFirst(request) {
+// ── Network-only strategy (for API calls) ────────────────────
+// Never cache, always go to network
+async function networkOnly(request) {
   try {
-    const response = await fetch(request);
-    return response;
-  } catch {
-    const cached = await caches.match(request);
-    return cached || new Response(JSON.stringify({ error: 'Offline' }), {
+    return await fetch(request);
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Offline' }), {
       status: 503,
       headers: { 'Content-Type': 'application/json' }
     });

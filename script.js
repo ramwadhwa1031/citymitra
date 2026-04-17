@@ -386,7 +386,7 @@ function renderMessages() {
 
     // Date separator — always show with actual date
     const today = new Date();
-    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     html += `<div class="dsep"><span>Today · ${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}</span></div>`;
 
     // ── Welcome bot bubble — Only shown once chat begins to replace the Hero Card ──
@@ -420,7 +420,7 @@ function renderMessages() {
         </div>`;
     }
 
-    messages.forEach(function(msg, index) {
+    messages.forEach(function (msg, index) {
         const formattedContent = formatText(msg.content);
 
         if (msg.role === 'user') {
@@ -453,7 +453,7 @@ function renderMessages() {
 
             // Auto-detect context from last bot message for dynamic suggestions
             if (index === messages.length - 1 && typeof detectAndUpdateContext === 'function') {
-                setTimeout(function() { detectAndUpdateContext(msg.content); }, 50);
+                setTimeout(function () { detectAndUpdateContext(msg.content); }, 50);
             }
         }
     });
@@ -589,32 +589,165 @@ function renderIndicators() {
 function formatText(text) {
     if (!text) return '';
 
-    // 1. Handle New Lines
-    let formatted = text.replace(/\n/g, '<br>');
+    // ── Pre-process: Clean up n8n's messy feedback/divider sections ──
+    let cleaned = text;
 
-    // 2. Handle Bold (**text**)
+    // Extract feedback URL before we strip the block
+    let feedbackUrl = null;
+    const fbMatch = cleaned.match(/Share your feedback[:\s]*(?:🔗\s*)?(https?:\/\/[^\s\n]+)/i);
+    if (fbMatch) {
+        feedbackUrl = fbMatch[1].replace(/[.,!;]+$/, '');
+    }
+
+    // Remove everything from the Unicode divider (───) to the end
+    cleaned = cleaned.replace(/\n?[─━]{3,}[\s\S]*$/, '');
+
+    // If there's no Unicode divider, try removing the feedback block directly
+    cleaned = cleaned.replace(/\n?📊\s*\*?\*?Help us improve[\s\S]*$/i, '');
+
+    // Clean up "Complete directory: URL" → clean text
+    cleaned = cleaned.replace(/Complete directory[:\s]*(https?:\/\/[^\s\n]+)/gi, (_, url) => {
+        const cleanUrl = url.replace(/[.,!;]+$/, '');
+        return `📂 View directory: ${cleanUrl}`;
+    });
+
+    // Remove leftover --- dividers (3+ dashes on their own line)
+    cleaned = cleaned.replace(/\n-{3,}\s*\n/g, '\n');
+    cleaned = cleaned.replace(/\n-{3,}\s*$/g, '');
+
+    // Trim trailing whitespace/empty lines
+    cleaned = cleaned.trimEnd();
+
+    // Add back the feedback link as a cleanly formatted markdown link
+    if (feedbackUrl) {
+        cleaned += `\n\n[📊 Share your feedback ↗](${feedbackUrl})`;
+    }
+
+    // ── Clean up messy URL footers and citations ──
+    // Intercepts `--- https://url` or `https://url for more info`
+    cleaned = cleaned.replace(/^[-\s─]*((?:https?:\/\/[^\s\n<>]+[\s]*)+)(?:for more information.*)?$/gim, (match, urls) => {
+        return '\n\n🌐 **Official Sources:**\n' + urls.trim();
+    });
+
+    // ── Pre-process raw HTML tags to protect them from regex destruction ──
+    const htmlTags = [];
+    cleaned = cleaned.replace(/<[^>]+>/g, (match) => {
+        htmlTags.push(match);
+        return `@@HTML_${htmlTags.length - 1}@@`;
+    });
+
+    const mdLinks = [];
+
+    // ── Smart Interactive Links & Social Icons ──
+    // Matches: • Title Name: [URL](URL)  OR  • Title Name: URL  OR • Title Name: --- URL
+    cleaned = cleaned.replace(/^[•\-\*]\s*([^:\n]+):\s*(?:[-─]+\s*)?(?:\[[^\]]+\]\((https?:\/\/[^)]+)\)|(https?:\/\/[^\s<>"']+))/gm, (match, title, mdUrl, rawUrl) => {
+        const cleanUrl = (mdUrl || rawUrl).replace(/[.,!;]+$/, '');
+        
+        let titleTrim = title.trim();
+        // Strip markdown if the title itself has it (e.g. "[Agriculture](url)")
+        titleTrim = titleTrim.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+        let titleLower = titleTrim.toLowerCase();
+        
+        // Smart Context-Aware Emojis
+        let icon = '🔗';
+        if (titleLower.includes('facebook')) icon = '📘';
+        else if (titleLower.includes('twitter') || titleLower.includes(' x ') || titleLower === 'x') icon = '🐦';
+        else if (titleLower.includes('youtube')) icon = '▶️';
+        else if (titleLower.includes('instagram')) icon = '📷';
+        else if (titleLower.includes('website') || titleLower.includes('portal')) icon = '🌐';
+        else if (titleLower.includes('email') || titleLower.includes('mail')) icon = '✉️';
+        else if (titleLower.includes('agriculture') || titleLower.includes('kendra')) icon = '🌾';
+        else if (titleLower.includes('health') || titleLower.includes('medical') || titleLower.includes('hospital')) icon = '🏥';
+        else if (titleLower.includes('police') || titleLower.includes('guard')) icon = '🚓';
+        else if (titleLower.includes('tourism') || titleLower.includes('heritage')) icon = '🏛️';
+        else if (titleLower.includes('employment') || titleLower.includes('office') || titleLower.includes('administration') || titleLower.includes('board')) icon = '💼';
+
+        // Format as a sleek inline button (like the .ttag class)
+        const cleanItem = `• <a href="${cleanUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:5px; color:var(--brand); text-decoration:none; font-weight:600; background:var(--brand-xlt); padding:1px 8px; border-radius:12px; font-size:13px; border:1px solid rgba(45, 70, 185, 0.12); margin-top:2px; margin-bottom:2px; transition:all 0.15s;">${icon} ${titleTrim}</a>`;
+        
+        mdLinks.push(cleanItem);
+        return `@@MD_LINK_${mdLinks.length - 1}@@`;
+    });
+
+    // ── Original Markdown Links with Placeholders ──
+    // Pattern: [display text](url)
+    cleaned = cleaned.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (match, linkText, url) => {
+        const cleanUrl = url.replace(/[.,!;]+$/, '');
+        let linkHtml = '';
+
+        // If link text IS the URL itself (common in n8n), show just hostname
+        if (linkText.startsWith('http')) {
+            try {
+                const hostname = new URL(cleanUrl).hostname.replace('www.', '');
+                linkHtml = `<a href="${cleanUrl}" target="_blank" style="color:var(--brand);text-decoration:underline;text-underline-offset:2px;font-weight:500;word-break:break-all;">🔗 ${hostname}</a>`;
+            } catch (e) {
+                linkHtml = `<a href="${cleanUrl}" target="_blank" style="color:var(--brand);text-decoration:underline;">🔗 Link</a>`;
+            }
+        }
+        // If it's the feedback link, make it slightly stand out
+        else if (linkText.includes('Share your feedback')) {
+            linkHtml = `<a href="${cleanUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:4px; font-weight:600; color:var(--brand); text-decoration:none; padding-top:4px;">${linkText}</a>`;
+        }
+        // Otherwise show the display text as a normal link
+        else {
+            linkHtml = `🔗 <a href="${cleanUrl}" target="_blank" style="color:var(--brand);text-decoration:underline;text-underline-offset:2px;font-weight:500;">${linkText}</a>`;
+        }
+
+        mdLinks.push(linkHtml);
+        return `@@MD_LINK_${mdLinks.length - 1}@@`;
+    });
+
+    // ── Original formatting logic ──
+
+    // 1. Handle New Lines
+    let formatted = cleaned.replace(/\n/g, '<br>');
+
+    // 2. Auto-format Bullet Lists (e.g., "* Title: Desc" -> "• <b>Title</b>: Desc")
+    formatted = formatted.replace(/(<br>|^)[\*\-\•]\s+([^:\<]+):/g, '$1• <b>$2</b>:');
+
+    // 3. Upgrade basic bullets to Brand Emojis for Contact details
+    formatted = formatted.replace(/• (<b>(?:Phone|Mobile|Contact|Call)<\/b>:?)/gi, '📞 $1');
+    formatted = formatted.replace(/• (<b>(?:Email|Mail)<\/b>:?)/gi, '✉️ $1');
+    formatted = formatted.replace(/• (<b>(?:Office|Address|Location)<\/b>:?)/gi, '🏢 $1');
+    formatted = formatted.replace(/• (<b>(?:Website|Portal)<\/b>:?)/gi, '🌐 $1');
+
+    // 4. Handle Bold (**text**)
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-    // 3. Handle URLs (Process these BEFORE italics)
+    // 3. Handle URLs — show clean hostname instead of giant raw URL
     const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
     formatted = formatted.replace(urlRegex, (url) => {
         try {
             const cleanUrl = url.replace(/[.,!;]+$/, '');
-            const decodedUrl = decodeURIComponent(cleanUrl);
-            const displayText = decodedUrl.length > 60
-                ? decodedUrl.substring(0, 57) + '...'
-                : decodedUrl;
-
-            return `<a href="${cleanUrl}" target="_blank" class="text-[#027eb5] hover:underline font-medium break-all">🔗 ${displayText}</a>`;
+            let displayText;
+            try {
+                const parsed = new URL(cleanUrl);
+                const path = parsed.pathname.replace(/\/$/, '').split('/').pop() || '';
+                const host = parsed.hostname.replace('www.', '');
+                // Show "hostname/last-path-segment" for readability
+                displayText = path && path !== '' ? `${host}/…/${path}` : host;
+                if (displayText.length > 45) displayText = host;
+            } catch (e) {
+                displayText = cleanUrl.length > 50 ? cleanUrl.substring(0, 47) + '...' : cleanUrl;
+            }
+            return `<a href="${cleanUrl}" target="_blank" style="color:var(--brand);text-decoration:underline;text-underline-offset:2px;font-weight:500;word-break:break-all;">🔗 ${displayText}</a>`;
         } catch (e) {
-            return `<a href="${url}" target="_blank" class="text-[#027eb5] hover:underline font-medium">🔗 ${url}</a>`;
+            return `<a href="${url}" target="_blank" style="color:var(--brand);text-decoration:underline;">🔗 Link</a>`;
         }
     });
 
-    // 4. Handle Italics (_text_) - THE CRITICAL FIX
-    // This regex ensures the underscore is only converted if it's at the start 
-    // of a word or preceded by a space, preventing it from catching the URL ID.
+    // 4. Handle Italics (_text_)
     formatted = formatted.replace(/(^|\s)_(.*?)_(\s|$)/g, '$1<i>$2</i>$3');
+
+    // 5. Restore Markdown Links back from Placeholders
+    formatted = formatted.replace(/@@MD_LINK_(\d+)@@/g, (match, index) => {
+        return mdLinks[parseInt(index)] || match;
+    });
+
+    // 6. Restore HTML tags
+    formatted = formatted.replace(/@@HTML_(\d+)@@/g, (match, index) => {
+        return htmlTags[parseInt(index)] || match;
+    });
 
     return formatted;
 }
@@ -700,7 +833,7 @@ function toggleLanguage() {
     if (typeof renderMessages === 'function') {
         renderMessages();
     }
-    
+
     // Refresh dynamic footer context based on the current last message (if any)
     if (typeof detectAndUpdateContext === 'function') {
         const lastMsgObj = messages.length > 0 ? messages[messages.length - 1] : null;
