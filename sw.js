@@ -10,6 +10,7 @@ const CACHE_NAME = 'infobot-v2.0';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
+  './city.html',
   './settings.html',
   './feedback.html',
   './script.js',
@@ -28,7 +29,7 @@ const PRECACHE_ASSETS = [
 // Patterns that should ALWAYS go network-first (API calls)
 const API_PATTERNS = [
   'n8n-workflow-test',
-  'kurukshetra.gov.in/api',
+  '.gov.in/',
   'webhook'
 ];
 
@@ -131,9 +132,9 @@ async function networkFirst(request) {
       console.log('[SW] Serving from cache (offline):', request.url);
       return cached;
     }
-    // Last resort: if it's a page navigation, serve index.html
+    // Last resort: if it's a page navigation, serve city.html (the chatbot)
     if (request.destination === 'document') {
-      return caches.match('./index.html');
+      return caches.match('./city.html');
     }
     return new Response('', { status: 503, statusText: 'Offline' });
   }

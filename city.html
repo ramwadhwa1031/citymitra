@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+    <title>City Mitra — Kurukshetra Civic AI</title>
+    <meta name="description"
+        content="City Mitra is your AI-powered civic assistant for Kurukshetra district. Get instant info on tourism, officers, schemes, emergency contacts and more.">
+    <meta name="theme-color" content="#2D46B9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Serif+Devanagari:wght@500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="city-config.js?v=1.0"></script>
+    <script src="js/whatsapp-adapter.js"></script>
+    <style>
+        /* ══════════════════════════════════════════════════════
+           CITY MITRA — BRAND DESIGN SYSTEM
+           Professional Civic AI · Dynamic Footer · Rich Cards
+           ══════════════════════════════════════════════════════ */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            /* City Mitra Brand */
+            --brand: #2D46B9;
+            --brand-deep: #1A2E8A;
+            --brand-lt: #EEF1FF;
+            --brand-mid: #4560D4;
+            --brand-xlt: #F5F7FF;
+
+            /* City color — Kurukshetra saffron */
+            --city: #E07B2A;
+            --city-lt: #FFF4EB;
+            --city-deep: #B85E18;
+
+            /* Neutrals */
+            --ink: #111318;
+            --ink2: #2E333D;
+            --ink3: #6B7280;
+            --ink4: #9CA3AF;
+            --bg: #F7F8FA;
+            --surface: #FFFFFF;
+            --line: #E8EAED;
+            --line2: #F1F3F5;
+
+            /* Chat */
+            --ai-bg: #FFFFFF;
+            --user-bg: #2D46B9;
+
+            /* Safe area */
+            --sab: env(safe-area-inset-bottom, 0px);
+            --sat: env(safe-area-inset-top, 0px);
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: fixed;
+            font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
+            background: #C8CAD4;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(45, 70, 185, 0.2);
+            border-radius: 3px;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ══════════════════════════════════════
+           APP SHELL
+        ══════════════════════════════════════ */
+        .app-shell {
+            width: 100%;
+            max-width: 440px;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ══════════════════════════════════════
+           BRAND HEADER — City Mitra identity bar
+        ══════════════════════════════════════ */
+        /* Gradient animation */
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .brand-bar {
+            background: linear-gradient(135deg, var(--brand), #1C3399, #4338CA, var(--brand));
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
+            padding: 11px 18px 10px;
+            padding-top: calc(11px + var(--sat));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            position: relative;
+            overflow: visible;
+            z-index: 30;
+        }
+
+        /* Subtle diagonal texture */
+        .brand-bar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(-45deg,
+                    transparent,
+                    transparent 18px,
+                    rgba(255, 255, 255, 0.025) 18px,
+                    rgba(255, 255, 255, 0.025) 36px);
+            pointer-events: none;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(2.4);
+            transform-origin: center center;
+        }
+
+        .brand-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-wordmark {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.01em;
+            line-height: 1;
+        }
+
+        .brand-tagline {
+            font-size: 8.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 1.5px;
+        }
+
+        .brand-divider {
+            width: 1px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .city-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .city-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #7AE878;
+            box-shadow: 0 0 0 2px rgba(122, 232, 120, 0.3);
+            animation: cityPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes cityPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 2px rgba(122, 232, 120, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 5px rgba(122, 232, 120, 0.1);
+            }
+        }
+
+        .city-name-sm {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.01em;
+        }
+
+        .brand-right {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lang-btn {
+            height: 26px;
+            padding: 0 9px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            transition: background 0.15s;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hdr-icon-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #fff;
+            transition: background 0.15s;
+        }
+
+        .hdr-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hdr-icon-btn i {
+            color: #fff;
+        }
+
+        .menu-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-btn span {
+            width: 12px;
+            height: 1.5px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.85);
+            display: block;
+        }
+
+        .menu-btn span:last-child {
+            width: 8px;
+        }
+
+        /* Menu dropdown */
+        .menu-dropdown-wrap {
+            position: relative;
+        }
+
+        #menu-dropdown {
+            position: absolute;
+            right: 0;
+            top: 36px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12), 0 20px 48px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            z-index: 50;
+            width: 200px;
+            padding: 6px 0;
+        }
+
+        #menu-dropdown button,
+        #menu-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink2);
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        #menu-dropdown button:hover,
+        #menu-dropdown a:hover {
+            background: var(--brand-lt);
+        }
+
+        /* ══════════════════════════════════════
+           CITY HERO — Kurukshetra identity card
+        ══════════════════════════════════════ */
+        .city-hero {
+            background: var(--surface);
+            border-bottom: 1px solid var(--line);
+            padding: 18px 18px 16px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* City accent band on left edge */
+        .city-hero::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--city), var(--city-deep));
+        }
+
+        .city-hero-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            margin-bottom: 14px;
+        }
+
+        .city-seal {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--city-lt), #FFE8CC);
+            border: 1.5px solid rgba(224, 123, 42, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 26px;
+            box-shadow: 0 2px 10px rgba(224, 123, 42, 0.15);
+        }
+
+        .city-info {
+            flex: 1;
+        }
+
+        .city-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--brand);
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .city-label::before {
+            content: '';
+            width: 14px;
+            height: 1.5px;
+            background: var(--brand);
+            border-radius: 2px;
+        }
+
+        .city-title {
+            font-family: 'Lora', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+            margin-bottom: 3px;
+        }
+
+        .city-title em {
+            font-style: italic;
+            color: var(--city);
+        }
+
+        .city-deva {
+            font-family: 'Noto Serif Devanagari', serif;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--ink4);
+            letter-spacing: 0.03em;
+        }
+
+        .city-desc {
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: var(--ink3);
+            margin-top: 4px;
+        }
+
+        /* Topic tags */
+        .topic-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .ttag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 28px;
+            padding: 0 11px;
+            border-radius: 7px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .ttag:hover {
+            transform: translateY(-1px);
+            filter: brightness(0.95);
+        }
+
+        .ttag:active {
+            transform: scale(0.95);
+        }
+
+        .ttag-orange {
+            background: var(--city-lt);
+            color: var(--city-deep);
+            border-color: rgba(224, 123, 42, 0.2);
+        }
+
+        .ttag-blue {
+            background: var(--brand-lt);
+            color: var(--brand);
+            border-color: rgba(45, 70, 185, 0.15);
+        }
+
+        .ttag-green {
+            background: #ECFDF5;
+            color: #065F46;
+            border-color: rgba(6, 95, 70, 0.15);
+        }
+
+        .ttag-red {
+            background: #FFF5F5;
+            color: #991B1B;
+            border-color: rgba(153, 27, 27, 0.12);
+        }
+
+        .ttag-purple {
+            background: #FAF5FF;
+            color: #6B21A8;
+            border-color: rgba(107, 33, 168, 0.12);
+        }
+
+        /* ══════════════════════════════════════
+           CHAT AREA
+        ══════════════════════════════════════ */
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: var(--bg);
+            padding: 18px 16px 10px;
+            scroll-behavior: smooth;
+            position: relative;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        #chat-container::-webkit-scrollbar {
+            width: 0;
+        }
+
+        /* Warm gradient at top of chat */
+        #chat-container::before {
+            content: '';
+            position: sticky;
+            top: 0;
+            display: block;
+            height: 20px;
+            margin: -18px -16px 0;
+            background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Date separator */
+        .dsep {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .dsep span {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--ink4);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 3px 12px;
+        }
+
+        /* ── AI message row ── */
+        .ai-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 9px;
+            margin-bottom: 3px;
+        }
+
+        .ai-row+.ai-row {
+            margin-top: 1px;
+        }
+
+        .ai-row.spaced {
+            margin-top: 12px;
+        }
+
+        .av {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            align-self: flex-end;
+            box-shadow: 0 2px 8px rgba(45, 70, 185, 0.25);
+        }
+
+        .av svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.9);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ai-content {
+            flex: 1;
+            min-width: 0;
+            max-width: calc(100% - 42px);
+        }
+
+        .ai-sender {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--brand);
+            margin-bottom: 4px;
+            padding-left: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .powered-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 8.5px;
+            font-weight: 600;
+            color: var(--ink4);
+            letter-spacing: 0.04em;
+            text-transform: none;
+            background: var(--line2);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 1px 5px;
+        }
+
+        .bubble {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 3px 16px 16px 16px;
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--ink2);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 3px 10px rgba(0, 0, 0, 0.04);
+            word-break: break-word;
+        }
+
+        .bubble strong,
+        .bubble b {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .bubble em,
+        .bubble i {
+            font-style: italic;
+            color: var(--city);
+            font-family: 'Lora', serif;
+        }
+
+        .bubble a {
+            color: var(--brand);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            font-weight: 500;
+        }
+
+        .bubble a:hover {
+            color: var(--brand-deep);
+        }
+
+        /* Bubble action bar */
+        .bubble-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid var(--line2);
+        }
+
+        .bubble-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink4);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .bubble-action-btn:hover {
+            background: var(--brand-lt);
+            color: var(--brand);
+            border-color: rgba(45, 70, 185, 0.2);
+        }
+
+        .bubble-action-btn i {
+            width: 12px;
+            height: 12px;
+        }
+
+        .ai-time {
+            font-size: 10px;
+            color: var(--ink4);
+            margin-top: 4px;
+            padding-left: 2px;
+        }
+
+        /* Quick chips inside bubbles */
+        .qchips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .qc {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 30px;
+            padding: 0 11px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--brand-xlt);
+            color: var(--brand);
+            border: 1.5px solid rgba(45, 70, 185, 0.14);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+        }
+
+        .qc:hover {
+            background: var(--brand);
+            color: #fff;
+            border-color: var(--brand);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(45, 70, 185, 0.25);
+        }
+
+        .qc:active {
+            transform: scale(0.95);
+        }
+
+        /* Info cards */
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .icard {
+            background: var(--bg);
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.18s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icard::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            border-radius: 12px 12px 0 0;
+            opacity: 0;
+            transition: opacity 0.18s;
+        }
+
+        .icard:hover {
+            background: var(--surface);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .icard:hover::after {
+            opacity: 1;
+        }
+
+        .ic-o::after {
+            background: linear-gradient(90deg, var(--city), var(--city-lt));
+        }
+
+        .ic-b::after {
+            background: linear-gradient(90deg, var(--brand), var(--brand-lt));
+        }
+
+        .ic-g::after {
+            background: linear-gradient(90deg, #059669, #ECFDF5);
+        }
+
+        .ic-r::after {
+            background: linear-gradient(90deg, #DC2626, #FFF5F5);
+        }
+
+        .icard-icon {
+            font-size: 22px;
+            margin-bottom: 7px;
+            display: block;
+        }
+
+        .icard-t {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.3;
+            margin-bottom: 2px;
+        }
+
+        .icard-s {
+            font-size: 10.5px;
+            color: var(--ink3);
+            font-weight: 400;
+        }
+
+        /* Stat grid */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin-top: 12px;
+        }
+
+        .stat {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+        }
+
+        .stat-n {
+            font-family: 'Lora', serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--brand);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-l {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--ink4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 3px;
+            display: block;
+        }
+
+        /* ── User message ── */
+        .user-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 3px;
+            margin-top: 12px;
+        }
+
+        .ubub {
+            background: var(--user-bg);
+            border-radius: 16px 4px 16px 16px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            max-width: 80%;
+            line-height: 1.65;
+            word-break: break-word;
+            box-shadow: 0 2px 8px rgba(45, 70, 185, 0.25), 0 5px 20px rgba(45, 70, 185, 0.12);
+        }
+
+        .umeta {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .umeta svg {
+            width: 14px;
+            height: 9px;
+        }
+
+        /* Typing */
+        .typing-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 9px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .tbub {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 3px 16px 16px 16px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .td {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #D1D5DB;
+        }
+
+        .td:nth-child(1) {
+            animation: tdot 1.2s 0.0s ease-in-out infinite;
+        }
+
+        .td:nth-child(2) {
+            animation: tdot 1.2s 0.18s ease-in-out infinite;
+        }
+
+        .td:nth-child(3) {
+            animation: tdot 1.2s 0.36s ease-in-out infinite;
+        }
+
+        @keyframes tdot {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                background: #D1D5DB;
+            }
+
+            50% {
+                transform: translateY(-5px);
+                background: var(--brand);
+            }
+        }
+
+        /* Entry animation */
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .new {
+            animation: msgIn 0.32s cubic-bezier(0.34, 1.3, 0.64, 1) both;
+        }
+
+        /* WhatsApp share button in bubbles */
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        .share-btn:hover {
+            background: #20BA5A;
+            transform: translateY(-1px);
+        }
+
+        .share-btn i {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* ══════════════════════════════════════
+           INPUT ZONE — with dynamic suggestions
+        ══════════════════════════════════════ */
+        .input-zone {
+            flex-shrink: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--line);
+            padding-bottom: calc(0px + var(--sab));
+            z-index: 20;
+            position: relative;
+        }
+
+        /* Context suggestions - DYNAMIC */
+        .ctx {
+            display: flex;
+            gap: 6px;
+            padding: 10px 16px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .ctx::-webkit-scrollbar {
+            display: none;
+        }
+
+        .csug {
+            flex-shrink: 0;
+            height: 28px;
+            padding: 0 10px;
+            border-radius: 7px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--ink2);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            transition: all 0.15s;
+        }
+
+        .csug:hover {
+            background: var(--brand-lt);
+            border-color: rgba(45, 70, 185, 0.2);
+            color: var(--brand);
+        }
+
+        .csug:active {
+            transform: scale(0.95);
+        }
+
+        /* Autocomplete dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 16px;
+            right: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--line);
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+            z-index: 30;
+        }
+
+        .autocomplete-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid var(--line2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ink);
+            font-size: 13px;
+        }
+
+        .autocomplete-item:hover {
+            background: var(--brand-lt);
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-highlight {
+            color: var(--brand);
+            font-weight: 600;
+        }
+
+        /* Input row */
+        .inp-wrap {
+            display: flex;
+            align-items: flex-end;
+            gap: 9px;
+            padding: 9px 16px 14px;
+        }
+
+        .inp-inner {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border: 1.5px solid var(--line);
+            border-radius: 16px;
+            padding: 10px 14px;
+            transition: all 0.2s;
+        }
+
+        .inp-inner.on {
+            border-color: var(--brand);
+            background: var(--surface);
+            box-shadow: 0 0 0 3px rgba(45, 70, 185, 0.1);
+        }
+
+        .inp-field {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--ink);
+            resize: none;
+            max-height: 90px;
+            min-height: 20px;
+            line-height: 1.5;
+        }
+
+        .inp-field::placeholder {
+            color: var(--ink4);
+        }
+
+        .mic-btn {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.35;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            padding: 0;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .mic-btn:hover {
+            opacity: 0.7;
+        }
+
+        .mic-btn i {
+            width: 16px;
+            height: 16px;
+            color: var(--ink);
+        }
+
+        .mic-btn.recording {
+            opacity: 1;
+            background: #ef4444;
+            animation: pulse-red 1.5s ease-in-out infinite;
+        }
+
+        .mic-btn.recording i {
+            color: white;
+        }
+
+        .mic-btn.listening {
+            opacity: 1;
+            background: var(--brand);
+            animation: pulse-brand 1s ease-in-out infinite;
+        }
+
+        .mic-btn.listening i {
+            color: white;
+        }
+
+        @keyframes pulse-red {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+            }
+        }
+
+        @keyframes pulse-brand {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(45, 70, 185, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(45, 70, 185, 0);
+            }
+        }
+
+        .voice-indicator {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .voice-indicator.show {
+            opacity: 1;
+        }
+
+        .voice-indicator::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--ink);
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--brand);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(45, 70, 185, 0.35);
+            transition: all 0.15s;
+        }
+
+        .send-btn:hover {
+            background: var(--brand-mid);
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(45, 70, 185, 0.45);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .send-btn i {
+            width: 18px;
+            height: 18px;
+            color: #fff;
+        }
+
+        /* Character counter */
+        .char-counter {
+            font-size: 9px;
+            color: var(--ink4);
+            text-align: right;
+            padding: 0 16px 2px;
+            height: 0;
+            overflow: hidden;
+            transition: height 0.2s, opacity 0.2s;
+            opacity: 0;
+        }
+
+        .char-counter.show {
+            height: 14px;
+            opacity: 1;
+        }
+
+        /* ══════════════════════════════════════
+           CITY MITRA FOOTER BRAND STRIP
+        ══════════════════════════════════════ */
+        .brand-footer {
+            background: var(--brand-xlt);
+            border-top: 1px solid rgba(45, 70, 185, 0.1);
+            padding: 7px 16px;
+            padding-bottom: calc(7px + var(--sab));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .bf-text {
+            font-size: 10.5px;
+            font-weight: 500;
+            color: var(--ink3);
+            letter-spacing: 0.01em;
+        }
+
+        .bf-brand {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--brand);
+            letter-spacing: -0.01em;
+        }
+
+        .bf-dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--brand);
+            opacity: 0.4;
+        }
+
+        /* Hidden utility */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ══════════════════════════════════════
+           SAFARI iOS — Keyboard Fix
+        ══════════════════════════════════════ */
+        @supports (-webkit-touch-callout: none) {
+
+            html,
+            body {
+                overscroll-behavior: none;
+                -webkit-overflow-scrolling: auto;
+            }
+
+            .inp-field {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Desktop responsive */
+        @media (min-width: 768px) {
+            body {
+                background: linear-gradient(145deg, #E8EAED 0%, #C8CAD4 50%, #D4D6DD 100%);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .app-shell {
+                max-width: 400px;
+                height: 92vh;
+                border-radius: 18px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 30px 60px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-shell" id="appShell">
+
+        <!-- ════ BRAND BAR ════ -->
+        <div class="brand-bar">
+            <div class="brand-left">
+                <div class="brand-logo">
+                    <div class="brand-icon">
+                        <img src="./icons/city-mitra-bot.png" alt="City Mitra">
+                    </div>
+                    <div class="brand-wordmark">
+                        <div class="brand-name" id="header-title">City Mitra</div>
+                        <div class="brand-tagline" id="header-subtitle">Civic AI Platform</div>
+                    </div>
+                </div>
+                <div class="brand-divider"></div>
+                <div class="city-badge">
+                    <div class="city-dot"></div>
+                    <div class="city-name-sm" id="city-name-display">Kurukshetra</div>
+                </div>
+            </div>
+            <div class="brand-right">
+                <div class="lang-btn" onclick="toggleLanguage()">
+                    <span id="lang-flag">🇬🇧</span>
+                    <span id="lang-code">EN</span>
+                </div>
+                <div class="menu-dropdown-wrap">
+                    <div class="menu-btn" onclick="event.stopPropagation(); toggleMenu()" title="Menu">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div id="menu-dropdown" class="hidden" onclick="event.stopPropagation()">
+                        <button onclick="clearChat()">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            <span id="menu-clear">Clear chat</span>
+                        </button>
+                        <button onclick="document.getElementById('menu-dropdown').classList.add('hidden'); window.location.href='settings.html'">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                            <span>Settings</span>
+                        </button>
+                        <button onclick="shareApp()">
+                            <i data-lucide="share-2" class="w-4 h-4"></i>
+                            <span>Share App</span>
+                        </button>
+                        <button id="visit-website-btn" onclick="window.open(CITY_CONFIG.govWebsite, '_blank')">
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                            <span id="menu-visit">Visit Website</span>
+                        </button>
+                        <a href="feedback.html" target="_blank">
+                            <i data-lucide="message-square" class="w-4 h-4"></i>
+                            <span id="menu-feedback-text">Give Feedback</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ BRAND HERO (INITIAL POST) ════ -->
+        <div class="city-hero" id="welcome-message">
+            <div class="city-hero-top">
+                <div class="city-seal" style="overflow: hidden; background: #fff; border: none;">
+                    <img src="./icons/city-mitra-bot.png" alt="City Mitra"
+                        style="width: 100%; height: 100%; object-fit: cover; transform: scale(2.4); transform-origin: center center;">
+                </div>
+                <div class="city-info">
+                    <div class="city-label" id="official-info-title">— YOUR CITY ASSISTANT</div>
+                    <div class="city-title" id="welcome-title">Kurukshetra<br><em id="welcome-subtitle">Civic Guide</em>
+                    </div>
+                    <div class="city-deva" id="welcome-desc" style="margin-top:6px;">I'm <strong>City Mitra</strong>, your intelligent companion for Kurukshetra district. Explore heritage, connect with officials, access services — all in one place.</div>
+                </div>
+            </div>
+            <div class="topic-tags">
+                <div class="ttag" style="background:#FFF3E0;color:#E65100;border-color:#FFE0B2"
+                    onclick="handleChipClick('Tourist places in ' + CITY_CONFIG.name.en)">
+                    <span id="welcome-tourist">🏛️ Heritage</span>
+                </div>
+                <div class="ttag" style="background:#E8EAF6;color:#283593;border-color:#C5CAE9"
+                    onclick="handleChipClick('Who is the DC of ' + CITY_CONFIG.name.en + '?')">
+                    <span id="welcome-officers">👤 Officers</span>
+                </div>
+                <div class="ttag" style="background:#FFEBEE;color:#C62828;border-color:#FFCDD2"
+                    onclick="handleChipClick('Emergency contacts in ' + CITY_CONFIG.name.en)">
+                    <span id="welcome-emergency">🚨 Emergency</span>
+                </div>
+                <div class="ttag" style="background:#E8F5E9;color:#2E7D32;border-color:#C8E6C9"
+                    onclick="handleChipClick('Government schemes in ' + CITY_CONFIG.name.en)">
+                    <span id="welcome-services">📋 Schemes</span>
+                </div>
+                <div class="ttag" style="background:#F3E5F5;color:#6A1B9A;border-color:#E1BEE7"
+                    onclick="handleChipClick('District information ' + CITY_CONFIG.name.en)">
+                    <span id="welcome-district">📊 District</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ CHAT CONTAINER ════ -->
+        <div id="chat-container">
+            <div id="messages-list"></div>
+            <div id="loading-indicator" class="hidden">
+                <div class="typing-row new">
+                    <div class="av">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                        </svg>
+                    </div>
+                    <div class="tbub">
+                        <div class="td"></div>
+                        <div class="td"></div>
+                        <div class="td"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden: chips-related elements (JS compat) -->
+        <div id="chips-container" class="hidden"></div>
+        <div id="chips-title" class="hidden"></div>
+        <div id="indicators" class="hidden"></div>
+        <div id="chips-grid" class="hidden"></div>
+        <div id="toggle-chips-btn" style="display:none !important;">
+            <span id="suggestions-btn-text"></span>
+        </div>
+
+        <!-- ════ INPUT ZONE ════ -->
+        <div class="input-zone" id="input-bar">
+            <!-- Dynamic context-aware suggestions -->
+            <div class="ctx hide-scrollbar" id="dynamic-suggestions">
+                <div class="csug" onclick="handleChipClick('Famous temples in ' + CITY_CONFIG.name.en)">🛕 Temples</div>
+                <div class="csug" onclick="handleChipClick('How to contact the DC office?')">📞 DC Office</div>
+                <div class="csug" onclick="handleChipClick('Government schemes for farmers')">🌾 Schemes</div>
+                <div class="csug" onclick="handleChipClick('Emergency helpline numbers')">🚑 Helplines</div>
+                <div class="csug" onclick="handleChipClick('Best time to visit ' + CITY_CONFIG.name.en)">🗓️ Best Time</div>
+            </div>
+            <div id="autocomplete-dropdown" class="autocomplete-dropdown hidden"></div>
+            <div class="inp-wrap">
+                <div class="inp-inner" id="inpBox">
+                    <input type="text" class="inp-field" id="user-input" placeholder="Ask anything about Kurukshetra…"
+                        onkeypress="handleKeyPress(event)" oninput="handleAutocomplete(event); updateCharCount();"
+                        autocomplete="off" maxlength="500">
+                    <button class="mic-btn" id="mic-btn" title="Voice Input">
+                        <i data-lucide="audio-lines"></i>
+                        <div class="voice-indicator" id="voice-indicator"></div>
+                    </button>
+                </div>
+                <button class="send-btn" onclick="sendMessage()">
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+            <div class="char-counter" id="char-counter">0 / 500</div>
+        </div>
+
+        <!-- ════ BRAND FOOTER ════ -->
+        <div class="brand-footer">
+            <span class="bf-text">Powered by</span>
+            <a href="https://citymitra.app" target="_blank" class="bf-brand" style="text-decoration:none;">City Mitra</a>
+            <div class="bf-dot"></div>
+            <span class="bf-text">Civic AI for Every Indian City</span>
+        </div>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="script.js?v=9.0"></script>
+    <script src="script_mic.js?v=9.0"></script>
+    <script src="script_listen.js?v=9.0"></script>
+    <script src="settings-integration.js?v=9.0"></script>
+
+    <!-- ═══════════════════════════════════════════════════
+         INPUT FOCUS EFFECTS
+         ═══════════════════════════════════════════════════ -->
+    <script>
+        (function () {
+            const inp = document.getElementById('user-input');
+            const box = document.getElementById('inpBox');
+            if (inp && box) {
+                inp.addEventListener('focus', () => box.classList.add('on'));
+                inp.addEventListener('blur', () => box.classList.remove('on'));
+            }
+        })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════
+         SETTINGS LOADER
+         ═══════════════════════════════════════════════════ -->
+    <script>
+        console.log('💪 ULTRA-STRONG Settings Loader Started');
+
+        window.addEventListener('DOMContentLoaded', function () {
+            console.log('📄 Page loaded, applying settings with MAXIMUM FORCE...');
+
+            const saved = localStorage.getItem('infobotSettings');
+            if (!saved) { console.log('⚠️ No saved settings found'); return; }
+
+            const settings = JSON.parse(saved);
+            console.log('✅ Settings found:', settings);
+
+            const ultraStyle = document.createElement('style');
+            ultraStyle.id = 'ultra-settings-override';
+            let css = '';
+
+            // 1. DARK MODE
+            if (settings.theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                css += `
+                    body.dark-mode { background: #0b141a !important; }
+                    body.dark-mode .app-shell { background: #111318 !important; }
+                    body.dark-mode .brand-bar { background: #111318 !important; }
+                    body.dark-mode .city-hero { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode #chat-container { background: #0b141a !important; }
+                    body.dark-mode .bubble { background: #1f2c34 !important; border-color: #2E333D !important; color: #e9edef !important; }
+                    body.dark-mode .ubub { background: #1A2E8A !important; }
+                    body.dark-mode .input-zone { background: #111318 !important; border-color: #2E333D !important; }
+                    body.dark-mode .inp-inner { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode .inp-field { color: #e9edef !important; }
+                    body.dark-mode .csug { background: #1A1D24 !important; border-color: #2E333D !important; color: #e9edef !important; }
+                    body.dark-mode .brand-footer { background: #111318 !important; border-color: #2E333D !important; }
+                    body.dark-mode .dsep span { background: #1A1D24 !important; border-color: #2E333D !important; color: #9CA3AF !important; }
+                    body.dark-mode .icard { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode .icard-t { color: #e9edef !important; }
+                    body.dark-mode .stat { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode .qc { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode .tbub { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode .city-title, body.dark-mode .icard-t, body.dark-mode .bubble strong, body.dark-mode .bubble b { color: #e9edef !important; }
+                    body.dark-mode .city-deva, body.dark-mode .city-label, body.dark-mode .ai-sender, body.dark-mode .ink2 { color: #9CA3AF !important; }
+                    body.dark-mode .ttag { opacity: 0.9; }
+                    body.dark-mode #menu-dropdown { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode #menu-dropdown button, body.dark-mode #menu-dropdown a { color: #e9edef !important; }
+                    body.dark-mode .autocomplete-dropdown { background: #1A1D24 !important; border-color: #2E333D !important; }
+                    body.dark-mode .autocomplete-item { color: #e9edef !important; border-color: #2E333D !important; }
+                `;
+            }
+
+            // 2. FONT SIZE
+            if (settings.fontSize && settings.fontSize !== 'medium') {
+                const sizes = { small: '12px', medium: '14px', large: '16px', xlarge: '18px' };
+                const fs = sizes[settings.fontSize];
+                css += `.bubble, .bubble * { font-size: ${fs} !important; }`;
+            }
+
+            // 3. ACCENT COLOR
+            if (settings.accentColor && settings.accentColor !== '#008069') {
+                const accent = settings.accentColor;
+                css += `
+                    :root { --brand: ${accent} !important; }
+                    .brand-bar { background: ${accent} !important; }
+                    .av { background: ${accent} !important; }
+                    .send-btn { background: ${accent} !important; }
+                `;
+            }
+
+            // 7. ANIMATIONS
+            if (settings.animations === false) {
+                css += `*, *::before, *::after { transition: none !important; animation: none !important; }`;
+            }
+
+            // 8. COMPACT
+            if (settings.compact) {
+                css += `.bubble { padding: 10px 12px !important; } .ai-row { margin-bottom: 2px !important; }`;
+            }
+
+            // 9. TIMESTAMPS
+            if (settings.timestamps === false) {
+                css += `.ai-time, .umeta { display: none !important; }`;
+            }
+
+            ultraStyle.textContent = css;
+            document.head.appendChild(ultraStyle);
+            console.log('🎉 Settings applied!');
+        });
+
+        function lightenColor(color, percent) {
+            const num = parseInt(color.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function darkenColor(color, percent) {
+            const num = parseInt(color.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.max(0, (num >> 16) - amt);
+            const G = Math.max(0, (num >> 8 & 0x00FF) - amt);
+            const B = Math.max(0, (num & 0x0000FF) - amt);
+            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════
+         CHARACTER COUNTER
+         ═══════════════════════════════════════════════════ -->
+    <script>
+        function updateCharCount() {
+            const input = document.getElementById('user-input');
+            const counter = document.getElementById('char-counter');
+            if (input && counter) {
+                const len = input.value.length;
+                counter.textContent = len + ' / 500';
+                counter.classList.toggle('show', len > 0);
+            }
+        }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════
+         DYNAMIC SUGGESTIONS — Context-aware updates
+         This is the KEY replication from city-mitra-brand.html
+         The footer suggestions change dynamically based on
+         the last bot response topic.
+         ═══════════════════════════════════════════════════ -->
+    <script>
+        function updateDynamicSuggestions(suggestions) {
+            const container = document.getElementById('dynamic-suggestions');
+            if (!container || !suggestions || !suggestions.length) return;
+            container.innerHTML = '';
+            suggestions.forEach(function (s) {
+                const d = document.createElement('div');
+                d.className = 'csug';
+                d.textContent = s;
+                d.onclick = function () { handleChipClick(s); };
+                container.appendChild(d);
+            });
+        }
+
+        /**
+         * CONTEXT-AWARE SUGGESTION ENGINE (Bilingual)
+         * Analyzes the bot's last response and updates the footer
+         * suggestions to be contextually relevant in the correct language.
+         */
+        function detectAndUpdateContext(botResponse) {
+            const isHi = (typeof currentLanguage !== 'undefined' && currentLanguage === 'hi');
+            let ctx = [];
+
+            if (!botResponse) {
+                // Default options if no response yet
+                ctx = isHi
+                    ? ['🏛️ पर्यटन स्थल', '👤 DC कौन हैं?', '🚨 आपातकालीन नंबर', '📊 जिला जानकारी', '📋 सरकारी योजनाएं']
+                    : ['🏛️ Tourist places', '👤 DC contact', '🚨 Helplines', '📊 District info', '📋 Schemes'];
+                updateDynamicSuggestions(ctx);
+                return;
+            }
+
+            // Combine bot response with last user message for better context
+            let fullText = botResponse;
+            if (typeof messages !== 'undefined' && Array.isArray(messages)) {
+                for (let i = messages.length - 1; i >= 0; i--) {
+                    if (messages[i].role === 'user') {
+                        // User's query is highly weighted (added 3 times) to ensure user intent drives suggestions
+                        fullText = messages[i].content + " " + messages[i].content + " " + messages[i].content + " " + fullText;
+                        break;
+                    }
+                }
+            }
+
+            const q = fullText.toLowerCase();
+
+            // Calculate keyword matches for each category through scoring
+            const scores = {
+                tourist: (q.match(/\b(tourist|tourism|heritage|temple|sarovar|jyotisar|mandir|पर्यटन|मंदिर|विरासत|तीर्थ)\b/gi) || []).length,
+                emergency: (q.match(/\b(emergency|helpline|ambulance|police|fire|accident|112|108|100|hospital|आपातकालीन|पुलिस|अस्पताल)\b/gi) || []).length,
+                admin: (q.match(/\b(dc|commissioner|collector|officer|official|department|admin|administration|tehsil|sdm|अधिकारी|विभाग|प्रशासन)\b/gi) || []).length,
+                district: (q.match(/\b(population|stat|census|data|fact|area|info|district|demographic|जनसंख्या|आंकड़े|जिला)\b/gi) || []).length,
+                scheme: (q.match(/\b(scheme|yojna|welfare|benefit|farmer|kisan|housing|ayushman|subsidy|scholarship|योजना|कल्याण|किसान|लाभ)\b/gi) || []).length,
+                weather: (q.match(/\b(best time|season|weather|month|trip|plan|मौसम|यात्रा)\b/gi) || []).length,
+                gita: (q.match(/\b(gita|geeta|bhagavad|bhagwad|verse|chapter|krishna|arjun|karma|dharma|moksha|गीता|कृष्ण|कर्म)\b/gi) || []).length
+            };
+
+            let maxScore = 0;
+            let bestCategory = null;
+            for (const cat in scores) {
+                if (scores[cat] > maxScore) {
+                    maxScore = scores[cat];
+                    bestCategory = cat;
+                }
+            }
+
+            if (bestCategory === 'tourist') {
+                ctx = isHi
+                    ? ['🕐 मंदिर का समय', '🗺️ दिशा-निर्देश', '🏨 ठहरने के विकल्प', '📸 फोटो टिप्स', '🎟️ प्रवेश शुल्क']
+                    : ['🕐 Temple timings', '🗺️ Directions', '🏨 Stay options', '📸 Photo tips', '🎟️ Entry fees'];
+            } else if (bestCategory === 'emergency') {
+                ctx = isHi
+                    ? ['🏥 अस्पताल', '👮 पुलिस स्टेशन', '🩸 ब्लड बैंक', '🚒 फायर स्टेशन', '🩺 डॉक्टर']
+                    : ['🏥 Hospitals', '👮 Police stations', '🩸 Blood bank', '🚒 Fire stations', '🩺 Doctors'];
+            } else if (bestCategory === 'admin') {
+                ctx = isHi
+                    ? ['📋 सभी अधिकारी', '🏢 सभी विभाग', '📝 शिकायत दर्ज करें', '🔍 RTI अनुरोध', '📞 संपर्क नंबर']
+                    : ['📋 All officers', '🏢 All departments', '📝 File complaint', '🔍 RTI request', '📞 Numbers'];
+            } else if (bestCategory === 'district') {
+                ctx = isHi
+                    ? ['📈 विकास के आंकड़े', '🌾 कृषि', '🏫 शिक्षा', '🏥 स्वास्थ्य देखभाल', '🏭 उद्योग']
+                    : ['📈 Growth data', '🌾 Agriculture', '🏫 Education', '🏥 Healthcare', '🏭 Industry'];
+            } else if (bestCategory === 'scheme') {
+                ctx = isHi
+                    ? ['🌾 पीएम-किसान', '🏠 आवास योजना', '👩 महिला कल्याण', '🎓 छात्रवृत्ति', '📝 आवेदन कैसे करें']
+                    : ['🌾 PM-KISAN', '🏠 Housing scheme', '👩 Women welfare', '🎓 Scholarships', '📝 How to apply'];
+            } else if (bestCategory === 'weather') {
+                ctx = isHi
+                    ? ['🎪 गीता जयंती', '🌡️ मौसम', '🚂 ट्रेनें', '✈️ उड़ानें', '🏨 होटल']
+                    : ['🎪 Geeta Jayanti', '🌡️ Weather', '🚂 Trains', '✈️ Flights', '🏨 Hotels'];
+            } else if (bestCategory === 'gita') {
+                ctx = isHi
+                    ? ['📖 गीता के अध्याय', '🙏 कर्म योग', '🧘 ध्यान', '⚔️ अर्जुन की दुविधा', '🕉️ मुख्य शिक्षाएं']
+                    : ['📖 Gita chapters', '🙏 Karma Yoga', '🧘 Meditation', '⚔️ Arjuna\'s dilemma', '🕉️ Key teachings'];
+            } else {
+                ctx = isHi
+                    ? ['🏛️ पर्यटन स्थल', '👤 DC कौन हैं?', '🚨 आपातकालीन नंबर', '📊 जिला जानकारी', '📋 सरकारी योजनाएं']
+                    : ['🏛️ Tourist places', '👤 DC contact', '🚨 Helplines', '📊 District info', '📋 Schemes'];
+            }
+
+            updateDynamicSuggestions(ctx);
+        }
+    </script>
+
+    <!-- renderMessages is handled entirely by script.js (brand version) -->
+
+    <!-- Welcome is now handled inline by renderMessages() in script.js -->
+
+    <!-- ═══════════════════════════════════════════════════
+         SAFARI iOS — Bulletproof Keyboard Viewport Fix
+         ═══════════════════════════════════════════════════ -->
+    <script>
+        (function () {
+            'use strict';
+            if (!('ontouchstart' in window)) return;
+
+            const appShell = document.getElementById('appShell');
+            const inputBar = document.getElementById('input-bar');
+            const chatContainer = document.getElementById('chat-container');
+            const userInput = document.getElementById('user-input');
+
+            if (!appShell || !inputBar || !chatContainer || !userInput) return;
+
+            if (window.visualViewport) {
+                let isKeyboardOpen = false;
+                let rafPending = false;
+
+                function adjustForKeyboard() {
+                    if (rafPending) return;
+                    rafPending = true;
+
+                    requestAnimationFrame(function () {
+                        rafPending = false;
+                        const vv = window.visualViewport;
+                        const currentHeight = vv.height;
+                        const fullHeight = window.innerHeight;
+                        const keyboardHeight = fullHeight - currentHeight - vv.offsetTop;
+
+                        if (keyboardHeight > 80) {
+                            isKeyboardOpen = true;
+                            appShell.style.height = currentHeight + 'px';
+                            requestAnimationFrame(function () {
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            });
+                        } else {
+                            if (isKeyboardOpen) {
+                                isKeyboardOpen = false;
+                                appShell.style.height = '';
+                            }
+                        }
+                        window.scrollTo(0, 0);
+                        document.documentElement.scrollTop = 0;
+                        document.body.scrollTop = 0;
+                    });
+                }
+
+                window.visualViewport.addEventListener('resize', adjustForKeyboard);
+                window.visualViewport.addEventListener('scroll', function () {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                });
+
+                userInput.addEventListener('focus', function () {
+                    setTimeout(function () {
+                        adjustForKeyboard();
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }, 350);
+                });
+
+                userInput.addEventListener('blur', function () {
+                    setTimeout(function () {
+                        appShell.style.height = '';
+                        window.scrollTo(0, 0);
+                    }, 100);
+                });
+            }
+
+            document.addEventListener('touchmove', function (e) {
+                let target = e.target;
+                while (target && target !== document) {
+                    if (target === chatContainer || target.classList.contains('ctx') ||
+                        target.classList.contains('autocomplete-dropdown')) {
+                        return;
+                    }
+                    target = target.parentNode;
+                }
+                e.preventDefault();
+            }, { passive: false });
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY !== 0) window.scrollTo(0, 0);
+            });
+
+            appShell.addEventListener('touchstart', function () {
+                if (chatContainer.scrollTop <= 0) chatContainer.scrollTop = 1;
+                if (chatContainer.scrollTop + chatContainer.clientHeight >= chatContainer.scrollHeight) {
+                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight - 1;
+                }
+            }, { passive: true });
+        })();
+    </script>
+
+    <!-- Service Worker — Smart Update-Aware Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('✅ SW registered', reg.scope);
+
+                    // Check for updates every 60 seconds
+                    setInterval(() => {
+                        reg.update().catch(() => { });
+                    }, 60 * 1000);
+
+                    // When a new SW is found and waiting
+                    reg.addEventListener('updatefound', () => {
+                        const newWorker = reg.installing;
+                        console.log('🔄 New SW found, state:', newWorker.state);
+
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New SW is ready — tell it to activate immediately
+                                console.log('⚡ New SW installed — activating...');
+                                newWorker.postMessage('SKIP_WAITING');
+                            }
+                        });
+                    });
+                }).catch(err => console.error('❌ SW registration failed', err));
+
+                // When the controlling SW changes (new version activated),
+                // reload the page to pick up fresh assets
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (!refreshing) {
+                        refreshing = true;
+                        console.log('🔄 New SW active — reloading for fresh content...');
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

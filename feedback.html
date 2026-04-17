@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="city-config.js?v=1.0"></script>
     <meta name="theme-color" content="#4338CA">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="manifest" href="./manifest.json">
@@ -317,9 +318,9 @@
                     <input type="checkbox" name="consent" required 
                         class="mt-1 w-4 h-4 text-[#008069] rounded focus:ring-2 focus:ring-[#008069]">
                     <span class="text-xs text-gray-700">
-                        I consent to Kurukshetra District Administration using this 
+                        I consent to <span id="consent-city-name">District Administration</span> using this 
                         <strong>anonymous feedback</strong> to improve services. 
-                        <a href="https://kurukshetra.gov.in/privacy-policy/" class="text-[#008069] underline hover:text-[#00a884]" target="_blank">Privacy Policy</a>
+                        <a id="privacy-policy-link" href="#" class="text-[#008069] underline hover:text-[#00a884]" target="_blank">Privacy Policy</a>
                     </span>
                 </label>
             </div>
@@ -373,6 +374,14 @@
     <!-- Scripts -->
     <script>
         lucide.createIcons();
+
+        // Apply city config to consent text and privacy link
+        if (typeof CITY_CONFIG !== 'undefined') {
+            const consentEl = document.getElementById('consent-city-name');
+            if (consentEl) consentEl.textContent = CITY_CONFIG.name.en + ' District Administration';
+            const privacyLink = document.getElementById('privacy-policy-link');
+            if (privacyLink) privacyLink.href = CITY_CONFIG.privacyPolicy || '#';
+        }
         
         // Toggle email field
         function toggleEmailField() {
@@ -415,7 +424,8 @@
             data.source = 'InfoBot Feedback';
             
             try {
-                const response = await fetch('https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed', {
+                const webhookUrl = (typeof CITY_CONFIG !== 'undefined' && CITY_CONFIG.webhooks) ? CITY_CONFIG.webhooks.feedback : 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed';
+                const response = await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data),

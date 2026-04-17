@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="city-config.js?v=1.0"></script>
     <meta name="theme-color" content="#4338CA">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="manifest" href="./manifest.json">
@@ -375,12 +376,18 @@
 
     <!-- Footer -->
     <div class="text-center py-8 text-sm text-gray-500">
-        <p>© 2026 District Administration Kurukshetra</p>
+        <p>&copy; 2026 District Administration <span id="settings-city-name"></span></p>
     </div>
 
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Apply city name from config
+        if (typeof CITY_CONFIG !== 'undefined') {
+            const el = document.getElementById('settings-city-name');
+            if (el) el.textContent = CITY_CONFIG.name.en;
+        }
 
         // Default settings
         const defaultSettings = {

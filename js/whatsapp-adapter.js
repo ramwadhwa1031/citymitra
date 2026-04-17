@@ -98,6 +98,30 @@ const WhatsAppAdapter = (function () {
     };
 
     // =========================================================================
+    // DYNAMIC CITY CONFIG PATCH
+    // =========================================================================
+    // Override Kurukshetra-specific values with CITY_CONFIG if available
+    if (typeof CITY_CONFIG !== 'undefined') {
+        const cn = CITY_CONFIG.name.en;
+        const st = CITY_CONFIG.state ? CITY_CONFIG.state.en : 'Haryana';
+
+        // Patch business info
+        CONFIG.business.tagline = 'Your Digital Guide to ' + cn;
+
+        // Patch all template strings — replace city references dynamically
+        Object.keys(CONFIG.templates).forEach(function(key) {
+            if (typeof CONFIG.templates[key] === 'string') {
+                CONFIG.templates[key] = CONFIG.templates[key]
+                    .replace(/Kurukshetra Mitra/g, cn + ' Mitra')
+                    .replace(/Sacred Kurukshetra/g, cn)
+                    .replace(/Kurukshetra/g, cn);
+            }
+        });
+
+        console.log('[WhatsApp Adapter] City config applied:', cn);
+    }
+
+    // =========================================================================
     // STATE
     // =========================================================================
 
@@ -170,8 +194,8 @@ const WhatsAppAdapter = (function () {
 
         return formatMessage(CONFIG.templates.siteShare, {
             siteName: site.name,
-            description: site.description || 'A sacred heritage site in Kurukshetra',
-            location: site.location?.address || 'Kurukshetra, Haryana',
+            description: site.description || ((typeof CITY_CONFIG !== 'undefined') ? ('A notable site in ' + CITY_CONFIG.name.en) : 'A sacred heritage site in Kurukshetra'),
+            location: site.location?.address || ((typeof CITY_CONFIG !== 'undefined') ? (CITY_CONFIG.name.en + ', ' + CITY_CONFIG.state.en) : 'Kurukshetra, Haryana'),
             timings: site.timings || 'Open all days',
             entryFee: site.entryFee || 'Free',
             url: url

@@ -2,16 +2,16 @@
 // KURUKSHETRA INFOBOT - Main JavaScript File
 // ============================================
 
-// CONFIGURATION
-const N8N_WEBHOOK_URL = "https://n8n-workflow-test.duckdns.org/webhook/chat";
-const FEEDBACK_WEBHOOK_URL = "https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed";
-const GITA_WEBHOOK_URL = "https://n8n-workflow-test.duckdns.org/webhook/InfoBot_AskGita";
+// CONFIGURATION — Dynamic from city-config.js
+const N8N_WEBHOOK_URL = CITY_CONFIG.webhooks.chat;
+const FEEDBACK_WEBHOOK_URL = CITY_CONFIG.webhooks.feedback;
+const GITA_WEBHOOK_URL = CITY_CONFIG.webhooks.gita;
 
 // GLOBAL STATE
 let currentLanguage = localStorage.getItem('preferred_language') || 'en';
 let currentSetIndex = 0;
 let rotationInterval;
-let messages = JSON.parse(localStorage.getItem('kwr_chat_history')) || [];
+let messages = JSON.parse(localStorage.getItem(CITY_CONFIG.storageKey)) || [];
 let autocompleteData = { en: [], hi: [] };
 
 // ============================================
@@ -41,18 +41,18 @@ window.addEventListener('DOMContentLoaded', function () {
 const translations = {
     en: {
         title: "City Mitra",
-        subtitle: "Kurukshetra's Civic AI · 24/7 Available",
+        subtitle: CITY_CONFIG.name.en + "'s Civic AI · 24/7 Available",
         officialInfo: "Official Information",
         officialDesc: "All responses are sourced from",
         welcomeTitle: "Namaste!",
-        welcomeText: "I'm City Mitra, your civic AI for Kurukshetra. Ask me about:",
+        welcomeText: "I'm City Mitra, your civic AI for " + CITY_CONFIG.name.en + ". Ask me about:",
         welcomeOfficers: "Officers & Departments",
         welcomeTourist: "Tourist Places & Heritage",
         welcomeServices: "Services & Schemes",
         welcomeDistrict: "District Information",
         welcomeEmergency: "Emergency Contacts",
         welcomeSuggestion: "Try the suggestions below to get started!",
-        inputPlaceholder: "Ask me anything about Kurukshetra...",
+        inputPlaceholder: "Ask me anything about " + CITY_CONFIG.name.en + "...",
         clearChat: "Clear chat",
         visitWebsite: "Visit Website",
         suggestions: "Suggestions",
@@ -72,18 +72,18 @@ const translations = {
     },
     hi: {
         title: "सिटी मित्र",
-        subtitle: "कुरुक्षेत्र का नागरिक AI · 24/7 उपलब्ध",
+        subtitle: CITY_CONFIG.name.hi + " का नागरिक AI · 24/7 उपलब्ध",
         officialInfo: "आधिकारिक जानकारी",
         officialDesc: "सभी उत्तर यहाँ से प्राप्त किए गए हैं",
         welcomeTitle: "नमस्ते!",
-        welcomeText: "मैं सिटी मित्र हूँ, कुरुक्षेत्र का आपका नागरिक AI। मुझसे पूछें:",
+        welcomeText: "मैं सिटी मित्र हूँ, " + CITY_CONFIG.name.hi + " का आपका नागरिक AI। मुझसे पूछें:",
         welcomeOfficers: "अधिकारी और विभाग",
         welcomeTourist: "पर्यटन स्थल और विरासत",
         welcomeServices: "सेवाएं और योजनाएं",
         welcomeDistrict: "जिला जानकारी",
         welcomeEmergency: "आपातकालीन संपर्क",
         welcomeSuggestion: "शुरू करने के लिए नीचे दिए गए सुझाव आज़माएं!",
-        inputPlaceholder: "कुरुक्षेत्र के बारे में कुछ भी पूछें...",
+        inputPlaceholder: CITY_CONFIG.name.hi + " के बारे में कुछ भी पूछें...",
         clearChat: "चैट साफ़ करें",
         visitWebsite: "वेबसाइट पर जाएं",
         suggestions: "सुझाव",
@@ -104,7 +104,8 @@ const translations = {
 };
 
 // ROTATING QUESTION SETS
-const QUESTION_SETS = {
+const QUESTION_SETS = CITY_CONFIG.questionSets;
+const _LEGACY_QUESTION_SETS = { // Moved to city-config.js — kept for reference
     en: [
         {
             title: "🏛️ General Info",
@@ -255,7 +256,11 @@ function shareApp() {
     // Create invitation message based on language
     let inviteMessage;
 
-    if (lang === 'hi') {
+    // Use city-specific invite from config
+    if (CITY_CONFIG.shareMessages && CITY_CONFIG.shareMessages.appInvite) {
+        const inviteFn = CITY_CONFIG.shareMessages.appInvite[lang] || CITY_CONFIG.shareMessages.appInvite.en;
+        inviteMessage = inviteFn(window.location.href);
+    } else if (lang === 'hi') {
         inviteMessage = `🕉️ *City Mitra - AI Chatbot*
 
 कुरुक्षेत्र की विरासत को डिजिटल रूप से खोजें!
@@ -393,8 +398,8 @@ function renderMessages() {
     if (messages.length > 0) {
         const isHi = (typeof currentLanguage !== 'undefined' && currentLanguage === 'hi');
         const greeting = isHi
-            ? '🙏 <strong>नमस्ते!</strong> मैं <em>कुरुक्षेत्र जिले</em> के लिए आपका समर्पित नागरिक सहायक हूँ — City Mitra द्वारा संचालित।<br><br>मुझसे पर्यटन स्थलों, सरकारी अधिकारियों, कल्याण योजनाओं, या आपातकालीन संपर्कों के बारे में पूछें। मैं 24×7 यहाँ हूँ।'
-            : '🙏 <strong>Namaste!</strong> I\'m your dedicated civic assistant for <em>Kurukshetra district</em> — powered by City Mitra.<br><br>Ask me about tourist spots, government officers, welfare schemes, or emergency contacts. I\'m here 24×7.';
+            ? '🙏 <strong>नमस्ते!</strong> मैं <em>' + CITY_CONFIG.name.hi + ' जिले</em> के लिए आपका समर्पित नागरिक सहायक हूँ — City Mitra द्वारा संचालित।<br><br>मुझसे पर्यटन स्थलों, सरकारी अधिकारियों, कल्याण योजनाओं, या आपातकालीन संपर्कों के बारे में पूछें। मैं 24×7 यहाँ हूँ।'
+            : '🙏 <strong>Namaste!</strong> I\'m your dedicated civic assistant for <em>' + CITY_CONFIG.name.en + ' district</em> — powered by City Mitra.<br><br>Ask me about tourist spots, government officers, welfare schemes, or emergency contacts. I\'m here 24×7.';
 
         const chipHeritage = isHi ? '🏛️ पर्यटन स्थल' : '🏛️ Tourist Places';
         const chipOfficers = isHi ? '👤 DC कौन हैं?' : '👤 Who is DC?';
@@ -405,15 +410,15 @@ function renderMessages() {
         html += `<div class="ai-row new spaced">
             <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
             <div class="ai-content">
-                <div class="ai-sender">Kurukshetra Guide <span class="powered-badge">✦ City Mitra</span></div>
+                <div class="ai-sender">${currentLanguage === 'hi' ? CITY_CONFIG.name.hi : CITY_CONFIG.name.en} Guide <span class="powered-badge">✦ City Mitra</span></div>
                 <div class="bubble">
                     ${greeting}
                     <div class="qchips">
-                        <div class="qc" onclick="handleChipClick('Tourist places in Kurukshetra')">${chipHeritage}</div>
-                        <div class="qc" onclick="handleChipClick('Who is the DC of Kurukshetra?')">${chipOfficers}</div>
-                        <div class="qc" onclick="handleChipClick('Emergency contacts Kurukshetra')">${chipEmergency}</div>
-                        <div class="qc" onclick="handleChipClick('Government schemes in Kurukshetra')">${chipSchemes}</div>
-                        <div class="qc" onclick="handleChipClick('District information Kurukshetra')">${chipDistrict}</div>
+                        <div class="qc" onclick="handleChipClick('Tourist places in ${CITY_CONFIG.name.en}')">${chipHeritage}</div>
+                        <div class="qc" onclick="handleChipClick('Who is the DC of ${CITY_CONFIG.name.en}?')">${chipOfficers}</div>
+                        <div class="qc" onclick="handleChipClick('Emergency contacts ${CITY_CONFIG.name.en}')">${chipEmergency}</div>
+                        <div class="qc" onclick="handleChipClick('Government schemes in ${CITY_CONFIG.name.en}')">${chipSchemes}</div>
+                        <div class="qc" onclick="handleChipClick('District information ${CITY_CONFIG.name.en}')">${chipDistrict}</div>
                     </div>
                 </div>
             </div>
@@ -442,7 +447,7 @@ function renderMessages() {
             html += `<div class="ai-row new spaced">
                 <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
                 <div class="ai-content">
-                    <div class="ai-sender">Kurukshetra Guide <span class="powered-badge">✦ City Mitra</span></div>
+                    <div class="ai-sender">${currentLanguage === 'hi' ? CITY_CONFIG.name.hi : CITY_CONFIG.name.en} Guide <span class="powered-badge">✦ City Mitra</span></div>
                     <div class="bubble">
                         ${formattedContent}
                         <div class="bubble-actions">${listenBtn}${shareBtn}</div>
@@ -505,7 +510,7 @@ ${cleanContent}
 
 💬 Chat with our bot: ${window.location.href}
 
-_Discover Kurukshetra Heritage_`;
+${(CITY_CONFIG.shareMessages && CITY_CONFIG.shareMessages.botMessageFooter) ? (CITY_CONFIG.shareMessages.botMessageFooter[currentLanguage] || CITY_CONFIG.shareMessages.botMessageFooter.en) : '_Shared via City Mitra_'}`;
 
     console.log('📱 Sharing via WhatsApp:', shareMessage.substring(0, 100) + '...');
 
@@ -883,13 +888,15 @@ function updateUI() {
     // Update welcome — brand hero uses different structure
     const wtEl = document.getElementById('welcome-title');
     if (wtEl) {
-        wtEl.innerHTML = currentLanguage === 'hi' ? 'कुरुक्षेत्र<br><em id="welcome-subtitle">नागरिक गाइड</em>' : 'Kurukshetra<br><em id="welcome-subtitle">Civic Guide</em>';
+        wtEl.innerHTML = currentLanguage === 'hi' ? (CITY_CONFIG.name.hi + '<br><em id="welcome-subtitle">नागरिक गाइड</em>') : (CITY_CONFIG.name.en + '<br><em id="welcome-subtitle">Civic Guide</em>');
     }
-    const wTextEl = document.getElementById('welcome-text');
-    if (wTextEl) {
-        wTextEl.innerHTML = currentLanguage === 'hi'
-            ? 'मैं <strong>सिटी मित्र</strong> हूँ, कुरुक्षेत्र जिले का आपका बुद्धिमान साथी। विरासत खोजें, अधिकारियों से जुड़ें, सेवाओं तक पहुंचें — सब एक ही जगह।'
-            : 'I\'m <strong>City Mitra</strong>, your intelligent companion for Kurukshetra district. Explore heritage, connect with officials, access services — all in one place.';
+    // Update welcome Devanagari line
+    // Update welcome description
+    const wDescEl = document.getElementById('welcome-desc');
+    if (wDescEl) {
+        wDescEl.innerHTML = currentLanguage === 'hi'
+            ? 'मैं <strong>सिटी मित्र</strong> हूँ, ' + CITY_CONFIG.name.hi + ' जिले का आपका बुद्धिमान साथी। विरासत खोजें, अधिकारियों से जुड़ें, सेवाओं तक पहुंचें — सब एक ही जगह।'
+            : 'I\'m <strong>City Mitra</strong>, your intelligent companion for ' + CITY_CONFIG.name.en + ' district. Explore heritage, connect with officials, access services — all in one place.';
     }
     const woEl = document.getElementById('welcome-officers');
     if (woEl) woEl.textContent = currentLanguage === 'hi' ? '👤 अधिकारी' : '👤 Officers';
@@ -931,6 +938,19 @@ function updateUI() {
         document.getElementById('feedback-additional').textContent = t.feedbackAdditional;
         document.getElementById('feedback-submit-text').textContent = t.feedbackSubmit;
     }
+
+    // ── Dynamic City Config Updates ──
+    const cityNameEl = document.getElementById('city-name-display');
+    if (cityNameEl) cityNameEl.textContent = CITY_CONFIG.name.en;
+
+    const visitBtn = document.getElementById('visit-website-btn');
+    if (visitBtn) visitBtn.setAttribute('onclick', "window.open('" + CITY_CONFIG.govWebsite + "', '_blank')");
+
+    // Update welcome devanagari text
+    const devaEl = document.getElementById('welcome-text');
+    if (devaEl && messages.length === 0) {
+        devaEl.textContent = CITY_CONFIG.welcomeDevanagari || (CITY_CONFIG.name.hi + ' — आपकी सेवा में');
+    }
 }
 
 // ============================================
@@ -938,6 +958,9 @@ function updateUI() {
 // ============================================
 
 function isGitaQuery(text) {
+    // Skip Gita detection for cities without this feature
+    if (!CITY_CONFIG.features || !CITY_CONFIG.features.gita) return false;
+
     const lowerText = text.toLowerCase();
 
     // Exclude keywords - these indicate NOT a Gita query
@@ -1105,7 +1128,8 @@ async function sendMessage() {
             body: JSON.stringify({
                 question: text,  // Gita webhook uses 'question'
                 message: text,   // District webhook uses 'message'
-                language: currentLanguage
+                language: currentLanguage,
+                city: CITY_CONFIG.id  // Dynamic city identifier for n8n
             })
         });
 
@@ -1228,14 +1252,14 @@ function debugWebhookResponse(response, data) {
 // ============================================
 
 function saveChat() {
-    localStorage.setItem('kwr_chat_history', JSON.stringify(messages));
+    localStorage.setItem(CITY_CONFIG.storageKey, JSON.stringify(messages));
 }
 
 function clearChat() {
     if (confirm("🗑️ Delete all chat history?")) {
         // Clear data
         messages = [];
-        localStorage.removeItem('kwr_chat_history');
+        localStorage.removeItem(CITY_CONFIG.storageKey);
 
         // Reset UI state — show welcome hero again
         document.getElementById('welcome-message').style.display = '';
@@ -1287,12 +1311,12 @@ function toggleMenu() {
 
 document.addEventListener('DOMContentLoaded', function () {
     const menu = document.getElementById('menu-dropdown');
-    const menuButton = document.querySelector('button[onclick="toggleMenu()"]');
+    const menuButton = document.querySelector('.menu-btn');
 
     // Close menu when clicking outside
     document.addEventListener('click', function (event) {
         if (!menu.classList.contains('hidden')) {
-            if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+            if (!menu.contains(event.target) && (!menuButton || !menuButton.contains(event.target))) {
                 menu.classList.add('hidden');
             }
         }

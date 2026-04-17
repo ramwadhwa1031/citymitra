@@ -1,1979 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
-    <title>City Mitra — Kurukshetra Civic AI</title>
-    <meta name="description"
-        content="City Mitra is your AI-powered civic assistant for Kurukshetra district. Get instant info on tourism, officers, schemes, emergency contacts and more.">
-    <meta name="theme-color" content="#2D46B9">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Mitra — Civic AI for Every City</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Serif+Devanagari:wght@500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Serif+Devanagari:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="js/whatsapp-adapter.js"></script>
+    <script>
+        // ── Single Repo Router ──
+        // If we are on a subdomain (e.g. karnal.citymitra.app), redirect to the chatbot (city.html).
+        // If we are on citymitra.app or www.citymitra.app, stay here (landing page).
+        const sub = window.location.hostname.split('.')[0];
+        const isMainDomain = ['citymitra', 'www', 'localhost', '127'].includes(sub);
+        
+        if (!isMainDomain && !window.location.hostname.match(/^\d+\./)) {
+            // Send to city page with query params and hash intact
+            window.location.replace('/city.html' + window.location.search + window.location.hash);
+        }
+    </script>
+    <script src="city-config.js?v=1.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
-        /* ══════════════════════════════════════════════════════
-           CITY MITRA — BRAND DESIGN SYSTEM
-           Professional Civic AI · Dynamic Footer · Rich Cards
-           ══════════════════════════════════════════════════════ */
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            /* City Mitra Brand */
-            --brand: #2D46B9;
-            --brand-deep: #1A2E8A;
-            --brand-lt: #EEF1FF;
-            --brand-mid: #4560D4;
-            --brand-xlt: #F5F7FF;
-
-            /* City color — Kurukshetra saffron */
-            --city: #E07B2A;
-            --city-lt: #FFF4EB;
-            --city-deep: #B85E18;
-
-            /* Neutrals */
-            --ink: #111318;
-            --ink2: #2E333D;
-            --ink3: #6B7280;
-            --ink4: #9CA3AF;
-            --bg: #F7F8FA;
-            --surface: #FFFFFF;
-            --line: #E8EAED;
-            --line2: #F1F3F5;
-
-            /* Chat */
-            --ai-bg: #FFFFFF;
-            --user-bg: #2D46B9;
-
-            /* Safe area */
-            --sab: env(safe-area-inset-bottom, 0px);
-            --sat: env(safe-area-inset-top, 0px);
-        }
-
-        html {
-            height: 100%;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-
-        body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: fixed;
-            font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -webkit-text-size-adjust: 100%;
-            touch-action: manipulation;
-            background: #C8CAD4;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(45, 70, 185, 0.2);
-            border-radius: 3px;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* ══════════════════════════════════════
-           APP SHELL
-        ══════════════════════════════════════ */
-        .app-shell {
-            width: 100%;
-            max-width: 440px;
-            height: 100vh;
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            background: var(--surface);
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* ══════════════════════════════════════
-           BRAND HEADER — City Mitra identity bar
-        ══════════════════════════════════════ */
-        /* Gradient animation */
-        @keyframes gradientMove {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .brand-bar {
-            background: linear-gradient(135deg, var(--brand), #1C3399, #4338CA, var(--brand));
-            background-size: 300% 300%;
-            animation: gradientMove 8s ease infinite;
-            padding: 11px 18px 10px;
-            padding-top: calc(11px + var(--sat));
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-            position: relative;
-            overflow: visible;
-            z-index: 30;
-        }
-
-        /* Subtle diagonal texture */
-        .brand-bar::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(-45deg,
-                    transparent,
-                    transparent 18px,
-                    rgba(255, 255, 255, 0.025) 18px,
-                    rgba(255, 255, 255, 0.025) 36px);
-            pointer-events: none;
-        }
-
-        .brand-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-        }
-
-        .brand-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(2.4);
-            transform-origin: center center;
-        }
-
-        .brand-icon svg {
-            width: 16px;
-            height: 16px;
-            fill: none;
-            stroke: #fff;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .brand-wordmark {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-name {
-            font-size: 14px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.01em;
-            line-height: 1;
-        }
-
-        .brand-tagline {
-            font-size: 8.5px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.55);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-top: 1.5px;
-        }
-
-        .brand-divider {
-            width: 1px;
-            height: 22px;
-            background: rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 1;
-        }
-
-        .city-badge {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .city-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #7AE878;
-            box-shadow: 0 0 0 2px rgba(122, 232, 120, 0.3);
-            animation: cityPulse 2.5s ease-in-out infinite;
-        }
-
-        @keyframes cityPulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 2px rgba(122, 232, 120, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 0 5px rgba(122, 232, 120, 0.1);
-            }
-        }
-
-        .city-name-sm {
-            font-size: 12px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.01em;
-        }
-
-        .brand-right {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .lang-btn {
-            height: 26px;
-            padding: 0 9px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            transition: background 0.15s;
-        }
-
-        .lang-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .hdr-icon-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 7px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #fff;
-            transition: background 0.15s;
-        }
-
-        .hdr-icon-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .hdr-icon-btn i {
-            color: #fff;
-        }
-
-        .menu-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 7px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .menu-btn span {
-            width: 12px;
-            height: 1.5px;
-            border-radius: 2px;
-            background: rgba(255, 255, 255, 0.85);
-            display: block;
-        }
-
-        .menu-btn span:last-child {
-            width: 8px;
-        }
-
-        /* Menu dropdown */
-        .menu-dropdown-wrap {
-            position: relative;
-        }
-
-        #menu-dropdown {
-            position: absolute;
-            right: 0;
-            top: 36px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--line);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12), 0 20px 48px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            z-index: 50;
-            width: 200px;
-            padding: 6px 0;
-        }
-
-        #menu-dropdown button,
-        #menu-dropdown a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-            padding: 10px 14px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--ink2);
-            border: none;
-            background: none;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.15s;
-            font-family: 'Bricolage Grotesque', sans-serif;
-        }
-
-        #menu-dropdown button:hover,
-        #menu-dropdown a:hover {
-            background: var(--brand-lt);
-        }
-
-        /* ══════════════════════════════════════
-           CITY HERO — Kurukshetra identity card
-        ══════════════════════════════════════ */
-        .city-hero {
-            background: var(--surface);
-            border-bottom: 1px solid var(--line);
-            padding: 18px 18px 16px;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-
-        /* City accent band on left edge */
-        .city-hero::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--city), var(--city-deep));
-        }
-
-        .city-hero-top {
-            display: flex;
-            align-items: flex-start;
-            gap: 13px;
-            margin-bottom: 14px;
-        }
-
-        .city-seal {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--city-lt), #FFE8CC);
-            border: 1.5px solid rgba(224, 123, 42, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 26px;
-            box-shadow: 0 2px 10px rgba(224, 123, 42, 0.15);
-        }
-
-        .city-info {
-            flex: 1;
-        }
-
-        .city-label {
-            font-size: 9.5px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--brand);
-            margin-bottom: 3px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .city-label::before {
-            content: '';
-            width: 14px;
-            height: 1.5px;
-            background: var(--brand);
-            border-radius: 2px;
-        }
-
-        .city-title {
-            font-family: 'Lora', serif;
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--ink);
-            letter-spacing: -0.01em;
-            line-height: 1.15;
-            margin-bottom: 3px;
-        }
-
-        .city-title em {
-            font-style: italic;
-            color: var(--city);
-        }
-
-        .city-deva {
-            font-family: 'Noto Serif Devanagari', serif;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--ink4);
-            letter-spacing: 0.03em;
-        }
-
-        /* Topic tags */
-        .topic-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .ttag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            height: 28px;
-            padding: 0 11px;
-            border-radius: 7px;
-            font-size: 11.5px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1.5px solid transparent;
-            transition: all 0.15s;
-            white-space: nowrap;
-        }
-
-        .ttag:hover {
-            transform: translateY(-1px);
-            filter: brightness(0.95);
-        }
-
-        .ttag:active {
-            transform: scale(0.95);
-        }
-
-        .ttag-orange {
-            background: var(--city-lt);
-            color: var(--city-deep);
-            border-color: rgba(224, 123, 42, 0.2);
-        }
-
-        .ttag-blue {
-            background: var(--brand-lt);
-            color: var(--brand);
-            border-color: rgba(45, 70, 185, 0.15);
-        }
-
-        .ttag-green {
-            background: #ECFDF5;
-            color: #065F46;
-            border-color: rgba(6, 95, 70, 0.15);
-        }
-
-        .ttag-red {
-            background: #FFF5F5;
-            color: #991B1B;
-            border-color: rgba(153, 27, 27, 0.12);
-        }
-
-        .ttag-purple {
-            background: #FAF5FF;
-            color: #6B21A8;
-            border-color: rgba(107, 33, 168, 0.12);
-        }
-
-        /* ══════════════════════════════════════
-           CHAT AREA
-        ══════════════════════════════════════ */
-        #chat-container {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            background: var(--bg);
-            padding: 18px 16px 10px;
-            scroll-behavior: smooth;
-            position: relative;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-        }
-
-        #chat-container::-webkit-scrollbar {
-            width: 0;
-        }
-
-        /* Warm gradient at top of chat */
-        #chat-container::before {
-            content: '';
-            position: sticky;
-            top: 0;
-            display: block;
-            height: 20px;
-            margin: -18px -16px 0;
-            background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        /* Date separator */
-        .dsep {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        .dsep span {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.07em;
-            text-transform: uppercase;
-            color: var(--ink4);
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: 20px;
-            padding: 3px 12px;
-        }
-
-        /* ── AI message row ── */
-        .ai-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 9px;
-            margin-bottom: 3px;
-        }
-
-        .ai-row+.ai-row {
-            margin-top: 1px;
-        }
-
-        .ai-row.spaced {
-            margin-top: 12px;
-        }
-
-        .av {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            background: var(--brand);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            align-self: flex-end;
-            box-shadow: 0 2px 8px rgba(45, 70, 185, 0.25);
-        }
-
-        .av svg {
-            width: 16px;
-            height: 16px;
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.9);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .ai-content {
-            flex: 1;
-            min-width: 0;
-            max-width: calc(100% - 42px);
-        }
-
-        .ai-sender {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: var(--brand);
-            margin-bottom: 4px;
-            padding-left: 2px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .powered-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 8.5px;
-            font-weight: 600;
-            color: var(--ink4);
-            letter-spacing: 0.04em;
-            text-transform: none;
-            background: var(--line2);
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            padding: 1px 5px;
-        }
-
-        .bubble {
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: 3px 16px 16px 16px;
-            padding: 14px 16px;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.7;
-            color: var(--ink2);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 3px 10px rgba(0, 0, 0, 0.04);
-            word-break: break-word;
-        }
-
-        .bubble strong,
-        .bubble b {
-            font-weight: 700;
-            color: var(--ink);
-        }
-
-        .bubble em,
-        .bubble i {
-            font-style: italic;
-            color: var(--city);
-            font-family: 'Lora', serif;
-        }
-
-        .bubble a {
-            color: var(--brand);
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            font-weight: 500;
-        }
-
-        .bubble a:hover {
-            color: var(--brand-deep);
-        }
-
-        /* Bubble action bar */
-        .bubble-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px solid var(--line2);
-        }
-
-        .bubble-action-btn {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--ink4);
-            background: var(--bg);
-            border: 1px solid var(--line);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .bubble-action-btn:hover {
-            background: var(--brand-lt);
-            color: var(--brand);
-            border-color: rgba(45, 70, 185, 0.2);
-        }
-
-        .bubble-action-btn i {
-            width: 12px;
-            height: 12px;
-        }
-
-        .ai-time {
-            font-size: 10px;
-            color: var(--ink4);
-            margin-top: 4px;
-            padding-left: 2px;
-        }
-
-        /* Quick chips inside bubbles */
-        .qchips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 12px;
-        }
-
-        .qc {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            height: 30px;
-            padding: 0 11px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            background: var(--brand-xlt);
-            color: var(--brand);
-            border: 1.5px solid rgba(45, 70, 185, 0.14);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.15s;
-        }
-
-        .qc:hover {
-            background: var(--brand);
-            color: #fff;
-            border-color: var(--brand);
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(45, 70, 185, 0.25);
-        }
-
-        .qc:active {
-            transform: scale(0.95);
-        }
-
-        /* Info cards */
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .icard {
-            background: var(--bg);
-            border: 1.5px solid var(--line);
-            border-radius: 12px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.18s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .icard::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            border-radius: 12px 12px 0 0;
-            opacity: 0;
-            transition: opacity 0.18s;
-        }
-
-        .icard:hover {
-            background: var(--surface);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
-        }
-
-        .icard:hover::after {
-            opacity: 1;
-        }
-
-        .ic-o::after {
-            background: linear-gradient(90deg, var(--city), var(--city-lt));
-        }
-
-        .ic-b::after {
-            background: linear-gradient(90deg, var(--brand), var(--brand-lt));
-        }
-
-        .ic-g::after {
-            background: linear-gradient(90deg, #059669, #ECFDF5);
-        }
-
-        .ic-r::after {
-            background: linear-gradient(90deg, #DC2626, #FFF5F5);
-        }
-
-        .icard-icon {
-            font-size: 22px;
-            margin-bottom: 7px;
-            display: block;
-        }
-
-        .icard-t {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--ink);
-            line-height: 1.3;
-            margin-bottom: 2px;
-        }
-
-        .icard-s {
-            font-size: 10.5px;
-            color: var(--ink3);
-            font-weight: 400;
-        }
-
-        /* Stat grid */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 7px;
-            margin-top: 12px;
-        }
-
-        .stat {
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 10px 6px;
-            text-align: center;
-        }
-
-        .stat-n {
-            font-family: 'Lora', serif;
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--brand);
-            display: block;
-            line-height: 1;
-        }
-
-        .stat-l {
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--ink4);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 3px;
-            display: block;
-        }
-
-        /* ── User message ── */
-        .user-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 3px;
-            margin-top: 12px;
-        }
-
-        .ubub {
-            background: var(--user-bg);
-            border-radius: 16px 4px 16px 16px;
-            padding: 12px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #fff;
-            max-width: 80%;
-            line-height: 1.65;
-            word-break: break-word;
-            box-shadow: 0 2px 8px rgba(45, 70, 185, 0.25), 0 5px 20px rgba(45, 70, 185, 0.12);
-        }
-
-        .umeta {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 5px;
-            text-align: right;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 4px;
-        }
-
-        .umeta svg {
-            width: 14px;
-            height: 9px;
-        }
-
-        /* Typing */
-        .typing-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 9px;
-            margin-top: 8px;
-            margin-bottom: 4px;
-        }
-
-        .tbub {
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: 3px 16px 16px 16px;
-            padding: 13px 16px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-        }
-
-        .td {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #D1D5DB;
-        }
-
-        .td:nth-child(1) {
-            animation: tdot 1.2s 0.0s ease-in-out infinite;
-        }
-
-        .td:nth-child(2) {
-            animation: tdot 1.2s 0.18s ease-in-out infinite;
-        }
-
-        .td:nth-child(3) {
-            animation: tdot 1.2s 0.36s ease-in-out infinite;
-        }
-
-        @keyframes tdot {
-
-            0%,
-            100% {
-                transform: translateY(0);
-                background: #D1D5DB;
-            }
-
-            50% {
-                transform: translateY(-5px);
-                background: var(--brand);
-            }
-        }
-
-        /* Entry animation */
-        @keyframes msgIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .new {
-            animation: msgIn 0.32s cubic-bezier(0.34, 1.3, 0.64, 1) both;
-        }
-
-        /* WhatsApp share button in bubbles */
-        .share-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-            font-family: 'Bricolage Grotesque', sans-serif;
-        }
-
-        .share-btn:hover {
-            background: #20BA5A;
-            transform: translateY(-1px);
-        }
-
-        .share-btn i {
-            width: 12px;
-            height: 12px;
-        }
-
-        /* ══════════════════════════════════════
-           INPUT ZONE — with dynamic suggestions
-        ══════════════════════════════════════ */
-        .input-zone {
-            flex-shrink: 0;
-            background: var(--surface);
-            border-top: 1px solid var(--line);
-            padding-bottom: calc(0px + var(--sab));
-            z-index: 20;
-            position: relative;
-        }
-
-        /* Context suggestions - DYNAMIC */
-        .ctx {
-            display: flex;
-            gap: 6px;
-            padding: 10px 16px 0;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .ctx::-webkit-scrollbar {
-            display: none;
-        }
-
-        .csug {
-            flex-shrink: 0;
-            height: 28px;
-            padding: 0 10px;
-            border-radius: 7px;
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 11.5px;
-            font-weight: 600;
-            color: var(--ink2);
-            background: var(--bg);
-            border: 1px solid var(--line);
-            cursor: pointer;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            transition: all 0.15s;
-        }
-
-        .csug:hover {
-            background: var(--brand-lt);
-            border-color: rgba(45, 70, 185, 0.2);
-            color: var(--brand);
-        }
-
-        .csug:active {
-            transform: scale(0.95);
-        }
-
-        /* Autocomplete dropdown */
-        .autocomplete-dropdown {
-            position: absolute;
-            bottom: 100%;
-            left: 16px;
-            right: 16px;
-            max-height: 200px;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--line);
-            border-radius: 12px 12px 0 0;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-            z-index: 30;
-        }
-
-        .autocomplete-item {
-            padding: 10px 14px;
-            cursor: pointer;
-            transition: background 0.15s;
-            border-bottom: 1px solid var(--line2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--ink);
-            font-size: 13px;
-        }
-
-        .autocomplete-item:hover {
-            background: var(--brand-lt);
-        }
-
-        .autocomplete-item:last-child {
-            border-bottom: none;
-        }
-
-        .autocomplete-highlight {
-            color: var(--brand);
-            font-weight: 600;
-        }
-
-        /* Input row */
-        .inp-wrap {
-            display: flex;
-            align-items: flex-end;
-            gap: 9px;
-            padding: 9px 16px 14px;
-        }
-
-        .inp-inner {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg);
-            border: 1.5px solid var(--line);
-            border-radius: 16px;
-            padding: 10px 14px;
-            transition: all 0.2s;
-        }
-
-        .inp-inner.on {
-            border-color: var(--brand);
-            background: var(--surface);
-            box-shadow: 0 0 0 3px rgba(45, 70, 185, 0.1);
-        }
-
-        .inp-field {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--ink);
-            resize: none;
-            max-height: 90px;
-            min-height: 20px;
-            line-height: 1.5;
-        }
-
-        .inp-field::placeholder {
-            color: var(--ink4);
-        }
-
-        .mic-btn {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.35;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            background: none;
-            padding: 0;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .mic-btn:hover {
-            opacity: 0.7;
-        }
-
-        .mic-btn i {
-            width: 16px;
-            height: 16px;
-            color: var(--ink);
-        }
-
-        .mic-btn.recording {
-            opacity: 1;
-            background: #ef4444;
-            animation: pulse-red 1.5s ease-in-out infinite;
-        }
-
-        .mic-btn.recording i {
-            color: white;
-        }
-
-        .mic-btn.listening {
-            opacity: 1;
-            background: var(--brand);
-            animation: pulse-brand 1s ease-in-out infinite;
-        }
-
-        .mic-btn.listening i {
-            color: white;
-        }
-
-        @keyframes pulse-red {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            }
-
-            50% {
-                box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
-            }
-        }
-
-        @keyframes pulse-brand {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(45, 70, 185, 0.7);
-            }
-
-            50% {
-                box-shadow: 0 0 0 8px rgba(45, 70, 185, 0);
-            }
-        }
-
-        .voice-indicator {
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--ink);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .voice-indicator.show {
-            opacity: 1;
-        }
-
-        .voice-indicator::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: var(--ink);
-        }
-
-        .send-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            background: var(--brand);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(45, 70, 185, 0.35);
-            transition: all 0.15s;
-        }
-
-        .send-btn:hover {
-            background: var(--brand-deep);
-            transform: scale(1.05);
-            box-shadow: 0 6px 18px rgba(45, 70, 185, 0.45);
-        }
-
-        .send-btn:active {
-            transform: scale(0.95);
-        }
-
-        .send-btn i {
-            width: 18px;
-            height: 18px;
-            color: #fff;
-        }
-
-        /* Character counter */
-        .char-counter {
-            font-size: 9px;
-            color: var(--ink4);
-            text-align: right;
-            padding: 0 16px 2px;
-            height: 0;
-            overflow: hidden;
-            transition: height 0.2s, opacity 0.2s;
-            opacity: 0;
-        }
-
-        .char-counter.show {
-            height: 14px;
-            opacity: 1;
-        }
-
-        /* ══════════════════════════════════════
-           CITY MITRA FOOTER BRAND STRIP
-        ══════════════════════════════════════ */
-        .brand-footer {
-            background: var(--brand-xlt);
-            border-top: 1px solid rgba(45, 70, 185, 0.1);
-            padding: 7px 16px;
-            padding-bottom: calc(7px + var(--sab));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        .bf-text {
-            font-size: 10.5px;
-            font-weight: 500;
-            color: var(--ink3);
-            letter-spacing: 0.01em;
-        }
-
-        .bf-brand {
-            font-size: 10.5px;
-            font-weight: 800;
-            color: var(--brand);
-            letter-spacing: -0.01em;
-        }
-
-        .bf-dot {
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: var(--brand);
-            opacity: 0.4;
-        }
-
-        /* Hidden utility */
-        .hidden {
-            display: none !important;
-        }
-
-        /* ══════════════════════════════════════
-           SAFARI iOS — Keyboard Fix
-        ══════════════════════════════════════ */
-        @supports (-webkit-touch-callout: none) {
-
-            html,
-            body {
-                overscroll-behavior: none;
-                -webkit-overflow-scrolling: auto;
-            }
-
-            .inp-field {
-                font-size: 16px !important;
-            }
-        }
-
-        /* Desktop responsive */
-        @media (min-width: 768px) {
-            body {
-                background: linear-gradient(145deg, #E8EAED 0%, #C8CAD4 50%, #D4D6DD 100%);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .app-shell {
-                max-width: 400px;
-                height: 92vh;
-                border-radius: 18px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 30px 60px rgba(0, 0, 0, 0.15);
-                overflow: hidden;
-            }
-        }
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+        --blue:#2563EB;--purple:#7C3AED;--cyan:#0891B2;--orange:#EA580C;
+        --green:#16A34A;--magenta:#DB2777;--red:#EF4444;
+        --h:'Plus Jakarta Sans',system-ui,sans-serif;
+        --b:'Inter',system-ui,sans-serif;
+    }
+    html{scroll-behavior:auto}
+    body{font-family:var(--b);color:#1E293B;overflow-x:hidden;background:#000}
+    h1,h2,h3,h4{font-family:var(--h);letter-spacing:-0.03em}
+
+    /* ─── NAV ─── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:12px 5%;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);transition:all .3s}
+    nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+    .n-brand{display:flex;align-items:center;gap:10px}
+    .n-logo{width:40px;height:40px;border-radius:10px;overflow:hidden;border:2px solid #E2E8F0;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+    .n-logo img{width:100%;height:100%;object-fit:cover}
+    .n-name{font-size:20px;font-weight:800;color:#0F172A;font-family:var(--h)}
+    .n-links{display:flex;align-items:center;gap:24px}
+    .n-link{color:#64748B;text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
+    .n-link:hover{color:var(--blue)}
+    .n-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-weight:700;font-size:13px;padding:10px 20px;border-radius:99px;text-decoration:none;box-shadow:0 4px 14px rgba(37,99,235,.3);transition:all .3s}
+    .n-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.4)}
+    .cta-dot{width:7px;height:7px;background:#34D399;border-radius:50%;animation:p 2s infinite}
+    @keyframes p{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+
+    /* ─── SECTION: FULL SCREEN HERO ─── */
+    .s-hero{
+        min-height:100vh;
+        background:linear-gradient(160deg,#EFF6FF 0%,#F5F3FF 25%,#FDF2F8 50%,#FFF7ED 75%,#FEF3C7 100%);
+        display:flex;align-items:center;justify-content:center;text-align:center;
+        padding:140px 5% 80px;position:relative;overflow:hidden;
+    }
+    .s-hero::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.12),transparent 70%);top:-200px;left:-200px;animation:blob 20s ease-in-out infinite}
+    .s-hero::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);bottom:-100px;right:-150px;animation:blob 25s ease-in-out infinite reverse}
+    @keyframes blob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-40px) scale(1.15)}}
+
+    .hero-inner{max-width:900px;position:relative;z-index:5}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #DBEAFE;color:var(--blue);padding:8px 20px;border-radius:99px;font-size:13px;font-weight:700;margin-bottom:28px;box-shadow:0 2px 10px rgba(37,99,235,.08)}
+    .hero-h{font-size:clamp(48px,8vw,96px);line-height:1.05;font-weight:800;color:#0F172A;margin-bottom:24px}
+    .hero-h .grad{background:linear-gradient(135deg,var(--blue),var(--purple),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .hero-p{font-size:20px;color:#475569;line-height:1.7;max-width:600px;margin:0 auto 40px}
+    .hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+    .btn-g{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-weight:700;font-size:16px;padding:18px 32px;border-radius:16px;text-decoration:none;box-shadow:0 8px 24px rgba(37,99,235,.3);transition:all .3s}
+    .btn-g:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(37,99,235,.4)}
+    .btn-o{display:inline-flex;align-items:center;background:#fff;border:2px solid #E2E8F0;color:#334155;font-weight:600;font-size:16px;padding:16px 32px;border-radius:16px;text-decoration:none;transition:all .3s}
+    .btn-o:hover{border-color:var(--blue);color:var(--blue)}
+
+    /* Stat strip */
+    .stat-strip{display:flex;justify-content:center;gap:48px}
+    .stat-item{text-align:center}
+    .stat-num{font-size:48px;font-weight:800;font-family:var(--h);color:var(--blue);display:block}
+    .stat-label{font-size:14px;color:#64748B;font-weight:500;margin-top:4px}
+
+    /* ─── PHONE PIN SECTION ─── */
+    .s-phone-pin{
+        height:300vh;
+        position:relative;
+    }
+    .phone-sticky{
+        position:sticky;top:0;height:100vh;
+        display:flex;align-items:center;justify-content:center;
+        overflow:hidden;
+        background:linear-gradient(180deg,#0F172A 0%,#1E1B4B 50%,#312E81 100%);
+    }
+    .phone-center{
+        width:320px;position:relative;z-index:10;
+        transform:scale(1);
+        transition:transform 0.3s;
+    }
+    .phone-shell{
+        background:#000;border-radius:40px;overflow:hidden;
+        box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 3px rgba(255,255,255,.1);
+        border:3px solid rgba(255,255,255,.15);
+    }
+    .p-notch{width:100px;height:20px;background:#000;border-radius:0 0 12px 12px;margin:0 auto}
+    .p-header{padding:12px 14px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;gap:10px}
+    .p-av{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.2);overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .p-av img{width:28px;height:28px;object-fit:contain}
+    .p-nm{font-size:13px;font-weight:700;color:#fff}
+    .p-st{font-size:10px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:4px}
+    .p-st i{width:5px;height:5px;background:#34D399;border-radius:50%;display:inline-block}
+    .p-chat{height:300px;overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:6px;background:linear-gradient(180deg,#F8FAFC,#EFF6FF)}
+    .p-chat::-webkit-scrollbar{width:0}
+    .p-input{padding:8px 10px;border-top:1px solid #E2E8F0;display:flex;align-items:center;gap:6px;background:#fff}
+    .p-field{flex:1;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:16px;padding:8px 12px;font-size:11px;color:#94A3B8}
+    .p-send{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--blue);color:#fff}
+
+    /* Floating text panels around phone */
+    .float-panel{
+        position:absolute;
+        background:rgba(255,255,255,.06);backdrop-filter:blur(16px);
+        border:1px solid rgba(255,255,255,.1);
+        border-radius:20px;padding:28px 32px;
+        color:#fff;max-width:320px;
+        opacity:0;transform:translateY(30px);
+    }
+    .float-panel h3{font-size:22px;font-weight:700;margin-bottom:8px}
+    .float-panel p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.5}
+    .fp-left{left:5%;top:50%;transform:translateY(-50%) translateX(-20px)}
+    .fp-right{right:5%;top:50%;transform:translateY(-50%) translateX(20px)}
+    .fp-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+    .fp-icon i{width:24px;height:24px}
+
+    /* Chat animation styles (reused from before) */
+    .c-u{align-self:flex-end;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;padding:8px 12px;border-radius:14px 3px 14px 14px;font-size:12px;font-weight:500;max-width:80%;line-height:1.4;box-shadow:0 2px 6px rgba(37,99,235,.2)}
+    .c-b{background:#fff;border:1px solid #E2E8F0;color:#334155;padding:8px 12px;border-radius:3px 14px 14px 14px;font-size:12px;max-width:85%;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+    .c-b b{color:#0F172A}.c-b em{color:var(--orange)}
+    .c-t{display:flex;gap:4px;padding:10px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:3px 14px 14px 14px;width:fit-content;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+    .c-t span{width:6px;height:6px;border-radius:50%;background:#CBD5E1}
+    .c-t span:nth-child(1){animation:td 1.2s 0s infinite}.c-t span:nth-child(2){animation:td 1.2s .2s infinite}.c-t span:nth-child(3){animation:td 1.2s .4s infinite}
+    @keyframes td{0%,100%{transform:translateY(0);background:#CBD5E1}50%{transform:translateY(-4px);background:var(--blue)}}
+    .c-chips{display:flex;gap:4px;flex-wrap:wrap}
+    .c-chip{background:#DBEAFE;border:1px solid rgba(37,99,235,.12);color:var(--blue);padding:5px 10px;border-radius:6px;font-size:10px;font-weight:600}
+    .c-in{animation:ci .3s cubic-bezier(.34,1.3,.64,1) both}
+    @keyframes ci{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ─── FULL BLEED FEATURE SECTIONS ─── */
+    .s-full{min-height:100vh;display:flex;align-items:center;padding:0 5%;position:relative;overflow:hidden}
+
+    .s-context{background:linear-gradient(135deg,#EFF6FF,#DBEAFE,#E0E7FF)}
+    .s-voice{background:linear-gradient(135deg,#F5F3FF,#EDE9FE,#DDD6FE)}
+    .s-autocomplete{background:linear-gradient(135deg,#ECFDF5,#CFFAFE,#D1FAE5)}
+    .s-whatsapp{background:linear-gradient(135deg,#F0FDF4,#DCFCE7,#BBF7D0)}
+    .s-gita{background:linear-gradient(135deg,#FFF7ED,#FFEDD5,#FED7AA)}
+    .s-pwa{background:linear-gradient(135deg,#FEF2F2,#FFE4E6,#FECDD3)}
+
+    .feat-split{display:flex;align-items:center;gap:80px;max-width:1200px;margin:0 auto;width:100%}
+    .feat-text{flex:1}
+    .feat-visual{flex:1;display:flex;align-items:center;justify-content:center}
+
+    .feat-label{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+    .feat-title{font-size:clamp(36px,5vw,56px);font-weight:800;color:#0F172A;line-height:1.1;margin-bottom:20px}
+    .feat-desc{font-size:18px;color:#475569;line-height:1.7;max-width:480px}
+
+    /* Visual demos inside feature sections */
+    .demo-chips{display:flex;flex-wrap:wrap;gap:10px}
+    .demo-chip{
+        background:#fff;border:2px solid #BFDBFE;color:var(--blue);
+        padding:14px 24px;border-radius:14px;font-size:16px;font-weight:700;
+        box-shadow:0 4px 16px rgba(37,99,235,.1);
+        animation:chipBounce 3s ease-in-out infinite alternate;
+    }
+    .demo-chip:nth-child(2){animation-delay:.5s}.demo-chip:nth-child(3){animation-delay:1s}
+    .demo-chip:nth-child(4){animation-delay:1.5s}.demo-chip:nth-child(5){animation-delay:2s}
+    @keyframes chipBounce{0%{transform:translateY(0)}100%{transform:translateY(-12px)}}
+
+    .demo-wave{display:flex;align-items:end;gap:6px;height:120px}
+    .dw-bar{
+        width:10px;border-radius:6px;
+        background:linear-gradient(to top,var(--purple),var(--magenta));
+        animation:dw 1s ease-in-out infinite alternate;
+        height:var(--h);
+    }
+    .dw-bar:nth-child(1){animation-delay:0s}.dw-bar:nth-child(2){animation-delay:.08s}
+    .dw-bar:nth-child(3){animation-delay:.16s}.dw-bar:nth-child(4){animation-delay:.24s}
+    .dw-bar:nth-child(5){animation-delay:.32s}.dw-bar:nth-child(6){animation-delay:.4s}
+    .dw-bar:nth-child(7){animation-delay:.48s}.dw-bar:nth-child(8){animation-delay:.56s}
+    .dw-bar:nth-child(9){animation-delay:.64s}.dw-bar:nth-child(10){animation-delay:.72s}
+    .dw-bar:nth-child(11){animation-delay:.8s}.dw-bar:nth-child(12){animation-delay:.88s}
+    @keyframes dw{0%{height:15%}100%{height:var(--h)}}
+
+    .demo-search{
+        width:380px;background:#fff;border-radius:20px;overflow:hidden;
+        box-shadow:0 20px 40px rgba(0,0,0,.08);border:2px solid #E2E8F0;
+    }
+    .ds-input{padding:18px 24px;border-bottom:2px solid #F1F5F9;font-size:18px;color:#334155;display:flex;align-items:center}
+    .ds-cursor{animation:bk .8s step-end infinite;color:var(--cyan);font-weight:700;font-size:20px}
+    @keyframes bk{0%,100%{opacity:1}50%{opacity:0}}
+    .ds-item{padding:16px 24px;font-size:16px;color:#475569;border-bottom:1px solid #F8FAFC;display:flex;align-items:center;gap:10px;transition:background .2s}
+    .ds-item:last-child{border:none}
+    .ds-item:hover{background:#F0FDFA}
+
+    .demo-wa{
+        width:340px;background:#fff;border-radius:20px;padding:24px;
+        box-shadow:0 20px 40px rgba(0,0,0,.08);border:2px solid #BBF7D0;
+    }
+    .dwa-msg{font-size:16px;color:#334155;line-height:1.6;margin-bottom:16px}
+    .dwa-msg b{color:#0F172A}
+    .dwa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;box-shadow:0 4px 12px rgba(37,211,102,.3)}
+
+    .demo-gita{text-align:center}
+    .dg-q{
+        font-size:28px;font-weight:700;color:var(--orange);font-style:italic;
+        margin-bottom:20px;font-family:var(--h);
+    }
+    .dg-arrow{font-size:48px;color:#CBD5E1;animation:bounce 2s ease-in-out infinite;display:block;margin-bottom:16px}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+    .dg-label{
+        display:inline-flex;align-items:center;gap:8px;
+        background:#FFF7ED;border:2px solid #FED7AA;color:var(--orange);
+        padding:14px 28px;border-radius:14px;font-size:16px;font-weight:700;
+    }
+
+    .demo-pwa{text-align:center}
+    .dp-icon{
+        width:120px;height:120px;border-radius:32px;
+        background:linear-gradient(135deg,#DCFCE7,#BBF7D0);
+        display:flex;align-items:center;justify-content:center;
+        margin:0 auto 24px;
+        box-shadow:0 12px 32px rgba(22,163,74,.15);
+        animation:pwaFloat 4s ease-in-out infinite;
+    }
+    .dp-icon i{width:48px;height:48px;color:var(--green)}
+    @keyframes pwaFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .dp-text{font-size:24px;font-weight:700;color:#0F172A;font-family:var(--h)}
+    .dp-sub{font-size:16px;color:#64748B;margin-top:8px}
+
+    /* ─── CITIES ─── */
+    .s-cities{
+        padding:120px 5%;
+        background:linear-gradient(180deg,#0F172A,#1E293B,#334155);
+        color:#fff;
+    }
+    .cities-head{text-align:center;margin-bottom:80px}
+    .cities-head h2{font-size:clamp(36px,5vw,56px);font-weight:800;margin-bottom:16px}
+    .cities-head .grad{background:linear-gradient(135deg,#60A5FA,#A78BFA,#F472B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .cities-head p{font-size:18px;color:#94A3B8;max-width:500px;margin:0 auto}
+
+    .city-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1100px;margin:0 auto}
+    .city-c{
+        background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+        backdrop-filter:blur(12px);border-radius:24px;padding:36px;
+        transition:all .4s;position:relative;overflow:hidden;
+    }
+    .city-c:hover{border-color:rgba(255,255,255,.2);transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+    .city-c.cc-live{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(236,72,153,.06));border-color:rgba(249,115,22,.25)}
+    .city-c.cc-live:hover{box-shadow:0 20px 40px rgba(249,115,22,.2)}
+    .city-badge{position:absolute;top:20px;right:20px;font-size:11px;font-weight:700;padding:5px 12px;border-radius:99px}
+    .city-badge.live{background:rgba(34,197,94,.15);color:#4ADE80}.city-badge.dev{background:rgba(255,255,255,.06);color:#94A3B8}
+    .city-icon{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;overflow:hidden}
+    .city-icon img{width:56px;height:56px;object-fit:contain}
+    .city-icon.letter{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(37,99,235,.1));font-size:28px;font-weight:800;color:#A78BFA;font-family:'Noto Serif Devanagari',serif}
+    .city-c h3{font-size:24px;font-weight:700;margin-bottom:8px}
+    .city-c p{font-size:14px;color:#94A3B8;line-height:1.5;margin-bottom:14px}
+    .city-link{color:#60A5FA;font-weight:700;font-size:14px;text-decoration:none;transition:color .2s}
+    .city-link:hover{color:#A78BFA}
+
+    /* ─── FOOTER ─── */
+    footer{padding:40px 5%;background:#000;display:flex;align-items:center;justify-content:space-between}
+    .f-brand{display:flex;align-items:center;gap:10px}
+    .f-logo{width:24px;height:24px;border-radius:4px;opacity:.6}
+    .f-name{font-size:14px;font-weight:700;color:#94A3B8}
+    .f-tag{font-size:11px;color:#475569}
+    .f-copy{font-size:12px;color:#475569}
+
+    /* ─── 3D ─── */
+    .three-wrap{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5}
+    #three-canvas{width:100%;height:100%}
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:1024px){
+        .feat-split{flex-direction:column;gap:48px;text-align:center}
+        .feat-desc{margin:0 auto}
+        .city-row{grid-template-columns:1fr 1fr}
+        .float-panel{display:none}
+    }
+    @media(max-width:768px){
+        .city-row{grid-template-columns:1fr}
+        .n-links .n-link{display:none}
+        .phone-center{width:260px}
+        .demo-search{width:100%}
+        .demo-wa{width:100%}
+        .s-full{min-height:auto;padding:80px 5%}
+    }
     </style>
 </head>
-
 <body>
-    <div class="app-shell" id="appShell">
 
-        <!-- ════ BRAND BAR ════ -->
-        <div class="brand-bar">
-            <div class="brand-left">
-                <div class="brand-logo">
-                    <div class="brand-icon">
-                        <img src="./icons/city-mitra-bot.png" alt="City Mitra">
-                    </div>
-                    <div class="brand-wordmark">
-                        <div class="brand-name" id="header-title">City Mitra</div>
-                        <div class="brand-tagline" id="header-subtitle">Civic AI Platform</div>
-                    </div>
-                </div>
-                <div class="brand-divider"></div>
-                <div class="city-badge">
-                    <div class="city-dot"></div>
-                    <div class="city-name-sm">Kurukshetra</div>
-                </div>
-            </div>
-            <div class="brand-right">
-                <div class="lang-btn" onclick="toggleLanguage()">
-                    <span id="lang-flag">🇬🇧</span>
-                    <span id="lang-code">EN</span>
-                </div>
-                <div class="menu-dropdown-wrap">
-                    <div class="menu-btn" onclick="event.stopPropagation(); toggleMenu()" title="Menu">
-                        <span></span><span></span><span></span>
-                    </div>
-                    <div id="menu-dropdown" class="hidden" onclick="event.stopPropagation()">
-                        <button onclick="clearChat()">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            <span id="menu-clear">Clear chat</span>
-                        </button>
-                        <button onclick="window.location.href='settings.html'">
-                            <i data-lucide="settings" class="w-4 h-4"></i>
-                            <span>Settings</span>
-                        </button>
-                        <button onclick="shareApp()">
-                            <i data-lucide="share-2" class="w-4 h-4"></i>
-                            <span>Share App</span>
-                        </button>
-                        <button onclick="window.open('https://kurukshetra.gov.in', '_blank')">
-                            <i data-lucide="external-link" class="w-4 h-4"></i>
-                            <span id="menu-visit">Visit Website</span>
-                        </button>
-                        <a href="feedback.html" target="_blank">
-                            <i data-lucide="message-square" class="w-4 h-4"></i>
-                            <span id="menu-feedback-text">Give Feedback</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+<!-- NAV -->
+<nav id="nav">
+    <div class="n-brand">
+        <div class="n-logo"><img src="icons/city-mitra-new-logo.png" alt="City Mitra"></div>
+        <span class="n-name">City Mitra</span>
+    </div>
+    <div class="n-links">
+        <a href="#capabilities" class="n-link">Capabilities</a>
+        <a href="#cities" class="n-link">Cities</a>
+        <a href="https://kkr.citymitra.app" class="n-cta"><span class="cta-dot"></span>Try Live Bot</a>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1: HERO — Apple-style full screen
+═══════════════════════════════════════════ -->
+<section class="s-hero" id="hero">
+    <div class="three-wrap"><canvas id="three-canvas"></canvas></div>
+    <div class="hero-inner">
+        <div class="hero-badge anim-up"><i data-lucide="bot" style="width:16px;height:16px"></i> Civic AI Intelligence</div>
+        <h1 class="hero-h anim-up">Your City's<br>Smartest <span class="grad">Assistant.</span></h1>
+        <p class="hero-p anim-up">Hyper-local AI chatbots trained on district data. Heritage, officers, schemes, emergencies — in Hindi & English, 24/7.</p>
+        <div class="hero-btns anim-up">
+            <a href="https://kkr.citymitra.app" class="btn-g"><i data-lucide="message-circle"></i>Chat with Kurukshetra Bot</a>
+            <a href="#capabilities" class="btn-o">Explore Platform</a>
         </div>
-
-        <!-- ════ BRAND HERO (INITIAL POST) ════ -->
-        <div class="city-hero" id="welcome-message">
-            <div class="city-hero-top">
-                <div class="city-seal" style="overflow: hidden; background: #fff; border: none;">
-                    <img src="./icons/city-mitra-bot.png" alt="City Mitra"
-                        style="width: 100%; height: 100%; object-fit: cover; transform: scale(2.4); transform-origin: center center;">
-                </div>
-                <div class="city-info">
-                    <div class="city-label" id="official-info-title">— YOUR CITY ASSISTANT</div>
-                    <div class="city-title" id="welcome-title">Kurukshetra<br><em id="welcome-subtitle">Civic Guide</em>
-                    </div>
-                    <div class="city-deva" id="welcome-text">कुरुक्षेत्र — आपकी सेवा में</div>
-                </div>
-            </div>
-            <div class="topic-tags">
-                <div class="ttag" style="background:#FFF3E0;color:#E65100;border-color:#FFE0B2"
-                    onclick="handleChipClick('Tourist places in Kurukshetra')">
-                    <span id="welcome-tourist">🏛️ Heritage</span>
-                </div>
-                <div class="ttag" style="background:#E8EAF6;color:#283593;border-color:#C5CAE9"
-                    onclick="handleChipClick('Who is the DC of Kurukshetra?')">
-                    <span id="welcome-officers">👤 Officers</span>
-                </div>
-                <div class="ttag" style="background:#FFEBEE;color:#C62828;border-color:#FFCDD2"
-                    onclick="handleChipClick('Emergency contacts in Kurukshetra')">
-                    <span id="welcome-emergency">🚨 Emergency</span>
-                </div>
-                <div class="ttag" style="background:#E8F5E9;color:#2E7D32;border-color:#C8E6C9"
-                    onclick="handleChipClick('Government schemes in Kurukshetra')">
-                    <span id="welcome-services">📋 Schemes</span>
-                </div>
-                <div class="ttag" style="background:#F3E5F5;color:#6A1B9A;border-color:#E1BEE7"
-                    onclick="handleChipClick('District information Kurukshetra')">
-                    <span id="welcome-district">📊 District</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- ════ CHAT CONTAINER ════ -->
-        <div id="chat-container">
-            <div id="messages-list"></div>
-            <div id="loading-indicator" class="hidden">
-                <div class="typing-row new">
-                    <div class="av">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                        </svg>
-                    </div>
-                    <div class="tbub">
-                        <div class="td"></div>
-                        <div class="td"></div>
-                        <div class="td"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hidden: chips-related elements (JS compat) -->
-        <div id="chips-container" class="hidden"></div>
-        <div id="chips-title" class="hidden"></div>
-        <div id="indicators" class="hidden"></div>
-        <div id="chips-grid" class="hidden"></div>
-        <div id="toggle-chips-btn" style="display:none !important;">
-            <span id="suggestions-btn-text"></span>
-        </div>
-
-        <!-- ════ INPUT ZONE ════ -->
-        <div class="input-zone" id="input-bar">
-            <!-- Dynamic context-aware suggestions -->
-            <div class="ctx hide-scrollbar" id="dynamic-suggestions">
-                <div class="csug" onclick="handleChipClick('Famous temples in Kurukshetra')">🛕 Temples</div>
-                <div class="csug" onclick="handleChipClick('How to contact the DC office?')">📞 DC Office</div>
-                <div class="csug" onclick="handleChipClick('Government schemes for farmers')">🌾 Schemes</div>
-                <div class="csug" onclick="handleChipClick('Emergency helpline numbers')">🚑 Helplines</div>
-                <div class="csug" onclick="handleChipClick('Best time to visit Kurukshetra')">🗓️ Best Time</div>
-            </div>
-            <div id="autocomplete-dropdown" class="autocomplete-dropdown hidden"></div>
-            <div class="inp-wrap">
-                <div class="inp-inner" id="inpBox">
-                    <input type="text" class="inp-field" id="user-input" placeholder="Ask anything about Kurukshetra…"
-                        onkeypress="handleKeyPress(event)" oninput="handleAutocomplete(event); updateCharCount();"
-                        autocomplete="off" maxlength="500">
-                    <button class="mic-btn" id="mic-btn" title="Voice Input">
-                        <i data-lucide="audio-lines"></i>
-                        <div class="voice-indicator" id="voice-indicator"></div>
-                    </button>
-                </div>
-                <button class="send-btn" onclick="sendMessage()">
-                    <i data-lucide="send"></i>
-                </button>
-            </div>
-            <div class="char-counter" id="char-counter">0 / 500</div>
-        </div>
-
-        <!-- ════ BRAND FOOTER ════ -->
-        <div class="brand-footer">
-            <span class="bf-text">Powered by</span>
-            <span class="bf-brand">City Mitra</span>
-            <div class="bf-dot"></div>
-            <span class="bf-text">Civic AI for Every Indian City</span>
+        <div class="stat-strip anim-up">
+            <div class="stat-item"><span class="stat-num" data-count="24">0</span><span class="stat-label">/ 7 Available</span></div>
+            <div class="stat-item"><span class="stat-num" data-count="2">0</span><span class="stat-label">Languages</span></div>
+            <div class="stat-item"><span class="stat-num" data-count="90">0</span><span class="stat-label">+ Heritage Sites</span></div>
         </div>
     </div>
+</section>
 
-    <!-- External JavaScript -->
-    <script src="script.js?v=9.0"></script>
-    <script src="script_mic.js?v=9.0"></script>
-    <script src="script_listen.js?v=9.0"></script>
-    <script src="settings-integration.js?v=9.0"></script>
+<!-- ═══════════════════════════════════════════
+     SECTION 2: PINNED PHONE + FLOATING PANELS
+═══════════════════════════════════════════ -->
+<section class="s-phone-pin" id="capabilities">
+    <div class="phone-sticky">
+        <!-- Floating panels (animated by GSAP) -->
+        <div class="float-panel fp-left" id="fp1">
+            <div class="fp-icon" style="background:rgba(37,99,235,.15);color:#60A5FA"><i data-lucide="brain"></i></div>
+            <h3>Context Engine</h3>
+            <p>Footer suggestions rewire dynamically based on conversation topic — in both languages.</p>
+        </div>
+        <div class="float-panel fp-right" id="fp2">
+            <div class="fp-icon" style="background:rgba(124,58,237,.15);color:#A78BFA"><i data-lucide="mic"></i></div>
+            <h3>Voice Dictation</h3>
+            <p>Speak naturally in Hindi or English. Web Speech API processes requests instantly.</p>
+        </div>
 
-    <!-- ═══════════════════════════════════════════════════
-         INPUT FOCUS EFFECTS
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        (function () {
-            const inp = document.getElementById('user-input');
-            const box = document.getElementById('inpBox');
-            if (inp && box) {
-                inp.addEventListener('focus', () => box.classList.add('on'));
-                inp.addEventListener('blur', () => box.classList.remove('on'));
-            }
-        })();
-    </script>
+        <!-- Centered phone -->
+        <div class="phone-center" id="phone-el">
+            <div class="phone-shell">
+                <div class="p-notch"></div>
+                <div class="p-header">
+                    <div class="p-av"><img src="icons/city-mitra-new-logo.png" alt="Bot"></div>
+                    <div><div class="p-nm">City Mitra</div><div class="p-st"><i></i>Online · Kurukshetra</div></div>
+                </div>
+                <div class="p-chat" id="anim-chat"></div>
+                <div class="p-input">
+                    <div class="p-field">Ask about Kurukshetra...</div>
+                    <div class="p-send"><i data-lucide="send" style="width:12px;height:12px"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <!-- ═══════════════════════════════════════════════════
-         SETTINGS LOADER
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        console.log('💪 ULTRA-STRONG Settings Loader Started');
+<!-- ═══════════════════════════════════════════
+     SECTION 3-8: FULL BLEED FEATURE SECTIONS
+     Each feature = full viewport, Apple style
+═══════════════════════════════════════════ -->
+<section class="s-full s-context" id="f-context">
+    <div class="feat-split">
+        <div class="feat-text">
+            <div class="feat-label" style="color:var(--blue)">Context Intelligence</div>
+            <h2 class="feat-title">Suggestions That<br><span style="color:var(--blue)">Think Ahead.</span></h2>
+            <p class="feat-desc">Ask about temples — it immediately suggests timings, directions, and hotels. Switch to emergencies — it serves helplines, hospitals, and police stations. All in the language you're speaking.</p>
+        </div>
+        <div class="feat-visual">
+            <div class="demo-chips">
+                <span class="demo-chip">🛕 Temple Timings</span>
+                <span class="demo-chip">🗺️ Get Directions</span>
+                <span class="demo-chip">🏨 Book Hotels</span>
+                <span class="demo-chip">📸 Photo Tips</span>
+                <span class="demo-chip">🎟️ Entry Fees</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-        window.addEventListener('DOMContentLoaded', function () {
-            console.log('📄 Page loaded, applying settings with MAXIMUM FORCE...');
+<section class="s-full s-voice" id="f-voice">
+    <div class="feat-split">
+        <div class="feat-visual">
+            <div class="demo-wave">
+                <div class="dw-bar" style="--h:50%"></div><div class="dw-bar" style="--h:85%"></div>
+                <div class="dw-bar" style="--h:40%"></div><div class="dw-bar" style="--h:95%"></div>
+                <div class="dw-bar" style="--h:30%"></div><div class="dw-bar" style="--h:75%"></div>
+                <div class="dw-bar" style="--h:60%"></div><div class="dw-bar" style="--h:90%"></div>
+                <div class="dw-bar" style="--h:35%"></div><div class="dw-bar" style="--h:70%"></div>
+                <div class="dw-bar" style="--h:55%"></div><div class="dw-bar" style="--h:80%"></div>
+            </div>
+        </div>
+        <div class="feat-text">
+            <div class="feat-label" style="color:var(--purple)">Voice Intelligence</div>
+            <h2 class="feat-title">Speak. <span style="color:var(--purple)">Don't Type.</span></h2>
+            <p class="feat-desc">Native Hindi and English voice recognition. Citizens speak naturally and the bot understands context, dialect, and intent. Responses are read aloud via Text-to-Speech.</p>
+        </div>
+    </div>
+</section>
 
-            const saved = localStorage.getItem('infobotSettings');
-            if (!saved) { console.log('⚠️ No saved settings found'); return; }
+<section class="s-full s-autocomplete" id="f-auto">
+    <div class="feat-split">
+        <div class="feat-text">
+            <div class="feat-label" style="color:var(--cyan)">Instant Search</div>
+            <h2 class="feat-title">Results in<br><span style="color:var(--cyan)">Milliseconds.</span></h2>
+            <p class="feat-desc">Pre-cached JSON knowledge graph. Type two characters and see instant bilingual suggestions. No server round-trip. Sub-millisecond local search.</p>
+        </div>
+        <div class="feat-visual">
+            <div class="demo-search">
+                <div class="ds-input">🔍 Bra<span class="ds-cursor">|</span></div>
+                <div class="ds-item">🛕 Brahma Sarovar</div>
+                <div class="ds-item">🏛️ Bhadrakali Temple</div>
+                <div class="ds-item">🕉️ Brahma Kund</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            const settings = JSON.parse(saved);
-            console.log('✅ Settings found:', settings);
+<section class="s-full s-whatsapp" id="f-wa">
+    <div class="feat-split">
+        <div class="feat-visual">
+            <div class="demo-wa">
+                <div class="dwa-msg">📖 <b>Gita Wisdom</b><br><br><em>"Karmanye vadhikaraste, ma phaleshu kadachana..."</em><br><br>The Bhagavad Gita teaches us to focus on action, not results.</div>
+                <div class="dwa-btn"><i data-lucide="share-2" style="width:16px;height:16px"></i>Share via WhatsApp</div>
+            </div>
+        </div>
+        <div class="feat-text">
+            <div class="feat-label" style="color:var(--green)">WhatsApp Bridge</div>
+            <h2 class="feat-title">Share With<br><span style="color:var(--green)">One Tap.</span></h2>
+            <p class="feat-desc">Native adapter built directly into the UI. Citizens share bot responses, invite friends, and transition live conversations into WhatsApp — without losing context.</p>
+        </div>
+    </div>
+</section>
 
-            const ultraStyle = document.createElement('style');
-            ultraStyle.id = 'ultra-settings-override';
-            let css = '';
+<section class="s-full s-gita" id="f-gita">
+    <div class="feat-split">
+        <div class="feat-text">
+            <div class="feat-label" style="color:var(--orange)">Gita Wisdom Engine</div>
+            <h2 class="feat-title">Spiritual Queries.<br><span style="color:var(--orange)">Dedicated Pipeline.</span></h2>
+            <p class="feat-desc">The bot intelligently detects Gita-related questions and routes them to a specialized AI — separating heritage tourism queries from deep scriptural wisdom.</p>
+        </div>
+        <div class="feat-visual">
+            <div class="demo-gita">
+                <div class="dg-q">"What is Karma Yoga?"</div>
+                <span class="dg-arrow">↓</span>
+                <div class="dg-label"><i data-lucide="book-open" style="width:20px;height:20px"></i> Gita AI Pipeline</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            // 1. DARK MODE
-            if (settings.theme === 'dark') {
-                document.body.classList.add('dark-mode');
-                css += `
-                    body.dark-mode { background: #0b141a !important; }
-                    body.dark-mode .app-shell { background: #111318 !important; }
-                    body.dark-mode .brand-bar { background: #111318 !important; }
-                    body.dark-mode .city-hero { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode #chat-container { background: #0b141a !important; }
-                    body.dark-mode .bubble { background: #1f2c34 !important; border-color: #2E333D !important; color: #e9edef !important; }
-                    body.dark-mode .ubub { background: #1A2E8A !important; }
-                    body.dark-mode .input-zone { background: #111318 !important; border-color: #2E333D !important; }
-                    body.dark-mode .inp-inner { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode .inp-field { color: #e9edef !important; }
-                    body.dark-mode .csug { background: #1A1D24 !important; border-color: #2E333D !important; color: #e9edef !important; }
-                    body.dark-mode .brand-footer { background: #111318 !important; border-color: #2E333D !important; }
-                    body.dark-mode .dsep span { background: #1A1D24 !important; border-color: #2E333D !important; color: #9CA3AF !important; }
-                    body.dark-mode .icard { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode .icard-t { color: #e9edef !important; }
-                    body.dark-mode .stat { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode .qc { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode .tbub { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode .city-title, body.dark-mode .icard-t, body.dark-mode .bubble strong, body.dark-mode .bubble b { color: #e9edef !important; }
-                    body.dark-mode .city-deva, body.dark-mode .city-label, body.dark-mode .ai-sender, body.dark-mode .ink2 { color: #9CA3AF !important; }
-                    body.dark-mode .ttag { opacity: 0.9; }
-                    body.dark-mode #menu-dropdown { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode #menu-dropdown button, body.dark-mode #menu-dropdown a { color: #e9edef !important; }
-                    body.dark-mode .autocomplete-dropdown { background: #1A1D24 !important; border-color: #2E333D !important; }
-                    body.dark-mode .autocomplete-item { color: #e9edef !important; border-color: #2E333D !important; }
-                `;
-            }
+<section class="s-full s-pwa" id="f-pwa">
+    <div class="feat-split">
+        <div class="feat-visual">
+            <div class="demo-pwa">
+                <div class="dp-icon"><i data-lucide="wifi-off"></i></div>
+                <div class="dp-text">Works Offline.</div>
+                <div class="dp-sub">Install as native app. Zero loading time.</div>
+            </div>
+        </div>
+        <div class="feat-text">
+            <div class="feat-label" style="color:var(--red)">Offline-First PWA</div>
+            <h2 class="feat-title">No Internet?<br><span style="color:var(--red)">No Problem.</span></h2>
+            <p class="feat-desc">Service Worker pre-caches all critical assets. Cache-first for local data, network-first for live API responses. Installable as a native app on any device.</p>
+        </div>
+    </div>
+</section>
 
-            // 2. FONT SIZE
-            if (settings.fontSize && settings.fontSize !== 'medium') {
-                const sizes = { small: '12px', medium: '14px', large: '16px', xlarge: '18px' };
-                const fs = sizes[settings.fontSize];
-                css += `.bubble, .bubble * { font-size: ${fs} !important; }`;
-            }
+<!-- CITIES -->
+<section class="s-cities" id="cities">
+    <div class="cities-head">
+        <h2>Scaling Across <span class="grad">Districts.</span></h2>
+        <p>One platform. Multiple cities. Each bot trained exclusively on its own district data.</p>
+    </div>
+    <div class="city-row">
+        <div class="city-c cc-live">
+            <div class="city-badge live">● LIVE</div>
+            <div class="city-icon"><img src="icons/city-mitra-new-logo.png" alt="Kurukshetra"></div>
+            <h3>Kurukshetra</h3>
+            <p>Heritage · Tourism · Officers · Schemes · Bhagavad Gita AI · Emergency</p>
+            <a href="https://kkr.citymitra.app" class="city-link">Open Bot →</a>
+        </div>
+        <div class="city-c">
+            <div class="city-badge dev">Indexing</div>
+            <div class="city-icon letter">प</div>
+            <h3>Panchkula</h3>
+            <p>Smart-city datasets · Urban grievance tracking · Municipal services</p>
+        </div>
+        <div class="city-c">
+            <div class="city-badge dev">In Dev</div>
+            <div class="city-icon letter">फ</div>
+            <h3>Faridabad</h3>
+            <p>Industrial intelligence · Commercial guidelines · Transport coordination</p>
+        </div>
+    </div>
+</section>
 
-            // 3. ACCENT COLOR
-            if (settings.accentColor && settings.accentColor !== '#008069') {
-                const accent = settings.accentColor;
-                css += `
-                    :root { --brand: ${accent} !important; }
-                    .brand-bar { background: ${accent} !important; }
-                    .av { background: ${accent} !important; }
-                    .send-btn { background: ${accent} !important; }
-                `;
-            }
+<footer>
+    <div class="f-brand">
+        <img src="icons/city-mitra-new-logo.png" alt="" class="f-logo">
+        <div><div class="f-name">City Mitra</div><div class="f-tag">Civic AI for Every Indian City</div></div>
+    </div>
+    <div class="f-copy">© 2026 City Mitra</div>
+</footer>
 
-            // 7. ANIMATIONS
-            if (settings.animations === false) {
-                css += `*, *::before, *::after { transition: none !important; animation: none !important; }`;
-            }
+<script>
+lucide.createIcons();
+gsap.registerPlugin(ScrollTrigger);
 
-            // 8. COMPACT
-            if (settings.compact) {
-                css += `.bubble { padding: 10px 12px !important; } .ai-row { margin-bottom: 2px !important; }`;
-            }
+// Nav scroll
+window.addEventListener("scroll",()=>document.getElementById("nav").classList.toggle("scrolled",window.scrollY>20));
 
-            // 9. TIMESTAMPS
-            if (settings.timestamps === false) {
-                css += `.ai-time, .umeta { display: none !important; }`;
-            }
+// Hero entry
+gsap.from(".anim-up",{y:50,opacity:0,duration:1,stagger:.18,ease:"power3.out",delay:.3});
 
-            ultraStyle.textContent = css;
-            document.head.appendChild(ultraStyle);
-            console.log('🎉 Settings applied!');
-        });
+// Counter animation
+document.querySelectorAll('.stat-num[data-count]').forEach(el=>{
+    const target=parseInt(el.dataset.count);
+    gsap.to(el,{
+        scrollTrigger:{trigger:el,start:"top 90%"},
+        textContent:target,duration:2,ease:"power2.out",
+        snap:{textContent:1},
+        onUpdate:function(){el.textContent=Math.round(parseFloat(el.textContent))}
+    });
+});
 
-        function lightenColor(color, percent) {
-            const num = parseInt(color.replace("#", ""), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = Math.min(255, (num >> 16) + amt);
-            const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
-            const B = Math.min(255, (num & 0x0000FF) + amt);
-            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
-        }
+// Phone pin section: floating panels appear/disappear
+const pinTl=gsap.timeline({
+    scrollTrigger:{trigger:".s-phone-pin",start:"top top",end:"bottom bottom",scrub:1}
+});
+pinTl.fromTo("#fp1",{opacity:0,x:-40},{opacity:1,x:0,duration:.3},0)
+     .fromTo("#fp2",{opacity:0,x:40},{opacity:1,x:0,duration:.3},.15)
+     .to("#phone-el",{scale:1.05,duration:.2},.1)
+     .to("#phone-el",{scale:1,duration:.2},.5)
+     .to("#fp1",{opacity:0,y:-30,duration:.2},.7)
+     .to("#fp2",{opacity:0,y:-30,duration:.2},.75);
 
-        function darkenColor(color, percent) {
-            const num = parseInt(color.replace("#", ""), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = Math.max(0, (num >> 16) - amt);
-            const G = Math.max(0, (num >> 8 & 0x00FF) - amt);
-            const B = Math.max(0, (num & 0x0000FF) - amt);
-            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
-        }
-    </script>
+// Feature sections: parallax slide-in
+document.querySelectorAll('.s-full').forEach(sec=>{
+    const text=sec.querySelector('.feat-text');
+    const vis=sec.querySelector('.feat-visual');
+    if(text) gsap.from(text,{scrollTrigger:{trigger:sec,start:"top 80%",end:"top 30%",scrub:1},x:-60,opacity:0});
+    if(vis) gsap.from(vis,{scrollTrigger:{trigger:sec,start:"top 80%",end:"top 30%",scrub:1},x:60,opacity:0});
+});
 
-    <!-- ═══════════════════════════════════════════════════
-         CHARACTER COUNTER
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        function updateCharCount() {
-            const input = document.getElementById('user-input');
-            const counter = document.getElementById('char-counter');
-            if (input && counter) {
-                const len = input.value.length;
-                counter.textContent = len + ' / 500';
-                counter.classList.toggle('show', len > 0);
-            }
-        }
-    </script>
+// City cards
+document.querySelectorAll('.city-c').forEach((c,i)=>{
+    gsap.from(c,{scrollTrigger:{trigger:c,start:"top 90%"},y:40,opacity:0,duration:.8,delay:i*.15,ease:"power3.out"});
+});
 
-    <!-- ═══════════════════════════════════════════════════
-         DYNAMIC SUGGESTIONS — Context-aware updates
-         This is the KEY replication from city-mitra-brand.html
-         The footer suggestions change dynamically based on
-         the last bot response topic.
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        function updateDynamicSuggestions(suggestions) {
-            const container = document.getElementById('dynamic-suggestions');
-            if (!container || !suggestions || !suggestions.length) return;
-            container.innerHTML = '';
-            suggestions.forEach(function (s) {
-                const d = document.createElement('div');
-                d.className = 'csug';
-                d.textContent = s;
-                d.onclick = function () { handleChipClick(s); };
-                container.appendChild(d);
-            });
-        }
+// ═══════ CHAT ANIMATION ═══════
+const chatC=document.getElementById('anim-chat');
+const conv=[
+    {t:'u',x:'Tourist places in Kurukshetra?',d:1500},
+    {t:'t',d:1200},
+    {t:'b',x:'🏛️ <b>Top Heritage Sites:</b><br>• Brahma Sarovar<br>• Jyotisar<br>• Sheikh Chehli Tomb<br>• Bhadrakali Temple',d:3000},
+    {t:'c',x:['🕐 Timings','🗺️ Directions','🏨 Hotels'],d:2000},
+    {t:'u',x:'DC कौन हैं?',d:2500},
+    {t:'t',d:1000},
+    {t:'b',x:'👤 <b>Deputy Commissioner:</b><br>श्री राज शेखर, IAS<br>📞 01744-291700',d:3000},
+    {t:'c',x:['📋 Officers','🏢 Depts','📞 Contact'],d:2000},
+];
+let mi=0;
+function pn(){
+    if(mi>=conv.length){setTimeout(()=>{chatC.innerHTML='';mi=0;pn()},4000);return}
+    const m=conv[mi++];const el=document.createElement('div');
+    if(m.t==='u'){el.className='c-u c-in';el.innerHTML=m.x;chatC.appendChild(el);chatC.scrollTop=chatC.scrollHeight;setTimeout(pn,m.d)}
+    else if(m.t==='t'){el.className='c-t c-in';el.innerHTML='<span></span><span></span><span></span>';chatC.appendChild(el);chatC.scrollTop=chatC.scrollHeight;setTimeout(()=>{el.remove();pn()},m.d)}
+    else if(m.t==='b'){el.className='c-b c-in';el.innerHTML=m.x;chatC.appendChild(el);chatC.scrollTop=chatC.scrollHeight;setTimeout(pn,m.d)}
+    else if(m.t==='c'){el.className='c-chips c-in';el.innerHTML=m.x.map(t=>`<span class="c-chip">${t}</span>`).join('');chatC.appendChild(el);chatC.scrollTop=chatC.scrollHeight;setTimeout(pn,m.d)}
+}
+setTimeout(pn,2000);
 
-        /**
-         * CONTEXT-AWARE SUGGESTION ENGINE (Bilingual)
-         * Analyzes the bot's last response and updates the footer
-         * suggestions to be contextually relevant in the correct language.
-         */
-        function detectAndUpdateContext(botResponse) {
-            const isHi = (typeof currentLanguage !== 'undefined' && currentLanguage === 'hi');
-            let ctx = [];
-
-            if (!botResponse) {
-                // Default options if no response yet
-                ctx = isHi
-                    ? ['🏛️ पर्यटन स्थल', '👤 DC कौन हैं?', '🚨 आपातकालीन नंबर', '📊 जिला जानकारी', '📋 सरकारी योजनाएं']
-                    : ['🏛️ Tourist places', '👤 DC contact', '🚨 Helplines', '📊 District info', '📋 Schemes'];
-                updateDynamicSuggestions(ctx);
-                return;
-            }
-
-            // Combine bot response with last user message for better context
-            let fullText = botResponse;
-            if (typeof messages !== 'undefined' && Array.isArray(messages)) {
-                for (let i = messages.length - 1; i >= 0; i--) {
-                    if (messages[i].role === 'user') {
-                        // User's query is highly weighted (added 3 times) to ensure user intent drives suggestions
-                        fullText = messages[i].content + " " + messages[i].content + " " + messages[i].content + " " + fullText;
-                        break;
-                    }
-                }
-            }
-
-            const q = fullText.toLowerCase();
-
-            // Calculate keyword matches for each category through scoring
-            const scores = {
-                tourist: (q.match(/\b(tourist|tourism|heritage|temple|sarovar|jyotisar|mandir|पर्यटन|मंदिर|विरासत|तीर्थ)\b/gi) || []).length,
-                emergency: (q.match(/\b(emergency|helpline|ambulance|police|fire|accident|112|108|100|hospital|आपातकालीन|पुलिस|अस्पताल)\b/gi) || []).length,
-                admin: (q.match(/\b(dc|commissioner|collector|officer|official|department|admin|administration|tehsil|sdm|अधिकारी|विभाग|प्रशासन)\b/gi) || []).length,
-                district: (q.match(/\b(population|stat|census|data|fact|area|info|district|demographic|जनसंख्या|आंकड़े|जिला)\b/gi) || []).length,
-                scheme: (q.match(/\b(scheme|yojna|welfare|benefit|farmer|kisan|housing|ayushman|subsidy|scholarship|योजना|कल्याण|किसान|लाभ)\b/gi) || []).length,
-                weather: (q.match(/\b(best time|season|weather|month|trip|plan|मौसम|यात्रा)\b/gi) || []).length,
-                gita: (q.match(/\b(gita|geeta|bhagavad|bhagwad|verse|chapter|krishna|arjun|karma|dharma|moksha|गीता|कृष्ण|कर्म)\b/gi) || []).length
-            };
-
-            let maxScore = 0;
-            let bestCategory = null;
-            for (const cat in scores) {
-                if (scores[cat] > maxScore) {
-                    maxScore = scores[cat];
-                    bestCategory = cat;
-                }
-            }
-
-            if (bestCategory === 'tourist') {
-                ctx = isHi
-                    ? ['🕐 मंदिर का समय', '🗺️ दिशा-निर्देश', '🏨 ठहरने के विकल्प', '📸 फोटो टिप्स', '🎟️ प्रवेश शुल्क']
-                    : ['🕐 Temple timings', '🗺️ Directions', '🏨 Stay options', '📸 Photo tips', '🎟️ Entry fees'];
-            } else if (bestCategory === 'emergency') {
-                ctx = isHi
-                    ? ['🏥 अस्पताल', '👮 पुलिस स्टेशन', '🩸 ब्लड बैंक', '🚒 फायर स्टेशन', '🩺 डॉक्टर']
-                    : ['🏥 Hospitals', '👮 Police stations', '🩸 Blood bank', '🚒 Fire stations', '🩺 Doctors'];
-            } else if (bestCategory === 'admin') {
-                ctx = isHi
-                    ? ['📋 सभी अधिकारी', '🏢 सभी विभाग', '📝 शिकायत दर्ज करें', '🔍 RTI अनुरोध', '📞 संपर्क नंबर']
-                    : ['📋 All officers', '🏢 All departments', '📝 File complaint', '🔍 RTI request', '📞 Numbers'];
-            } else if (bestCategory === 'district') {
-                ctx = isHi
-                    ? ['📈 विकास के आंकड़े', '🌾 कृषि', '🏫 शिक्षा', '🏥 स्वास्थ्य देखभाल', '🏭 उद्योग']
-                    : ['📈 Growth data', '🌾 Agriculture', '🏫 Education', '🏥 Healthcare', '🏭 Industry'];
-            } else if (bestCategory === 'scheme') {
-                ctx = isHi
-                    ? ['🌾 पीएम-किसान', '🏠 आवास योजना', '👩 महिला कल्याण', '🎓 छात्रवृत्ति', '📝 आवेदन कैसे करें']
-                    : ['🌾 PM-KISAN', '🏠 Housing scheme', '👩 Women welfare', '🎓 Scholarships', '📝 How to apply'];
-            } else if (bestCategory === 'weather') {
-                ctx = isHi
-                    ? ['🎪 गीता जयंती', '🌡️ मौसम', '🚂 ट्रेनें', '✈️ उड़ानें', '🏨 होटल']
-                    : ['🎪 Geeta Jayanti', '🌡️ Weather', '🚂 Trains', '✈️ Flights', '🏨 Hotels'];
-            } else if (bestCategory === 'gita') {
-                ctx = isHi
-                    ? ['📖 गीता के अध्याय', '🙏 कर्म योग', '🧘 ध्यान', '⚔️ अर्जुन की दुविधा', '🕉️ मुख्य शिक्षाएं']
-                    : ['📖 Gita chapters', '🙏 Karma Yoga', '🧘 Meditation', '⚔️ Arjuna\'s dilemma', '🕉️ Key teachings'];
-            } else {
-                ctx = isHi
-                    ? ['🏛️ पर्यटन स्थल', '👤 DC कौन हैं?', '🚨 आपातकालीन नंबर', '📊 जिला जानकारी', '📋 सरकारी योजनाएं']
-                    : ['🏛️ Tourist places', '👤 DC contact', '🚨 Helplines', '📊 District info', '📋 Schemes'];
-            }
-
-            updateDynamicSuggestions(ctx);
-        }
-    </script>
-
-    <!-- renderMessages is handled entirely by script.js (brand version) -->
-
-    <!-- Welcome is now handled inline by renderMessages() in script.js -->
-
-    <!-- ═══════════════════════════════════════════════════
-         SAFARI iOS — Bulletproof Keyboard Viewport Fix
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        (function () {
-            'use strict';
-            if (!('ontouchstart' in window)) return;
-
-            const appShell = document.getElementById('appShell');
-            const inputBar = document.getElementById('input-bar');
-            const chatContainer = document.getElementById('chat-container');
-            const userInput = document.getElementById('user-input');
-
-            if (!appShell || !inputBar || !chatContainer || !userInput) return;
-
-            if (window.visualViewport) {
-                let isKeyboardOpen = false;
-                let rafPending = false;
-
-                function adjustForKeyboard() {
-                    if (rafPending) return;
-                    rafPending = true;
-
-                    requestAnimationFrame(function () {
-                        rafPending = false;
-                        const vv = window.visualViewport;
-                        const currentHeight = vv.height;
-                        const fullHeight = window.innerHeight;
-                        const keyboardHeight = fullHeight - currentHeight - vv.offsetTop;
-
-                        if (keyboardHeight > 80) {
-                            isKeyboardOpen = true;
-                            appShell.style.height = currentHeight + 'px';
-                            requestAnimationFrame(function () {
-                                chatContainer.scrollTop = chatContainer.scrollHeight;
-                            });
-                        } else {
-                            if (isKeyboardOpen) {
-                                isKeyboardOpen = false;
-                                appShell.style.height = '';
-                            }
-                        }
-                        window.scrollTo(0, 0);
-                        document.documentElement.scrollTop = 0;
-                        document.body.scrollTop = 0;
-                    });
-                }
-
-                window.visualViewport.addEventListener('resize', adjustForKeyboard);
-                window.visualViewport.addEventListener('scroll', function () {
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-                });
-
-                userInput.addEventListener('focus', function () {
-                    setTimeout(function () {
-                        adjustForKeyboard();
-                        chatContainer.scrollTop = chatContainer.scrollHeight;
-                    }, 350);
-                });
-
-                userInput.addEventListener('blur', function () {
-                    setTimeout(function () {
-                        appShell.style.height = '';
-                        window.scrollTo(0, 0);
-                    }, 100);
-                });
-            }
-
-            document.addEventListener('touchmove', function (e) {
-                let target = e.target;
-                while (target && target !== document) {
-                    if (target === chatContainer || target.classList.contains('ctx') ||
-                        target.classList.contains('autocomplete-dropdown')) {
-                        return;
-                    }
-                    target = target.parentNode;
-                }
-                e.preventDefault();
-            }, { passive: false });
-
-            window.addEventListener('scroll', function () {
-                if (window.scrollY !== 0) window.scrollTo(0, 0);
-            });
-
-            appShell.addEventListener('touchstart', function () {
-                if (chatContainer.scrollTop <= 0) chatContainer.scrollTop = 1;
-                if (chatContainer.scrollTop + chatContainer.clientHeight >= chatContainer.scrollHeight) {
-                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight - 1;
-                }
-            }, { passive: true });
-        })();
-    </script>
-
-    <!-- Service Worker — Smart Update-Aware Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(reg => {
-                    console.log('✅ SW registered', reg.scope);
-
-                    // Check for updates every 60 seconds
-                    setInterval(() => {
-                        reg.update().catch(() => { });
-                    }, 60 * 1000);
-
-                    // When a new SW is found and waiting
-                    reg.addEventListener('updatefound', () => {
-                        const newWorker = reg.installing;
-                        console.log('🔄 New SW found, state:', newWorker.state);
-
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // New SW is ready — tell it to activate immediately
-                                console.log('⚡ New SW installed — activating...');
-                                newWorker.postMessage('SKIP_WAITING');
-                            }
-                        });
-                    });
-                }).catch(err => console.error('❌ SW registration failed', err));
-
-                // When the controlling SW changes (new version activated),
-                // reload the page to pick up fresh assets
-                let refreshing = false;
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    if (!refreshing) {
-                        refreshing = true;
-                        console.log('🔄 New SW active — reloading for fresh content...');
-                        window.location.reload();
-                    }
-                });
-            });
-        }
-    </script>
+// ═══════ THREE.JS — Floating colorful spheres ═══════
+(function(){
+    const c=document.getElementById('three-canvas');if(!c)return;
+    const scene=new THREE.Scene();
+    const cam=new THREE.PerspectiveCamera(50,c.clientWidth/c.clientHeight,.1,100);cam.position.z=10;
+    const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+    r.setSize(c.parentElement.clientWidth,c.parentElement.clientHeight);
+    r.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    scene.add(new THREE.AmbientLight(0xffffff,.6));
+    const l1=new THREE.DirectionalLight(0x2563EB,2);l1.position.set(5,5,5);scene.add(l1);
+    const l2=new THREE.DirectionalLight(0x7C3AED,2);l2.position.set(-5,-3,3);scene.add(l2);
+    const l3=new THREE.DirectionalLight(0xDB2777,1);l3.position.set(0,5,-5);scene.add(l3);
+    const bubs=[];
+    [{s:.5,c:0x2563EB,x:3,y:2,z:0},{s:.35,c:0x7C3AED,x:-2,y:-1.5,z:1},{s:.25,c:0xDB2777,x:1,y:-2.5,z:-1},
+     {s:.4,c:0xEA580C,x:-3,y:1,z:-.5},{s:.2,c:0x0891B2,x:2.5,y:-1,z:.8},{s:.3,c:0x16A34A,x:-1,y:2.5,z:-1},
+     {s:.15,c:0x60A5FA,x:3.5,y:.5,z:1},{s:.18,c:0xA78BFA,x:-3.5,y:-2,z:.3}
+    ].forEach(b=>{
+        const g=new THREE.SphereGeometry(b.s,32,32);
+        const m=new THREE.MeshPhysicalMaterial({color:b.c,metalness:.1,roughness:.2,clearcoat:.9,transparent:true,opacity:.75});
+        const mesh=new THREE.Mesh(g,m);mesh.position.set(b.x,b.y,b.z);
+        mesh.userData={by:b.y,sp:.4+Math.random()*.6,ph:Math.random()*Math.PI*2};
+        scene.add(mesh);bubs.push(mesh);
+    });
+    let mx=0,my=0;
+    document.addEventListener('mousemove',e=>{mx=(e.clientX-window.innerWidth/2)*.001;my=(e.clientY-window.innerHeight/2)*.001});
+    window.addEventListener('resize',()=>{if(!c.parentElement)return;cam.aspect=c.parentElement.clientWidth/c.parentElement.clientHeight;cam.updateProjectionMatrix();r.setSize(c.parentElement.clientWidth,c.parentElement.clientHeight)});
+    const cl=new THREE.Clock();
+    function a(){requestAnimationFrame(a);const t=cl.getElapsedTime();
+    bubs.forEach(b=>{b.position.y=b.userData.by+Math.sin(t*b.userData.sp+b.userData.ph)*.35;b.rotation.x+=.003;b.rotation.y+=.004});
+    scene.rotation.y+=.02*(mx-scene.rotation.y);scene.rotation.x+=.02*(my-scene.rotation.x);
+    r.render(scene,cam)}a();
+})();
+</script>
 </body>
-
 </html>
