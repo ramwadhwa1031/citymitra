@@ -623,11 +623,21 @@ function formatText(text) {
         cleaned += `\n\n[📊 Share your feedback ↗](${feedbackUrl})`;
     }
 
+    // ── AI Warning & Disclaimer formatting ──
+    // Converts AI warning banners into a distinct highlighted block
+    cleaned = cleaned.replace(/⚠️\s*AI-?Generated Information[^\n]*/gi, '<div style="background:rgba(245, 158, 11, 0.08); border:1px solid rgba(245, 158, 11, 0.2); border-left:3px solid #F59E0B; padding:8px 12px; border-radius:8px; display:flex; align-items:center; gap:8px; font-weight:600; color:#B45309; margin-bottom:12px; font-size:12.5px; box-shadow:0 1px 2px rgba(0,0,0,0.02);"><span style="font-size:16px; line-height:1;">⚠️</span> <span>AI-Generated Info (Unverified)</span></div>');
+    
+    // Converts 'Disclaimer: ...' into a soft red alert box
+    cleaned = cleaned.replace(/^Disclaimer:\s*(.*)/gim, '<div style="background:rgba(239, 68, 68, 0.05); border:1px solid rgba(239, 68, 68, 0.15); border-left:3px solid #EF4444; padding:8px 12px; border-radius:8px; margin:14px 0 10px 0; font-size:12px; color:#B91C1C; line-height:1.5; box-shadow:0 1px 2px rgba(0,0,0,0.02);"><b>Disclaimer:</b> $1</div>');
+
     // ── Clean up messy URL footers and citations ──
-    // Intercepts `--- https://url` or `https://url for more info`
+    // Intercepts `--- https://url` or `https://url for more info` line-by-line
     cleaned = cleaned.replace(/^[-\s─]*((?:https?:\/\/[^\s\n<>]+[\s]*)+)(?:for more information.*)?$/gim, (match, urls) => {
         return '\n\n🌐 **Official Sources:**\n' + urls.trim();
     });
+
+    // Remove any remaining stray dashes (e.g. "website: --- https://..." -> "website: https://...")
+    cleaned = cleaned.replace(/[-─━]{2,}\s*(\[?https?:\/\/)/gi, '$1');
 
     // ── Pre-process raw HTML tags to protect them from regex destruction ──
     const htmlTags = [];
@@ -639,13 +649,15 @@ function formatText(text) {
     const mdLinks = [];
 
     // ── Smart Interactive Links & Social Icons ──
-    // Matches: • Title Name: [URL](URL)  OR  • Title Name: URL  OR • Title Name: --- URL
-    cleaned = cleaned.replace(/^[•\-\*]\s*([^:\n]+):\s*(?:[-─]+\s*)?(?:\[[^\]]+\]\((https?:\/\/[^)]+)\)|(https?:\/\/[^\s<>"']+))/gm, (match, title, mdUrl, rawUrl) => {
+    // Matches: • Title Name: [URL](URL)  OR  🔗 Title Name: URL  OR Title Name: --- URL
+    cleaned = cleaned.replace(/^[\s•\-\*🔗🌐📞✉️🏢🌾🏥🚓🏛️💼▶️📷🐦📘]*([^:\n]+):\s*(?:[-─]+\s*)?(?:\[[^\]]+\]\((https?:\/\/[^)]+)\)|(https?:\/\/[^\s<>"']+))/gm, (match, title, mdUrl, rawUrl) => {
         const cleanUrl = (mdUrl || rawUrl).replace(/[.,!;]+$/, '');
         
         let titleTrim = title.trim();
         // Strip markdown if the title itself has it (e.g. "[Agriculture](url)")
         titleTrim = titleTrim.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+        // Strip any residual bolding markdown that LLM added since it's going into a badge
+        titleTrim = titleTrim.replace(/\*\*/g, '');
         let titleLower = titleTrim.toLowerCase();
         
         // Smart Context-Aware Emojis
@@ -662,8 +674,8 @@ function formatText(text) {
         else if (titleLower.includes('tourism') || titleLower.includes('heritage')) icon = '🏛️';
         else if (titleLower.includes('employment') || titleLower.includes('office') || titleLower.includes('administration') || titleLower.includes('board')) icon = '💼';
 
-        // Format as a sleek inline button (like the .ttag class)
-        const cleanItem = `• <a href="${cleanUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:5px; color:var(--brand); text-decoration:none; font-weight:600; background:var(--brand-xlt); padding:1px 8px; border-radius:12px; font-size:13px; border:1px solid rgba(45, 70, 185, 0.12); margin-top:2px; margin-bottom:2px; transition:all 0.15s;">${icon} ${titleTrim}</a>`;
+        // Format as a sleek standalone inline button without bullet dots
+        const cleanItem = `<a href="${cleanUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:5px; color:var(--brand); text-decoration:none; font-weight:600; background:var(--brand-xlt); padding:1px 8px; border-radius:12px; font-size:13px; border:1px solid rgba(45, 70, 185, 0.12); margin-top:2px; margin-bottom:2px; transition:all 0.15s;">${icon} ${titleTrim}</a>`;
         
         mdLinks.push(cleanItem);
         return `@@MD_LINK_${mdLinks.length - 1}@@`;
