@@ -10,6 +10,14 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@500;600;700&display=swap"
     rel="stylesheet">
+  <script>
+    // ── Single Repo Router ──
+    const sub = window.location.hostname.split('.')[0];
+    const isMainDomain = ['citymitra', 'www', 'localhost', '127'].includes(sub);
+    if (!isMainDomain && !window.location.hostname.match(/^\d+\./)) {
+      window.location.replace('/city.html' + window.location.search + window.location.hash);
+    }
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * {
