@@ -1942,7 +1942,7 @@
         })();
     </script>
 
-    <!-- Service Worker — Smart Update-Aware Registration -->
+    <!-- Service Worker — Registration (no auto-reload) -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -1958,26 +1958,16 @@
                     reg.addEventListener('updatefound', () => {
                         const newWorker = reg.installing;
                         console.log('🔄 New SW found, state:', newWorker.state);
-
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // New SW is ready — tell it to activate immediately
-                                console.log('⚡ New SW installed — activating...');
-                                newWorker.postMessage('SKIP_WAITING');
-                            }
-                        });
                     });
                 }).catch(err => console.error('❌ SW registration failed', err));
 
-                // When the controlling SW changes (new version activated),
-                // reload the page to pick up fresh assets
-                let refreshing = false;
+                // NOTE: Do NOT reload on controllerchange.
+                // The old code called window.location.reload() here, which caused
+                // a double-refresh on every page load: SW install → skipWaiting →
+                // activate → claim → controllerchange → reload. This aborted
+                // in-flight fetch requests and showed "Check internet connection".
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    if (!refreshing) {
-                        refreshing = true;
-                        console.log('🔄 New SW active — reloading for fresh content...');
-                        window.location.reload();
-                    }
+                    console.log('🔄 New SW active — page will use updated assets on next navigation.');
                 });
             });
         }
