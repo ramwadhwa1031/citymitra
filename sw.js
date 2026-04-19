@@ -4,7 +4,7 @@
 //  BUMP THIS VERSION every time you deploy changes!
 // ============================================================
 
-const CACHE_NAME = 'infobot-v2.0';
+const CACHE_NAME = 'infobot-v2.1';
 
 // Assets to pre-cache on install (offline fallback)
 const PRECACHE_ASSETS = [

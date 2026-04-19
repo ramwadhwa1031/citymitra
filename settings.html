@@ -2,399 +2,610 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
     <script src="city-config.js?v=1.0"></script>
-    <meta name="theme-color" content="#4338CA">
+    <meta name="theme-color" content="#2D46B9">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="./manifest.json">
-    <link rel="apple-touch-icon" href="./icons/icon-192.png">
-    <title>Settings — City Mitra</title>
+    <link rel="apple-touch-icon" href="./icons/city-mitra-bot.png">
+    <title>Preferences — City Mitra</title>
+    
+    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
+        :root {
+            /* Fallback brand colors (overridden by config) */
+            --brand: #2D46B9;
+            --brand-light: #EEF1FF;
+            --brand-deep: #1A2E8A;
+            --surface: rgba(255, 255, 255, 0.7);
+            --surface-hover: rgba(255, 255, 255, 0.95);
+            --border: rgba(255, 255, 255, 0.4);
+            --ink: #0F172A;
+            --ink-m: #475569;
+            --ink-l: #94A3B8;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #e8f5f1 0%, #dff0ff 50%, #ede8ff 100%);
+            font-family: 'Inter', sans-serif;
+            background: #F8FAFC;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(45,70,185,0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(224,123,42,0.06) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(45,70,185,0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(224,123,42,0.04) 0px, transparent 50%);
+            background-attachment: fixed;
             min-height: 100vh;
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
-        .gradient-header {
-            background: linear-gradient(130deg, #312E81 0%, #4338CA 55%, #6366F1 100%);
-            box-shadow: 0 4px 20px rgba(67,56,202,0.3);
+        h1, h2, h3, h4, h5, h6, .brand-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Glass cards */
-        .setting-group {
-            background: rgba(255,255,255,0.82);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.7);
+        /* App Shell */
+        .app-shell {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Glass Header */
+        .glass-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: var(--brand-light);
+            color: var(--brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn {
+            height: 36px;
+            padding: 0 14px;
             border-radius: 18px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
-            transition: box-shadow 0.2s ease;
-        }
-        .setting-group:hover {
-            box-shadow: 0 8px 32px rgba(0,128,105,0.12), 0 2px 6px rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* Active state for option buttons */
-        .theme-btn.active,
-        .font-btn.active,
-        .bg-btn.active,
-        .bubble-btn.active,
+        .back-btn:hover {
+            background: var(--brand);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Glass Card */
+        .setting-card {
+            background: var(--surface);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.6);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+        }
+
+        .setting-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8);
+            background: var(--surface-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: var(--brand-light);
+            color: var(--brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            margin-bottom: 2px;
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--ink-m);
+            line-height: 1.4;
+        }
+
+        /* Selectable Options */
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            position: relative;
+            background: white;
+            border: 1.5px solid rgba(0,0,0,0.06);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-btn:hover {
+            border-color: rgba(0,0,0,0.15);
+            background: #FAFAFB;
+        }
+
+        .option-btn.active {
+            border-color: var(--brand);
+            background: var(--brand-light);
+            box-shadow: 0 4px 12px rgba(45, 70, 185, 0.1);
+        }
+
+        .option-btn.active::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--brand);
+        }
+
+        .color-btn {
+            width: 100%;
+            padding-bottom: 100%;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.2s cubic-bezier(0.34, 1.1, 0.64, 1);
+            cursor: pointer;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
         .color-btn.active {
-            border-color: #4338CA;
-            background-color: rgba(67,56,202,0.07);
-            box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15);
+            transform: scale(1.15);
+        }
+        
+        .color-btn.active::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid var(--brand);
         }
 
-        /* Range slider */
-        input[type="range"] {
-            -webkit-appearance: none;
+        /* iOS style toggle */
+        .ios-toggle {
+            position: relative;
+            width: 50px;
+            height: 28px;
             appearance: none;
-            background: linear-gradient(to right, #4338CA, #6366F1);
+            background: #E2E8F0;
+            border-radius: 999px;
             outline: none;
-            border-radius: 15px;
-            height: 6px;
+            cursor: pointer;
+            transition: background 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        input[type="range"]::-webkit-slider-thumb {
+
+        .ios-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .ios-toggle:checked {
+            background: var(--brand);
+        }
+
+        .ios-toggle:checked::after {
+            transform: translateX(22px);
+        }
+
+        /* Custom Range Slider */
+        .modern-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #E2E8F0;
+            outline: none;
+        }
+
+        .modern-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 22px;
-            height: 22px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             background: white;
             cursor: pointer;
-            border-radius: 50%;
-            border: 3px solid #4338CA;
-            box-shadow: 0 2px 8px rgba(67,56,202,0.35);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            transition: transform 0.1s;
         }
-        input[type="range"]::-moz-range-thumb {
-            width: 22px;
-            height: 22px;
+
+        .modern-slider::-webkit-slider-thumb:active {
+            transform: scale(0.9);
+        }
+
+        /* Save Button Float */
+        .action-dock {
+            position: sticky;
+            bottom: 20px;
+            padding: 0 20px;
+            z-index: 40;
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            flex: 2;
+            background: var(--brand);
+            color: white;
+            font-weight: 600;
+            padding: 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(45, 70, 185, 0.25);
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            flex: 1;
             background: white;
-            cursor: pointer;
-            border-radius: 50%;
-            border: 3px solid #4338CA;
+            color: var(--ink);
+            font-weight: 600;
+            padding: 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .btn-secondary:active {
+            background: #F1F5F9;
         }
 
         /* Toast */
-        .toast {
+        .premium-toast {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: linear-gradient(135deg, #312E81, #4338CA);
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--ink);
             color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 14px;
-            box-shadow: 0 8px 24px rgba(0,128,105,0.35);
-            display: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            z-index: 1000;
-            animation: slideIn 0.35s cubic-bezier(0.34, 1.1, 0.64, 1);
+            gap: 8px;
             font-weight: 600;
             font-size: 14px;
-        }
-        .toast.show { display: flex; }
-
-        @keyframes slideIn {
-            from { transform: translateX(200px); opacity: 0; }
-            to   { transform: translateX(0);     opacity: 1; }
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.1, 0.64, 1);
+            z-index: 1000;
         }
 
-        /* Theme / font / bg buttons hover */
-        .theme-btn, .font-btn, .bg-btn, .bubble-btn {
-            transition: transform 0.18s cubic-bezier(0.34,1.1,0.64,1), box-shadow 0.18s;
+        .premium-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
-        .theme-btn:hover, .font-btn:hover, .bg-btn:hover, .bubble-btn:hover {
-            transform: translateY(-3px);
+
+        /* Utility */
+        .mb-24 { margin-bottom: 96px; }
+        
+        .preview-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            transition: width 0.3s ease;
+            margin: 0 auto;
         }
-        .color-btn { transition: transform 0.18s cubic-bezier(0.34,1.1,0.64,1); }
-        .color-btn:hover { transform: scale(1.15); }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <!-- Header -->
-    <div class="gradient-header text-white p-6 shadow-lg">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="settings" class="w-8 h-8"></i>
+    <div class="app-shell">
+        
+        <!-- Header -->
+        <div class="glass-header">
+            <div class="header-title-container">
+                <div class="header-icon">
+                    <i data-lucide="sliders" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="brand-font text-lg font-bold text-slate-800 leading-tight">Preferences</h1>
+                    <div class="text-xs text-slate-500 font-medium" id="settings-city-name">City Mitra AI</div>
+                </div>
+            </div>
+            <a href="city.html" class="back-btn">
+                <i data-lucide="x" class="w-4 h-4"></i>
+                Done
+            </a>
+        </div>
+
+        <div class="px-5 py-6">
+
+            <!-- Theme Selection -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon"><i data-lucide="palette" class="w-5 h-5"></i></div>
                     <div>
-                        <h1 class="text-2xl font-bold" style="font-family:'Plus Jakarta Sans',sans-serif;">Customise</h1>
-                        <p class="text-sm text-white/80">Personalise your City Mitra experience</p>
+                        <h2 class="card-title">Appearance</h2>
+                        <p class="card-subtitle">Choose your preferred lighting</p>
                     </div>
                 </div>
-                <a href="index.html" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                    <span>Back to Chat</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="max-w-4xl mx-auto p-6 space-y-6">
-
-        <!-- Theme Selection -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="palette" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Theme</h2>
-                    <p class="text-sm text-gray-500">Choose your preferred color scheme</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-3 gap-4">
-                <button onclick="setTheme('light')" id="theme-light" class="theme-btn border-2 border-gray-200 p-4 rounded-xl transition hover:scale-105 hover:shadow-lg">
-                    <div class="w-full h-20 bg-white border-2 border-gray-200 rounded-lg mb-3 flex items-center justify-center">
-                        <i data-lucide="sun" class="w-8 h-8 text-gray-400"></i>
+                <div class="options-grid grid-cols-3">
+                    <div onclick="setTheme('light')" id="theme-light" class="option-btn theme-btn">
+                        <div class="w-full h-12 rounded-lg bg-white border border-slate-200 flex items-center justify-center mb-1">
+                            <i data-lucide="sun" class="w-5 h-5 text-amber-500"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-slate-700">Light</span>
                     </div>
-                    <span class="text-sm font-semibold">Light Mode</span>
-                </button>
-                <button onclick="setTheme('dark')" id="theme-dark" class="theme-btn border-2 border-gray-200 p-4 rounded-xl transition hover:scale-105 hover:shadow-lg">
-                    <div class="w-full h-20 bg-gray-900 rounded-lg mb-3 flex items-center justify-center">
-                        <i data-lucide="moon" class="w-8 h-8 text-white"></i>
+                    <div onclick="setTheme('dark')" id="theme-dark" class="option-btn theme-btn">
+                        <div class="w-full h-12 rounded-lg bg-slate-900 flex items-center justify-center mb-1">
+                            <i data-lucide="moon" class="w-5 h-5 text-blue-300"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-slate-700">Dark</span>
                     </div>
-                    <span class="text-sm font-semibold">Dark Mode</span>
-                </button>
-                <button onclick="setTheme('auto')" id="theme-auto" class="theme-btn border-2 border-gray-200 p-4 rounded-xl transition hover:scale-105 hover:shadow-lg">
-                    <div class="w-full h-20 bg-gradient-to-r from-white to-gray-900 rounded-lg mb-3 flex items-center justify-center">
-                        <i data-lucide="monitor" class="w-8 h-8 text-gray-600"></i>
-                    </div>
-                    <span class="text-sm font-semibold">Auto</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Chat Width -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="maximize-2" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Chat Width</h2>
-                    <p class="text-sm text-gray-500">Adjust the chat interface width</p>
-                </div>
-            </div>
-            <div class="space-y-4">
-                <input type="range" id="width-slider" min="60" max="100" value="100" 
-                       class="w-full"
-                       oninput="updateWidth(this.value)">
-                <div class="flex justify-between text-sm text-gray-500">
-                    <span>60% - Narrow</span>
-                    <span id="width-value" class="font-bold text-[#008069]">100%</span>
-                    <span>100% - Full Width</span>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-lg">
-                    <div id="width-preview" class="bg-white border-2 border-gray-300 rounded-lg p-3 transition-all duration-300" style="width: 100%;">
-                        <div class="text-xs text-gray-500 text-center">Preview</div>
+                    <div onclick="setTheme('auto')" id="theme-auto" class="option-btn theme-btn">
+                        <div class="w-full h-12 rounded-lg bg-gradient-to-r from-white to-slate-900 border border-slate-200 flex items-center justify-center mb-1">
+                            <i data-lucide="monitor" class="w-5 h-5 text-slate-500 bg-white/80 rounded-full p-1"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-slate-700">System</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Font Size -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="type" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Font Size</h2>
-                    <p class="text-sm text-gray-500">Choose comfortable reading size</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-4 gap-3">
-                <button onclick="setFontSize('small')" id="font-small" class="font-btn border-2 border-gray-200 p-4 rounded-lg hover:bg-gray-50 transition">
-                    <div class="text-xs mb-2">Small</div>
-                    <div class="text-xs text-gray-600">12px</div>
-                </button>
-                <button onclick="setFontSize('medium')" id="font-medium" class="font-btn border-2 border-gray-200 p-4 rounded-lg hover:bg-gray-50 transition">
-                    <div class="text-sm mb-2">Medium</div>
-                    <div class="text-xs text-gray-600">14px</div>
-                </button>
-                <button onclick="setFontSize('large')" id="font-large" class="font-btn border-2 border-gray-200 p-4 rounded-lg hover:bg-gray-50 transition">
-                    <div class="text-base mb-2">Large</div>
-                    <div class="text-xs text-gray-600">16px</div>
-                </button>
-                <button onclick="setFontSize('xlarge')" id="font-xlarge" class="font-btn border-2 border-gray-200 p-4 rounded-lg hover:bg-gray-50 transition">
-                    <div class="text-lg mb-2">X-Large</div>
-                    <div class="text-xs text-gray-600">18px</div>
-                </button>
-            </div>
-        </div>
-
-        <!-- Accent Color -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="droplet" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Accent Color</h2>
-                    <p class="text-sm text-gray-500">Personalize with your favorite color</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-6 gap-3">
-                <button onclick="setAccentColor('#008069')" id="color-1" class="color-btn w-full h-16 rounded-lg border-4 border-gray-200 transition hover:scale-110" style="background: #008069" title="WhatsApp Green"></button>
-                <button onclick="setAccentColor('#0088cc')" id="color-2" class="color-btn w-full h-16 rounded-lg border-4 border-gray-200 transition hover:scale-110" style="background: #0088cc" title="Telegram Blue"></button>
-                <button onclick="setAccentColor('#7c3aed')" id="color-3" class="color-btn w-full h-16 rounded-lg border-4 border-gray-200 transition hover:scale-110" style="background: #7c3aed" title="Purple"></button>
-                <button onclick="setAccentColor('#dc2626')" id="color-4" class="color-btn w-full h-16 rounded-lg border-4 border-gray-200 transition hover:scale-110" style="background: #dc2626" title="Red"></button>
-                <button onclick="setAccentColor('#ea580c')" id="color-5" class="color-btn w-full h-16 rounded-lg border-4 border-gray-200 transition hover:scale-110" style="background: #ea580c" title="Orange"></button>
-                <button onclick="setAccentColor('#059669')" id="color-6" class="color-btn w-full h-16 rounded-lg border-4 border-gray-200 transition hover:scale-110" style="background: #059669" title="Green"></button>
-            </div>
-        </div>
-
-        <!-- Background -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="image" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Background Style</h2>
-                    <p class="text-sm text-gray-500">Choose your chat background</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-3 gap-4">
-                <button onclick="setBackground('whatsapp')" id="bg-whatsapp" class="bg-btn border-2 border-gray-200 p-4 rounded-xl hover:scale-105 transition">
-                    <div class="w-full h-20 bg-[#efeae2] rounded-lg mb-3 bg-opacity-40" style="background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-size: 300px;"></div>
-                    <span class="text-sm font-semibold">WhatsApp Classic</span>
-                </button>
-                <button onclick="setBackground('solid')" id="bg-solid" class="bg-btn border-2 border-gray-200 p-4 rounded-xl hover:scale-105 transition">
-                    <div class="w-full h-20 bg-white border-2 border-gray-200 rounded-lg mb-3"></div>
-                    <span class="text-sm font-semibold">Solid White</span>
-                </button>
-                <button onclick="setBackground('gradient')" id="bg-gradient" class="bg-btn border-2 border-gray-200 p-4 rounded-xl hover:scale-105 transition">
-                    <div class="w-full h-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-lg mb-3"></div>
-                    <span class="text-sm font-semibold">Soft Gradient</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Message Bubble Style -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="message-circle" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Message Bubble Style</h2>
-                    <p class="text-sm text-gray-500">Choose bubble corner style</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="setBubbleStyle('rounded')" id="bubble-rounded" class="bubble-btn border-2 border-gray-200 p-4 rounded-xl hover:bg-gray-50 transition">
-                    <div class="bg-[#d9fdd3] rounded-2xl p-4 mb-3 text-sm">
-                        Rounded corners<br/>WhatsApp style
+            <!-- Chat Width -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon"><i data-lucide="maximize" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="card-title">Container Width</h2>
+                        <p class="card-subtitle">Adjust how wide the chat interface spans</p>
                     </div>
-                    <span class="text-sm font-semibold">Rounded</span>
-                </button>
-                <button onclick="setBubbleStyle('sharp')" id="bubble-sharp" class="bubble-btn border-2 border-gray-200 p-4 rounded-xl hover:bg-gray-50 transition">
-                    <div class="bg-gray-200 rounded p-4 mb-3 text-sm">
-                        Sharp corners<br/>Modern style
-                    </div>
-                    <span class="text-sm font-semibold">Sharp</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Advanced Settings -->
-        <div class="setting-group">
-            <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="sliders" class="w-6 h-6 text-[#008069]"></i>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Advanced Options</h2>
-                    <p class="text-sm text-gray-500">Fine-tune your experience</p>
                 </div>
-            </div>
-            <div class="space-y-4">
-                <!-- Animations -->
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="zap" class="w-5 h-5 text-gray-600"></i>
-                        <div>
-                            <div class="font-semibold text-gray-800">Enable Animations</div>
-                            <div class="text-xs text-gray-500">Smooth transitions and effects</div>
+                <div class="py-2">
+                    <input type="range" id="width-slider" min="60" max="100" value="100" class="modern-slider mb-4" oninput="updateWidth(this.value)">
+                    <div class="flex justify-between text-xs font-semibold text-slate-400 mb-6 px-1">
+                        <span>Compact (60%)</span>
+                        <span id="width-value" class="text-brand">100%</span>
+                        <span>Full (100%)</span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 relative">
+                        <div id="width-preview" class="preview-box shadow-sm" style="width: 100%;">
+                            <div class="text-[10px] font-bold text-slate-400 tracking-wider">PREVIEW AREA</div>
                         </div>
                     </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="animations-toggle" class="sr-only peer" checked onchange="toggleAnimations(this.checked)">
-                        <div class="w-14 h-7 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#008069]"></div>
-                    </label>
-                </div>
-
-                <!-- Compact Mode -->
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="minimize-2" class="w-5 h-5 text-gray-600"></i>
-                        <div>
-                            <div class="font-semibold text-gray-800">Compact Mode</div>
-                            <div class="text-xs text-gray-500">Reduce spacing between messages</div>
-                        </div>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="compact-toggle" class="sr-only peer" onchange="toggleCompact(this.checked)">
-                        <div class="w-14 h-7 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#008069]"></div>
-                    </label>
-                </div>
-
-                <!-- Show Timestamps -->
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="clock" class="w-5 h-5 text-gray-600"></i>
-                        <div>
-                            <div class="font-semibold text-gray-800">Show Timestamps</div>
-                            <div class="text-xs text-gray-500">Display message time</div>
-                        </div>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="timestamps-toggle" class="sr-only peer" checked onchange="toggleTimestamps(this.checked)">
-                        <div class="w-14 h-7 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#008069]"></div>
-                    </label>
                 </div>
             </div>
+
+            <!-- Chat Typography -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon"><i data-lucide="type" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="card-title">Text Size</h2>
+                        <p class="card-subtitle">Optimize for readability and comfort</p>
+                    </div>
+                </div>
+                <div class="options-grid grid-cols-4">
+                    <div onclick="setFontSize('small')" id="font-small" class="option-btn font-btn">
+                        <span class="text-xs font-medium text-slate-600">Aa</span>
+                        <span class="text-xs font-bold text-slate-800">Small</span>
+                    </div>
+                    <div onclick="setFontSize('medium')" id="font-medium" class="option-btn font-btn">
+                        <span class="text-sm font-medium text-slate-600">Aa</span>
+                        <span class="text-xs font-bold text-slate-800">Base</span>
+                    </div>
+                    <div onclick="setFontSize('large')" id="font-large" class="option-btn font-btn">
+                        <span class="text-base font-medium text-slate-600">Aa</span>
+                        <span class="text-xs font-bold text-slate-800">Large</span>
+                    </div>
+                    <div onclick="setFontSize('xlarge')" id="font-xlarge" class="option-btn font-btn">
+                        <span class="text-lg font-medium text-slate-600">Aa</span>
+                        <span class="text-xs font-bold text-slate-800">Max</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personalization -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon"><i data-lucide="paint-brush-2" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="card-title">Accent Color</h2>
+                        <p class="card-subtitle">Customize your primary brand elements</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-6 gap-3 px-2 py-1">
+                    <div onclick="setAccentColor('#2D46B9')" class="color-btn" style="background: #2D46B9"></div>
+                    <div onclick="setAccentColor('#008069')" class="color-btn" style="background: #008069"></div>
+                    <div onclick="setAccentColor('#7C3AED')" class="color-btn" style="background: #7C3AED"></div>
+                    <div onclick="setAccentColor('#E07B2A')" class="color-btn" style="background: #E07B2A"></div>
+                    <div onclick="setAccentColor('#DB2777')" class="color-btn" style="background: #DB2777"></div>
+                    <div onclick="setAccentColor('#0F172A')" class="color-btn" style="background: #0F172A"></div>
+                </div>
+            </div>
+
+            <!-- Chat Environment -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon"><i data-lucide="wallpaper" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="card-title">Environment</h2>
+                        <p class="card-subtitle">Set the canvas for your conversations</p>
+                    </div>
+                </div>
+                <div class="options-grid grid-cols-3">
+                    <div onclick="setBackground('whatsapp')" id="bg-whatsapp" class="option-btn bg-btn">
+                        <div class="w-full h-10 rounded bg-[#efeae2] mb-1 opacity-80" style="background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-size: 150px;"></div>
+                        <span class="text-[11px] font-bold text-slate-700">Doodle</span>
+                    </div>
+                    <div onclick="setBackground('solid')" id="bg-solid" class="option-btn bg-btn">
+                        <div class="w-full h-10 rounded bg-slate-50 border border-slate-200 mb-1"></div>
+                        <span class="text-[11px] font-bold text-slate-700">Minimal</span>
+                    </div>
+                    <div onclick="setBackground('gradient')" id="bg-gradient" class="option-btn bg-btn">
+                        <div class="w-full h-10 rounded bg-gradient-to-br from-indigo-50 to-purple-50 border border-slate-100 mb-1"></div>
+                        <span class="text-[11px] font-bold text-slate-700">Aura</span>
+                    </div>
+                </div>
+
+                <div class="mt-5 pt-5 border-t border-slate-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Dynamic UI Animations</div>
+                            <div class="text-xs text-slate-500">Enable fluid transitions and motion</div>
+                        </div>
+                        <input type="checkbox" id="animations-toggle" class="ios-toggle" checked onchange="toggleAnimations(this.checked)">
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Compact Messages</div>
+                            <div class="text-xs text-slate-500">Reduce spacing for higher density</div>
+                        </div>
+                        <input type="checkbox" id="compact-toggle" class="ios-toggle" onchange="toggleCompact(this.checked)">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Message Timestamps</div>
+                            <div class="text-xs text-slate-500">Show exact delivery times</div>
+                        </div>
+                        <input type="checkbox" id="timestamps-toggle" class="ios-toggle" checked onchange="toggleTimestamps(this.checked)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacer for dock -->
+            <div class="mb-24"></div>
+
         </div>
 
-        <!-- Action Buttons -->
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="resetSettings()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
-                <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-                Reset to Default
+        <!-- Action Dock -->
+        <div class="action-dock">
+            <button onclick="resetSettings()" class="btn-secondary">
+                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
             </button>
-            <button onclick="saveAndReturn()" class="bg-gradient-to-r from-[#008069] to-[#00a884] hover:from-[#006d59] hover:to-[#008f73] text-white font-bold py-4 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
-                <i data-lucide="check" class="w-5 h-5"></i>
-                Save & Return
+            <button onclick="saveAndReturn()" class="btn-primary">
+                Save Preferences
             </button>
         </div>
 
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <i data-lucide="check-circle" class="w-5 h-5"></i>
-        <span id="toast-message">Settings saved!</span>
-    </div>
-
-    <!-- Footer -->
-    <div class="text-center py-8 text-sm text-gray-500">
-        <p>&copy; 2026 District Administration <span id="settings-city-name"></span></p>
+    <div id="toast" class="premium-toast">
+        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+        <span id="toast-message">Preferences synced.</span>
     </div>
 
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Apply city name from config
+        // Try to apply city brand styling globally
         if (typeof CITY_CONFIG !== 'undefined') {
             const el = document.getElementById('settings-city-name');
-            if (el) el.textContent = CITY_CONFIG.name.en;
+            if (el) el.textContent = CITY_CONFIG.name.en + " Civic AI";
+            
+            if (CITY_CONFIG.colors && CITY_CONFIG.colors.city) {
+                document.documentElement.style.setProperty('--brand', CITY_CONFIG.colors.city);
+                document.documentElement.style.setProperty('--brand-light', CITY_CONFIG.colors.cityLt || '#EEF1FF');
+            }
         }
 
-        // Default settings
+        // Default settings mapping
         const defaultSettings = {
             theme: 'light',
             width: 100,
             fontSize: 'medium',
-            accentColor: '#008069',
+            accentColor: (typeof CITY_CONFIG !== 'undefined' && CITY_CONFIG.colors) ? CITY_CONFIG.colors.city : '#2D46B9',
             background: 'whatsapp',
             bubbleStyle: 'rounded',
             animations: true,
@@ -402,185 +613,147 @@
             timestamps: true
         };
 
-        // Load settings on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSettings();
-        });
+        // Load settings on load
+        document.addEventListener('DOMContentLoaded', loadSettings);
 
-        // Load settings from localStorage
         function loadSettings() {
             const saved = localStorage.getItem('infobotSettings');
             const settings = saved ? JSON.parse(saved) : defaultSettings;
             
-            // Apply all settings
             setTheme(settings.theme, false);
             updateWidth(settings.width, false);
             setFontSize(settings.fontSize, false);
             setAccentColor(settings.accentColor, false);
             setBackground(settings.background, false);
-            setBubbleStyle(settings.bubbleStyle, false);
             
-            // Update toggles
-            document.getElementById('animations-toggle').checked = settings.animations;
-            document.getElementById('compact-toggle').checked = settings.compact;
-            document.getElementById('timestamps-toggle').checked = settings.timestamps;
+            document.getElementById('animations-toggle').checked = settings.animations !== false;
+            document.getElementById('compact-toggle').checked = settings.compact === true;
+            document.getElementById('timestamps-toggle').checked = settings.timestamps !== false;
             
-            // Update slider
-            document.getElementById('width-slider').value = settings.width;
+            document.getElementById('width-slider').value = settings.width || 100;
         }
 
-        // Save settings to localStorage
         function saveSettings() {
             const settings = {
-                theme: getActiveTheme(),
+                theme: getActive('.theme-btn', 'theme-'),
                 width: parseInt(document.getElementById('width-slider').value),
-                fontSize: getActiveFontSize(),
+                fontSize: getActive('.font-btn', 'font-'),
                 accentColor: getCurrentAccentColor(),
-                background: getActiveBackground(),
-                bubbleStyle: getActiveBubbleStyle(),
+                background: getActive('.bg-btn', 'bg-'),
+                bubbleStyle: 'rounded', // Kept for backwards compatibility
                 animations: document.getElementById('animations-toggle').checked,
                 compact: document.getElementById('compact-toggle').checked,
                 timestamps: document.getElementById('timestamps-toggle').checked
             };
             
             localStorage.setItem('infobotSettings', JSON.stringify(settings));
-            showToast('Settings saved successfully!');
+            showToast('Preferences Synced');
         }
 
-        // Theme functions
+        // UI Interaction Handlers
+        function getActive(selector, prefix) {
+            const active = document.querySelector(`${selector}.active`);
+            return active ? active.id.replace(prefix, '') : null;
+        }
+
+        function setActiveGroup(selector, targetId) {
+            document.querySelectorAll(selector).forEach(btn => btn.classList.remove('active'));
+            if(targetId) {
+                const el = document.getElementById(targetId);
+                if(el) el.classList.add('active');
+            }
+        }
+
         function setTheme(theme, save = true) {
-            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('theme-' + theme)?.classList.add('active');
+            setActiveGroup('.theme-btn', 'theme-' + theme);
             if (save) saveSettings();
         }
 
-        function getActiveTheme() {
-            const active = document.querySelector('.theme-btn.active');
-            return active ? active.id.replace('theme-', '') : 'light';
-        }
-
-        // Width function
         function updateWidth(value, save = true) {
             document.getElementById('width-value').textContent = value + '%';
             document.getElementById('width-preview').style.width = value + '%';
-            if (save) saveSettings();
+            if (save) {
+                // Throttle saving on slider
+                clearTimeout(window.sliderSaveTimeout);
+                window.sliderSaveTimeout = setTimeout(saveSettings, 300);
+            }
         }
 
-        // Font size functions
         function setFontSize(size, save = true) {
-            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('font-' + size)?.classList.add('active');
+            setActiveGroup('.font-btn', 'font-' + size);
             if (save) saveSettings();
         }
 
-        function getActiveFontSize() {
-            const active = document.querySelector('.font-btn.active');
-            return active ? active.id.replace('font-', '') : 'medium';
-        }
-
-        // Accent color functions
         function setAccentColor(color, save = true) {
             document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-            
-            // Find and activate the button with this color
-            const buttons = document.querySelectorAll('.color-btn');
-            buttons.forEach(btn => {
-                if (btn.style.background === color) {
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                // simple rgb to hex comparison mitigation or exact string match
+                if (btn.style.background.replace(/\s+/g,'').toLowerCase() === color.toLowerCase() || 
+                    btn.getAttribute('style').includes(color)) {
                     btn.classList.add('active');
                 }
             });
             
-            // Update gradient header
-            const header = document.querySelector('.gradient-header');
-            if (header) {
-                header.style.background = `linear-gradient(135deg, ${color} 0%, ${lightenColor(color, 20)} 100%)`;
-            }
+            // Dynamic theme update
+            document.documentElement.style.setProperty('--brand', color);
+            
+            // Auto calculate a light version
+            document.documentElement.style.setProperty('--brand-light', color + '15');
             
             if (save) saveSettings();
         }
 
         function getCurrentAccentColor() {
             const active = document.querySelector('.color-btn.active');
-            return active ? active.style.background : '#008069';
+            // Extract the hex or rgb value
+            if (!active) return defaultSettings.accentColor;
+            
+            // Small hack to map known preset backgrounds if browser returned rgb()
+            const colors = ['#2D46B9', '#008069', '#7C3AED', '#E07B2A', '#DB2777', '#0F172A'];
+            const styleString = active.getAttribute('style');
+            for(let c of colors) {
+                if(styleString.toUpperCase().includes(c)) return c;
+            }
+            return defaultSettings.accentColor;
         }
 
-        // Background functions
         function setBackground(bg, save = true) {
-            document.querySelectorAll('.bg-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('bg-' + bg)?.classList.add('active');
+            setActiveGroup('.bg-btn', 'bg-' + bg);
             if (save) saveSettings();
         }
 
-        function getActiveBackground() {
-            const active = document.querySelector('.bg-btn.active');
-            return active ? active.id.replace('bg-', '') : 'whatsapp';
-        }
+        function toggleAnimations(checked) { saveSettings(); }
+        function toggleCompact(checked) { saveSettings(); }
+        function toggleTimestamps(checked) { saveSettings(); }
 
-        // Bubble style functions
-        function setBubbleStyle(style, save = true) {
-            document.querySelectorAll('.bubble-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('bubble-' + style)?.classList.add('active');
-            if (save) saveSettings();
-        }
-
-        function getActiveBubbleStyle() {
-            const active = document.querySelector('.bubble-btn.active');
-            return active ? active.id.replace('bubble-', '') : 'rounded';
-        }
-
-        // Toggle functions
-        function toggleAnimations(enabled, save = true) {
-            if (save) saveSettings();
-        }
-
-        function toggleCompact(enabled, save = true) {
-            if (save) saveSettings();
-        }
-
-        function toggleTimestamps(enabled, save = true) {
-            if (save) saveSettings();
-        }
-
-        // Reset all settings
         function resetSettings() {
-            if (confirm('Reset all settings to default? This cannot be undone.')) {
+            // subtle haptic feedback vibe
+            if (window.navigator && window.navigator.vibrate) { window.navigator.vibrate(50); }
+            if (confirm('Restore default preferences?')) {
                 localStorage.setItem('infobotSettings', JSON.stringify(defaultSettings));
-                showToast('Settings reset to default');
-                setTimeout(() => location.reload(), 1000);
+                showToast('Restored to defaults');
+                setTimeout(() => location.reload(), 600);
             }
         }
 
-        // Save and return to chat
         function saveAndReturn() {
             saveSettings();
+            const btn = document.querySelector('.btn-primary');
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Saving...`;
+            lucide.createIcons();
+            
             setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 500);
+                window.location.href = 'city.html';
+            }, 600);
         }
 
-        // Show toast notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-message').textContent = message;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-            lucide.createIcons();
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // Helper function to lighten color
-        function lightenColor(color, percent) {
-            const num = parseInt(color.replace("#",""), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = Math.min(255, (num >> 16) + amt);
-            const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
-            const B = Math.min(255, (num & 0x0000FF) + amt);
-            return "#" + (0x1000000 + R*0x10000 + G*0x100 + B).toString(16).slice(1);
-        }
-
-        // Auto-save on any change
-        document.getElementById('width-slider').addEventListener('input', () => saveSettings());
     </script>
 </body>
 </html>

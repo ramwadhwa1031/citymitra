@@ -526,7 +526,8 @@
     // Map alternative subdomains to the main city ID
     const ALIASES = {
         'kurukshetra': 'kkr',
-        'localhost': 'kkr'     // localhost → default for dev
+        'localhost': 'kkr',     // localhost → default for dev
+        'amabla': 'ambala'
     };
 
     // ══════════════════════════════════
