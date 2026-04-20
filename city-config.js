@@ -11,7 +11,10 @@
 //   kkr.citymitra.app     → Kurukshetra
 //   karnal.citymitra.app  → Karnal
 //   ambala.citymitra.app  → Ambala
-//   panchkula.citymitra.app → Panchkula
+//   pkl.citymitra.app     → Panchkula
+//   srs.citymitra.app     → Sirsa
+//   palwal.citymitra.app  → Palwal
+//   fbd.citymitra.app     → Faridabad
 //
 // To add a new city:
 //   1. Add a new entry to the CITIES object below
@@ -408,8 +411,8 @@
         // ─────────────────────────────────
         // PANCHKULA
         // ─────────────────────────────────
-        panchkula: {
-            id: 'panchkula',
+        pkl: {
+            id: 'pkl',
             name: { en: 'Panchkula', hi: 'पंचकूला' },
             district: { en: 'Panchkula', hi: 'पंचकूला' },
             state: { en: 'Haryana', hi: 'हरियाणा' },
@@ -519,6 +522,354 @@
                     hi: '_पंचकूला खोजें_'
                 }
             }
+        },
+
+        // ─────────────────────────────────
+        // SIRSA
+        // ─────────────────────────────────
+        srs: {
+            id: 'srs',
+            name: { en: 'Sirsa', hi: 'सिरसा' },
+            district: { en: 'Sirsa', hi: 'सिरसा' },
+            state: { en: 'Haryana', hi: 'हरियाणा' },
+            heroEmoji: '🌿',
+            govWebsite: 'https://sirsa.gov.in',
+            privacyPolicy: 'https://sirsa.gov.in/privacy-policy/',
+            colors: {
+                city: '#6A1B9A',
+                cityLt: '#F3E5F5',
+                cityDeep: '#4A148C'
+            },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'sirsa.gov.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-sirsa.json',
+            storageKey: 'city_mitra_chat_sirsa',
+            welcomeDevanagari: 'सिरसा — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    {
+                        title: "🏛️ General Info",
+                        questions: [
+                            { icon: "👤", text: "Who is DC?" },
+                            { icon: "🚨", text: "Emergency" },
+                            { icon: "🏛️", text: "Tourist Places" },
+                            { icon: "📊", text: "Population" }
+                        ]
+                    },
+                    {
+                        title: "📋 Services",
+                        questions: [
+                            { icon: "📋", text: "Birth Certificate" },
+                            { icon: "🏥", text: "Hospitals" },
+                            { icon: "🎓", text: "Universities" },
+                            { icon: "🚍", text: "How to reach?" }
+                        ]
+                    },
+                    {
+                        title: "🌿 Culture & Heritage",
+                        questions: [
+                            { icon: "🛕", text: "Tara Baba Kutia" },
+                            { icon: "🕌", text: "Gurudwara Chilla Sahib" },
+                            { icon: "🏞️", text: "Ghaggar River" },
+                            { icon: "🕉️", text: "Religious Places" }
+                        ]
+                    },
+                    {
+                        title: "🏢 Government",
+                        questions: [
+                            { icon: "🏢", text: "SDM Office" },
+                            { icon: "📝", text: "Latest Tenders" },
+                            { icon: "💼", text: "Job Vacancies" },
+                            { icon: "🌾", text: "Agriculture Dept" }
+                        ]
+                    }
+                ],
+                hi: [
+                    {
+                        title: "🏛️ सामान्य जानकारी",
+                        questions: [
+                            { icon: "👤", text: "DC कौन हैं?" },
+                            { icon: "🚨", text: "आपातकालीन नंबर" },
+                            { icon: "🏛️", text: "पर्यटन स्थल" },
+                            { icon: "📊", text: "जनसंख्या" }
+                        ]
+                    },
+                    {
+                        title: "📋 सेवाएं",
+                        questions: [
+                            { icon: "📋", text: "जन्म प्रमाण पत्र" },
+                            { icon: "🏥", text: "अस्पताल" },
+                            { icon: "🎓", text: "विश्वविद्यालय" },
+                            { icon: "🚍", text: "कैसे पहुंचें?" }
+                        ]
+                    },
+                    {
+                        title: "🌿 संस्कृति और विरासत",
+                        questions: [
+                            { icon: "🛕", text: "तारा बाबा कुटिया" },
+                            { icon: "🕌", text: "गुरुद्वारा चिल्ला साहिब" },
+                            { icon: "🏞️", text: "घग्गर नदी" },
+                            { icon: "🕉️", text: "धार्मिक स्थल" }
+                        ]
+                    },
+                    {
+                        title: "🏢 सरकारी",
+                        questions: [
+                            { icon: "🏢", text: "SDM कार्यालय" },
+                            { icon: "📝", text: "नवीनतम निविदाएं" },
+                            { icon: "💼", text: "नौकरी रिक्तियां" },
+                            { icon: "🌾", text: "कृषि विभाग" }
+                        ]
+                    }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🌿 *City Mitra - AI Chatbot*\n\nDiscover Sirsa digitally!\n\n✨ Features:\n- District Information\n- Emergency Contacts\n- Government Schemes\n- Bilingual (Hindi/English)\n\n🔗 Chat now:\n${url}\n\n_Your civic AI assistant!_ 🙏`,
+                    hi: (url) => `🌿 *City Mitra - AI Chatbot*\n\nसिरसा को डिजिटल रूप से खोजें!\n\n✨ विशेषताएं:\n- जिला जानकारी\n- आपातकालीन संपर्क\n- सरकारी योजनाएं\n- द्विभाषी (हिंदी/अंग्रेजी)\n\n🔗 अभी चैट करें:\n${url}\n\n_आपका नागरिक AI सहायक!_ 🙏`
+                },
+                botMessageFooter: {
+                    en: '_Discover Sirsa_',
+                    hi: '_सिरसा खोजें_'
+                }
+            }
+        },
+
+        // ─────────────────────────────────
+        // PALWAL
+        // ─────────────────────────────────
+        palwal: {
+            id: 'palwal',
+            name: { en: 'Palwal', hi: 'पलवल' },
+            district: { en: 'Palwal', hi: 'पलवल' },
+            state: { en: 'Haryana', hi: 'हरियाणा' },
+            heroEmoji: '🛕',
+            govWebsite: 'https://palwal.gov.in',
+            privacyPolicy: 'https://palwal.gov.in/privacy-policy/',
+            colors: {
+                city: '#E65100',
+                cityLt: '#FFF3E0',
+                cityDeep: '#BF360C'
+            },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'palwal.gov.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-palwal.json',
+            storageKey: 'city_mitra_chat_palwal',
+            welcomeDevanagari: 'पलवल — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    {
+                        title: "🏛️ General Info",
+                        questions: [
+                            { icon: "👤", text: "Who is DC?" },
+                            { icon: "🚨", text: "Emergency" },
+                            { icon: "🏛️", text: "Tourist Places" },
+                            { icon: "📊", text: "Population" }
+                        ]
+                    },
+                    {
+                        title: "📋 Services",
+                        questions: [
+                            { icon: "📋", text: "Birth Certificate" },
+                            { icon: "🏥", text: "Hospitals" },
+                            { icon: "🎓", text: "Colleges" },
+                            { icon: "🚍", text: "How to reach?" }
+                        ]
+                    },
+                    {
+                        title: "🛕 Heritage Sites",
+                        questions: [
+                            { icon: "🛕", text: "Panchavati Temple" },
+                            { icon: "🕉️", text: "Dauji Temple" },
+                            { icon: "🏺", text: "Sati Temple Hodal" },
+                            { icon: "🏞️", text: "Draupadi Ghat" }
+                        ]
+                    },
+                    {
+                        title: "🏢 Government",
+                        questions: [
+                            { icon: "🏢", text: "SDM Office" },
+                            { icon: "📝", text: "Latest Tenders" },
+                            { icon: "💼", text: "Job Vacancies" },
+                            { icon: "🌾", text: "Agriculture Dept" }
+                        ]
+                    }
+                ],
+                hi: [
+                    {
+                        title: "🏛️ सामान्य जानकारी",
+                        questions: [
+                            { icon: "👤", text: "DC कौन हैं?" },
+                            { icon: "🚨", text: "आपातकालीन नंबर" },
+                            { icon: "🏛️", text: "पर्यटन स्थल" },
+                            { icon: "📊", text: "जनसंख्या" }
+                        ]
+                    },
+                    {
+                        title: "📋 सेवाएं",
+                        questions: [
+                            { icon: "📋", text: "जन्म प्रमाण पत्र" },
+                            { icon: "🏥", text: "अस्पताल" },
+                            { icon: "🎓", text: "कॉलेज" },
+                            { icon: "🚍", text: "कैसे पहुंचें?" }
+                        ]
+                    },
+                    {
+                        title: "🛕 विरासत स्थल",
+                        questions: [
+                            { icon: "🛕", text: "पांचवटी मंदिर" },
+                            { icon: "🕉️", text: "दाऊजी मंदिर" },
+                            { icon: "🏺", text: "सती मंदिर होडल" },
+                            { icon: "🏞️", text: "द्रौपदी घाट" }
+                        ]
+                    },
+                    {
+                        title: "🏢 सरकारी",
+                        questions: [
+                            { icon: "🏢", text: "SDM कार्यालय" },
+                            { icon: "📝", text: "नवीनतम निविदाएं" },
+                            { icon: "💼", text: "नौकरी रिक्तियां" },
+                            { icon: "🌾", text: "कृषि विभाग" }
+                        ]
+                    }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🛕 *City Mitra - AI Chatbot*\n\nDiscover Palwal digitally!\n\n✨ Features:\n- District Information\n- Emergency Contacts\n- Government Schemes\n- Bilingual (Hindi/English)\n\n🔗 Chat now:\n${url}\n\n_Your civic AI assistant!_ 🙏`,
+                    hi: (url) => `🛕 *City Mitra - AI Chatbot*\n\nपलवल को डिजिटल रूप से खोजें!\n\n✨ विशेषताएं:\n- जिला जानकारी\n- आपातकालीन संपर्क\n- सरकारी योजनाएं\n- द्विभाषी (हिंदी/अंग्रेजी)\n\n🔗 अभी चैट करें:\n${url}\n\n_आपका नागरिक AI सहायक!_ 🙏`
+                },
+                botMessageFooter: {
+                    en: '_Discover Palwal_',
+                    hi: '_पलवल खोजें_'
+                }
+            }
+        },
+
+        // ─────────────────────────────────
+        // FARIDABAD
+        // ─────────────────────────────────
+        fbd: {
+            id: 'fbd',
+            name: { en: 'Faridabad', hi: 'फरीदाबाद' },
+            district: { en: 'Faridabad', hi: 'फरीदाबाद' },
+            state: { en: 'Haryana', hi: 'हरियाणा' },
+            heroEmoji: '🏭',
+            govWebsite: 'https://faridabad.gov.in',
+            privacyPolicy: 'https://faridabad.gov.in/privacy-policy/',
+            colors: {
+                city: '#C62828',
+                cityLt: '#FFEBEE',
+                cityDeep: '#B71C1C'
+            },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'faridabad.gov.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-faridabad.json',
+            storageKey: 'city_mitra_chat_faridabad',
+            welcomeDevanagari: 'फरीदाबाद — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    {
+                        title: "🏛️ General Info",
+                        questions: [
+                            { icon: "👤", text: "Who is DC?" },
+                            { icon: "🚨", text: "Emergency" },
+                            { icon: "🏛️", text: "Tourist Places" },
+                            { icon: "📊", text: "Population" }
+                        ]
+                    },
+                    {
+                        title: "📋 Services",
+                        questions: [
+                            { icon: "📋", text: "Birth Certificate" },
+                            { icon: "🏥", text: "Hospitals" },
+                            { icon: "🎓", text: "Universities" },
+                            { icon: "🚍", text: "How to reach?" }
+                        ]
+                    },
+                    {
+                        title: "🏭 Industry & Tourism",
+                        questions: [
+                            { icon: "🎪", text: "Surajkund Mela" },
+                            { icon: "🏞️", text: "Badkhal Lake" },
+                            { icon: "🏰", text: "Raja Nahar Singh Palace" },
+                            { icon: "🕌", text: "Baba Farid Tomb" }
+                        ]
+                    },
+                    {
+                        title: "🏢 Government",
+                        questions: [
+                            { icon: "🏢", text: "SDM Office" },
+                            { icon: "📝", text: "Latest Tenders" },
+                            { icon: "💼", text: "Job Vacancies" },
+                            { icon: "🌾", text: "Agriculture Dept" }
+                        ]
+                    }
+                ],
+                hi: [
+                    {
+                        title: "🏛️ सामान्य जानकारी",
+                        questions: [
+                            { icon: "👤", text: "DC कौन हैं?" },
+                            { icon: "🚨", text: "आपातकालीन नंबर" },
+                            { icon: "🏛️", text: "पर्यटन स्थल" },
+                            { icon: "📊", text: "जनसंख्या" }
+                        ]
+                    },
+                    {
+                        title: "📋 सेवाएं",
+                        questions: [
+                            { icon: "📋", text: "जन्म प्रमाण पत्र" },
+                            { icon: "🏥", text: "अस्पताल" },
+                            { icon: "🎓", text: "विश्वविद्यालय" },
+                            { icon: "🚍", text: "कैसे पहुंचें?" }
+                        ]
+                    },
+                    {
+                        title: "🏭 उद्योग और पर्यटन",
+                        questions: [
+                            { icon: "🎪", text: "सूरजकुंड मेला" },
+                            { icon: "🏞️", text: "बड़खल झील" },
+                            { icon: "🏰", text: "राजा नाहर सिंह महल" },
+                            { icon: "🕌", text: "बाबा फरीद मकबरा" }
+                        ]
+                    },
+                    {
+                        title: "🏢 सरकारी",
+                        questions: [
+                            { icon: "🏢", text: "SDM कार्यालय" },
+                            { icon: "📝", text: "नवीनतम निविदाएं" },
+                            { icon: "💼", text: "नौकरी रिक्तियां" },
+                            { icon: "🌾", text: "कृषि विभाग" }
+                        ]
+                    }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🏭 *City Mitra - AI Chatbot*\n\nDiscover Faridabad digitally!\n\n✨ Features:\n- District Information\n- Emergency Contacts\n- Government Schemes\n- Bilingual (Hindi/English)\n\n🔗 Chat now:\n${url}\n\n_Your civic AI assistant!_ 🙏`,
+                    hi: (url) => `🏭 *City Mitra - AI Chatbot*\n\nफरीदाबाद को डिजिटल रूप से खोजें!\n\n✨ विशेषताएं:\n- जिला जानकारी\n- आपातकालीन संपर्क\n- सरकारी योजनाएं\n- द्विभाषी (हिंदी/अंग्रेजी)\n\n🔗 अभी चैट करें:\n${url}\n\n_आपका नागरिक AI सहायक!_ 🙏`
+                },
+                botMessageFooter: {
+                    en: '_Discover Faridabad_',
+                    hi: '_फरीदाबाद खोजें_'
+                }
+            }
         }
     };
 
@@ -527,7 +878,10 @@
     const ALIASES = {
         'kurukshetra': 'kkr',
         'localhost': 'kkr',     // localhost → default for dev
-        'amabla': 'ambala'
+        'amabla': 'ambala',
+        'panchkula': 'pkl',    // full name → short key
+        'sirsa': 'srs',
+        'faridabad': 'fbd'
     };
 
     // ══════════════════════════════════

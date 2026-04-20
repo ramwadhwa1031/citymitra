@@ -1,11 +1,5 @@
 # Kurukshetra InfoBot — Feature Documentation
 
-**Workflow Name:** Kurukshetra-InfoBot  
-**Platform:** n8n (Self-hosted automation)  
-**Status:** Active (Production)  
-**Total Nodes:** 52  
-**Prepared by:** Vinod Kumar, Technical Coordinator, NIC Kurukshetra  
-**Purpose:** AI-powered chatbot for Kurukshetra district information, tourism, heritage sites, and IGM Gita content
 
 ---
 
