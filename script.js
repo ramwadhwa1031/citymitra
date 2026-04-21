@@ -910,7 +910,7 @@ function updateUI() {
     const woEl = document.getElementById('welcome-officers');
     if (woEl) woEl.textContent = currentLanguage === 'hi' ? '👤 अधिकारी' : '👤 Officers';
     const wtouristEl = document.getElementById('welcome-tourist');
-    if (wtouristEl) wtouristEl.textContent = currentLanguage === 'hi' ? '🏛️ विरासत' : '🏛️ Heritage';
+    if (wtouristEl) wtouristEl.textContent = currentLanguage === 'hi' ? '🏛️ पर्यटन स्थल' : '🏛️ Tourist Places';
     const wsEl = document.getElementById('welcome-services');
     if (wsEl) wsEl.textContent = currentLanguage === 'hi' ? '📋 योजनाएं' : '📋 Schemes';
     const wdEl = document.getElementById('welcome-district');
