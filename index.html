@@ -329,13 +329,15 @@
     }
 
     .hero-h1 {
-      font-size: clamp(52px, 8.5vw, 96px);
+      font-size: clamp(38px, 8.5vw, 96px);
       font-weight: 800;
-      line-height: 1.03;
+      line-height: 1.06;
       letter-spacing: -.04em;
       color: var(--text);
       margin-bottom: 24px;
-      animation: up .9s .35s both
+      animation: up .9s .35s both;
+      overflow-wrap: break-word;
+      word-break: break-word
     }
 
     .hero-sub {
@@ -579,97 +581,173 @@
       line-height: 1.55
     }
 
-    /* BOTS */
+    /* BOTS — Premium District Network */
     .s-bots {
-      padding: 110px 5%;
-      background: linear-gradient(160deg, var(--text) 0%, #1E1B4B 60%, #0F172A 100%);
+      padding: 120px 5% 130px;
+      background: linear-gradient(160deg, #EEF2FF 0%, #E8EAFF 30%, #F0ECFF 55%, #FDF2F8 80%, #FFF7ED 100%);
       position: relative;
       overflow: hidden
+    }
+
+    /* Animated dot-grid background */
+    .bots-grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(rgba(99,102,241,.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%)
     }
 
     .bots-glow {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: radial-gradient(ellipse 55% 70% at 15% 50%, rgba(37, 99, 235, .14), transparent), radial-gradient(ellipse 45% 55% at 85% 30%, rgba(124, 58, 237, .12), transparent), radial-gradient(ellipse 40% 40% at 50% 90%, rgba(234, 88, 12, .08), transparent)
+      z-index: 1;
+      background:
+        radial-gradient(ellipse 45% 50% at 10% 40%, rgba(99, 102, 241, .12), transparent),
+        radial-gradient(ellipse 35% 45% at 90% 25%, rgba(168, 85, 247, .10), transparent),
+        radial-gradient(ellipse 50% 35% at 50% 95%, rgba(251, 146, 60, .08), transparent),
+        radial-gradient(ellipse 30% 30% at 70% 70%, rgba(52, 211, 153, .06), transparent)
     }
 
+    /* Floating orb */
+    .bots-orb {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,.15), rgba(168,85,247,.08), transparent 70%);
+      filter: blur(60px);
+      top: 10%;
+      right: -5%;
+      z-index: 1;
+      animation: orbFloat 12s ease-in-out infinite
+    }
+
+    .bots-orb-2 {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251,146,60,.10), rgba(236,72,153,.06), transparent 70%);
+      filter: blur(50px);
+      bottom: 8%;
+      left: -3%;
+      z-index: 1;
+      animation: orbFloat 15s ease-in-out infinite reverse
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1) }
+      33% { transform: translate(30px, -20px) scale(1.08) }
+      66% { transform: translate(-20px, 15px) scale(.95) }
+    }
+
+    /* Header */
     .bots-hd {
       text-align: center;
-      margin-bottom: 64px;
+      margin-bottom: 72px;
       position: relative;
       z-index: 2
     }
 
     .bots-hd .sec-tag {
-      color: rgba(255, 255, 255, .4);
-      justify-content: center
+      color: var(--purple);
+      justify-content: center;
+      font-size: 11px;
+      letter-spacing: .14em
     }
 
     .bots-hd .sec-title {
-      color: #fff
+      color: var(--text);
+      font-size: clamp(32px, 5vw, 56px);
+      margin-bottom: 18px
+    }
+
+    .bots-hd .sec-title .bots-gt {
+      background: linear-gradient(135deg, #6366F1, #A855F7, #EC4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
     }
 
     .bots-hd .sec-sub {
-      color: rgba(255, 255, 255, .45);
-      max-width: 500px;
-      margin: 0 auto
+      color: var(--text-m);
+      max-width: 520px;
+      margin: 0 auto 28px;
+      font-size: 16px;
+      line-height: 1.7
     }
 
+    /* Live counter badge */
+    .bots-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(34, 197, 94, .08);
+      border: 1px solid rgba(34, 197, 94, .2);
+      padding: 8px 22px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4ADE80;
+      font-family: var(--h);
+      letter-spacing: .02em
+    }
+
+    .bots-live-badge .blb-dot {
+      width: 8px;
+      height: 8px;
+      background: #22C55E;
+      border-radius: 50%;
+      animation: glow 2s infinite;
+      box-shadow: 0 0 8px rgba(34,197,94,.5)
+    }
+
+    /* Grid */
     .bots-grid {
-      max-width: 1100px;
+      max-width: 1140px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      gap: 20px;
       position: relative;
       z-index: 2
     }
 
-    .soon-lbl {
-      text-align: center;
-      margin: 46px 0 20px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .22);
-      font-family: var(--h);
-      position: relative;
-      z-index: 2
-    }
-
-    .soon-lbl::before,
-    .soon-lbl::after {
-      content: '';
-      display: inline-block;
-      width: 50px;
-      height: 1px;
-      background: rgba(255, 255, 255, .12);
-      margin: 0 14px;
-      vertical-align: middle
-    }
-
-    .bots-soon {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      position: relative;
-      z-index: 2
-    }
-
+    /* Cards — Vibrant gradient cards */
     .bc {
-      background: rgba(255, 255, 255, .05);
-      border: 1px solid rgba(255, 255, 255, .08);
+      background: var(--bc-bg, linear-gradient(135deg, #1E3A5F, #2D5A8E));
+      border: none;
       border-radius: 22px;
-      padding: 30px;
-      transition: all .4s;
+      padding: 0;
+      transition: all .45s cubic-bezier(.4,0,.2,1);
       position: relative;
       overflow: hidden;
       text-decoration: none;
-      display: block
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px var(--bc-shadow, rgba(0,0,0,.12))
+    }
+
+    /* Gradient top strip */
+    .bc-strip {
+      height: 5px;
+      background: var(--bc-strip, linear-gradient(90deg, rgba(255,255,255,.5), rgba(255,255,255,.15)));
+      position: relative;
+      z-index: 2
+    }
+
+    .bc-body {
+      padding: 28px 26px 26px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2
     }
 
     .bc::before {
@@ -678,54 +756,80 @@
       inset: 0;
       opacity: 0;
       border-radius: 22px;
-      transition: opacity .4s;
-      background: var(--bh, rgba(37, 99, 235, .12))
+      transition: opacity .45s;
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02))
     }
 
-    .bc.live {
-      border-color: rgba(34, 197, 94, .18)
+    /* Shine sweep on hover */
+    .bc::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      transition: left .7s ease;
+      z-index: 1
     }
 
-    .bc.dim {
-      opacity: .65;
-      pointer-events: none
+    .bc:hover::after {
+      left: 130%
     }
 
-    .bc:not(.dim):hover {
-      transform: translateY(-8px);
-      border-color: rgba(255, 255, 255, .2);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, .4)
+    .bc:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow:
+        0 24px 60px var(--bc-shadow, rgba(0,0,0,.25)),
+        0 0 0 1px rgba(255,255,255,.15)
     }
 
-    .bc:not(.dim):hover::before {
+    .bc:hover::before {
       opacity: 1
     }
 
     .bc-badge {
       position: absolute;
-      top: 18px;
+      top: 20px;
       right: 18px;
       font-size: 10px;
       font-weight: 700;
-      padding: 4px 11px;
+      padding: 4px 12px;
       border-radius: 99px;
-      font-family: var(--h)
+      font-family: var(--h);
+      letter-spacing: .03em;
+      z-index: 3
     }
 
     .bc-badge.on {
-      background: rgba(34, 197, 94, .15);
-      color: #4ADE80
+      background: rgba(255, 255, 255, .18);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.25);
+      backdrop-filter: blur(8px)
     }
 
     .bc-badge.off {
-      background: rgba(255, 255, 255, .06);
-      color: rgba(255, 255, 255, .3)
+      background: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .5)
+    }
+
+    .bc-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px
     }
 
     .bc-em {
-      font-size: 38px;
-      margin-bottom: 16px;
-      display: block
+      font-size: 28px;
+      display: block;
+      line-height: 1;
+      filter: none
     }
 
     .bc-name {
@@ -733,44 +837,61 @@
       font-weight: 800;
       color: #fff;
       margin-bottom: 8px;
-      font-family: var(--h)
+      font-family: var(--h);
+      position: relative;
+      z-index: 2
     }
 
     .bc-desc {
       font-size: 13px;
-      color: rgba(255, 255, 255, .42);
-      line-height: 1.6;
-      margin-bottom: 18px
+      color: rgba(255, 255, 255, .72);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+      flex: 1
     }
 
     .bc-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 18px
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2
     }
 
     .bc-tag {
-      background: rgba(255, 255, 255, .07);
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .15);
       border-radius: 99px;
-      padding: 4px 11px;
+      padding: 4px 12px;
       font-size: 11px;
-      color: rgba(255, 255, 255, .4);
+      color: rgba(255, 255, 255, .85);
       font-weight: 500
     }
 
     .bc-go {
       font-size: 13px;
       font-weight: 700;
-      color: var(--blue-light);
       font-family: var(--h);
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: gap .25s
+      gap: 8px;
+      transition: all .3s;
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 8px 18px;
+      border-radius: 99px;
+      backdrop-filter: blur(8px);
+      width: fit-content
     }
 
-    .bc:not(.dim):hover .bc-go {
+    .bc:hover .bc-go {
+      background: rgba(255,255,255,.25);
       gap: 12px
     }
 
@@ -2048,10 +2169,6 @@
         grid-template-columns: 1fr 1fr
       }
 
-      .bots-soon {
-        grid-template-columns: 1fr
-      }
-
       .stats-grid {
         grid-template-columns: 1fr 1fr
       }
@@ -2080,9 +2197,25 @@
         display: none
       }
 
-      .bots-grid,
-      .bots-soon {
+      .bots-grid {
         grid-template-columns: 1fr
+      }
+
+      .bc {
+        padding: 0
+      }
+
+      .bc-body {
+        padding: 24px 22px 22px
+      }
+
+      .hero-h1 {
+        font-size: clamp(32px, 10vw, 52px)
+      }
+
+      .hprow {
+        flex-wrap: wrap;
+        justify-content: center
       }
 
       .stats-grid {
@@ -2231,85 +2364,110 @@
 
   <!-- LIVE BOTS -->
   <section class="s-bots" id="cities">
+    <div class="bots-grid-bg"></div>
     <div class="bots-glow"></div>
+    <div class="bots-orb"></div>
+    <div class="bots-orb-2"></div>
     <div class="bots-hd rv">
-      <div class="sec-tag">🗺 District Network</div>
-      <h2 class="sec-title">Live Across Haryana.</h2>
-      <p class="sec-sub">Each city has its own dedicated bot, trained exclusively on its district data.</p>
+      <div class="sec-tag">✦ DISTRICT NETWORK</div>
+      <h2 class="sec-title">Live Across <span class="bots-gt">Haryana.</span></h2>
+      <p class="sec-sub">Each city has its own dedicated AI bot, trained exclusively on official district data — always accurate, always local.</p>
+      <div class="bots-live-badge"><span class="blb-dot"></span> 7 Districts Live</div>
     </div>
     <div class="bots-grid">
       <a href="https://kkr.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(37,99,235,.15),rgba(234,88,12,.08));transition-delay:.04s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">🕉️</span>
-        <div class="bc-name">Kurukshetra</div>
-        <div class="bc-desc">The holy land of the Mahabharata — heritage, pilgrimage sites, Bhagavad Gita, district
-          officers, and emergency services.</div>
-        <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Gita AI</span><span
-            class="bc-tag">Tourism</span><span class="bc-tag">Officers</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#C2410C,#EA580C,#FB923C);--bc-shadow:rgba(234,88,12,.25);transition-delay:.04s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🕉️</span></div>
+          <div class="bc-name">Kurukshetra</div>
+          <div class="bc-desc">The holy land of the Mahabharata — heritage, pilgrimage sites, Bhagavad Gita, district
+            officers, and emergency services.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Gita AI</span><span
+              class="bc-tag">Tourism</span><span class="bc-tag">Officers</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
       <a href="https://karnal.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(8,145,178,.15),rgba(124,58,237,.08));transition-delay:.1s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">🏙️</span>
-        <div class="bc-name">Karnal</div>
-        <div class="bc-desc">A thriving district hub — administration, agriculture, education, civic services, and local
-          landmarks at your fingertips.</div>
-        <div class="bc-tags"><span class="bc-tag">Administration</span><span class="bc-tag">Services</span><span
-            class="bc-tag">Local Info</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#065F46,#059669,#34D399);--bc-shadow:rgba(5,150,105,.25);transition-delay:.1s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏙️</span></div>
+          <div class="bc-name">Karnal</div>
+          <div class="bc-desc">A thriving district hub — administration, agriculture, education, civic services, and local
+            landmarks at your fingertips.</div>
+          <div class="bc-tags"><span class="bc-tag">Administration</span><span class="bc-tag">Services</span><span
+              class="bc-tag">Local Info</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
       <a href="https://ambala.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(22,163,74,.15),rgba(8,145,178,.08));transition-delay:.16s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">⚔️</span>
-        <div class="bc-name">Ambala</div>
-        <div class="bc-desc">Gateway to Haryana — cantonment, commerce, connectivity. Officers, welfare schemes,
-          emergency contacts, and more.</div>
-        <div class="bc-tags"><span class="bc-tag">Officers</span><span class="bc-tag">Schemes</span><span
-            class="bc-tag">Emergency</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#1E3A8A,#2563EB,#60A5FA);--bc-shadow:rgba(37,99,235,.25);transition-delay:.16s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">⚔️</span></div>
+          <div class="bc-name">Ambala</div>
+          <div class="bc-desc">Gateway to Haryana — cantonment, commerce, connectivity. Officers, welfare schemes,
+            emergency contacts, and more.</div>
+          <div class="bc-tags"><span class="bc-tag">Officers</span><span class="bc-tag">Schemes</span><span
+              class="bc-tag">Emergency</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
       <a href="https://pkl.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(0,105,92,.15),rgba(8,145,178,.08));transition-delay:.22s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">🏔️</span>
-        <div class="bc-name">Panchkula</div>
-        <div class="bc-desc">Smart-city living — Morni Hills, Mansa Devi Temple, Pinjore Gardens, urban services, and civic amenities.</div>
-        <div class="bc-tags"><span class="bc-tag">Smart City</span><span class="bc-tag">Nature</span><span
-            class="bc-tag">Tourism</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#134E4A,#0D9488,#5EEAD4);--bc-shadow:rgba(13,148,136,.25);transition-delay:.22s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏔️</span></div>
+          <div class="bc-name">Panchkula</div>
+          <div class="bc-desc">Smart-city living — Morni Hills, Mansa Devi Temple, Pinjore Gardens, urban services, and civic amenities.</div>
+          <div class="bc-tags"><span class="bc-tag">Smart City</span><span class="bc-tag">Nature</span><span
+              class="bc-tag">Tourism</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
       <a href="https://srs.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(106,27,154,.15),rgba(124,58,237,.08));transition-delay:.28s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">🌿</span>
-        <div class="bc-name">Sirsa</div>
-        <div class="bc-desc">Haryana's largest district — rich in agriculture, heritage sites like Tara Baba Kutia, and vibrant rural culture.</div>
-        <div class="bc-tags"><span class="bc-tag">Agriculture</span><span class="bc-tag">Heritage</span><span
-            class="bc-tag">Culture</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#581C87,#7C3AED,#A78BFA);--bc-shadow:rgba(124,58,237,.25);transition-delay:.28s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🌿</span></div>
+          <div class="bc-name">Sirsa</div>
+          <div class="bc-desc">Haryana's largest district — rich in agriculture, heritage sites like Tara Baba Kutia, and vibrant rural culture.</div>
+          <div class="bc-tags"><span class="bc-tag">Agriculture</span><span class="bc-tag">Heritage</span><span
+              class="bc-tag">Culture</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
       <a href="https://palwal.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(230,81,0,.15),rgba(234,88,12,.08));transition-delay:.34s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">🛕</span>
-        <div class="bc-name">Palwal</div>
-        <div class="bc-desc">Historic Apelava — home to Panchavati Temple, Dauji Temple, and deep connections to India's freedom struggle.</div>
-        <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Temples</span><span
-            class="bc-tag">History</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#9F1239,#E11D48,#FB7185);--bc-shadow:rgba(225,29,72,.25);transition-delay:.34s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
+          <div class="bc-name">Palwal</div>
+          <div class="bc-desc">Historic Apelava — home to Panchavati Temple, Dauji Temple, and deep connections to India's freedom struggle.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Temples</span><span
+              class="bc-tag">History</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
       <a href="https://fbd.citymitra.app" target="_blank" class="bc live rv"
-        style="--bh:linear-gradient(135deg,rgba(198,40,40,.15),rgba(219,39,119,.08));transition-delay:.4s">
-        <div class="bc-badge on">● LIVE</div>
-        <span class="bc-em">🏭</span>
-        <div class="bc-name">Faridabad</div>
-        <div class="bc-desc">Industrial capital of Haryana — Surajkund Mela, Badkhal Lake, business services, transport, and civic information.</div>
-        <div class="bc-tags"><span class="bc-tag">Industry</span><span class="bc-tag">Tourism</span><span
-            class="bc-tag">Commerce</span></div>
-        <div class="bc-go">Open Bot <span>→</span></div>
+        style="--bc-bg:linear-gradient(135deg,#1E1B4B,#4338CA,#818CF8);--bc-shadow:rgba(67,56,202,.25);transition-delay:.4s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏭</span></div>
+          <div class="bc-name">Faridabad</div>
+          <div class="bc-desc">Industrial capital of Haryana — Surajkund Mela, Badkhal Lake, business services, transport, and civic information.</div>
+          <div class="bc-tags"><span class="bc-tag">Industry</span><span class="bc-tag">Tourism</span><span
+              class="bc-tag">Commerce</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
       </a>
     </div>
   </section>
