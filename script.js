@@ -489,18 +489,27 @@ function shareBotMessage(messageIndex) {
         return;
     }
 
-    // Clean the message content (remove HTML tags and extra formatting)
+    // Clean the message content — preserve full text and URLs
     let cleanContent = msg.content
-        .replace(/<[^>]*>/g, '')              // Remove HTML tags
-        .replace(/\*\*/g, '*')                // Convert bold to single asterisk
+        .replace(/<br\s*\/?>/gi, '\n')        // Convert <br> to newlines
+        .replace(/<\/p>/gi, '\n\n')           // Paragraphs to double newline
+        .replace(/<\/div>/gi, '\n')           // Divs to newline
+        .replace(/<\/li>/gi, '\n')            // List items to newline
+        .replace(/<li[^>]*>/gi, '• ')         // List item bullets
+        .replace(/<[^>]*>/g, '')              // Remove remaining HTML tags
+        .replace(/\*\*/g, '*')                // Convert bold to WhatsApp bold
         .replace(/#{1,6}\s/g, '')             // Remove markdown headers
-        .replace(/\n\n+/g, '\n\n')            // Clean multiple line breaks
-        .replace(/🔗\s*https?:\/\/[^\s]+/g, '') // Remove link URLs (keep text)
+        .replace(/\n{3,}/g, '\n\n')           // Max double line breaks
+        .replace(/&amp;/g, '&')              // Decode HTML entities
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
         .trim();
 
-    // Limit length if too long
-    if (cleanContent.length > 500) {
-        cleanContent = cleanContent.substring(0, 497) + '...';
+    // WhatsApp supports long messages — use generous limit
+    if (cleanContent.length > 2000) {
+        cleanContent = cleanContent.substring(0, 1997) + '...';
     }
 
     // Create shareable message with branding
