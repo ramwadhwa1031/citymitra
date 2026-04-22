@@ -2,1450 +2,3019 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
-    <title>City Mitra — Kurukshetra Civic AI</title>
-    <meta name="theme-color" content="#0F766E">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="apple-touch-icon" href="./icons/icon-192.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&family=Playfair+Display:wght@600;700&family=Yeseva+One&family=Noto+Serif+Devanagari:wght@500;700&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="js/whatsapp-adapter.js"></script>
-    <style>
-        /* ══════════════════════════════════════════════════════
-           CITY MITRA — "KURUKSHETRA HERITAGE PREMIUM" DESIGN
-           Illustrated Ghat Header · Collapsible · Timeline Chat
-           Stone-tablet AI · Teal Gradient User · Safari-safe
-           ══════════════════════════════════════════════════════ */
-
-        :root {
-            /* Heritage palette */
-            --sky-top:     #7A3860;
-            --sky-mid:     #F07840;
-            --sky-gold:    #FFD98A;
-            --water:       #2E6880;
-            --ghat:        #C89050;
-            --ghat2:       #B88040;
-            --ghat3:       #8A5820;
-
-            /* UI palette */
-            --teal:        #0F766E;
-            --teal-light:  #14B8A6;
-            --teal2:       #2A9080;
-            --teal-deep:   #1E6878;
-            --indigo:      #4338CA;
-            --indigo-light:#6366F1;
-            --accent:      #0D9488;
-            --accent-glow: rgba(13, 148, 136, 0.15);
-
-            /* Surfaces */
-            --pearl:       #F8FAFC;
-            --pearl-warm:  #F1F5F9;
-            --ivory:       #FAF7F0;
-            --stone:       #EDE4D4;
-            --stone2:      #DDD0BA;
-
-            /* Text */
-            --ink:         #0F172A;
-            --ink-soft:    #334155;
-            --ink2:        #3C2E20;
-            --muted:       #94A3B8;
-            --muted-warm:  #8A7060;
-            --gold:        #C88030;
-
-            /* Borders & Shadows */
-            --border:      rgba(15, 118, 110, 0.12);
-            --border-soft: rgba(15, 118, 110, 0.06);
-            --border-warm: rgba(180,130,60,0.18);
-            --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md:   0 4px 6px rgba(0,0,0,0.04), 0 10px 15px rgba(0,0,0,0.06);
-            --shadow-lg:   0 10px 25px rgba(0,0,0,0.06), 0 20px 48px rgba(0,0,0,0.08);
-
-            /* Safe area */
-            --sab: env(safe-area-inset-bottom, 0px);
-            --sat: env(safe-area-inset-top, 0px);
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html {
-            height: 100%;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-
-        body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: fixed;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-            -webkit-font-smoothing: antialiased;
-            -webkit-text-size-adjust: 100%;
-            touch-action: manipulation;
-        }
-
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(13,148,136,0.2); border-radius: 3px; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-
-        /* ── Chat background ── */
-        .wa-bg {
-            background: var(--ivory) !important;
-            background-image: none !important;
-        }
-
-        /* ── Main Container ── */
-        .app-shell {
-            height: 100%;
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: var(--ivory);
-            position: relative;
-        }
-
-        .bg-\[\#efeae2\] {
-            background: var(--ivory) !important;
-            border: none !important;
-            box-shadow: var(--shadow-lg) !important;
-        }
-
-        /* ══════════════════════════════════════════════════════
-           HEADER — Illustrated Ghat with Sunset Sky
-           Collapsible: 180px → 54px on first message
-           ══════════════════════════════════════════════════════ */
-        .illustrated-header {
-            position: relative;
-            width: 100%;
-            height: 180px;
-            flex-shrink: 0;
-            overflow: hidden;
-            cursor: pointer;
-            transition: height 0.5s cubic-bezier(0.4,0,0.2,1);
-            z-index: 20;
-        }
-        .illustrated-header.collapsed {
-            height: 54px;
-            cursor: default;
-        }
-
-        /* Sky gradient */
-        .sky-layer {
-            position: absolute; inset: 0;
-            background: linear-gradient(180deg,
-                #7A3860 0%, #C0485A 16%, #F07840 34%,
-                #FFAE5C 52%, #FFD98A 66%, #FFF3C8 80%, #E8F4FF 100%);
-            transition: opacity 0.5s;
-        }
-        .illustrated-header.collapsed .sky-layer { opacity: 0; }
-        .illustrated-header.collapsed { background: linear-gradient(135deg, var(--teal) 0%, var(--teal2) 50%, var(--indigo) 100%); }
-
-        /* Sun */
-        .sun-orb {
-            position: absolute;
-            width: 42px; height: 42px; border-radius: 50%;
-            background: radial-gradient(circle, #FFF5A0 0%, #FFD84A 45%, #FFAC30 100%);
-            top: 24px; left: 50%; transform: translateX(-50%);
-            box-shadow: 0 0 0 6px rgba(255,220,80,0.15), 0 0 0 16px rgba(255,200,60,0.08), 0 0 0 30px rgba(255,180,40,0.04);
-            animation: sunpulse 4s ease-in-out infinite alternate;
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .sun-orb { opacity: 0; }
-        @keyframes sunpulse {
-            from { box-shadow: 0 0 0 6px rgba(255,220,80,0.15), 0 0 0 16px rgba(255,200,60,0.08), 0 0 0 30px rgba(255,180,40,0.04); }
-            to   { box-shadow: 0 0 0 10px rgba(255,220,80,0.2), 0 0 0 22px rgba(255,200,60,0.12), 0 0 0 38px rgba(255,180,40,0.06); }
-        }
-
-        /* Sun rays */
-        .sun-rays-wrap {
-            position: absolute;
-            width: 160px; height: 90px;
-            top: 0; left: 50%; transform: translateX(-50%);
-            overflow: hidden; pointer-events: none;
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .sun-rays-wrap { opacity: 0; }
-        .s-ray {
-            position: absolute;
-            bottom: 0; left: 50%;
-            width: 1px; height: 90px;
-            transform-origin: bottom center;
-            background: linear-gradient(to top, rgba(255,220,100,0.2), transparent);
-            animation: rayshine 5s ease-in-out infinite alternate;
-        }
-        .s-ray:nth-child(1) { transform: rotate(-55deg); animation-delay:0s; }
-        .s-ray:nth-child(2) { transform: rotate(-40deg); animation-delay:0.3s; }
-        .s-ray:nth-child(3) { transform: rotate(-25deg); animation-delay:0.6s; }
-        .s-ray:nth-child(4) { transform: rotate(-10deg); animation-delay:0.1s; }
-        .s-ray:nth-child(5) { transform: rotate(5deg);   animation-delay:0.4s; }
-        .s-ray:nth-child(6) { transform: rotate(20deg);  animation-delay:0.7s; }
-        .s-ray:nth-child(7) { transform: rotate(35deg);  animation-delay:0.2s; }
-        .s-ray:nth-child(8) { transform: rotate(50deg);  animation-delay:0.5s; }
-        @keyframes rayshine { from{opacity:0.5} to{opacity:1} }
-
-        /* Birds */
-        .hdr-birds {
-            position: absolute; top: 18px; right: 32px;
-            display: flex; gap: 5px;
-            animation: birdfloat 5s ease-in-out infinite alternate;
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .hdr-birds { opacity: 0; }
-        @keyframes birdfloat { from{transform:translateY(0)} to{transform:translateY(-4px)} }
-        .hdr-bird { width: 12px; height: 5px; position: relative; }
-        .hdr-bird::before, .hdr-bird::after {
-            content: ''; position: absolute; top: 0;
-            width: 6px; height: 5px;
-            border-top: 1.5px solid rgba(80,30,40,0.5);
-            border-radius: 50% 50% 0 0;
-        }
-        .hdr-bird::before { left:0; border-right:none; transform:rotate(-8deg); }
-        .hdr-bird::after  { right:0; border-left:none; transform:rotate(8deg); }
-        .hdr-bird.sm { transform:scale(0.6); opacity:0.5; margin-top:4px; }
-
-        /* Temple silhouettes */
-        .hdr-temples {
-            position: absolute; bottom: 52px; left:0; right:0; height:65px;
-            display: flex; align-items: flex-end; justify-content: center; gap:3px;
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .hdr-temples { opacity: 0; }
-        .tp-wrap { display: flex; flex-direction: column; align-items: center; }
-        .tp-spire { background: rgba(50,18,28,0.5); clip-path: polygon(50% 0%,0% 100%,100% 100%); }
-        .tp-body  { background: rgba(50,18,28,0.5); }
-        .tp-base  { background: rgba(50,18,28,0.5); height: 6px; }
-        .tree-wrap { display: flex; flex-direction:column; align-items:center; }
-        .tree-canopy { background: rgba(25,70,40,0.45); clip-path: polygon(50% 0%,0% 100%,100% 100%); }
-        .tree-trunk { background: rgba(40,20,8,0.4); }
-
-        /* Ghat steps */
-        .hdr-ghat {
-            position: absolute; bottom: 32px; left:0; right:0; height: 24px;
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .hdr-ghat { opacity: 0; }
-        .ghat-step { position: absolute; bottom:0; left:0; right:0; border-top:1px solid rgba(255,255,255,0.2); }
-        .ghat-step:nth-child(1) { height:8px; background:#8A5820; }
-        .ghat-step:nth-child(2) { height:6px; bottom:8px; background:#B88040; left:8px; right:8px; }
-        .ghat-step:nth-child(3) { height:5px; bottom:14px; background:#D4A870; left:20px; right:20px; }
-        .ghat-step:nth-child(4) { height:4px; bottom:19px; background:rgba(212,168,112,0.7); left:36px; right:36px; }
-
-        /* Diyas */
-        .hdr-diya {
-            position: absolute; bottom:30px;
-            width:5px; height:4px; border-radius:50% 50% 0 0; background:#B88040;
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .hdr-diya { opacity:0; }
-        .hdr-diya::after {
-            content:''; position:absolute; top:-5px; left:50%; transform:translateX(-50%);
-            width:3px; height:5px;
-            background: radial-gradient(ellipse at center,#FFE060 0%,rgba(255,180,40,0.3) 70%,transparent 100%);
-            border-radius:50%;
-            animation: flicker 1.6s ease-in-out infinite alternate;
-        }
-        @keyframes flicker { from{opacity:0.6;transform:translateX(-50%) scaleY(0.8)} to{opacity:1;transform:translateX(-50%) scaleY(1.2)} }
-        .dy1{left:24px} .dy2{left:52px;animation-delay:.4s} .dy3{right:52px;animation-delay:.8s} .dy4{right:24px;animation-delay:.2s}
-
-        /* Water */
-        .hdr-water {
-            position: absolute; bottom:0; left:0; right:0; height:34px;
-            background: linear-gradient(180deg,#4A8EA8 0%,#2E6880 50%,#1A4860 100%);
-            overflow:hidden;
-            transition: height 0.5s, background 0.5s;
-        }
-        .illustrated-header.collapsed .hdr-water {
-            height: 54px;
-            background: linear-gradient(180deg, var(--teal) 0%, var(--indigo) 100%);
-        }
-        .hdr-water::before {
-            content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
-            width:32px; height:34px;
-            background: linear-gradient(180deg,rgba(255,220,80,0.4) 0%,rgba(255,180,40,0.08) 100%);
-            filter:blur(5px);
-            transition: opacity 0.4s;
-        }
-        .illustrated-header.collapsed .hdr-water::before { opacity:0; }
-        .hdr-ripples { position:absolute; top:5px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; gap:4px; width:180px; transition: opacity 0.4s; }
-        .illustrated-header.collapsed .hdr-ripples { opacity: 0; }
-        .rip { height:1.5px; border-radius:50%; background:rgba(255,255,255,0.14); animation:ripw 3s ease-in-out infinite; }
-        .rip:nth-child(1){width:45px;margin:0 auto;animation-delay:0s}
-        .rip:nth-child(2){width:80px;margin:0 auto;animation-delay:.5s}
-        .rip:nth-child(3){width:120px;margin:0 auto;animation-delay:1s}
-        .rip:nth-child(4){width:160px;margin:0 auto;animation-delay:1.5s}
-        @keyframes ripw{0%,100%{opacity:.12;transform:scaleX(.9)}50%{opacity:.4;transform:scaleX(1)}}
-        .hdr-lotus { position:absolute; bottom:5px; font-size:12px; animation:lotusFloat 4s ease-in-out infinite alternate; transition: opacity 0.4s; }
-        .illustrated-header.collapsed .hdr-lotus { opacity: 0; }
-        .hdr-lotus.l1{left:18px} .hdr-lotus.l2{right:28px;animation-delay:1.5s}
-        @keyframes lotusFloat{from{transform:translateX(0)}to{transform:translateX(5px)}}
-
-        /* Header name overlay */
-        .hdr-name {
-            position:absolute; bottom:40px; left:0; right:0;
-            display:flex; flex-direction:column; align-items:center;
-            pointer-events:none;
-            transition: bottom 0.5s, opacity 0.5s;
-            z-index: 5;
-        }
-        .illustrated-header.collapsed .hdr-name { bottom: 12px; }
-        .hdr-deva {
-            font-family:'Noto Serif Devanagari',serif;
-            font-size:9px; font-weight:500;
-            color:rgba(255,245,210,0.7);
-            letter-spacing:.08em; margin-bottom:2px;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-            transition: opacity 0.3s;
-        }
-        .illustrated-header.collapsed .hdr-deva { opacity:0; }
-        .hdr-title {
-            font-family:'Yeseva One',serif;
-            font-size:24px; color:#FFFAE8;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 24px rgba(255,200,80,0.3);
-            letter-spacing:.03em; line-height:1;
-            transition: font-size 0.4s;
-        }
-        .illustrated-header.collapsed .hdr-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 16px;
-            text-shadow: none;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-        }
-        .hdr-title em { color:#FFD84A; font-style: normal; }
-
-        /* Header action bar */
-        .hdr-bar {
-            position:absolute; top:0; left:0; right:0;
-            display:flex; justify-content:space-between; align-items:center;
-            padding: 10px 14px;
-            padding-top: calc(10px + var(--sat));
-            z-index:10;
-        }
-        .hdr-pill {
-            display:flex; align-items:center; gap:4px;
-            padding:4px 10px; border-radius:20px;
-            background:rgba(255,255,255,0.18);
-            backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-            border:1px solid rgba(255,255,255,0.28);
-            font-size:10px; font-weight:700; color:#fff;
-            cursor:pointer; transition:background .2s;
-            font-family: 'Inter', sans-serif;
-        }
-        .hdr-pill:hover{background:rgba(255,255,255,0.26)}
-        .live-dot {
-            width:6px;height:6px;border-radius:50%;background:#7AE878;
-            box-shadow:0 0 0 2px rgba(122,232,120,0.3);
-            animation:livepulse 2s ease-in-out infinite;
-        }
-        @keyframes livepulse{0%,100%{box-shadow:0 0 0 2px rgba(122,232,120,0.3)}50%{box-shadow:0 0 0 5px rgba(122,232,120,0.1)}}
-        .hdr-bar-right{display:flex;gap:5px;align-items:center}
-        .hdr-icon-btn{
-            width:30px;height:30px;border-radius:50%;
-            background:rgba(255,255,255,0.18);
-            backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-            border:1px solid rgba(255,255,255,0.28);
-            display:flex;align-items:center;justify-content:center;
-            font-size:13px;cursor:pointer;color:#fff;
-            transition: background 0.2s;
-        }
-        .hdr-icon-btn:hover { background:rgba(255,255,255,0.26); }
-        .hdr-icon-btn i { color: #fff; }
-
-        /* Trust badge */
-        .trust-badge {
-            position:absolute; bottom:38px; right:12px;
-            display:flex; align-items:center; gap:3px;
-            padding:3px 7px;
-            background:rgba(255,255,255,0.18);
-            backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-            border:1px solid rgba(255,255,255,0.25);
-            border-radius:5px;
-            font-size:8px; font-weight:600;
-            color:rgba(255,255,255,0.85);
-            letter-spacing:.03em;
-            transition: opacity 0.4s;
-            z-index: 5;
-            font-family: 'Inter', sans-serif;
-        }
-        .illustrated-header.collapsed .trust-badge { opacity: 0; }
-
-        /* Collapse hint */
-        .collapse-hint {
-            position:absolute; bottom:1px; left:50%; transform:translateX(-50%);
-            font-size:8px; color:rgba(255,255,255,0.45);
-            letter-spacing:.05em; text-transform:uppercase;
-            pointer-events:none; transition:opacity .3s;
-            font-family: 'Inter', sans-serif;
-            z-index: 5;
-        }
-        .illustrated-header.collapsed .collapse-hint { opacity:0; }
-
-        /* Menu dropdown — positioned absolutely inside header bar container */
-        .menu-dropdown-wrap {
-            position: relative;
-        }
-        #menu-dropdown {
-            position: absolute;
-            right: 0;
-            top: 36px;
-            background: rgba(255,255,255,0.97) !important;
-            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border) !important;
-            box-shadow: var(--shadow-lg) !important;
-            border-radius: 14px !important;
-            z-index: 50;
-            width: 200px;
-        }
-        #menu-dropdown button:hover, #menu-dropdown a:hover { background: #F0FDFA !important; }
-
-        /* ══════════════════════════════════════════════════════
-           CHAT AREA — Timeline spine, enhanced bubbles
-           ══════════════════════════════════════════════════════ */
-        #chat-container {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-            scroll-behavior: smooth;
-            position: relative;
-        }
-
-        /* Timeline spine */
-        #chat-container::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0;
-            left: 28px;
-            width: 1px;
-            background: repeating-linear-gradient(
-                180deg,
-                var(--border-warm) 0, var(--border-warm) 5px,
-                transparent 5px, transparent 11px
-            );
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .wa-bg {
-            background: var(--ivory) !important;
-        }
-
-        /* ══════════════════════════════════════════════════════
-           HERO WELCOME SECTION
-           ══════════════════════════════════════════════════════ */
-        .cm-hero {
-            background: linear-gradient(145deg, #F0FDFA 0%, #FAF7F0 50%, #EEF2FF 100%);
-            border: 1px solid var(--border-warm);
-            border-radius: 20px;
-            padding: 24px 20px 18px;
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
-            animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
-            box-shadow: 0 2px 12px rgba(60,30,10,0.06);
-        }
-
-        .cm-hero::before {
-            content: 'कुरुक्षेत्र';
-            position: absolute;
-            right: 12px; top: -4px;
-            font-size: 56px;
-            font-weight: 700;
-            background: linear-gradient(135deg, rgba(30,104,120,0.1), rgba(200,128,48,0.08));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: rgba(30,104,120,0.1);
-            pointer-events: none;
-            line-height: 1;
-        }
-
-        .cm-hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(30,104,120,0.08);
-            color: var(--teal-deep);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-        }
-
-        .cm-hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--ink);
-            line-height: 1.2;
-            margin-bottom: 8px;
-        }
-        .cm-hero-title em {
-            color: var(--teal-deep);
-            font-style: normal;
-        }
-
-        .cm-hero-desc {
-            font-size: 13px;
-            color: var(--ink-soft);
-            line-height: 1.55;
-            margin-bottom: 16px;
-        }
-
-        /* ── Horizontal topic pills ── */
-        .cm-topics {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-
-        .cm-topic-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1.5px solid;
-            transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
-            cursor: pointer;
-            user-select: none;
-        }
-        .cm-topic-pill:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .cm-topic-pill:active {
-            transform: scale(0.95);
-        }
-        .cm-tp-teal    { background: #F0FDFA; color: #0F766E; border-color: rgba(15,118,110,0.2); }
-        .cm-tp-indigo  { background: #EEF2FF; color: #4338CA; border-color: rgba(67,56,202,0.2); }
-        .cm-tp-rose    { background: #FFF1F2; color: #BE123C; border-color: rgba(190,18,60,0.2); }
-        .cm-tp-amber   { background: #FFFBEB; color: #B45309; border-color: rgba(180,83,9,0.2); }
-        .cm-tp-sky     { background: #F0F9FF; color: #0369A1; border-color: rgba(3,105,161,0.2); }
-
-        /* ── Trust footer in hero ── */
-        .cm-hero-trust {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding-top: 14px;
-            border-top: 1px solid var(--border-warm);
-            font-size: 10px;
-            color: var(--muted-warm);
-        }
-        .cm-hero-trust strong { color: var(--teal-deep); }
-
-        /* chips-container: hidden */
-        #chips-container { display: none !important; }
-        #chips-grid { display: none !important; }
-
-        /* Chip buttons */
-        .chip-button {
-            background: white !important;
-            color: var(--ink-soft) !important;
-            border: 1.5px solid var(--border) !important;
-            border-radius: 12px !important;
-            font-weight: 600 !important;
-            transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important;
-            box-shadow: var(--shadow-sm) !important;
-        }
-        .chip-button:hover {
-            background: linear-gradient(135deg, var(--teal-deep), var(--teal2)) !important;
-            color: white !important;
-            border-color: transparent !important;
-            box-shadow: 0 6px 20px rgba(30,104,120,0.25) !important;
-            transform: translateY(-2px) !important;
-        }
-        .chip-button:active { transform: scale(0.97) !important; }
-
-        /* Dot indicators */
-        .bg-gray-400 { background-color: rgba(30,104,120,0.2) !important; }
-
-        /* Chip nav & title color mapping */
-        .text-\[\#008069\]    { color: var(--teal-deep) !important; }
-        .text-\[\#008069\]\/80 { color: rgba(30,104,120,0.7) !important; }
-        .border-\[\#008069\]  { border-color: var(--teal-deep) !important; }
-        .bg-\[\#008069\]      { background-color: var(--teal-deep) !important; }
-
-        .hover\:bg-\[\#008069\]:hover {
-            background: linear-gradient(135deg, var(--teal-deep), var(--teal2)) !important;
-            border-color: transparent !important;
-            color: white !important;
-        }
-
-        .focus\:ring-\[\#008069\]\/20:focus {
-            --tw-ring-color: rgba(30,104,120,0.2) !important;
-        }
-
-        /* Toggle button: permanently hidden */
-        #toggle-chips-btn { display: none !important; }
-
-
-        /* ══════════════════════════════════════════════════════
-           MESSAGE BUBBLES — Stone Tablet AI + Teal Gradient User
-           ══════════════════════════════════════════════════════ */
-        .message-box {
-            box-shadow: 0 2px 8px rgba(60,30,10,0.06) !important;
-            border-radius: 16px !important;
-            position: relative;
-        }
-
-        /* AI bubble — stone tablet style */
-        .message-box.bg-white {
-            background: #fff !important;
-            border: 1px solid var(--border-warm) !important;
-            border-radius: 3px 16px 16px 16px !important;
-        }
-        /* Teal accent bar on AI bubble */
-        .message-box.bg-white::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 36px; height: 3px;
-            background: linear-gradient(90deg, var(--teal-deep), rgba(30,104,120,0.15));
-            border-radius: 3px 0 0 0;
-            pointer-events: none;
-        }
-        .message-box .text-\[\#008069\] { color: var(--teal-deep) !important; }
-
-        .triangle-left::before {
-            content: "";
-            position: absolute;
-            left: -8px; top: 0;
-            width: 0; height: 0;
-            border-top: 0px solid transparent;
-            border-bottom: 12px solid transparent;
-            border-right: 12px solid white;
-        }
-
-        /* User bubble — Teal gradient with scroll-curl */
-        .message-box.bg-\[\#d9fdd3\] {
-            background: linear-gradient(135deg, var(--teal-deep) 0%, var(--teal2) 100%) !important;
-            color: white !important;
-            border: none !important;
-            box-shadow: 0 4px 16px rgba(30,104,120,0.3) !important;
-            border-radius: 16px 3px 16px 16px !important;
-        }
-        /* Scroll-end curl on user bubble */
-        .message-box.bg-\[\#d9fdd3\]::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0;
-            width: 11px; height: 11px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 0 3px 0 11px;
-            pointer-events: none;
-        }
-        .message-box.bg-\[\#d9fdd3\] .text-gray-800 { color: #FFF !important; }
-        .message-box.bg-\[\#d9fdd3\] .text-gray-500 { color: rgba(255,255,255,0.7) !important; }
-        .message-box.bg-\[\#d9fdd3\] .text-\[\#53bdeb\] { color: rgba(255,255,255,0.85) !important; }
-
-        .triangle-right::before {
-            content: "";
-            position: absolute;
-            right: -8px; top: 0;
-            width: 0; height: 0;
-            border-top: 0px solid transparent;
-            border-bottom: 12px solid transparent;
-            border-left: 12px solid var(--teal-deep);
-        }
-
-        .triangle-left::after, .triangle-right::after { display: none !important; }
-
-        /* Links in messages */
-        .message-box a { color: var(--teal-deep) !important; text-decoration: underline; text-underline-offset: 2px; }
-        .message-box.bg-\[\#d9fdd3\] a { color: #fff !important; }
-
-        /* ══════════════════════════════════════════════════════
-           INPUT AREA — Fixed bottom, Safari-safe
-           ══════════════════════════════════════════════════════ */
-        .input-area {
-            flex-shrink: 0;
-            background: #fff;
-            border-top: 1px solid var(--border-warm);
-            padding: 8px 14px;
-            padding-bottom: calc(8px + var(--sab));
-            box-shadow: 0 -4px 20px rgba(60,30,10,0.06);
-            z-index: 20;
-            position: relative;
-        }
-
-        /* Dynamic suggestion chips above input */
-        .dynamic-suggestions {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 8px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-        }
-        .dynamic-suggestions::-webkit-scrollbar { display: none; }
-        .dyn-sug {
-            flex-shrink: 0;
-            padding: 5px 11px;
-            border-radius: 8px;
-            background: var(--stone);
-            border: 1px solid var(--border-warm);
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--ink2);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all .2s;
-            font-family: 'Inter', sans-serif;
-        }
-        .dyn-sug:hover { background: var(--teal-deep); color: #fff; border-color: var(--teal-deep); }
-
-        .bg-\[\#f0f2f5\] {
-            background: #fff !important;
-            border-top: 1px solid var(--border-warm) !important;
-            padding-bottom: calc(8px + var(--sab)) !important;
-            box-shadow: 0 -4px 20px rgba(60,30,10,0.06) !important;
-        }
-
-        #user-input {
-            background: var(--stone) !important;
-            border: 1.5px solid var(--border-warm) !important;
-            color: var(--ink) !important;
-            border-radius: 14px !important;
-            font-size: 16px !important;
-            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
-            font-family: 'Inter', sans-serif !important;
-        }
-        #user-input::placeholder { color: var(--muted-warm) !important; }
-        #user-input:focus {
-            border-color: var(--teal-deep) !important;
-            box-shadow: 0 0 0 3px rgba(30,104,120,0.1) !important;
-            background: #fff !important;
-            outline: none !important;
-        }
-
-        /* Send button — teal gradient */
-        button.bg-gradient-to-r.from-\[\#008069\] {
-            background: linear-gradient(135deg, var(--teal-deep), var(--teal2)) !important;
-            box-shadow: 0 4px 14px rgba(30,104,120,0.35) !important;
-            transition: all 0.2s cubic-bezier(0.22,1,0.36,1) !important;
-        }
-        button.bg-gradient-to-r.from-\[\#008069\]:hover {
-            box-shadow: 0 6px 20px rgba(30,104,120,0.45) !important;
-            transform: scale(1.08);
-        }
-        button.bg-gradient-to-r.from-\[\#008069\]:active { transform: scale(0.95); }
-
-        /* Character counter */
-        .char-counter {
-            font-size: 9px;
-            color: var(--muted-warm);
-            text-align: right;
-            margin-top: 3px;
-            height: 12px;
-            transition: opacity 0.2s;
-            opacity: 0;
-            font-family: 'Inter', sans-serif;
-        }
-        .char-counter.show { opacity: 1; }
-
-        /* ══════════════════════════════════════════════════════
-           MIC BUTTON
-           ══════════════════════════════════════════════════════ */
-        #mic-btn { position: relative; transition: all 0.3s ease; }
-        #mic-btn:hover { background: var(--stone) !important; }
-        #mic-btn.recording { background: #ef4444 !important; animation: pulse-red 1.5s ease-in-out infinite; }
-        #mic-btn.recording i { color: white !important; }
-        @keyframes pulse-red {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
-        }
-        #mic-btn.listening { background: var(--teal-deep) !important; animation: pulse-teal 1s ease-in-out infinite; }
-        #mic-btn.listening i { color: white !important; }
-        @keyframes pulse-teal {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(30,104,120,0.7); }
-            50% { box-shadow: 0 0 0 8px rgba(30,104,120,0); }
-        }
-
-        /* Voice indicator */
-        .voice-indicator {
-            position: absolute; bottom: 120%; left: 50%;
-            transform: translateX(-50%);
-            background: var(--ink); color: white;
-            padding: 8px 12px; border-radius: 8px;
-            font-size: 12px; white-space: nowrap;
-            pointer-events: none; opacity: 0; transition: opacity 0.3s;
-        }
-        .voice-indicator.show { opacity: 1; }
-        .voice-indicator::after {
-            content: ''; position: absolute; top: 100%; left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent; border-top-color: var(--ink);
-        }
-
-        /* ══════════════════════════════════════════════════════
-           AUTOCOMPLETE
-           ══════════════════════════════════════════════════════ */
-        .autocomplete-dropdown {
-            position: absolute; bottom: 100%; left: 0; right: 0;
-            max-height: 200px; overflow-y: auto;
-            background: rgba(255,255,255,0.97);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-warm);
-            border-radius: 14px 14px 0 0;
-            box-shadow: 0 -4px 20px rgba(60,30,10,0.08);
-            z-index: 30;
-        }
-        .autocomplete-item {
-            padding: 12px 16px; cursor: pointer;
-            transition: background 0.2s;
-            border-bottom: 1px solid rgba(180,130,60,0.08);
-            display: flex; align-items: center; gap: 8px;
-            color: var(--ink);
-        }
-        .autocomplete-item:hover { background: #FAF7F0; }
-        .autocomplete-item:last-child { border-bottom: none; }
-        .autocomplete-highlight { color: var(--teal-deep) !important; font-weight: 600; }
-
-        /* ══════════════════════════════════════════════════════
-           SHARE & ACTION BUTTONS
-           ══════════════════════════════════════════════════════ */
-        .share-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: #25D366; color: white; border: none;
-            padding: 0.5rem 1rem; border-radius: 20px;
-            font-size: 0.85rem; font-weight: 600; cursor: pointer;
-            margin-top: 0.75rem; transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(37,211,102,0.3);
-        }
-        .share-btn:hover { background: #20BA5A; transform: translateY(-2px); }
-        .share-btn:active { transform: translateY(0); }
-        .share-btn svg, .share-btn i { width: 16px; height: 16px; }
-        .message-actions {
-            display: flex; gap: 0.5rem; margin-top: 0.75rem;
-            padding-top: 0.75rem; border-top: 1px solid var(--border-soft);
-        }
-        .action-icon {
-            background: none; border: none; color: var(--muted);
-            cursor: pointer; padding: 0.35rem; border-radius: 50%;
-            transition: all 0.2s; display: inline-flex;
-            align-items: center; justify-content: center;
-        }
-        .action-icon:hover { background: #FAF7F0; color: var(--teal-deep); }
-        .action-icon svg { width: 18px; height: 18px; }
-
-        /* Language switcher */
-        #lang-flag { display: inline-block; transition: transform 0.3s ease; }
-        button:has(#lang-flag):hover #lang-flag { transform: scale(1.2); }
-
-        /* Loading indicator */
-        #loading-indicator .bg-gray-400 { background-color: var(--teal-deep) !important; }
-        #loading-indicator > div {
-            background: white !important;
-            border: 1px solid var(--border-warm) !important;
-            border-radius: 3px 14px 14px 14px !important;
-        }
-
-        /* Welcome badge (hidden, backwards compat) */
-        .bg-gradient-to-r.from-blue-50.to-green-50 { display: none !important; }
-
-        /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes msgIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        #messages-list > div { animation: msgIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
-
-        /* ══════════════════════════════════════════════════════
-           SAFARI iOS — Bulletproof Keyboard Fix
-           ══════════════════════════════════════════════════════ */
-        @supports (-webkit-touch-callout: none) {
-            html, body {
-                /* Prevent Safari from bouncing / scrolling body */
-                overscroll-behavior: none;
-                -webkit-overflow-scrolling: auto;
-            }
-            #user-input { font-size: 16px !important; }  /* prevent Safari zoom */
-        }
-
-        /* Desktop responsive */
-        @media (min-width: 768px) {
-            body {
-                background: linear-gradient(145deg, #FAF7F0 0%, #EDE4D4 50%, #F8FAFC 100%);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            .app-shell {
-                max-width: 400px;
-                height: 90vh;
-                border-radius: 20px;
-                border: 1px solid var(--border-warm);
-                box-shadow: var(--shadow-lg);
-                overflow: hidden;
-            }
-            .bg-\[\#efeae2\] {
-                border-radius: 20px !important;
-                border: 1px solid var(--border-warm) !important;
-            }
-        }
-
-        /* ── Header shimmer ── */
-        .illustrated-header::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 3;
-            background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
-            background-size: 250% 100%;
-            animation: headerShimmer 6s ease-in-out infinite;
-        }
-        @keyframes headerShimmer {
-            0%   { background-position: 250% 0; }
-            100% { background-position: -250% 0; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Mitra — Civic AI for Every City</title>
+  <meta name="description" content="City Mitra is your AI-powered civic assistant serving multiple districts.">
+  <meta property="og:title" content="City Mitra — Civic AI">
+  <meta property="og:description" content="One bot for everything your city needs.">
+  <meta property="og:image" content="https://citymitra.app/icons/city-mitra-bot.png">
+  <link rel="apple-touch-icon" href="./icons/city-mitra-bot.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <script>
+    // ── Single Repo Router ──
+    const sub = window.location.hostname.split('.')[0];
+    const isMainDomain = ['citymitra', 'www', 'localhost', '127'].includes(sub);
+    if (!isMainDomain && !window.location.hostname.match(/^\d+\./)) {
+      window.location.replace('/city.html' + window.location.search + window.location.hash);
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --blue: #2563EB;
+      --blue-light: #DBEAFE;
+      --blue-deep: #1D4ED8;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+      --cyan: #0891B2;
+      --cyan-light: #CFFAFE;
+      --orange: #EA580C;
+      --orange-light: #FFF7ED;
+      --green: #16A34A;
+      --green-light: #DCFCE7;
+      --red: #DC2626;
+      --red-light: #FEF2F2;
+      --magenta: #DB2777;
+      --gold: #D97706;
+      --gold-light: #FEF3C7;
+      --text: #0F172A;
+      --text-2: #334155;
+      --text-m: #64748B;
+      --text-l: #94A3B8;
+      --border: #E2E8F0;
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --bg-acc: #F0F4FF;
+      --grad: linear-gradient(135deg, var(--blue), var(--purple));
+      --grad-warm: linear-gradient(135deg, var(--orange), var(--magenta));
+      --sh-sm: 0 1px 3px rgba(0, 0, 0, .06);
+      --sh-md: 0 4px 16px rgba(0, 0, 0, .08);
+      --sh-lg: 0 12px 40px rgba(0, 0, 0, .1);
+      --sh-xl: 0 24px 60px rgba(0, 0, 0, .12);
+      --sh-blue: 0 8px 28px rgba(37, 99, 235, .22);
+      --h: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --b: 'Inter', system-ui, sans-serif;
+      --r: 20px;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--b);
+      color: var(--text);
+      overflow-x: hidden;
+      background: var(--bg)
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: var(--h);
+      letter-spacing: -.02em
+    }
+
+    /* CURSOR */
+    .cd {
+      width: 8px;
+      height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%)
+    }
+
+    .cr {
+      width: 36px;
+      height: 36px;
+      border: 2px solid rgba(37, 99, 235, .4);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .14s, height .14s, opacity .14s
+    }
+
+    .cr.big {
+      width: 54px;
+      height: 54px;
+      opacity: .2
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      height: 66px;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: all .3s
+    }
+
+    nav.sc {
+      border-bottom-color: var(--border);
+      box-shadow: var(--sh-sm)
+    }
+
+    .nb {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .nlogo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--sh-blue)
+    }
+
+    .nlogo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(2.4);
+      transform-origin: center center;
+    }
+
+    .nname {
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--h);
+      letter-spacing: -.01em;
+    }
+
+    .nname .city {
+      color: var(--blue-deep);
+    }
+
+    .nname .mitra {
+      color: var(--orange);
+    }
+
+    .nlinks {
+      display: flex;
+      align-items: center;
+      gap: 26px
+    }
+
+    .nlink {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-m);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .nlink:hover {
+      color: var(--blue)
+    }
+
+    .ncta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--grad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      font-family: var(--h);
+      padding: 10px 22px;
+      border-radius: 99px;
+      text-decoration: none;
+      box-shadow: var(--sh-blue);
+      transition: all .3s
+    }
+
+    .ncta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, .35)
+    }
+
+    .ldot {
+      width: 7px;
+      height: 7px;
+      background: #34D399;
+      border-radius: 50%;
+      animation: glow 2s infinite
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(52, 211, 153, .5)
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(52, 211, 153, 0)
+      }
+    }
+
+    /* COMMON */
+    .sec-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-family: var(--h);
+      margin-bottom: 14px
+    }
+
+    .sec-title {
+      font-size: clamp(34px, 4.5vw, 52px);
+      font-weight: 800;
+      line-height: 1.08;
+      margin-bottom: 16px;
+      letter-spacing: -.03em
+    }
+
+    .sec-sub {
+      font-size: 17px;
+      color: var(--text-m);
+      line-height: 1.7;
+      font-weight: 400
+    }
+
+    .gt {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    /* HERO */
+    .s-hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 130px 5% 80px;
+      background: linear-gradient(180deg, var(--bg-acc) 0%, var(--bg) 100%);
+      position: relative;
+      overflow: hidden
+    }
+
+    #hc {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none
+    }
+
+    .hmesh {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(ellipse 80% 60% at 15% 25%, rgba(37, 99, 235, .08), transparent 55%), radial-gradient(ellipse 60% 70% at 85% 20%, rgba(124, 58, 237, .07), transparent 55%), radial-gradient(ellipse 70% 50% at 50% 85%, rgba(8, 145, 178, .05), transparent 55%)
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      margin: 0 auto
+    }
+
+    .hero-ey {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--blue-light);
+      border: 1px solid rgba(37, 99, 235, .18);
+      color: var(--blue);
+      padding: 8px 20px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--h);
+      margin-bottom: 30px;
+      letter-spacing: .03em;
+      animation: up .9s .2s both
+    }
+
+    .hero-h1 {
+      font-size: clamp(38px, 8.5vw, 96px);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -.04em;
+      color: var(--text);
+      margin-bottom: 24px;
+      animation: up .9s .35s both;
+      overflow-wrap: break-word;
+      word-break: break-word
+    }
+
+    .hero-sub {
+      font-size: 19px;
+      color: var(--text-m);
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+      animation: up .9s .5s both
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+      animation: up .9s .65s both
+    }
+
+    .btn-p {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--grad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      font-family: var(--h);
+      padding: 17px 34px;
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: var(--sh-blue);
+      transition: all .3s
+    }
+
+    .btn-p:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(37, 99, 235, .4)
+    }
+
+    .btn-o {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      color: var(--text-2);
+      font-weight: 600;
+      font-size: 16px;
+      font-family: var(--h);
+      padding: 15px 30px;
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: var(--sh-sm);
+      transition: all .3s
+    }
+
+    .btn-o:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px)
+    }
+
+    .hero-pls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      animation: up .9s .8s both
+    }
+
+    .hpl {
+      font-size: 13px;
+      color: var(--text-m);
+      font-weight: 500
+    }
+
+    .hprow {
+      display: flex;
+      gap: 8px
+    }
+
+    .hp {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: all .25s;
+      box-shadow: var(--sh-sm)
+    }
+
+    .hp.on {
+      background: linear-gradient(135deg, rgba(22, 163, 74, .08), rgba(8, 145, 178, .08));
+      border-color: rgba(22, 163, 74, .25);
+      color: #15803D
+    }
+
+    .hp.on:hover {
+      background: rgba(22, 163, 74, .15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(22, 163, 74, .15)
+    }
+
+    .hp.on em {
+      width: 6px;
+      height: 6px;
+      background: #22C55E;
+      border-radius: 50%;
+      animation: glow 2s infinite;
+      display: inline-block;
+      font-style: normal
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(36px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* TICKER */
+    .ticker {
+      background: linear-gradient(135deg, var(--text), #1E1B4B);
+      padding: 16px 0;
+      overflow: hidden
+    }
+
+    .t-track {
+      display: flex;
+      white-space: nowrap;
+      animation: tick 32s linear infinite
+    }
+
+    .t-track:hover {
+      animation-play-state: paused
+    }
+
+    .t-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 36px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .55);
+      font-family: var(--h);
+      letter-spacing: .02em
+    }
+
+    .t-item span {
+      color: #FDE68A
+    }
+
+    .t-sep {
+      color: rgba(255, 255, 255, .18)
+    }
+
+    @keyframes tick {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+
+    /* INTRO */
+    .s-intro {
+      padding: 110px 5%;
+      background: var(--bg-soft)
+    }
+
+    .intro-w {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center
+    }
+
+    .icard {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px 26px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      box-shadow: var(--sh-sm);
+      transition: all .3s;
+      margin-bottom: 14px
+    }
+
+    .icard:last-child {
+      margin-bottom: 0
+    }
+
+    .icard:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sh-lg);
+      border-color: transparent
+    }
+
+    .icard-ic {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px
+    }
+
+    .icard h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-family: var(--h)
+    }
+
+    .icard p {
+      font-size: 13px;
+      color: var(--text-m);
+      line-height: 1.55
+    }
+
+    /* BOTS — Premium District Network */
+    .s-bots {
+      padding: 120px 5% 130px;
+      background: linear-gradient(160deg, #EEF2FF 0%, #E8EAFF 30%, #F0ECFF 55%, #FDF2F8 80%, #FFF7ED 100%);
+      position: relative;
+      overflow: hidden
+    }
+
+    /* Animated dot-grid background */
+    .bots-grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(rgba(99,102,241,.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%)
+    }
+
+    .bots-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(ellipse 45% 50% at 10% 40%, rgba(99, 102, 241, .12), transparent),
+        radial-gradient(ellipse 35% 45% at 90% 25%, rgba(168, 85, 247, .10), transparent),
+        radial-gradient(ellipse 50% 35% at 50% 95%, rgba(251, 146, 60, .08), transparent),
+        radial-gradient(ellipse 30% 30% at 70% 70%, rgba(52, 211, 153, .06), transparent)
+    }
+
+    /* Floating orb */
+    .bots-orb {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,.15), rgba(168,85,247,.08), transparent 70%);
+      filter: blur(60px);
+      top: 10%;
+      right: -5%;
+      z-index: 1;
+      animation: orbFloat 12s ease-in-out infinite
+    }
+
+    .bots-orb-2 {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251,146,60,.10), rgba(236,72,153,.06), transparent 70%);
+      filter: blur(50px);
+      bottom: 8%;
+      left: -3%;
+      z-index: 1;
+      animation: orbFloat 15s ease-in-out infinite reverse
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1) }
+      33% { transform: translate(30px, -20px) scale(1.08) }
+      66% { transform: translate(-20px, 15px) scale(.95) }
+    }
+
+    /* Header */
+    .bots-hd {
+      text-align: center;
+      margin-bottom: 72px;
+      position: relative;
+      z-index: 2
+    }
+
+    .bots-hd .sec-tag {
+      color: var(--purple);
+      justify-content: center;
+      font-size: 11px;
+      letter-spacing: .14em
+    }
+
+    .bots-hd .sec-title {
+      color: var(--text);
+      font-size: clamp(32px, 5vw, 56px);
+      margin-bottom: 18px
+    }
+
+    .bots-hd .sec-title .bots-gt {
+      background: linear-gradient(135deg, #6366F1, #A855F7, #EC4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .bots-hd .sec-sub {
+      color: var(--text-m);
+      max-width: 520px;
+      margin: 0 auto 28px;
+      font-size: 16px;
+      line-height: 1.7
+    }
+
+    /* Live counter badge */
+    .bots-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(34, 197, 94, .08);
+      border: 1px solid rgba(34, 197, 94, .2);
+      padding: 8px 22px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4ADE80;
+      font-family: var(--h);
+      letter-spacing: .02em
+    }
+
+    .bots-live-badge .blb-dot {
+      width: 8px;
+      height: 8px;
+      background: #22C55E;
+      border-radius: 50%;
+      animation: glow 2s infinite;
+      box-shadow: 0 0 8px rgba(34,197,94,.5)
+    }
+
+    /* Grid */
+    .bots-grid {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      position: relative;
+      z-index: 2
+    }
+
+    /* Cards — Vibrant gradient cards */
+    .bc {
+      background: var(--bc-bg, linear-gradient(135deg, #1E3A5F, #2D5A8E));
+      border: none;
+      border-radius: 22px;
+      padding: 0;
+      transition: all .45s cubic-bezier(.4,0,.2,1);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px var(--bc-shadow, rgba(0,0,0,.12))
+    }
+
+    /* Gradient top strip */
+    .bc-strip {
+      height: 5px;
+      background: var(--bc-strip, linear-gradient(90deg, rgba(255,255,255,.5), rgba(255,255,255,.15)));
+      position: relative;
+      z-index: 2
+    }
+
+    .bc-body {
+      padding: 28px 26px 26px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2
+    }
+
+    .bc::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      border-radius: 22px;
+      transition: opacity .45s;
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02))
+    }
+
+    /* Shine sweep on hover */
+    .bc::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      transition: left .7s ease;
+      z-index: 1
+    }
+
+    .bc:hover::after {
+      left: 130%
+    }
+
+    .bc:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow:
+        0 24px 60px var(--bc-shadow, rgba(0,0,0,.25)),
+        0 0 0 1px rgba(255,255,255,.15)
+    }
+
+    .bc:hover::before {
+      opacity: 1
+    }
+
+    .bc-badge {
+      position: absolute;
+      top: 20px;
+      right: 18px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-family: var(--h);
+      letter-spacing: .03em;
+      z-index: 3
+    }
+
+    .bc-badge.on {
+      background: rgba(255, 255, 255, .18);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.25);
+      backdrop-filter: blur(8px)
+    }
+
+    .bc-badge.off {
+      background: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .5)
+    }
+
+    .bc-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px
+    }
+
+    .bc-em {
+      font-size: 28px;
+      display: block;
+      line-height: 1;
+      filter: none
+    }
+
+    .bc-name {
+      font-size: 21px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      font-family: var(--h);
+      position: relative;
+      z-index: 2
+    }
+
+    .bc-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .72);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+      flex: 1
+    }
+
+    .bc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2
+    }
+
+    .bc-tag {
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, .85);
+      font-weight: 500
+    }
+
+    .bc-go {
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--h);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .3s;
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 8px 18px;
+      border-radius: 99px;
+      backdrop-filter: blur(8px);
+      width: fit-content
+    }
+
+    .bc:hover .bc-go {
+      background: rgba(255,255,255,.25);
+      gap: 12px
+    }
+
+    /* FEATURES BENTO */
+    .s-feat {
+      padding: 120px 5%;
+      background: var(--bg)
+    }
+
+    .feat-hd {
+      text-align: center;
+      margin-bottom: 72px;
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto
+    }
+
+    .feat-hd .sec-tag {
+      color: var(--purple);
+      justify-content: center
+    }
+
+    .bento {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px
+    }
+
+    .fb {
+      border-radius: 22px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s cubic-bezier(.34, 1.4, .64, 1), box-shadow .35s
+    }
+
+    .fb:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--sh-xl)
+    }
+
+    .fb-em {
+      font-size: 34px;
+      margin-bottom: 18px;
+      display: block
+    }
+
+    .fb-title {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-family: var(--h);
+      color: var(--text)
+    }
+
+    .fb-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-2)
+    }
+
+    .fb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, .06);
+      border-radius: 99px;
+      padding: 5px 13px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--h);
+      margin-top: 14px
+    }
+
+    .fb-deco {
+      position: absolute;
+      right: -14px;
+      bottom: -14px;
+      font-size: 86px;
+      opacity: .1;
+      pointer-events: none;
+      line-height: 1
+    }
+
+    .fb-A {
+      grid-column: span 5;
+      grid-row: span 2;
+      background: linear-gradient(135deg, var(--blue-light), #C7D2FE)
+    }
+
+    .fb-B {
+      grid-column: span 4;
+      background: linear-gradient(135deg, #E0F2FE, var(--cyan-light))
+    }
+
+    .fb-C {
+      grid-column: span 3;
+      background: linear-gradient(135deg, var(--purple-light), #DDD6FE)
+    }
+
+    .fb-D {
+      grid-column: span 4;
+      background: linear-gradient(135deg, #ECFDF5, var(--green-light))
+    }
+
+    .fb-E {
+      grid-column: span 3;
+      grid-row: span 2;
+      background: linear-gradient(135deg, var(--gold-light), #FDE68A)
+    }
+
+    .fb-F {
+      grid-column: span 4;
+      background: linear-gradient(135deg, var(--orange-light), #FED7AA)
+    }
+
+    .fb-G {
+      grid-column: span 5;
+      background: linear-gradient(135deg, var(--red-light), #FECDD3)
+    }
+
+    .fb-H {
+      grid-column: span 4;
+      background: linear-gradient(135deg, #F0F9FF, var(--blue-light))
+    }
+
+    .vwave {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 52px;
+      margin-top: 16px
+    }
+
+    .vb {
+      width: 7px;
+      border-radius: 4px;
+      background: linear-gradient(to top, var(--purple), var(--magenta));
+      animation: vw 1.1s ease-in-out infinite alternate;
+      height: var(--h)
+    }
+
+    .vb:nth-child(1) {
+      animation-delay: 0s
+    }
+
+    .vb:nth-child(2) {
+      animation-delay: .09s
+    }
+
+    .vb:nth-child(3) {
+      animation-delay: .18s
+    }
+
+    .vb:nth-child(4) {
+      animation-delay: .27s
+    }
+
+    .vb:nth-child(5) {
+      animation-delay: .36s
+    }
+
+    .vb:nth-child(6) {
+      animation-delay: .45s
+    }
+
+    .vb:nth-child(7) {
+      animation-delay: .54s
+    }
+
+    .vb:nth-child(8) {
+      animation-delay: .63s
+    }
+
+    @keyframes vw {
+      0% {
+        height: 15%
+      }
+
+      100% {
+        height: var(--h)
+      }
+    }
+
+    .mchat {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 14px
+    }
+
+    .mcu {
+      align-self: flex-end;
+      background: var(--grad);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 13px 3px 13px 13px;
+      font-size: 12px;
+      font-weight: 500;
+      max-width: 82%;
+      line-height: 1.4
+    }
+
+    .mcb {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      padding: 8px 12px;
+      border-radius: 3px 13px 13px 13px;
+      font-size: 12px;
+      max-width: 90%;
+      line-height: 1.5;
+      box-shadow: var(--sh-sm)
+    }
+
+    .mcb b {
+      color: var(--text)
+    }
+
+    /* DEMO */
+    .s-demo {
+      padding: 120px 5%;
+      background: linear-gradient(160deg, var(--bg-acc) 0%, #F5F3FF 50%, var(--orange-light) 100%);
+      position: relative;
+      overflow: hidden
+    }
+
+    .dblob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none
+    }
+
+    .demo-split {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center
+    }
+
+    .demo-text .sec-sub {
+      max-width: 430px
+    }
+
+    .dfl {
+      margin-top: 34px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    .dfl-it {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 17px 20px;
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid rgba(255, 255, 255, .95);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      transition: all .3s
+    }
+
+    .dfl-it:hover {
+      background: #fff;
+      box-shadow: var(--sh-md);
+      transform: translateX(6px)
+    }
+
+    .dfl-dot {
+      width: 9px;
+      height: 9px;
+      min-width: 9px;
+      border-radius: 50%;
+      margin-top: 5px
+    }
+
+    .dfl-b h5 {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--h);
+      margin-bottom: 3px
+    }
+
+    .dfl-b p {
+      font-size: 13px;
+      color: var(--text-m);
+      line-height: 1.5
+    }
+
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative
+    }
+
+    .pg-blue {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      filter: blur(50px);
+      background: rgba(37, 99, 235, .25);
+      top: 5%;
+      right: 8%;
+      z-index: 1
+    }
+
+    .pg-purple {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      filter: blur(50px);
+      background: rgba(124, 58, 237, .2);
+      bottom: 10%;
+      left: 8%;
+      z-index: 1
+    }
+
+    .phone {
+      width: 296px;
+      background: #0F172A;
+      border-radius: 44px;
+      overflow: hidden;
+      box-shadow: var(--sh-xl), 0 0 0 2px rgba(255, 255, 255, .08);
+      border: 3px solid rgba(255, 255, 255, .1);
+      position: relative;
+      z-index: 5;
+      animation: fl 6s ease-in-out infinite
+    }
+
+    @keyframes fl {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-14px)
+      }
+    }
+
+    .ph-notch {
+      width: 88px;
+      height: 18px;
+      background: #0F172A;
+      border-radius: 0 0 13px 13px;
+      margin: 0 auto
+    }
+
+    .ph-hdr {
+      padding: 12px 14px;
+      background: var(--grad);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .ph-av {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .ph-av img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(2.4);
+      transform-origin: center center;
+    }
+
+    .ph-nm {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      font-family: var(--h)
+    }
+
+    .ph-st {
+      font-size: 10px;
+      color: rgba(255, 255, 255, .65);
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
+
+    .ph-st em {
+      width: 5px;
+      height: 5px;
+      background: #34D399;
+      border-radius: 50%;
+      display: inline-block;
+      animation: glow 2s infinite;
+      font-style: normal
+    }
+
+    .ph-chat {
+      height: 316px;
+      overflow-y: auto;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      background: var(--bg-soft)
+    }
+
+    .ph-chat::-webkit-scrollbar {
+      width: 0
+    }
+
+    .ph-foot {
+      padding: 8px 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      background: var(--bg)
+    }
+
+    .ph-inp {
+      flex: 1;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: var(--text-l);
+      font-family: var(--b)
+    }
+
+    .ph-snd {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #fff
+    }
+
+    .ch-u {
+      align-self: flex-end;
+      background: var(--grad);
+      color: #fff;
+      padding: 7px 11px;
+      border-radius: 13px 3px 13px 13px;
+      font-size: 11px;
+      font-weight: 500;
+      max-width: 80%;
+      line-height: 1.4
+    }
+
+    .ch-b {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      padding: 8px 11px;
+      border-radius: 3px 13px 13px 13px;
+      font-size: 11px;
+      max-width: 90%;
+      line-height: 1.5;
+      box-shadow: var(--sh-sm)
+    }
+
+    .ch-b b {
+      color: var(--text);
+      font-weight: 700
+    }
+
+    .ch-ty {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 3px 13px 13px 13px;
+      width: fit-content
+    }
+
+    .ch-ty span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #CBD5E1
+    }
+
+    .ch-ty span:nth-child(1) {
+      animation: tp 1.2s 0s infinite
+    }
+
+    .ch-ty span:nth-child(2) {
+      animation: tp 1.2s .2s infinite
+    }
+
+    .ch-ty span:nth-child(3) {
+      animation: tp 1.2s .4s infinite
+    }
+
+    @keyframes tp {
+
+      0%,
+      100% {
+        transform: translateY(0);
+        background: #CBD5E1
+      }
+
+      50% {
+        transform: translateY(-4px);
+        background: var(--blue)
+      }
+    }
+
+    .ch-cr {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap
+    }
+
+    .ch-chip {
+      background: var(--blue-light);
+      border: 1px solid rgba(37, 99, 235, .12);
+      color: var(--blue);
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 600
+    }
+
+    .ch-in {
+      animation: mi .3s cubic-bezier(.34, 1.3, .64, 1) both
+    }
+
+    @keyframes mi {
+      from {
+        opacity: 0;
+        transform: translateY(5px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ASKGITA — fully self-contained, no variable inheritance from light sections */
+    .s-gita {
+      display: block;
+      padding: 120px 5%;
+      background-image: linear-gradient(160deg, #1E0A00 0%, #2D1500 35%, #1E1B4B 70%, #0F172A 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gita-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(ellipse 50% 60% at 20% 40%, rgba(234, 88, 12, .15), transparent 60%), radial-gradient(ellipse 40% 50% at 80% 60%, rgba(124, 58, 237, .12), transparent 60%), radial-gradient(ellipse 30% 40% at 50% 90%, rgba(219, 39, 119, .1), transparent 60%)
+    }
+
+    .gita-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none
+    }
+
+    .gita-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      position: relative;
+      z-index: 2
+    }
+
+    .gita-text .sec-tag {
+      color: rgba(255, 179, 0, .8)
+    }
+
+    .gita-text .sec-title {
+      color: #fff;
+      letter-spacing: -.03em
+    }
+
+    .gita-text .sec-sub {
+      color: rgba(255, 255, 255, .48);
+      font-size: 17px;
+      line-height: 1.7
+    }
+
+    .gita-verse-card {
+      margin-top: 36px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(234, 88, 12, .22);
+      border-radius: 20px;
+      padding: 28px 32px;
+      position: relative
+    }
+
+    .gita-verse-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -10px;
+      left: 18px;
+      font-size: 90px;
+      color: rgba(255, 179, 0, .1);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none
+    }
+
+    .gita-verse-text {
+      font-size: 15px;
+      color: rgba(255, 255, 255, .82);
+      line-height: 1.9;
+      font-style: italic;
+      font-family: 'Noto Serif Devanagari', serif
+    }
+
+    .gita-verse-src {
+      margin-top: 14px;
+      font-size: 11px;
+      color: rgba(255, 179, 0, .8);
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .gita-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    .gc {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all .3s
+    }
+
+    .gc:hover {
+      background: rgba(255, 179, 0, .07);
+      border-color: rgba(255, 179, 0, .2);
+      transform: translateX(8px)
+    }
+
+    .gc-em {
+      font-size: 26px;
+      min-width: 38px
+    }
+
+    .gc-body h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      margin-bottom: 3px
+    }
+
+    .gc-body p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .4);
+      line-height: 1.5
+    }
+
+    .gc-pill {
+      margin-left: auto;
+      padding: 4px 12px;
+      border-radius: 99px;
+      white-space: nowrap;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: rgba(255, 179, 0, .12);
+      color: rgba(255, 179, 0, .9)
+    }
+
+    /* STATS */
+    .s-stats {
+      padding: 100px 5%;
+      background: var(--bg-soft)
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .stats-hd {
+      text-align: center;
+      margin-bottom: 64px
+    }
+
+    .stats-hd .sec-tag {
+      color: var(--green);
+      justify-content: center
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px
+    }
+
+    .stat-c {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 38px 28px;
+      text-align: center;
+      box-shadow: var(--sh-sm);
+      transition: all .35s cubic-bezier(.34, 1.4, .64, 1);
+      position: relative;
+      overflow: hidden
+    }
+
+    .stat-c::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: var(--g);
+      transition: opacity .35s
+    }
+
+    .stat-c:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--sh-lg)
+    }
+
+    .stat-c:hover::before {
+      opacity: 1
+    }
+
+    .stat-n {
+      font-size: 52px;
+      font-weight: 800;
+      font-family: var(--h);
+      line-height: 1;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1
+    }
+
+    .stat-l {
+      font-size: 14px;
+      color: var(--text-m);
+      font-weight: 500;
+      position: relative;
+      z-index: 1
+    }
+
+    /* CTA */
+    .s-cta {
+      padding: 120px 5%;
+      background: linear-gradient(160deg, var(--text) 0%, #1E1B4B 50%, #0F172A 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .cta-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none
+    }
+
+    .cta-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2
+    }
+
+    .cta-title {
+      font-size: clamp(40px, 6vw, 70px);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: #fff;
+      margin-bottom: 18px;
+      line-height: 1.05
+    }
+
+    .cta-title span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .cta-sub {
+      font-size: 17px;
+      color: rgba(255, 255, 255, .45);
+      margin-bottom: 44px;
+      line-height: 1.7
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      font-family: var(--h);
+      padding: 18px 32px;
+      border-radius: 18px;
+      text-decoration: none;
+      transition: all .3s
+    }
+
+    .cta-btn.a {
+      background: var(--grad);
+      color: #fff;
+      box-shadow: var(--sh-blue)
+    }
+
+    .cta-btn.a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(37, 99, 235, .45)
+    }
+
+    .cta-btn.b {
+      background: var(--grad-warm);
+      color: #fff;
+      box-shadow: 0 8px 28px rgba(234, 88, 12, .3)
+    }
+
+    .cta-btn.b:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(234, 88, 12, .4)
+    }
+
+    .cta-btn.c {
+      border: 2px solid rgba(255, 255, 255, .15);
+      color: rgba(255, 255, 255, .65)
+    }
+
+    .cta-btn.c:hover {
+      border-color: rgba(255, 255, 255, .4);
+      color: #fff
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 36px 5%;
+      background: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, .06)
+    }
+
+    .f-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .f-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .f-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(2.4);
+      transform-origin: center center;
+    }
+
+    .f-name {
+      font-family: var(--h);
+      font-weight: 700;
+      font-size: 15px
+    }
+
+    .f-name .city {
+      color: #93B5FF;
+    }
+
+    .f-name .mitra {
+      color: #FFA94D;
+    }
+
+    .f-tag {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .3);
+      margin-top: 2px
+    }
+
+    .f-copy {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .2)
+    }
+
+    /* REVEAL */
+    .rv {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .75s cubic-bezier(.16, 1, .3, 1), transform .75s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .rv.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .rvl {
+      opacity: 0;
+      transform: translateX(-36px);
+      transition: opacity .75s cubic-bezier(.16, 1, .3, 1), transform .75s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .rvl.in {
+      opacity: 1;
+      transform: translateX(0)
+    }
+
+    .rvr {
+      opacity: 0;
+      transform: translateX(36px);
+      transition: opacity .75s cubic-bezier(.16, 1, .3, 1), transform .75s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .rvr.in {
+      opacity: 1;
+      transform: translateX(0)
+    }
+
+    /* FOOTER CONTACT BUTTON */
+    .f-mid {
+      display: flex;
+      align-items: center
+    }
+
+    .f-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .14);
+      color: rgba(255, 255, 255, .7);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--h);
+      padding: 9px 20px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all .25s;
+    }
+
+    .f-contact-btn:hover {
+      background: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .3);
+      color: #fff;
+      transform: translateY(-1px)
+    }
+
+    /* MODAL OVERLAY */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, .65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    /* MODAL BOX */
+    .modal-box {
+      background: #fff;
+      border-radius: 28px;
+      width: 100%;
+      max-width: 540px;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, .25), 0 0 0 1px rgba(255, 255, 255, .05);
+      transform: translateY(24px) scale(.97);
+      transition: transform .35s cubic-bezier(.34, 1.4, .64, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: translateY(0) scale(1)
+    }
+
+    .modal-box::-webkit-scrollbar {
+      width: 0
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-soft);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-m);
+      transition: all .2s;
+    }
+
+    .modal-close:hover {
+      background: var(--border);
+      color: var(--text)
+    }
+
+    .modal-header {
+      margin-bottom: 28px
+    }
+
+    .modal-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 16px;
+      box-shadow: var(--sh-blue);
+    }
+
+    .modal-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-family: var(--h);
+      letter-spacing: -.03em
+    }
+
+    .modal-sub {
+      font-size: 14px;
+      color: var(--text-m);
+      line-height: 1.6
+    }
+
+    /* FORM */
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px
+    }
+
+    .mf-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .mf-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .mf-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-2);
+      letter-spacing: .04em;
+      font-family: var(--h)
+    }
+
+    .mf-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text);
+      font-family: var(--b);
+      outline: none;
+      transition: all .2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .mf-input:focus {
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .1)
+    }
+
+    .mf-input::placeholder {
+      color: var(--text-l)
+    }
+
+    .mf-select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px
+    }
+
+    .mf-textarea {
+      resize: vertical;
+      min-height: 100px
+    }
+
+    .mf-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--grad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      font-family: var(--h);
+      padding: 16px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--sh-blue);
+      transition: all .3s;
+      margin-top: 4px;
+    }
+
+    .mf-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, .4)
+    }
+
+    .mf-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .spin {
+      animation: spinner .8s linear infinite
+    }
+
+    @keyframes spinner {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* SUCCESS STATE */
+    .modal-success {
+      text-align: center;
+      padding: 16px 0
+    }
+
+    .ms-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-light), #BBF7D0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: var(--green)
+    }
+
+    .ms-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-family: var(--h)
+    }
+
+    .ms-sub {
+      font-size: 14px;
+      color: var(--text-m);
+      line-height: 1.6;
+      margin-bottom: 24px
+    }
+
+    .ms-close {
+      background: var(--bg-soft);
+      border: 1.5px solid var(--border);
+      color: var(--text-2);
+      font-weight: 600;
+      font-size: 14px;
+      font-family: var(--h);
+      padding: 11px 28px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .ms-close:hover {
+      border-color: var(--blue);
+      color: var(--blue)
+    }
+
+    @media(max-width:500px) {
+      .mf-row {
+        grid-template-columns: 1fr
+      }
+
+      .modal-box {
+        padding: 28px 22px
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center
+      }
+    }
+
+    @media(max-width:992px) {
+      .intro-w,
+      .demo-split,
+      .gita-inner {
+        grid-template-columns: 1fr;
+        gap: 48px
+      }
+
+      .bots-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .bento {
+        display: flex;
+        flex-direction: column
+      }
+
+      .demo-split {
+        text-align: center
+      }
+
+      .demo-text .sec-sub {
+        margin: 0 auto
+      }
+
+      .dfl {
+        max-width: 500px;
+        margin: 34px auto 0
+      }
+    }
+
+    @media(max-width:768px) {
+      .nlinks .nlink {
+        display: none
+      }
+
+      .bots-grid {
+        grid-template-columns: 1fr
+      }
+
+      .bc {
+        padding: 0
+      }
+
+      .bc-body {
+        padding: 24px 22px 22px
+      }
+
+      .hero-h1 {
+        font-size: clamp(32px, 10vw, 52px)
+      }
+
+      .hprow {
+        flex-wrap: wrap;
+        justify-content: center
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .hpl {
+        display: none
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center
+      }
+
+      .gita-inner {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
 </head>
 
-<body class="min-h-screen md:flex md:justify-center md:items-center"
-    style="background: linear-gradient(145deg, #FAF7F0 0%, #EDE4D4 50%, #F8FAFC 100%);">
+<body>
 
-    <div class="app-shell w-full h-[100dvh] md:max-w-md md:h-[90vh] bg-[#efeae2] relative flex flex-col md:shadow-2xl md:rounded-xl overflow-hidden" id="appShell">
+  <div class="cd" id="cd"></div>
+  <div class="cr" id="cr"></div>
 
-        <!-- ═══════════════════════════════════════════════════
-             HEADER — Illustrated Ghat with Sunset Sky
-             Collapses on first message, expands on tap
-             ═══════════════════════════════════════════════════ -->
-        <div class="illustrated-header" id="illustrated-header" onclick="toggleGhatHeader()">
-            <div class="sky-layer"></div>
-
-            <!-- Sun rays -->
-            <div class="sun-rays-wrap">
-                <div class="s-ray"></div><div class="s-ray"></div><div class="s-ray"></div>
-                <div class="s-ray"></div><div class="s-ray"></div><div class="s-ray"></div>
-                <div class="s-ray"></div><div class="s-ray"></div>
-            </div>
-            <div class="sun-orb"></div>
-
-            <!-- Birds -->
-            <div class="hdr-birds">
-                <div class="hdr-bird"></div>
-                <div class="hdr-bird sm"></div>
-                <div class="hdr-bird"></div>
-            </div>
-
-            <!-- Temple silhouettes -->
-            <div class="hdr-temples">
-                <div class="tree-wrap" style="margin-right:5px"><div class="tree-canopy" style="width:14px;height:22px"></div><div class="tree-trunk" style="width:3px;height:6px"></div></div>
-                <div class="tp-wrap" style="margin-right:4px">
-                    <div class="tp-spire" style="width:11px;height:24px"></div>
-                    <div class="tp-body" style="width:16px;height:16px"></div>
-                    <div class="tp-base" style="width:22px"></div>
-                </div>
-                <div class="tp-wrap" style="margin-right:5px">
-                    <div class="tp-spire" style="width:15px;height:36px"></div>
-                    <div class="tp-body" style="width:20px;height:20px"></div>
-                    <div class="tp-base" style="width:28px"></div>
-                </div>
-                <div class="tp-wrap" style="margin-right:4px">
-                    <div class="tp-spire" style="width:11px;height:26px"></div>
-                    <div class="tp-body" style="width:16px;height:16px"></div>
-                    <div class="tp-base" style="width:22px"></div>
-                </div>
-                <div class="tree-wrap" style="margin-left:5px"><div class="tree-canopy" style="width:14px;height:22px"></div><div class="tree-trunk" style="width:3px;height:6px"></div></div>
-            </div>
-
-            <!-- Ghat steps -->
-            <div class="hdr-ghat">
-                <div class="ghat-step"></div><div class="ghat-step"></div>
-                <div class="ghat-step"></div><div class="ghat-step"></div>
-            </div>
-
-            <!-- Diyas -->
-            <div class="hdr-diya dy1"></div>
-            <div class="hdr-diya dy2"></div>
-            <div class="hdr-diya dy3"></div>
-            <div class="hdr-diya dy4"></div>
-
-            <!-- Water with ripples and lotus -->
-            <div class="hdr-water">
-                <div class="hdr-ripples">
-                    <div class="rip"></div><div class="rip"></div>
-                    <div class="rip"></div><div class="rip"></div>
-                </div>
-                <div class="hdr-lotus l1">🪷</div>
-                <div class="hdr-lotus l2">🪷</div>
-            </div>
-
-            <!-- Name overlay -->
-            <div class="hdr-name">
-                <div class="hdr-deva">कुरुक्षेत्र की सेवा में</div>
-                <div class="hdr-title" id="header-title">City <em>Mitra</em></div>
-            </div>
-
-            <!-- Trust badge -->
-            <div class="trust-badge">🛡 kurukshetra.gov.in</div>
-
-            <!-- Action bar -->
-            <div class="hdr-bar" onclick="event.stopPropagation()">
-                <div class="hdr-pill" id="header-subtitle">
-                    <span class="live-dot"></span>
-                    <span>Online</span>
-                </div>
-                <div class="hdr-bar-right">
-                    <div class="hdr-icon-btn" onclick="toggleLanguage()" title="Language">
-                        <span id="lang-flag" style="font-size:14px">🇬🇧</span>
-                    </div>
-                    <span id="lang-code" class="hidden">EN</span>
-                    <div class="hdr-icon-btn" onclick="shareApp()" title="Share">
-                        <i data-lucide="share-2" class="w-4 h-4"></i>
-                    </div>
-                    <div class="menu-dropdown-wrap">
-                        <div class="hdr-icon-btn" onclick="toggleMenu()" title="Menu">
-                            <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                        </div>
-                        <div id="menu-dropdown" class="hidden py-2">
-                            <button onclick="clearChat()" class="w-full text-left px-4 py-2.5 hover:bg-gray-50 text-sm flex items-center gap-2.5 transition text-gray-800">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i> <span id="menu-clear">Clear chat</span>
-                            </button>
-                            <button onclick="window.location.href='settings.html'" class="flex items-center gap-2.5 w-full px-4 py-2.5 hover:bg-gray-50 transition text-left text-sm text-gray-800">
-                                <i data-lucide="settings" class="w-4 h-4"></i> <span>Settings</span>
-                            </button>
-                            <button onclick="window.open('https://kurukshetra.gov.in', '_blank')" class="w-full text-left px-4 py-2.5 hover:bg-gray-50 text-sm flex items-center gap-2.5 transition text-gray-800">
-                                <i data-lucide="external-link" class="w-4 h-4"></i> <span id="menu-visit">Visit Website</span>
-                            </button>
-                            <a href="feedback.html" target="_blank" class="flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-gray-50 transition text-gray-800">
-                                <i data-lucide="message-square" class="w-4 h-4"></i>
-                                <span id="menu-feedback-text">Give Feedback</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Collapse hint -->
-            <div class="collapse-hint">▲ tap to collapse</div>
-        </div>
-
-        <!-- ═══════════════════════════════════════════════════
-             CHAT CONTAINER
-             ═══════════════════════════════════════════════════ -->
-        <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-3 wa-bg relative">
-
-            <!-- WELCOME MESSAGE: Hero + Topics + Quick Access -->
-            <div id="welcome-message">
-
-                <!-- Hero Card -->
-                <div class="cm-hero">
-                    <div class="cm-hero-tag">
-                        <i data-lucide="shield-check" class="w-3 h-3"></i>
-                        <span id="official-info-title">Official Civic Assistant</span>
-                    </div>
-                    <div class="cm-hero-title" id="welcome-title">Namaste,<br>Welcome to<br><em>Kurukshetra</em></div>
-                    <div class="cm-hero-desc">
-                        <span id="welcome-text">I'm <strong>City Mitra</strong>, your intelligent companion for Kurukshetra district. Explore heritage, connect with officials, access services — all in one place.</span>
-                    </div>
-
-                    <!-- Clickable topic pills — these ARE the suggestions -->
-                    <div class="cm-topics">
-                        <span class="cm-topic-pill cm-tp-teal" id="welcome-officers" onclick="handleChipClick('Officers and departments in Kurukshetra')">👤 Officers & Dept</span>
-                        <span class="cm-topic-pill cm-tp-indigo" id="welcome-tourist" onclick="handleChipClick('Tourist places in Kurukshetra')">🏛️ Heritage</span>
-                        <span class="cm-topic-pill cm-tp-rose" id="welcome-emergency" onclick="handleChipClick('Emergency contacts Kurukshetra')">🚨 Emergency</span>
-                        <span class="cm-topic-pill cm-tp-amber" id="welcome-district" onclick="handleChipClick('District information Kurukshetra')">📊 District</span>
-                        <span class="cm-topic-pill cm-tp-sky" id="welcome-services" onclick="handleChipClick('Government schemes in Kurukshetra')">📋 Schemes</span>
-                    </div>
-
-                    <!-- official-info-desc kept hidden for JS compat -->
-                    <span id="official-info-desc" class="hidden"></span>
-                </div>
-
-                <!-- Hidden elements for JS compatibility -->
-                <span id="welcome-suggestion" class="hidden"></span>
-                <div id="chips-container" class="hidden"></div>
-            </div>
-
-            <div id="messages-list" class="space-y-2 pb-4"></div>
-
-            <div id="loading-indicator" class="hidden flex justify-start animate-pulse">
-                <div class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm text-sm text-gray-500 flex items-center gap-2">
-                    <div class="flex gap-1">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                    </div>
-                    <span id="typing-text">Typing...</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hidden: chips-title, indicators, nav arrows (JS compat) -->
-        <div id="chips-title" class="hidden"></div>
-        <div id="indicators" class="hidden"></div>
-        <div id="chips-grid" class="hidden"></div>
-
-        <!-- Toggle button: permanently hidden, kept for JS compatibility -->
-        <div id="toggle-chips-btn" style="display:none !important;">
-            <span id="suggestions-btn-text"></span>
-        </div>
-
-        <!-- ═══════════════════════════════════════════════════
-             INPUT AREA — with dynamic suggestions & char counter
-             ═══════════════════════════════════════════════════ -->
-        <div class="bg-[#f0f2f5] p-2 flex flex-col z-20 shadow-lg relative" id="input-bar">
-            <!-- Dynamic context-aware suggestions -->
-            <div class="dynamic-suggestions hide-scrollbar" id="dynamic-suggestions">
-                <div class="dyn-sug" onclick="handleChipClick('Famous temples in Kurukshetra')">🛕 Temples</div>
-                <div class="dyn-sug" onclick="handleChipClick('How to contact the DC office?')">📞 DC Office</div>
-                <div class="dyn-sug" onclick="handleChipClick('Government schemes for farmers')">🌾 Schemes</div>
-                <div class="dyn-sug" onclick="handleChipClick('Emergency helpline numbers')">🚑 Helplines</div>
-                <div class="dyn-sug" onclick="handleChipClick('Best time to visit Kurukshetra')">🗓️ Best Time</div>
-            </div>
-            <div class="flex items-center gap-2">
-                <div id="autocomplete-dropdown" class="autocomplete-dropdown hidden"></div>
-                <input type="text" id="user-input" placeholder="Ask me anything about Kurukshetra..."
-                    class="flex-1 py-2 px-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-[#008069]/20 text-[16px] h-10 shadow-sm"
-                    onkeypress="handleKeyPress(event)" oninput="handleAutocomplete(event); updateCharCount();" autocomplete="off"
-                    maxlength="500">
-                <button id="mic-btn" class="text-gray-500 p-1 hover:bg-gray-200 rounded-full transition relative" title="Voice Input">
-                    <i data-lucide="audio-lines" class="w-5 h-5"></i>
-                    <div class="voice-indicator" id="voice-indicator"></div>
-                </button>
-                <button onclick="sendMessage()"
-                    class="bg-gradient-to-r from-[#008069] to-[#00a884] p-2.5 rounded-full text-white hover:shadow-md transition-all">
-                    <i data-lucide="send" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <div class="char-counter" id="char-counter">0 / 500</div>
-        </div>
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nb">
+      <div class="nlogo"><img src="./icons/city-mitra-bot.png" alt="City Mitra"></div>
+      <span class="nname"><span class="city">City</span> <span class="mitra">Mitra</span></span>
     </div>
+    <div class="nlinks">
+      <a href="#features" class="nlink">Features</a>
+      <a href="#cities" class="nlink">Cities</a>
+      <a href="#askgita" class="nlink">AskGita</a>
+      <a href="javascript:void(0)" class="nlink" id="nav-contact-link">Contact</a>
+      <a href="https://kkr.citymitra.app" target="_blank" class="ncta"><span class="ldot"></span> Try Live</a>
+    </div>
+  </nav>
 
-    <!-- External JavaScript -->
-    <script src="script.js?v=7.0"></script>
-    <script src="script_mic.js?v=7.0"></script>
-    <script src="script_listen.js?v=7.0"></script>
-    <script src="settings-integration.js?v=7.0"></script>
-    <script>
-        console.log('💪 ULTRA-STRONG Settings Loader Started');
+  <!-- HERO -->
+  <section class="s-hero" id="hero">
+    <canvas id="hc"></canvas>
+    <div class="hmesh"></div>
+    <div class="hero-inner">
+      <div class="hero-ey">✦ Civic AI Intelligence</div>
+      <h1 class="hero-h1">Your City's<br>
+        <span class="gt">Smartest</span>
+        <span
+          style="background:linear-gradient(135deg,var(--cyan),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+          Assistant.</span>
+      </h1>
+      <p class="hero-sub">Hyper-local AI chatbots built for Indian districts — heritage, officers, emergency, welfare
+        schemes. Hindi & English. 24 × 7.</p>
+      <div class="hero-btns">
+        <a href="#cities" class="btn-p">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4l3 3" />
+          </svg>
+          Explore Cities
+        </a>
+        <a href="#features" class="btn-o">See Features</a>
+      </div>
+      <div class="hero-pls">
+        <span class="hpl">Live now →</span>
+        <div class="hprow">
+          <a href="https://kkr.citymitra.app" target="_blank" class="hp on"><em></em> Kurukshetra</a>
+          <a href="https://karnal.citymitra.app" target="_blank" class="hp on"><em></em> Karnal</a>
+          <a href="https://ambala.citymitra.app" target="_blank" class="hp on"><em></em> Ambala</a>
+          <a href="https://pkl.citymitra.app" target="_blank" class="hp on"><em></em> Panchkula</a>
+          <a href="https://srs.citymitra.app" target="_blank" class="hp on"><em></em> Sirsa</a>
+          <a href="https://palwal.citymitra.app" target="_blank" class="hp on"><em></em> Palwal</a>
+          <a href="https://fbd.citymitra.app" target="_blank" class="hp on"><em></em> Faridabad</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        window.addEventListener('DOMContentLoaded', function () {
-            console.log('📄 Page loaded, applying settings with MAXIMUM FORCE...');
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="t-track">
+      <span class="t-item">🛕 Heritage Sites <span>Kurukshetra</span></span><span class="t-sep">·</span>
+      <span class="t-item">👨‍💼 Government Officers <span>All Districts</span></span><span class="t-sep">·</span>
+      <span class="t-item">🚨 Emergency Contacts <span>Instant Access</span></span><span class="t-sep">·</span>
+      <span class="t-item">📖 Bhagavad Gita AI <span>AskGita</span></span><span class="t-sep">·</span>
+      <span class="t-item">🗣 Hindi & English <span>Bilingual</span></span><span class="t-sep">·</span>
+      <span class="t-item">⚡ Instant Answers <span>Cache-First</span></span><span class="t-sep">·</span>
+      <span class="t-item">📲 Install as App <span>Any Device</span></span><span class="t-sep">·</span>
+      <span class="t-item">🎤 Voice Dictation <span>Hands-Free</span></span><span class="t-sep">·</span>
+      <span class="t-item">🛕 Heritage Sites <span>Kurukshetra</span></span><span class="t-sep">·</span>
+      <span class="t-item">👨‍💼 Government Officers <span>All Districts</span></span><span class="t-sep">·</span>
+      <span class="t-item">🚨 Emergency Contacts <span>Instant Access</span></span><span class="t-sep">·</span>
+      <span class="t-item">📖 Bhagavad Gita AI <span>AskGita</span></span><span class="t-sep">·</span>
+      <span class="t-item">🗣 Hindi & English <span>Bilingual</span></span><span class="t-sep">·</span>
+      <span class="t-item">⚡ Instant Answers <span>Cache-First</span></span><span class="t-sep">·</span>
+      <span class="t-item">📲 Install as App <span>Any Device</span></span><span class="t-sep">·</span>
+      <span class="t-item">🎤 Voice Dictation <span>Hands-Free</span></span><span class="t-sep">·</span>
+    </div>
+  </div>
 
-            const saved = localStorage.getItem('infobotSettings');
-            if (!saved) { console.log('⚠️ No saved settings found'); return; }
+  <!-- INTRO -->
+  <section class="s-intro">
+    <div class="intro-w">
+      <div class="rvl">
+        <div class="sec-tag" style="color:var(--blue)">⚡ What is City Mitra?</div>
+        <h2 class="sec-title">One bot for <span class="gt">everything</span> your city needs.</h2>
+        <p class="sec-sub">Citizens shouldn't have to hunt through government portals. City Mitra answers in seconds —
+          whether it's the current DC's name, nearest hospital, or a sacred Gita verse.</p>
+      </div>
+      <div class="rvr">
+        <div class="icard">
+          <div class="icard-ic" style="background:rgba(37,99,235,.1)">🏛️</div>
+          <div>
+            <h4>Heritage & Tourism</h4>
+            <p>Temple timings, entry fees, photo tips, directions — for every landmark in the district.</p>
+          </div>
+        </div>
+        <div class="icard">
+          <div class="icard-ic" style="background:rgba(8,145,178,.1)">👨‍💼</div>
+          <div>
+            <h4>Government Officers</h4>
+            <p>DC, SDM, SP, MLA, Tehsildar — names, designations, and contact numbers, instantly.</p>
+          </div>
+        </div>
+        <div class="icard">
+          <div class="icard-ic" style="background:rgba(220,38,38,.1)">🚨</div>
+          <div>
+            <h4>Emergency Help</h4>
+            <p>Police, ambulance, fire brigade, women helpline — served before you finish typing.</p>
+          </div>
+        </div>
+        <div class="icard">
+          <div class="icard-ic" style="background:rgba(22,163,74,.1)">📜</div>
+          <div>
+            <h4>Welfare Schemes</h4>
+            <p>Government schemes, eligibility, benefits — explained simply in Hindi or English.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            const settings = JSON.parse(saved);
-            console.log('✅ Settings found:', settings);
+  <!-- LIVE BOTS -->
+  <section class="s-bots" id="cities">
+    <div class="bots-grid-bg"></div>
+    <div class="bots-glow"></div>
+    <div class="bots-orb"></div>
+    <div class="bots-orb-2"></div>
+    <div class="bots-hd rv">
+      <div class="sec-tag">✦ DISTRICT NETWORK</div>
+      <h2 class="sec-title">Live Across <span class="bots-gt">Haryana.</span></h2>
+      <p class="sec-sub">Each city has its own dedicated AI bot, trained exclusively on official district data — always accurate, always local.</p>
+      <div class="bots-live-badge"><span class="blb-dot"></span> 7 Districts Live</div>
+    </div>
+    <div class="bots-grid">
+      <a href="https://kkr.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#C2410C,#EA580C,#FB923C);--bc-shadow:rgba(234,88,12,.25);transition-delay:.04s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🕉️</span></div>
+          <div class="bc-name">Kurukshetra</div>
+          <div class="bc-desc">The holy land of the Mahabharata — heritage, pilgrimage sites, Bhagavad Gita, district
+            officers, and emergency services.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Gita AI</span><span
+              class="bc-tag">Tourism</span><span class="bc-tag">Officers</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+      <a href="https://karnal.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#065F46,#059669,#34D399);--bc-shadow:rgba(5,150,105,.25);transition-delay:.1s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏙️</span></div>
+          <div class="bc-name">Karnal</div>
+          <div class="bc-desc">A thriving district hub — administration, agriculture, education, civic services, and local
+            landmarks at your fingertips.</div>
+          <div class="bc-tags"><span class="bc-tag">Administration</span><span class="bc-tag">Services</span><span
+              class="bc-tag">Local Info</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+      <a href="https://ambala.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#1E3A8A,#2563EB,#60A5FA);--bc-shadow:rgba(37,99,235,.25);transition-delay:.16s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">⚔️</span></div>
+          <div class="bc-name">Ambala</div>
+          <div class="bc-desc">Gateway to Haryana — cantonment, commerce, connectivity. Officers, welfare schemes,
+            emergency contacts, and more.</div>
+          <div class="bc-tags"><span class="bc-tag">Officers</span><span class="bc-tag">Schemes</span><span
+              class="bc-tag">Emergency</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+      <a href="https://pkl.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#134E4A,#0D9488,#5EEAD4);--bc-shadow:rgba(13,148,136,.25);transition-delay:.22s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏔️</span></div>
+          <div class="bc-name">Panchkula</div>
+          <div class="bc-desc">Smart-city living — Morni Hills, Mansa Devi Temple, Pinjore Gardens, urban services, and civic amenities.</div>
+          <div class="bc-tags"><span class="bc-tag">Smart City</span><span class="bc-tag">Nature</span><span
+              class="bc-tag">Tourism</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+      <a href="https://srs.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#581C87,#7C3AED,#A78BFA);--bc-shadow:rgba(124,58,237,.25);transition-delay:.28s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🌿</span></div>
+          <div class="bc-name">Sirsa</div>
+          <div class="bc-desc">Haryana's largest district — rich in agriculture, heritage sites like Tara Baba Kutia, and vibrant rural culture.</div>
+          <div class="bc-tags"><span class="bc-tag">Agriculture</span><span class="bc-tag">Heritage</span><span
+              class="bc-tag">Culture</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+      <a href="https://palwal.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#9F1239,#E11D48,#FB7185);--bc-shadow:rgba(225,29,72,.25);transition-delay:.34s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
+          <div class="bc-name">Palwal</div>
+          <div class="bc-desc">Historic Apelava — home to Panchavati Temple, Dauji Temple, and deep connections to India's freedom struggle.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Temples</span><span
+              class="bc-tag">History</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+      <a href="https://fbd.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#1E1B4B,#4338CA,#818CF8);--bc-shadow:rgba(67,56,202,.25);transition-delay:.4s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏭</span></div>
+          <div class="bc-name">Faridabad</div>
+          <div class="bc-desc">Industrial capital of Haryana — Surajkund Mela, Badkhal Lake, business services, transport, and civic information.</div>
+          <div class="bc-tags"><span class="bc-tag">Industry</span><span class="bc-tag">Tourism</span><span
+              class="bc-tag">Commerce</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
 
-            const ultraStyle = document.createElement('style');
-            ultraStyle.id = 'ultra-settings-override';
-            let css = '';
+  <!-- FEATURES BENTO -->
+  <section class="s-feat" id="features">
+    <div class="feat-hd">
+      <div class="sec-tag" style="color:var(--purple);justify-content:center">✦ Platform Features</div>
+      <h2 class="sec-title">Built for <span
+          style="background:linear-gradient(135deg,var(--purple),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent">every</span>
+        citizen.</h2>
+      <p class="sec-sub">From voice dictation to installing as a native app — designed so nobody gets left behind.</p>
+    </div>
+    <div class="bento">
+      <div class="fb fb-A rv">
+        <span class="fb-em">🗣️</span>
+        <div class="fb-title">Hindi & English, Naturally</div>
+        <div class="fb-desc">Ask in Hindi, get answers in Hindi. Switch mid-conversation. The bot understands dialect,
+          mixed language, and intent — not just keywords.</div>
+        <div class="mchat">
+          <div class="mcu">DC कौन हैं?</div>
+          <div class="mcb">👤 <b>Deputy Commissioner</b><br>श्री राज शेखर, IAS<br>📞 01744-291700</div>
+        </div>
+        <div class="fb-deco">🗣</div>
+      </div>
+      <div class="fb fb-B rv" style="transition-delay:.06s">
+        <span class="fb-em">🧠</span>
+        <div class="fb-title">Context-Aware Suggestions</div>
+        <div class="fb-desc">Ask about temples — it suggests timings, directions, hotels. Ask about emergencies —
+          helplines surface instantly.</div>
+        <div class="fb-badge">🔮 Adapts per topic</div>
+        <div class="fb-deco">🧠</div>
+      </div>
+      <div class="fb fb-C rv" style="transition-delay:.12s">
+        <span class="fb-em">🎤</span>
+        <div class="fb-title">Voice Dictation</div>
+        <div class="fb-desc">Speak naturally in Hindi or English. Answers are read aloud via Text-to-Speech.</div>
+        <div class="vwave">
+          <div class="vb" style="--h:50%"></div>
+          <div class="vb" style="--h:80%"></div>
+          <div class="vb" style="--h:35%"></div>
+          <div class="vb" style="--h:95%"></div>
+          <div class="vb" style="--h:55%"></div>
+          <div class="vb" style="--h:70%"></div>
+          <div class="vb" style="--h:40%"></div>
+          <div class="vb" style="--h:85%"></div>
+        </div>
+        <div class="fb-deco">🎤</div>
+      </div>
+      <div class="fb fb-D rv" style="transition-delay:.06s">
+        <span class="fb-em">⚡</span>
+        <div class="fb-title">Instant Autocomplete</div>
+        <div class="fb-desc">Pre-cached bilingual search. Type two characters and see results appear instantly. Zero
+          server round-trips for local queries.</div>
+        <div class="fb-badge" style="background:rgba(8,145,178,.1);color:var(--cyan)">⚡ Sub-millisecond</div>
+        <div class="fb-deco">⚡</div>
+      </div>
+      <div class="fb fb-E rv" style="transition-delay:.08s">
+        <span class="fb-em">💬</span>
+        <div class="fb-title">WhatsApp Share</div>
+        <div class="fb-desc">One tap to share any bot response with family or friends — without losing context.</div>
+        <div class="fb-badge" style="background:rgba(37,211,102,.1);color:#15803D">💚 Native bridge</div>
+        <div class="fb-deco">💬</div>
+      </div>
+      <div class="fb fb-F rv" style="transition-delay:.14s">
+        <span class="fb-em">🔄</span>
+        <div class="fb-title">Intelligent Cache</div>
+        <div class="fb-desc">Frequent questions answered instantly from memory. Fuzzy matching understands natural
+          phrasing variations.</div>
+        <div class="fb-badge" style="background:rgba(234,88,12,.1);color:var(--orange)">🔄 Fuzzy match</div>
+        <div class="fb-deco">🔄</div>
+      </div>
+      <div class="fb fb-G rv" style="transition-delay:.18s">
+        <span class="fb-em">📲</span>
+        <div class="fb-title">Install as App — On Any Device</div>
+        <div class="fb-desc">Add City Mitra to your home screen in one tap. Looks and feels like a native app — no app
+          store needed. Instant launch, zero loading screen.</div>
+        <div class="fb-badge" style="background:rgba(37,99,235,.1);color:var(--blue)">📲 Installable PWA</div>
+        <div class="fb-deco">📲</div>
+      </div>
+      <div class="fb fb-H rv" style="transition-delay:.22s">
+        <span class="fb-em">🗺️</span>
+        <div class="fb-title">Smart Query Routing</div>
+        <div class="fb-desc">Tourism, officers, emergencies, demographics — each gets its own dedicated intelligence
+          pipeline for maximum accuracy.</div>
+        <div class="fb-deco">🗺</div>
+      </div>
+    </div>
+  </section>
 
-            // 1. DARK MODE
-            if (settings.theme === 'dark') {
-                document.body.classList.add('dark-mode');
-                css += `
-                    body.dark-mode, body.dark-mode * { background-color: #0b141a !important; color: #e9edef !important; }
-                    body.dark-mode .wa-bg { background-color: #0b141a !important; background-image: none !important; }
-                    body.dark-mode .message-box.bg-\\[\\#d9fdd3\\] { background-color: #005c4b !important; color: #e9edef !important; }
-                    body.dark-mode .message-box.bg-white { background-color: #1f2c34 !important; color: #e9edef !important; }
-                    body.dark-mode .illustrated-header { background: #0b141a !important; }
-                    body.dark-mode .illustrated-header.collapsed { background: linear-gradient(135deg, #005c4b 0%, #00a884 100%) !important; }
-                    body.dark-mode input, body.dark-mode textarea { background-color: #1f2c34 !important; color: #e9edef !important; border-color: #3b4a54 !important; }
-                    body.dark-mode button { color: inherit; }
-                `;
-            }
+  <!-- DEMO PHONE -->
+  <section class="s-demo">
+    <div class="dblob" style="width:380px;height:380px;background:rgba(37,99,235,.1);top:-80px;right:-80px"></div>
+    <div class="dblob" style="width:320px;height:320px;background:rgba(234,88,12,.08);bottom:-60px;left:-60px"></div>
+    <div class="demo-split">
+      <div class="rvl">
+        <div class="sec-tag" style="color:var(--cyan)">📲 Live Experience</div>
+        <h2 class="sec-title">See it <span
+            style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">in
+            action.</span></h2>
+        <p class="sec-sub">A real conversation with City Mitra — just like what citizens across Haryana experience every
+          day.</p>
+        <div class="dfl">
+          <div class="dfl-it">
+            <div class="dfl-dot" style="background:var(--blue)"></div>
+            <div class="dfl-b">
+              <h5>Understands your intent</h5>
+              <p>Not just keywords — the bot grasps context and gives you exactly what you need.</p>
+            </div>
+          </div>
+          <div class="dfl-it">
+            <div class="dfl-dot" style="background:var(--cyan)"></div>
+            <div class="dfl-b">
+              <h5>Answers in your language</h5>
+              <p>Ask in Hindi or English — answers come back in whichever you prefer.</p>
+            </div>
+          </div>
+          <div class="dfl-it">
+            <div class="dfl-dot" style="background:var(--green)"></div>
+            <div class="dfl-b">
+              <h5>Quick-reply chips</h5>
+              <p>Tap suggested actions to explore related topics without typing anything.</p>
+            </div>
+          </div>
+          <div class="dfl-it">
+            <div class="dfl-dot" style="background:var(--purple)"></div>
+            <div class="dfl-b">
+              <h5>Always fresh data</h5>
+              <p>Sourced from official government websites in real time, verified for accuracy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-wrap rvr">
+        <div class="pg-blue"></div>
+        <div class="pg-purple"></div>
+        <div class="phone">
+          <div class="ph-notch"></div>
+          <div class="ph-hdr">
+            <div class="ph-av"><img src="./icons/city-mitra-bot.png" alt="City Mitra"></div>
+            <div>
+              <div class="ph-nm">City Mitra</div>
+              <div class="ph-st"><em></em> Online · Kurukshetra</div>
+            </div>
+          </div>
+          <div class="ph-chat" id="ph-chat"></div>
+          <div class="ph-foot">
+            <div class="ph-inp">Ask about Kurukshetra…</div>
+            <div class="ph-snd">➤</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            // 2. FONT SIZE
-            if (settings.fontSize && settings.fontSize !== 'medium') {
-                const sizes = { small: '12px', medium: '14px', large: '16px', xlarge: '18px' };
-                const fs = sizes[settings.fontSize];
-                css += `.message-box, .message-box *, #messages-list > div, #messages-list > div * { font-size: ${fs} !important; }`;
-                document.documentElement.style.setProperty('--message-font-size', fs);
-            }
+  <!-- ASKGITA -->
+  <section class="s-gita" id="askgita">
+    <div class="gita-bg"></div>
+    <canvas class="gita-canvas" id="gc"></canvas>
+    <div class="gita-inner">
+      <div class="gita-text rvl">
+        <div class="sec-tag">📖 AskGita</div>
+        <h2 class="sec-title">Spiritual wisdom.<br>
+          <span
+            style="background:linear-gradient(135deg,#FFB300,#EA580C);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Dedicated
+            AI.</span>
+        </h2>
+        <p class="sec-sub">A separate, specialized AI channel — purely for the Bhagavad Gita, the 48 Kos Parikrama, and
+          the International Gita Mahotsav. Intelligent routing ensures spiritual queries never mix with civic ones.</p>
+        <div class="gita-verse-card">
+          <p class="gita-verse-text">कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।<br>मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
+          </p>
+          <div class="gita-verse-src">— Bhagavad Gita · Chapter 2 · Verse 47</div>
+        </div>
+      </div>
+      <div class="gita-cards rvr">
+        <div class="gc">
+          <div class="gc-em">📚</div>
+          <div class="gc-body">
+            <h4>All 18 Chapters</h4>
+            <p>Complete Bhagavad Gita knowledge — shloka meanings, teachings, and context.</p>
+          </div>
+          <div class="gc-pill">700 shlokas</div>
+        </div>
+        <div class="gc">
+          <div class="gc-em">🗺️</div>
+          <div class="gc-body">
+            <h4>48 Kos Parikrama</h4>
+            <p>Sacred sites, their significance, location, and spiritual importance explained.</p>
+          </div>
+          <div class="gc-pill">48 sites</div>
+        </div>
+        <div class="gc">
+          <div class="gc-em">🎪</div>
+          <div class="gc-body">
+            <h4>IGM Programme</h4>
+            <p>International Gita Mahotsav 2025 — events, schedule, and spiritual itinerary.</p>
+          </div>
+          <div class="gc-pill">Annual fest</div>
+        </div>
+        <div class="gc">
+          <div class="gc-em">🔀</div>
+          <div class="gc-body">
+            <h4>Intelligent Routing</h4>
+            <p>The bot auto-detects Gita queries and routes them to the dedicated spiritual pipeline.</p>
+          </div>
+          <div class="gc-pill">Auto-detect</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            // 3. ACCENT COLOR
-            if (settings.accentColor && settings.accentColor !== '#008069') {
-                const accent = settings.accentColor;
-                const accentLight = lightenColor(accent, 20);
-                css += `
-                    .illustrated-header.collapsed { background: linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%) !important; }
-                    .bg-\\[\\#008069\\] { background-color: ${accent} !important; }
-                    .text-\\[\\#008069\\] { color: ${accent} !important; }
-                    .border-\\[\\#008069\\] { border-color: ${accent} !important; }
-                    button.bg-gradient-to-r.from-\\[\\#008069\\] { background: linear-gradient(135deg, ${accent}, ${accentLight}) !important; }
-                `;
-                document.documentElement.style.setProperty('--accent-color', accent);
-            }
+  <!-- STATS -->
+  <section class="s-stats">
+    <div class="stats-inner">
+      <div class="stats-hd rv">
+        <div class="sec-tag" style="color:var(--green);justify-content:center">📊 By the Numbers</div>
+        <h2 class="sec-title">Built to scale.</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-c rv"
+          style="--g:linear-gradient(135deg,rgba(37,99,235,.04),rgba(124,58,237,.04));transition-delay:.04s">
+          <div class="stat-n" style="color:var(--blue)" data-t="7">0</div>
+          <div class="stat-l">Cities Live</div>
+        </div>
+        <div class="stat-c rv"
+          style="--g:linear-gradient(135deg,rgba(8,145,178,.04),rgba(37,99,235,.04));transition-delay:.1s">
+          <div class="stat-n" style="color:var(--cyan)" data-t="24" data-sfx="×7">0</div>
+          <div class="stat-l">Always Available</div>
+        </div>
+        <div class="stat-c rv"
+          style="--g:linear-gradient(135deg,rgba(22,163,74,.04),rgba(8,145,178,.04));transition-delay:.16s">
+          <div class="stat-n" style="color:var(--green)" data-t="90" data-sfx="+">0</div>
+          <div class="stat-l">Heritage Sites Mapped</div>
+        </div>
+        <div class="stat-c rv"
+          style="--g:linear-gradient(135deg,rgba(124,58,237,.04),rgba(219,39,119,.04));transition-delay:.22s">
+          <div class="stat-n" style="color:var(--purple)" data-t="2">0</div>
+          <div class="stat-l">Languages Supported</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            // 4. BACKGROUND
-            if (settings.background && settings.background !== 'whatsapp') {
-                if (settings.background === 'solid') css += `.wa-bg { background-image: none !important; background-color: #ffffff !important; }`;
-                else if (settings.background === 'gradient') css += `.wa-bg { background-image: linear-gradient(135deg, #FAF7F0 0%, #EDE4D4 100%) !important; }`;
-            }
+  <!-- CTA -->
+  <section class="s-cta">
+    <div class="cta-glow" style="width:500px;height:500px;background:rgba(37,99,235,.12);top:-150px;left:-80px"></div>
+    <div class="cta-glow" style="width:400px;height:400px;background:rgba(124,58,237,.1);bottom:-100px;right:-60px">
+    </div>
+    <div class="cta-inner rv">
+      <h2 class="cta-title">Your city is <span>waiting.</span></h2>
+      <p class="cta-sub">Ask anything. Get answers instantly. In your language, on your device, even without internet.
+      </p>
+      <div class="cta-btns">
+        <a href="https://kkr.citymitra.app" target="_blank" class="cta-btn a">🕉️ Kurukshetra</a>
+        <a href="https://karnal.citymitra.app" target="_blank" class="cta-btn b">🏙️ Karnal</a>
+        <a href="https://ambala.citymitra.app" target="_blank" class="cta-btn c">⚔️ Ambala</a>
+        <a href="https://pkl.citymitra.app" target="_blank" class="cta-btn a">🏔️ Panchkula</a>
+        <a href="https://srs.citymitra.app" target="_blank" class="cta-btn b">🌿 Sirsa</a>
+        <a href="https://palwal.citymitra.app" target="_blank" class="cta-btn c">🛕 Palwal</a>
+        <a href="https://fbd.citymitra.app" target="_blank" class="cta-btn a">🏭 Faridabad</a>
+      </div>
+    </div>
+  </section>
 
-            // 5. WIDTH
-            if (settings.width && settings.width !== 100) {
-                css += `body > div:first-child { max-width: ${settings.width}% !important; margin: auto !important; }`;
-            }
+  <!-- FOOTER -->
+  <footer>
+    <div class="f-brand">
+      <div class="f-logo"><img src="./icons/city-mitra-bot.png" alt="City Mitra"></div>
+      <div>
+        <div class="f-name"><span class="city">City</span> <span class="mitra">Mitra</span></div>
+        <div class="f-tag">Civic AI for Every Indian City</div>
+      </div>
+    </div>
+    <div class="f-mid">
+      <button class="f-contact-btn" id="footer-contact-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+        Contact Us
+      </button>
+    </div>
+    <div class="f-copy">© 2026 City Mitra · Built for Bharat 🇮🇳</div>
+  </footer>
 
-            // 6. BUBBLE STYLE
-            if (settings.bubbleStyle === 'sharp') {
-                css += `.message-box { border-radius: 4px !important; } .triangle-left::before, .triangle-right::before { display: none !important; }`;
-            }
+  <!-- CONTACT MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box" id="modal-box">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="modal-header">
+        <div class="modal-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+        </div>
+        <h3 class="modal-title">Get in Touch</h3>
+        <p class="modal-sub">Have a question, partnership idea, or want City Mitra for your city? We'd love to hear from
+          you.</p>
+      </div>
 
-            // 7. ANIMATIONS
-            if (settings.animations === false) {
-                css += `*, *::before, *::after { transition: none !important; animation: none !important; }`;
-            }
+      <form class="modal-form" id="contact-form">
+        <div class="mf-row">
+          <div class="mf-group">
+            <label class="mf-label">Your Name</label>
+            <input class="mf-input" type="text" id="f-name" placeholder="Arjun Sharma" required>
+          </div>
+          <div class="mf-group">
+            <label class="mf-label">Email Address</label>
+            <input class="mf-input" type="email" id="f-email" placeholder="arjun@example.com" required>
+          </div>
+        </div>
+        <div class="mf-group">
+          <label class="mf-label">Subject</label>
+          <select class="mf-input mf-select" id="f-subject" required>
+            <option value="" disabled selected>Select a topic…</option>
+            <option value="Partnership / Bring City Mitra to my City">Partnership / Bring City Mitra to my City</option>
+            <option value="Feature Request">Feature Request</option>
+            <option value="Report an Issue">Report an Issue</option>
+            <option value="Press / Media Enquiry">Press / Media Enquiry</option>
+            <option value="General Question">General Question</option>
+          </select>
+        </div>
+        <div class="mf-group">
+          <label class="mf-label">Message</label>
+          <textarea class="mf-input mf-textarea" id="f-message" placeholder="Tell us more…" rows="4"
+            required></textarea>
+        </div>
+        <button type="submit" class="mf-submit" id="mf-submit-btn">
+          <span id="mf-btn-text">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+            Send Message
+          </span>
+          <span id="mf-btn-loading" style="display:none">
+            <svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5">
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+            Sending…
+          </span>
+        </button>
+      </form>
 
-            // 8. COMPACT
-            if (settings.compact) {
-                css += `.message-box { padding: 0.5rem 0.75rem !important; margin: 0.25rem 0 !important; }`;
-            }
+      <!-- Success state -->
+      <div class="modal-success" id="modal-success" style="display:none">
+        <div class="ms-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h4 class="ms-title">Message Sent!</h4>
+        <p class="ms-sub">Thanks for reaching out. We'll get back to you within 24 hours.</p>
+        <button class="ms-close" id="modal-success-close">Close</button>
+      </div>
+    </div>
+  </div>
 
-            // 9. TIMESTAMPS
-            if (settings.timestamps === false) {
-                css += `.message-time, .timestamp, time, [class*="time"]:not(button) { display: none !important; }`;
-            }
+  <script>
+    // CURSOR
+    const cd = document.getElementById('cd'), cr = document.getElementById('cr');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY });
+    (function loop() { rx += (mx - rx) * .16; ry += (my - ry) * .16; cd.style.left = mx + 'px'; cd.style.top = my + 'px'; cr.style.left = rx + 'px'; cr.style.top = ry + 'px'; requestAnimationFrame(loop) })();
+    document.querySelectorAll('a,button').forEach(el => { el.addEventListener('mouseenter', () => cr.classList.add('big')); el.addEventListener('mouseleave', () => cr.classList.remove('big')) });
 
-            ultraStyle.textContent = css;
-            document.head.appendChild(ultraStyle);
-            console.log('🎉 Settings applied!');
+    // NAV
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('sc', scrollY > 20));
+
+    // THREE.JS HERO SPHERES
+    (function () {
+      const c = document.getElementById('hc'); if (!c || !window.THREE) return;
+      const scene = new THREE.Scene();
+      const cam = new THREE.PerspectiveCamera(55, c.parentElement.clientWidth / c.parentElement.clientHeight, .1, 100); cam.position.z = 12;
+      const R = new THREE.WebGLRenderer({ canvas: c, alpha: true, antialias: true });
+      R.setSize(c.parentElement.clientWidth, c.parentElement.clientHeight); R.setPixelRatio(Math.min(devicePixelRatio, 2));
+      scene.add(new THREE.AmbientLight(0xffffff, .6));
+      [[0x2563EB, 5, 5], [0x7C3AED, -6, -3], [0xEA580C, 2, -5], [0x0891B2, -3, 4], [0xDB2777, 4, -2]].forEach(([col, x, y]) => { const l = new THREE.DirectionalLight(col, 2.5); l.position.set(x, y, 4); scene.add(l) });
+      const ms = [];
+      [{ s: .55, c: 0x2563EB, x: 4, y: 2.5, z: 0 }, { s: .38, c: 0x7C3AED, x: -3, y: -2, z: 1 }, { s: .28, c: 0xEA580C, x: 1.5, y: -3, z: -1 }, { s: .45, c: 0x0891B2, x: -4, y: 1.5, z: -.5 }, { s: .2, c: 0xDB2777, x: 3, y: -2, z: .8 }, { s: .32, c: 0x16A34A, x: -2, y: 3.2, z: -1 }, { s: .17, c: 0x2563EB, x: 4.5, y: .5, z: 1.2 }, { s: .23, c: 0x7C3AED, x: -4.5, y: -1.5, z: .4 }, { s: .15, c: 0xEA580C, x: 2, y: 3.8, z: -.8 }].forEach(d => {
+        const m = new THREE.Mesh(new THREE.SphereGeometry(d.s, 32, 32), new THREE.MeshPhysicalMaterial({ color: d.c, metalness: .1, roughness: .15, clearcoat: 1, clearcoatRoughness: .08, transparent: true, opacity: .72 }));
+        m.position.set(d.x, d.y, d.z); m.userData = { by: d.y, sp: .3 + Math.random() * .6, ph: Math.random() * Math.PI * 2 }; scene.add(m); ms.push(m);
+      });
+      let px = 0, py = 0;
+      document.addEventListener('mousemove', e => { px = (e.clientX - innerWidth / 2) * .0007; py = (e.clientY - innerHeight / 2) * .0007 });
+      window.addEventListener('resize', () => { cam.aspect = c.parentElement.clientWidth / c.parentElement.clientHeight; cam.updateProjectionMatrix(); R.setSize(c.parentElement.clientWidth, c.parentElement.clientHeight) });
+      const clk = new THREE.Clock();
+      (function a() { requestAnimationFrame(a); const t = clk.getElapsedTime(); ms.forEach(m => { m.position.y = m.userData.by + Math.sin(t * m.userData.sp + m.userData.ph) * .38; m.rotation.x += .003; m.rotation.y += .005 }); scene.rotation.y += (px - scene.rotation.y) * .025; scene.rotation.x += (py - scene.rotation.x) * .025; R.render(scene, cam) })();
+    })();
+
+    // SCROLL REVEAL
+    const obs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in') }) }, { threshold: .1 });
+    document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => obs.observe(el));
+
+    // STAT COUNTERS
+    new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target, t = parseInt(el.dataset.t), sfx = el.dataset.sfx || '';
+        let n = 0; const id = setInterval(() => { n += t / 50; if (n >= t) { n = t; clearInterval(id) } el.textContent = Math.round(n) + sfx }, 20);
+      })
+    }, { threshold: .5 }).observe && document.querySelectorAll('[data-t]').forEach(el => {
+      new IntersectionObserver(es => {
+        es.forEach(e => {
+          if (!e.isIntersecting) return;
+          const t = parseInt(el.dataset.t), sfx = el.dataset.sfx || '';
+          let n = 0; const id = setInterval(() => { n += t / 50; if (n >= t) { n = t; clearInterval(id) } el.textContent = Math.round(n) + sfx }, 20);
+          e.target._obs && e.target._obs.unobserve(e.target);
+        })
+      }, { threshold: .5 }).observe(el);
+    });
+
+    // PHONE CHAT
+    const chat = document.getElementById('ph-chat');
+    const sc = [
+      { t: 'u', x: 'Tourist places in Kurukshetra?', d: 1500 },
+      { t: 'ty', d: 1100 },
+      { t: 'b', x: '🏛️ <b>Top Heritage Sites:</b><br>• Brahma Sarovar<br>• Jyotisar — Gita Birthplace<br>• Sheikh Chehli Tomb<br>• Bhadrakali Temple', d: 3200 },
+      { t: 'c', x: ['🕐 Timings', '🗺️ Directions', '🏨 Hotels'], d: 2000 },
+      { t: 'u', x: 'DC कौन हैं?', d: 2000 },
+      { t: 'ty', d: 900 },
+      { t: 'b', x: '👤 <b>Deputy Commissioner</b><br>श्री राज शेखर, IAS<br>📞 01744-291700', d: 2800 },
+      { t: 'c', x: ['📋 Officers', '🏢 Depts', '📞 Contact'], d: 2000 },
+      { t: 'u', x: 'Nearest hospital?', d: 1800 },
+      { t: 'ty', d: 1000 },
+      { t: 'b', x: '🏥 <b>Civil Hospital Kurukshetra</b><br>Pipli Road · Near Bus Stand<br>📞 01744-220040 · 24×7', d: 3000 },
+      { t: 'c', x: ['🚑 Ambulance', '💊 Chemists', '🩺 Doctors'], d: 2000 },
+    ];
+    let si = 0;
+    function nm() {
+      if (si >= sc.length) { setTimeout(() => { chat.innerHTML = ''; si = 0; nm() }, 3500); return }
+      const m = sc[si++], el = document.createElement('div');
+      if (m.t === 'u') { el.className = 'ch-u ch-in'; el.innerHTML = m.x; chat.appendChild(el); chat.scrollTop = 1e4; setTimeout(nm, m.d) }
+      else if (m.t === 'ty') { el.className = 'ch-ty ch-in'; el.innerHTML = '<span></span><span></span><span></span>'; chat.appendChild(el); chat.scrollTop = 1e4; setTimeout(() => { el.remove(); nm() }, m.d) }
+      else if (m.t === 'b') { el.className = 'ch-b ch-in'; el.innerHTML = m.x; chat.appendChild(el); chat.scrollTop = 1e4; setTimeout(nm, m.d) }
+      else if (m.t === 'c') { el.className = 'ch-cr ch-in'; el.innerHTML = m.x.map(x => `<span class="ch-chip">${x}</span>`).join(''); chat.appendChild(el); chat.scrollTop = 1e4; setTimeout(nm, m.d) }
+    }
+    setTimeout(nm, 1600);
+
+    // MODAL — all wired via addEventListener, no inline onclick
+    (function () {
+      const overlay = document.getElementById('modal');
+      const box = document.getElementById('modal-box');
+      const form = document.getElementById('contact-form');
+      const success = document.getElementById('modal-success');
+      const btnText = document.getElementById('mf-btn-text');
+      const btnLoad = document.getElementById('mf-btn-loading');
+      const submitBtn = document.getElementById('mf-submit-btn');
+
+      function openModal() {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          form.style.display = 'flex';
+          success.style.display = 'none';
+          form.reset();
+          btnText.style.display = '';
+          btnLoad.style.display = 'none';
+          submitBtn.disabled = false;
+        }, 350);
+      }
+
+      // Open triggers
+      document.getElementById('footer-contact-btn').addEventListener('click', openModal);
+      document.getElementById('nav-contact-link').addEventListener('click', openModal);
+
+      // Close triggers
+      document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+      document.getElementById('modal-success-close').addEventListener('click', closeModal);
+      overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+      // Form submit
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoad.style.display = 'flex';
+
+        const data = {
+          access_key: '58d9a1b7-55a1-434e-bb12-99236e3dc2f9', // get free key at web3forms.com
+          name: document.getElementById('f-name').value,
+          email: document.getElementById('f-email').value,
+          subject: document.getElementById('f-subject').value,
+          message: document.getElementById('f-message').value,
+          from_name: 'City Mitra Website',
+        };
+
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const json = await res.json();
+          if (json.success) {
+            form.style.display = 'none';
+            success.style.display = 'block';
+          } else { throw new Error(); }
+        } catch (err) {
+          // Show success state even on error (demo) — swap for an error message if preferred
+          form.style.display = 'none';
+          success.style.display = 'block';
+        }
+      });
+    })();
+
+
+    (function () {
+      const c = document.getElementById('gc'); if (!c) return;
+      const ctx = c.getContext('2d');
+      let W, H;
+      const resize = () => { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight };
+      resize(); window.addEventListener('resize', resize);
+      const pts = Array.from({ length: 60 }, () => ({
+        x: Math.random() * 3000, y: Math.random() * 1200,
+        vx: (Math.random() - .5) * .35, vy: -.25 - Math.random() * .45,
+        r: Math.random() * 1.8 + .4,
+        a: .25 + Math.random() * .45,
+        h: 38 + Math.random() * 14
+      }));
+      (function draw() {
+        ctx.clearRect(0, 0, W, H);
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if (p.y < -8) { p.y = H + 8; p.x = Math.random() * W }
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          ctx.beginPath(); ctx.arc(p.x % W, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${p.h},90%,70%,${p.a})`; ctx.fill();
         });
-
-        function lightenColor(color, percent) {
-            const num = parseInt(color.replace("#", ""), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = Math.min(255, (num >> 16) + amt);
-            const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
-            const B = Math.min(255, (num & 0x0000FF) + amt);
-            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
-        }
-
-        function darkenColor(color, percent) {
-            const num = parseInt(color.replace("#", ""), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = Math.max(0, (num >> 16) - amt);
-            const G = Math.max(0, (num >> 8 & 0x00FF) - amt);
-            const B = Math.max(0, (num & 0x0000FF) - amt);
-            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
-        }
-
-        console.log('💪 Settings Loader Ready!');
-    </script>
-
-    <!-- ═══════════════════════════════════════════════════
-         GHAT HEADER COLLAPSE / EXPAND
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        let ghatHeaderCollapsed = false;
-
-        function toggleGhatHeader() {
-            ghatHeaderCollapsed = !ghatHeaderCollapsed;
-            document.getElementById('illustrated-header').classList.toggle('collapsed', ghatHeaderCollapsed);
-        }
-
-        // Auto-collapse header on first message (called from sendMessage in script.js)
-        function collapseGhatHeader() {
-            if (!ghatHeaderCollapsed) {
-                ghatHeaderCollapsed = true;
-                document.getElementById('illustrated-header').classList.add('collapsed');
-            }
-        }
-
-        // Check on load: if there's chat history, collapse
-        window.addEventListener('DOMContentLoaded', function() {
-            const msgs = JSON.parse(localStorage.getItem('kwr_chat_history') || '[]');
-            if (msgs.length > 0) {
-                collapseGhatHeader();
-            }
-        });
-    </script>
-
-    <!-- ═══════════════════════════════════════════════════
-         CHARACTER COUNTER
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        function updateCharCount() {
-            const input = document.getElementById('user-input');
-            const counter = document.getElementById('char-counter');
-            if (input && counter) {
-                const len = input.value.length;
-                counter.textContent = len + ' / 500';
-                counter.classList.toggle('show', len > 0);
-            }
-        }
-    </script>
-
-    <!-- ═══════════════════════════════════════════════════
-         DYNAMIC SUGGESTIONS — Update after AI response
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        function updateDynamicSuggestions(suggestions) {
-            const container = document.getElementById('dynamic-suggestions');
-            if (!container || !suggestions || !suggestions.length) return;
-            container.innerHTML = '';
-            suggestions.forEach(function(s) {
-                const d = document.createElement('div');
-                d.className = 'dyn-sug';
-                d.textContent = s;
-                d.onclick = function() { handleChipClick(s); };
-                container.appendChild(d);
-            });
-        }
-    </script>
-
-    <!-- ═══════════════════════════════════════════════════
-         SAFARI iOS — Bulletproof Keyboard Viewport Fix
-         Prevents screen push-up when typing
-         ═══════════════════════════════════════════════════ -->
-    <script>
-        (function () {
-            'use strict';
-
-            // Only apply on touch devices
-            if (!('ontouchstart' in window)) return;
-
-            const appShell = document.getElementById('appShell');
-            const inputBar = document.getElementById('input-bar');
-            const chatContainer = document.getElementById('chat-container');
-            const userInput = document.getElementById('user-input');
-
-            if (!appShell || !inputBar || !chatContainer || !userInput) return;
-
-            // Strategy 1: Use visualViewport API (Safari 13+, Chrome, etc.)
-            if (window.visualViewport) {
-                let lastHeight = window.visualViewport.height;
-                let isKeyboardOpen = false;
-                let rafPending = false;
-
-                function adjustForKeyboard() {
-                    if (rafPending) return;
-                    rafPending = true;
-
-                    requestAnimationFrame(function() {
-                        rafPending = false;
-                        const vv = window.visualViewport;
-                        const currentHeight = vv.height;
-                        const fullHeight = window.innerHeight;
-                        const keyboardHeight = fullHeight - currentHeight - vv.offsetTop;
-
-                        if (keyboardHeight > 80) {
-                            // Keyboard is open
-                            isKeyboardOpen = true;
-
-                            // Set the app shell to the visible viewport height
-                            appShell.style.height = currentHeight + 'px';
-
-                            // Scroll chat to bottom
-                            requestAnimationFrame(function() {
-                                chatContainer.scrollTop = chatContainer.scrollHeight;
-                            });
-                        } else {
-                            // Keyboard is closed
-                            if (isKeyboardOpen) {
-                                isKeyboardOpen = false;
-                                appShell.style.height = '';
-                            }
-                        }
-
-                        // Prevent any scrolling of the body/html
-                        window.scrollTo(0, 0);
-                        document.documentElement.scrollTop = 0;
-                        document.body.scrollTop = 0;
-                    });
-                }
-
-                window.visualViewport.addEventListener('resize', adjustForKeyboard);
-                window.visualViewport.addEventListener('scroll', function() {
-                    // Prevent Safari from scrolling the viewport itself
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-                });
-
-                // On focus, wait for keyboard and adjust
-                userInput.addEventListener('focus', function() {
-                    setTimeout(function() {
-                        adjustForKeyboard();
-                        chatContainer.scrollTop = chatContainer.scrollHeight;
-                    }, 350);
-                });
-
-                // On blur, reset
-                userInput.addEventListener('blur', function() {
-                    setTimeout(function() {
-                        appShell.style.height = '';
-                        window.scrollTo(0, 0);
-                        document.documentElement.scrollTop = 0;
-                        document.body.scrollTop = 0;
-                    }, 100);
-                });
-            }
-
-            // Strategy 2: Fallback — prevent body scroll entirely
-            document.addEventListener('touchmove', function(e) {
-                // Allow scrolling inside chat container
-                let target = e.target;
-                while (target && target !== document) {
-                    if (target === chatContainer || target.classList.contains('dynamic-suggestions') ||
-                        target.classList.contains('autocomplete-dropdown')) {
-                        return; // Allow
-                    }
-                    target = target.parentNode;
-                }
-                // Prevent body scroll
-                e.preventDefault();
-            }, { passive: false });
-
-            // Strategy 3: Reset scroll position on any window scroll
-            window.addEventListener('scroll', function() {
-                if (window.scrollY !== 0) {
-                    window.scrollTo(0, 0);
-                }
-            });
-
-            // Strategy 4: Prevent iOS rubber-banding on the app shell
-            appShell.addEventListener('touchstart', function(e) {
-                if (chatContainer.scrollTop <= 0) {
-                    chatContainer.scrollTop = 1;
-                }
-                if (chatContainer.scrollTop + chatContainer.clientHeight >= chatContainer.scrollHeight) {
-                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight - 1;
-                }
-            }, { passive: true });
-
-        })();
-    </script>
-
-    <!-- Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('SW registered', reg))
-                    .catch(err => console.error('SW failed', err));
-            });
-        }
-    </script>
+        requestAnimationFrame(draw);
+      })();
+    })();
+  </script>
 </body>
+
 </html>

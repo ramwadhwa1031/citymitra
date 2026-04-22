@@ -482,7 +482,7 @@
     .t-track {
       display: flex;
       white-space: nowrap;
-      animation: tick 32s linear infinite
+      animation: tick 12s linear infinite
     }
 
     .t-track:hover {
@@ -583,10 +583,249 @@
 
     /* BOTS — Premium District Network */
     .s-bots {
-      padding: 120px 5% 130px;
+      padding: 72px 5% 100px;
       background: linear-gradient(160deg, #EEF2FF 0%, #E8EAFF 30%, #F0ECFF 55%, #FDF2F8 80%, #FFF7ED 100%);
       position: relative;
       overflow: hidden
+    }
+
+    /* India Map container */
+    .india-map-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto
+    }
+    .india-map-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 12px 40px rgba(99,102,241,.2));
+      animation: mapFloat 8s ease-in-out infinite
+    }
+    @keyframes mapFloat {
+      0%, 100% { transform: translateY(0) }
+      50% { transform: translateY(-10px) }
+    }
+    /* Floating city labels on map */
+    .map-label {
+      position: absolute;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: var(--h);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 99px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 5;
+      box-shadow: 0 2px 12px rgba(0,0,0,.2);
+      letter-spacing: .02em
+    }
+    .map-label .ml-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: glow 2s infinite
+    }
+    .map-label.ml-1 { background: linear-gradient(135deg,#22C55E,#16A34A); top: 23%; left: 26%; animation: glLabelFloat 5s ease-in-out infinite }
+    .map-label.ml-2 { background: linear-gradient(135deg,#F59E0B,#D97706); top: 18%; left: 14%; animation: glLabelFloat 6s 1s ease-in-out infinite }
+    .map-label.ml-3 { background: linear-gradient(135deg,#6366F1,#4F46E5); top: 13%; left: 34%; animation: glLabelFloat 7s 2s ease-in-out infinite }
+    .map-label.ml-4 { background: linear-gradient(135deg,#0EA5E9,#0284C7); top: 28%; left: 48%; animation: glLabelFloat 5.5s 0.5s ease-in-out infinite }
+    @keyframes glLabelFloat {
+      0%, 100% { transform: translateY(0) }
+      50% { transform: translateY(-6px) }
+    }
+    /* Expanding cities counter on map */
+    .map-counter {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15,23,42,.75);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--h);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 5;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2)
+    }
+    .map-counter .mc-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      animation: glow 2s infinite
+    }
+
+    /* Live pulse rings */
+    .bots-pulse-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(99,102,241,.12);
+      pointer-events: none;
+      z-index: 0
+    }
+    .bots-pulse-ring.r1 {
+      width: 300px; height: 300px;
+      top: 20%; left: 10%;
+      animation: pulseRing 4s ease-out infinite
+    }
+    .bots-pulse-ring.r2 {
+      width: 200px; height: 200px;
+      bottom: 15%; right: 12%;
+      animation: pulseRing 5s 1.5s ease-out infinite
+    }
+    .bots-pulse-ring.r3 {
+      width: 250px; height: 250px;
+      top: 55%; left: 55%;
+      animation: pulseRing 6s 3s ease-out infinite
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(.6); opacity: .5 }
+      100% { transform: scale(1.6); opacity: 0 }
+    }
+
+    /* State group header */
+    .state-group-header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 0 4px;
+      margin-top: 22px
+    }
+    .state-group-header:first-of-type {
+      margin-top: 0
+    }
+    .state-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(99,102,241,.15);
+      padding: 6px 18px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--h);
+      color: var(--text-2);
+      letter-spacing: .02em
+    }
+    .state-flag em {
+      font-style: normal;
+      font-size: 16px
+    }
+    .state-divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(99,102,241,.15), transparent)
+    }
+
+    /* Coming soon card style */
+    .bc.coming-soon {
+      cursor: default
+    }
+    .bc.coming-soon .bc-badge.soon {
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.15)
+    }
+    .bc.coming-soon .bc-go {
+      opacity: .5;
+      cursor: default
+    }
+
+    /* Expansion CTA row */
+    .bots-expand-cta {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 32px;
+      padding: 28px;
+      background: rgba(255,255,255,.45);
+      backdrop-filter: blur(12px);
+      border: 1.5px dashed rgba(99,102,241,.2);
+      border-radius: 20px;
+      position: relative;
+      z-index: 2
+    }
+    .bots-expand-cta .expand-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(168,85,247,.12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px
+    }
+    .bots-expand-cta .expand-text h4 {
+      font-size: 16px;
+      font-weight: 800;
+      font-family: var(--h);
+      color: var(--text);
+      margin-bottom: 4px
+    }
+    .bots-expand-cta .expand-text p {
+      font-size: 13px;
+      color: var(--text-m);
+      line-height: 1.5
+    }
+
+    /* Floating motion particles for bots section */
+    .bots-particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0
+    }
+    .bots-particle.p1 {
+      width: 6px; height: 6px;
+      background: rgba(99,102,241,.2);
+      top: 15%; left: 20%;
+      animation: floatUp 8s ease-in-out infinite
+    }
+    .bots-particle.p2 {
+      width: 4px; height: 4px;
+      background: rgba(168,85,247,.2);
+      top: 40%; right: 15%;
+      animation: floatUp 10s 2s ease-in-out infinite
+    }
+    .bots-particle.p3 {
+      width: 8px; height: 8px;
+      background: rgba(251,146,60,.15);
+      bottom: 25%; left: 30%;
+      animation: floatUp 12s 4s ease-in-out infinite
+    }
+    .bots-particle.p4 {
+      width: 5px; height: 5px;
+      background: rgba(52,211,153,.2);
+      top: 65%; right: 25%;
+      animation: floatUp 9s 1s ease-in-out infinite
+    }
+    .bots-particle.p5 {
+      width: 3px; height: 3px;
+      background: rgba(236,72,153,.18);
+      top: 30%; left: 65%;
+      animation: floatUp 11s 3s ease-in-out infinite
+    }
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0) scale(1); opacity: .3 }
+      50% { transform: translateY(-40px) scale(1.5); opacity: .7 }
     }
 
     /* Animated dot-grid background */
@@ -646,17 +885,24 @@
       66% { transform: translate(-20px, 15px) scale(.95) }
     }
 
-    /* Header */
+    /* Header — split layout */
     .bots-hd {
-      text-align: center;
-      margin-bottom: 72px;
+      max-width: 1140px;
+      margin: 0 auto 72px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
       position: relative;
       z-index: 2
     }
 
+    .bots-hd-text {
+      text-align: left
+    }
+
     .bots-hd .sec-tag {
       color: var(--purple);
-      justify-content: center;
       font-size: 11px;
       letter-spacing: .14em
     }
@@ -677,9 +923,16 @@
     .bots-hd .sec-sub {
       color: var(--text-m);
       max-width: 520px;
-      margin: 0 auto 28px;
+      margin-bottom: 28px;
       font-size: 16px;
       line-height: 1.7
+    }
+
+    .bots-hd-globe {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative
     }
 
     /* Live counter badge */
@@ -716,6 +969,26 @@
       gap: 20px;
       position: relative;
       z-index: 2
+    }
+
+    /* India badge in header */
+    .india-scope-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(255,153,0,.08), rgba(19,136,8,.08));
+      border: 1px solid rgba(255,153,0,.2);
+      padding: 8px 22px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-2);
+      font-family: var(--h);
+      letter-spacing: .02em;
+      margin-top: 10px
+    }
+    .india-scope-badge .india-flag {
+      font-size: 18px
     }
 
     /* Cards — Vibrant gradient cards */
@@ -2190,6 +2463,34 @@
         max-width: 500px;
         margin: 34px auto 0
       }
+
+      .bots-hd {
+        grid-template-columns: 1fr;
+        text-align: center
+      }
+      .bots-hd-text {
+        text-align: center
+      }
+      .bots-hd .sec-sub {
+        margin: 0 auto 28px
+      }
+      .india-map-container {
+        max-width: 300px
+      }
+      .map-label {
+        font-size: 9px;
+        padding: 3px 8px
+      }
+
+      .bots-expand-cta {
+        flex-direction: column;
+        text-align: center;
+        padding: 22px
+      }
+
+      .t-track {
+        animation-duration: 14s
+      }
     }
 
     @media(max-width:768px) {
@@ -2235,6 +2536,22 @@
       .gita-inner {
         grid-template-columns: 1fr
       }
+
+      .state-group-header {
+        margin-top: 16px
+      }
+
+      .india-map-container {
+        max-width: 240px
+      }
+      .map-label {
+        font-size: 8px;
+        padding: 2px 6px
+      }
+
+      .t-track {
+        animation-duration: 12s
+      }
     }
   </style>
 </head>
@@ -2271,8 +2588,8 @@
           style="background:linear-gradient(135deg,var(--cyan),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent">
           Assistant.</span>
       </h1>
-      <p class="hero-sub">Hyper-local AI chatbots built for Indian districts — heritage, officers, emergency, welfare
-        schemes. Hindi & English. 24 × 7.</p>
+      <p class="hero-sub">Hyper-local AI chatbots built for every Indian district — heritage, officers, emergency, welfare
+        schemes. Hindi & English. 24 × 7. Now expanding across India.</p>
       <div class="hero-btns">
         <a href="#cities" class="btn-p">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -2301,7 +2618,7 @@
   <!-- TICKER -->
   <div class="ticker">
     <div class="t-track">
-      <span class="t-item">🛕 Heritage Sites <span>Kurukshetra</span></span><span class="t-sep">·</span>
+      <span class="t-item">🇮🇳 Pan-India Coverage <span>Multi-State</span></span><span class="t-sep">·</span>
       <span class="t-item">👨‍💼 Government Officers <span>All Districts</span></span><span class="t-sep">·</span>
       <span class="t-item">🚨 Emergency Contacts <span>Instant Access</span></span><span class="t-sep">·</span>
       <span class="t-item">📖 Bhagavad Gita AI <span>AskGita</span></span><span class="t-sep">·</span>
@@ -2309,7 +2626,8 @@
       <span class="t-item">⚡ Instant Answers <span>Cache-First</span></span><span class="t-sep">·</span>
       <span class="t-item">📲 Install as App <span>Any Device</span></span><span class="t-sep">·</span>
       <span class="t-item">🎤 Voice Dictation <span>Hands-Free</span></span><span class="t-sep">·</span>
-      <span class="t-item">🛕 Heritage Sites <span>Kurukshetra</span></span><span class="t-sep">·</span>
+      <span class="t-item">🏙️ Expanding Cities <span>10+ Planned</span></span><span class="t-sep">·</span>
+      <span class="t-item">🇮🇳 Pan-India Coverage <span>Multi-State</span></span><span class="t-sep">·</span>
       <span class="t-item">👨‍💼 Government Officers <span>All Districts</span></span><span class="t-sep">·</span>
       <span class="t-item">🚨 Emergency Contacts <span>Instant Access</span></span><span class="t-sep">·</span>
       <span class="t-item">📖 Bhagavad Gita AI <span>AskGita</span></span><span class="t-sep">·</span>
@@ -2317,8 +2635,10 @@
       <span class="t-item">⚡ Instant Answers <span>Cache-First</span></span><span class="t-sep">·</span>
       <span class="t-item">📲 Install as App <span>Any Device</span></span><span class="t-sep">·</span>
       <span class="t-item">🎤 Voice Dictation <span>Hands-Free</span></span><span class="t-sep">·</span>
+      <span class="t-item">🏙️ Expanding Cities <span>10+ Planned</span></span><span class="t-sep">·</span>
     </div>
   </div>
+
 
   <!-- INTRO -->
   <section class="s-intro">
@@ -2368,13 +2688,41 @@
     <div class="bots-glow"></div>
     <div class="bots-orb"></div>
     <div class="bots-orb-2"></div>
+    <!-- Motion graphic: floating particles -->
+    <div class="bots-particle p1"></div>
+    <div class="bots-particle p2"></div>
+    <div class="bots-particle p3"></div>
+    <div class="bots-particle p4"></div>
+    <div class="bots-particle p5"></div>
+    <!-- Pulse rings -->
+    <div class="bots-pulse-ring r1"></div>
+    <div class="bots-pulse-ring r2"></div>
+    <div class="bots-pulse-ring r3"></div>
     <div class="bots-hd rv">
-      <div class="sec-tag">✦ DISTRICT NETWORK</div>
-      <h2 class="sec-title">Live Across <span class="bots-gt">Haryana.</span></h2>
-      <p class="sec-sub">Each city has its own dedicated AI bot, trained exclusively on official district data — always accurate, always local.</p>
-      <div class="bots-live-badge"><span class="blb-dot"></span> 7 Districts Live</div>
+      <div class="bots-hd-text">
+        <div class="sec-tag">✦ DISTRICT NETWORK</div>
+        <h2 class="sec-title">Expanding Across <span class="bots-gt">India.</span></h2>
+        <p class="sec-sub">Each city has its own dedicated AI bot, trained exclusively on official district data — always accurate, always local. Scaling to every state.</p>
+        <div class="bots-live-badge"><span class="blb-dot"></span> 7 Demo Districts · More Coming</div>
+        <div class="india-scope-badge"><span class="india-flag">🇮🇳</span> Haryana · Punjab · Uttarakhand · Uttar Pradesh</div>
+      </div>
+      <div class="bots-hd-globe">
+        <div class="india-map-container">
+          <img src="./icons/india-map.svg" alt="India Map - City Mitra Coverage" />
+          <span class="map-label ml-1"><span class="ml-dot"></span>Haryana</span>
+          <span class="map-label ml-2"><span class="ml-dot"></span>Punjab</span>
+          <span class="map-label ml-3"><span class="ml-dot"></span>Uttarakhand</span>
+          <span class="map-label ml-4"><span class="ml-dot"></span>Uttar Pradesh</span>
+          <div class="map-counter"><span class="mc-pulse"></span>Expanding Pan-India</div>
+        </div>
+      </div>
     </div>
     <div class="bots-grid">
+      <!-- ═══ HARYANA ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🟢</em> Haryana — Demo</span>
+        <div class="state-divider"></div>
+      </div>
       <a href="https://kkr.citymitra.app" target="_blank" class="bc live rv"
         style="--bc-bg:linear-gradient(135deg,#C2410C,#EA580C,#FB923C);--bc-shadow:rgba(234,88,12,.25);transition-delay:.04s">
         <div class="bc-strip"></div>
@@ -2410,7 +2758,7 @@
           <div class="bc-badge on">● LIVE</div>
           <div class="bc-icon-wrap"><span class="bc-em">⚔️</span></div>
           <div class="bc-name">Ambala</div>
-          <div class="bc-desc">Gateway to Haryana — cantonment, commerce, connectivity. Officers, welfare schemes,
+          <div class="bc-desc">Gateway of the north — cantonment, commerce, connectivity. Officers, welfare schemes,
             emergency contacts, and more.</div>
           <div class="bc-tags"><span class="bc-tag">Officers</span><span class="bc-tag">Schemes</span><span
               class="bc-tag">Emergency</span></div>
@@ -2437,7 +2785,7 @@
           <div class="bc-badge on">● LIVE</div>
           <div class="bc-icon-wrap"><span class="bc-em">🌿</span></div>
           <div class="bc-name">Sirsa</div>
-          <div class="bc-desc">Haryana's largest district — rich in agriculture, heritage sites like Tara Baba Kutia, and vibrant rural culture.</div>
+          <div class="bc-desc">A vibrant district — rich in agriculture, heritage sites like Tara Baba Kutia, and rural culture.</div>
           <div class="bc-tags"><span class="bc-tag">Agriculture</span><span class="bc-tag">Heritage</span><span
               class="bc-tag">Culture</span></div>
           <div class="bc-go">Open Bot <span>→</span></div>
@@ -2450,7 +2798,7 @@
           <div class="bc-badge on">● LIVE</div>
           <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
           <div class="bc-name">Palwal</div>
-          <div class="bc-desc">Historic Apelava — home to Panchavati Temple, Dauji Temple, and deep connections to India's freedom struggle.</div>
+          <div class="bc-desc">Historic Apelava — home to Panchavati Temple, Dauji Temple, and connections to India's freedom struggle.</div>
           <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Temples</span><span
               class="bc-tag">History</span></div>
           <div class="bc-go">Open Bot <span>→</span></div>
@@ -2463,12 +2811,117 @@
           <div class="bc-badge on">● LIVE</div>
           <div class="bc-icon-wrap"><span class="bc-em">🏭</span></div>
           <div class="bc-name">Faridabad</div>
-          <div class="bc-desc">Industrial capital of Haryana — Surajkund Mela, Badkhal Lake, business services, transport, and civic information.</div>
+          <div class="bc-desc">Industrial powerhouse — Surajkund Mela, Badkhal Lake, business services, transport, and civic information.</div>
           <div class="bc-tags"><span class="bc-tag">Industry</span><span class="bc-tag">Tourism</span><span
               class="bc-tag">Commerce</span></div>
           <div class="bc-go">Open Bot <span>→</span></div>
         </div>
       </a>
+
+      <!-- ═══ PUNJAB — Coming Soon ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🔜</em> Punjab — Coming Soon</span>
+        <div class="state-divider"></div>
+      </div>
+      <div class="bc coming-soon rv"
+        style="--bc-bg:linear-gradient(135deg,#92400E,#D97706,#FCD34D);--bc-shadow:rgba(217,119,6,.2);transition-delay:.46s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge soon">🔜 COMING SOON</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏯</span></div>
+          <div class="bc-name">Amritsar</div>
+          <div class="bc-desc">Home of the Golden Temple — rich Sikh heritage, vibrant culture, tourism, civic services, and local administration.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Tourism</span><span
+              class="bc-tag">Culture</span></div>
+          <div class="bc-go">In Progress <span>⏳</span></div>
+        </div>
+      </div>
+      <div class="bc coming-soon rv"
+        style="--bc-bg:linear-gradient(135deg,#7C2D12,#DC2626,#F87171);--bc-shadow:rgba(220,38,38,.2);transition-delay:.52s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge soon">🔜 COMING SOON</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏗️</span></div>
+          <div class="bc-name">Ludhiana</div>
+          <div class="bc-desc">Industrial capital of Punjab — manufacturing hub, cultural landmarks, civic services, and district administration.</div>
+          <div class="bc-tags"><span class="bc-tag">Industry</span><span class="bc-tag">Commerce</span><span
+              class="bc-tag">Services</span></div>
+          <div class="bc-go">In Progress <span>⏳</span></div>
+        </div>
+      </div>
+
+      <!-- ═══ UTTAR PRADESH — Coming Soon ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🔜</em> Uttar Pradesh — Coming Soon</span>
+        <div class="state-divider"></div>
+      </div>
+      <div class="bc coming-soon rv"
+        style="--bc-bg:linear-gradient(135deg,#1E3A5F,#1E40AF,#3B82F6);--bc-shadow:rgba(30,64,175,.2);transition-delay:.58s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge soon">🔜 COMING SOON</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏛️</span></div>
+          <div class="bc-name">Lucknow</div>
+          <div class="bc-desc">City of Nawabs — Mughal heritage, iconic cuisine, government services, and administrative excellence.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Administration</span><span
+              class="bc-tag">Culture</span></div>
+          <div class="bc-go">In Progress <span>⏳</span></div>
+        </div>
+      </div>
+      <div class="bc coming-soon rv"
+        style="--bc-bg:linear-gradient(135deg,#312E81,#4F46E5,#A78BFA);--bc-shadow:rgba(79,70,229,.2);transition-delay:.64s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge soon">🔜 COMING SOON</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🕌</span></div>
+          <div class="bc-name">Agra</div>
+          <div class="bc-desc">City of the Taj Mahal — world heritage tourism, historical monuments, civic services, and district information.</div>
+          <div class="bc-tags"><span class="bc-tag">World Heritage</span><span class="bc-tag">Tourism</span><span
+              class="bc-tag">History</span></div>
+          <div class="bc-go">In Progress <span>⏳</span></div>
+        </div>
+      </div>
+
+      <!-- ═══ UTTARAKHAND — Coming Soon ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🔜</em> Uttarakhand — Coming Soon</span>
+        <div class="state-divider"></div>
+      </div>
+      <div class="bc coming-soon rv"
+        style="--bc-bg:linear-gradient(135deg,#064E3B,#047857,#6EE7B7);--bc-shadow:rgba(4,120,87,.2);transition-delay:.7s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge soon">🔜 COMING SOON</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏔️</span></div>
+          <div class="bc-name">Dehradun</div>
+          <div class="bc-desc">Gateway to the Himalayas — Mussoorie, FRI, Robber's Cave, government services, and nature tourism.</div>
+          <div class="bc-tags"><span class="bc-tag">Nature</span><span class="bc-tag">Tourism</span><span
+              class="bc-tag">Hill Station</span></div>
+          <div class="bc-go">In Progress <span>⏳</span></div>
+        </div>
+      </div>
+      <div class="bc coming-soon rv"
+        style="--bc-bg:linear-gradient(135deg,#1E1B4B,#6D28D9,#C084FC);--bc-shadow:rgba(109,40,217,.2);transition-delay:.76s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge soon">🔜 COMING SOON</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
+          <div class="bc-name">Haridwar</div>
+          <div class="bc-desc">Sacred city on the Ganges — Har Ki Pauri, Kumbh Mela, spiritual tourism, and civic services for pilgrims.</div>
+          <div class="bc-tags"><span class="bc-tag">Pilgrimage</span><span class="bc-tag">Spiritual</span><span
+              class="bc-tag">Tourism</span></div>
+          <div class="bc-go">In Progress <span>⏳</span></div>
+        </div>
+      </div>
+
+      <!-- Expansion CTA -->
+      <div class="bots-expand-cta rv">
+        <div class="expand-icon">🇮🇳</div>
+        <div class="expand-text">
+          <h4>Expanding Across India</h4>
+          <p>City Mitra is designed to scale to every district in India. Want it for your city? <a href="javascript:void(0)" id="expand-contact-link" style="color:var(--blue);font-weight:700;text-decoration:none">Get in touch →</a></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2489,7 +2942,7 @@
           mixed language, and intent — not just keywords.</div>
         <div class="mchat">
           <div class="mcu">DC कौन हैं?</div>
-          <div class="mcb">👤 <b>Deputy Commissioner</b><br>श्री राज शेखर, IAS<br>📞 01744-291700</div>
+          <div class="mcb">👤 <b>Deputy Commissioner</b><br>श्री •••••• ••••, IAS<br>📞 •••••-••••••</div>
         </div>
         <div class="fb-deco">🗣</div>
       </div>
@@ -2568,7 +3021,7 @@
         <h2 class="sec-title">See it <span
             style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">in
             action.</span></h2>
-        <p class="sec-sub">A real conversation with City Mitra — just like what citizens across Haryana experience every
+        <p class="sec-sub">A real conversation with City Mitra — just like what citizens across India experience every
           day.</p>
         <div class="dfl">
           <div class="dfl-it">
@@ -2610,12 +3063,12 @@
             <div class="ph-av"><img src="./icons/city-mitra-bot.png" alt="City Mitra"></div>
             <div>
               <div class="ph-nm">City Mitra</div>
-              <div class="ph-st"><em></em> Online · Kurukshetra</div>
+              <div class="ph-st"><em></em> Online · Your City</div>
             </div>
           </div>
           <div class="ph-chat" id="ph-chat"></div>
           <div class="ph-foot">
-            <div class="ph-inp">Ask about Kurukshetra…</div>
+            <div class="ph-inp">Ask about your city…</div>
             <div class="ph-snd">➤</div>
           </div>
         </div>
@@ -2691,17 +3144,17 @@
         <div class="stat-c rv"
           style="--g:linear-gradient(135deg,rgba(37,99,235,.04),rgba(124,58,237,.04));transition-delay:.04s">
           <div class="stat-n" style="color:var(--blue)" data-t="7">0</div>
-          <div class="stat-l">Cities Live</div>
+          <div class="stat-l">Demo Cities</div>
         </div>
         <div class="stat-c rv"
           style="--g:linear-gradient(135deg,rgba(8,145,178,.04),rgba(37,99,235,.04));transition-delay:.1s">
-          <div class="stat-n" style="color:var(--cyan)" data-t="24" data-sfx="×7">0</div>
-          <div class="stat-l">Always Available</div>
+          <div class="stat-n" style="color:var(--cyan)" data-t="4">0</div>
+          <div class="stat-l">States Covered</div>
         </div>
         <div class="stat-c rv"
           style="--g:linear-gradient(135deg,rgba(22,163,74,.04),rgba(8,145,178,.04));transition-delay:.16s">
-          <div class="stat-n" style="color:var(--green)" data-t="90" data-sfx="+">0</div>
-          <div class="stat-l">Heritage Sites Mapped</div>
+          <div class="stat-n" style="color:var(--green)" data-t="13" data-sfx="+">0</div>
+          <div class="stat-l">Districts Planned</div>
         </div>
         <div class="stat-c rv"
           style="--g:linear-gradient(135deg,rgba(124,58,237,.04),rgba(219,39,119,.04));transition-delay:.22s">
@@ -2719,7 +3172,7 @@
     </div>
     <div class="cta-inner rv">
       <h2 class="cta-title">Your city is <span>waiting.</span></h2>
-      <p class="cta-sub">Ask anything. Get answers instantly. In your language, on your device, even without internet.
+      <p class="cta-sub">Ask anything. Get answers instantly. In your language, on any device. City Mitra is expanding across India — one district at a time.
       </p>
       <div class="cta-btns">
         <a href="https://kkr.citymitra.app" target="_blank" class="cta-btn a">🕉️ Kurukshetra</a>
@@ -2892,17 +3345,17 @@
     // PHONE CHAT
     const chat = document.getElementById('ph-chat');
     const sc = [
-      { t: 'u', x: 'Tourist places in Kurukshetra?', d: 1500 },
+      { t: 'u', x: 'Tourist places near me?', d: 1500 },
       { t: 'ty', d: 1100 },
-      { t: 'b', x: '🏛️ <b>Top Heritage Sites:</b><br>• Brahma Sarovar<br>• Jyotisar — Gita Birthplace<br>• Sheikh Chehli Tomb<br>• Bhadrakali Temple', d: 3200 },
+      { t: 'b', x: '🏛️ <b>Top Heritage Sites:</b><br>• ••••• Sarovar<br>• ••••••• — Sacred Birthplace<br>• ••••• •••••• Tomb<br>• ••••••••• Temple', d: 3200 },
       { t: 'c', x: ['🕐 Timings', '🗺️ Directions', '🏨 Hotels'], d: 2000 },
       { t: 'u', x: 'DC कौन हैं?', d: 2000 },
       { t: 'ty', d: 900 },
-      { t: 'b', x: '👤 <b>Deputy Commissioner</b><br>श्री राज शेखर, IAS<br>📞 01744-291700', d: 2800 },
+      { t: 'b', x: '👤 <b>Deputy Commissioner</b><br>श्री •••••• ••••, IAS<br>📞 •••••-••••••', d: 2800 },
       { t: 'c', x: ['📋 Officers', '🏢 Depts', '📞 Contact'], d: 2000 },
       { t: 'u', x: 'Nearest hospital?', d: 1800 },
       { t: 'ty', d: 1000 },
-      { t: 'b', x: '🏥 <b>Civil Hospital Kurukshetra</b><br>Pipli Road · Near Bus Stand<br>📞 01744-220040 · 24×7', d: 3000 },
+      { t: 'b', x: '🏥 <b>District Civil Hospital</b><br>Main Road · Near Bus Stand<br>📞 •••••-•••••• · 24×7', d: 3000 },
       { t: 'c', x: ['🚑 Ambulance', '💊 Chemists', '🩺 Doctors'], d: 2000 },
     ];
     let si = 0;
@@ -2946,6 +3399,8 @@
       // Open triggers
       document.getElementById('footer-contact-btn').addEventListener('click', openModal);
       document.getElementById('nav-contact-link').addEventListener('click', openModal);
+      const expandLink = document.getElementById('expand-contact-link');
+      if (expandLink) expandLink.addEventListener('click', openModal);
 
       // Close triggers
       document.getElementById('modal-close-btn').addEventListener('click', closeModal);
@@ -3014,6 +3469,7 @@
         requestAnimationFrame(draw);
       })();
     })();
+    // India map is now a static image, no canvas rendering needed
   </script>
 </body>
 
