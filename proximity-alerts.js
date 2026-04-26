@@ -136,40 +136,66 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
-// 9. Show proximity alert bubble — City Mitra brand style
+// 9. Show proximity alert bubble — Premium City Mitra card
 function showProximityAlertBubble(siteName, message, link) {
     const messagesList = document.getElementById('messages-list');
     if (!messagesList) return;
 
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     const alertHtml = `
     <div class="ai-row new spaced">
-        <div class="av" style="background: #059669;">
+        <div class="av">
             <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                 <circle cx="12" cy="10" r="3"/>
             </svg>
         </div>
         <div class="ai-content">
-            <div class="ai-sender" style="color: #059669;">
-                📍 Nearby Alert
-                <span class="powered-badge" style="background: #ECFDF5; color: #059669; border-color: rgba(5,150,105,0.15);">
-                    ✦ GPS
-                </span>
+            <div class="ai-sender">
+                📍 Nearby Place Detected
+                <span class="powered-badge">✦ GPS</span>
             </div>
-            <div class="bubble" style="border-left: 3px solid #059669;">
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--line2);">
-                    <div style="background:#ECFDF5; padding:6px; border-radius:10px; display:flex; align-items:center; justify-content:center;">
-                        <i data-lucide="map-pin" style="width:16px; height:16px; color:#059669;"></i>
+            <!-- Glowing card wrapper -->
+            <div class="bubble" style="padding:0; overflow:hidden; border:1.5px solid rgba(45,70,185,0.2); box-shadow:0 2px 12px rgba(45,70,185,0.1), 0 0 0 1px rgba(45,70,185,0.05);">
+
+                <!-- Header with gradient + animated pulse dot -->
+                <div style="background:linear-gradient(135deg, var(--brand) 0%, #4338CA 50%, var(--brand-deep) 100%); background-size:200% 200%; animation:gradientMove 8s ease infinite; padding:16px; position:relative; overflow:hidden;">
+                    <!-- Subtle pattern overlay -->
+                    <div style="position:absolute; inset:0; background:repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(255,255,255,0.03) 18px, rgba(255,255,255,0.03) 36px); pointer-events:none;"></div>
+                    <div style="position:relative; display:flex; align-items:center; gap:12px;">
+                        <div style="width:44px; height:44px; border-radius:14px; background:rgba(255,255,255,0.13); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1px solid rgba(255,255,255,0.15);">
+                            <i data-lucide="map-pin" style="width:22px; height:22px; color:#fff;"></i>
+                        </div>
+                        <div style="flex:1; min-width:0;">
+                            <div style="font-size:15px; font-weight:700; color:#fff; line-height:1.3; letter-spacing:-0.01em;">${siteName}</div>
+                            <div style="display:flex; align-items:center; gap:5px; margin-top:3px;">
+                                <span style="width:6px; height:6px; border-radius:50%; background:#7AE878; box-shadow:0 0 6px rgba(122,232,120,0.5); display:inline-block; animation:cityPulse 2s ease-in-out infinite;"></span>
+                                <span style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.7); letter-spacing:0.06em; text-transform:uppercase;">You're nearby · ${timeStr}</span>
+                            </div>
+                        </div>
                     </div>
-                    <strong style="font-size:13.5px; color:#059669;">${siteName}</strong>
                 </div>
-                <div style="font-size:13.5px; line-height:1.65; color:var(--ink2); margin-bottom:12px;">
-                    ${message}
+
+                <!-- Body content -->
+                <div style="padding:14px 16px 16px;">
+                    <div style="font-size:13.5px; line-height:1.72; color:var(--ink2); margin-bottom:14px;">
+                        ${message}
+                    </div>
+
+                    <!-- Action buttons row -->
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <a href="${link}" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--brand); color:#fff; padding:9px 18px; border-radius:12px; font-size:12.5px; font-weight:700; text-decoration:none; letter-spacing:0.01em; box-shadow:0 4px 14px rgba(45,70,185,0.3); transition:all 0.15s; border:none;">
+                            <i data-lucide="compass" style="width:14px; height:14px;"></i>
+                            Explore
+                        </a>
+                        <button onclick="handleChipClick('Tell me about ${siteName.replace(/'/g, "\\\\'")}')" style="display:inline-flex; align-items:center; gap:5px; background:var(--brand-lt); color:var(--brand); padding:9px 14px; border-radius:12px; font-size:12px; font-weight:600; border:1.5px solid rgba(45,70,185,0.15); cursor:pointer; font-family:'Bricolage Grotesque',sans-serif; transition:all 0.15s;">
+                            <i data-lucide="message-circle" style="width:13px; height:13px;"></i>
+                            Ask City Mitra
+                        </button>
+                    </div>
                 </div>
-                <a href="${link}" target="_blank" style="display:inline-flex; align-items:center; gap:5px; background:#ECFDF5; color:#059669; padding:6px 14px; border-radius:10px; font-size:12px; font-weight:700; text-decoration:none; border:1.5px solid rgba(5,150,105,0.15); transition:all 0.15s;">
-                    <i data-lucide="external-link" style="width:13px; height:13px;"></i>
-                    View Details
-                </a>
             </div>
         </div>
     </div>
@@ -189,30 +215,31 @@ function showProximityAlertBubble(siteName, message, link) {
     }
 }
 
-// 10. System message — City Mitra brand style
+// 10. System message — inline brand-themed notification
 function addProximitySystemMessage(text) {
     const messagesList = document.getElementById('messages-list');
     if (!messagesList) return;
 
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     const msgHtml = `
-    <div class="ai-row new spaced">
-        <div class="av" style="background: var(--ink3);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-            </svg>
-        </div>
-        <div class="ai-content">
-            <div class="bubble" style="background: var(--bg); border: 1px dashed var(--line);">
-                <div style="font-size:13px; color:var(--ink3); line-height:1.55;">
-                    ${text}
-                </div>
+    <div style="display:flex; justify-content:center; margin:12px 0;">
+        <div style="display:inline-flex; align-items:center; gap:6px; background:var(--brand-xlt); border:1px solid rgba(45,70,185,0.1); border-radius:20px; padding:6px 14px 6px 10px; max-width:90%; animation:msgIn 0.32s cubic-bezier(0.34, 1.3, 0.64, 1) both;">
+            <div style="width:22px; height:22px; border-radius:50%; background:var(--brand); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i data-lucide="map-pin" style="width:11px; height:11px; color:#fff;"></i>
             </div>
+            <span style="font-size:12px; font-weight:600; color:var(--brand); line-height:1.4;">${text}</span>
+            <span style="font-size:10px; color:var(--ink4); font-weight:500; margin-left:2px;">${timeStr}</span>
         </div>
     </div>
     `;
 
     messagesList.insertAdjacentHTML('beforeend', msgHtml);
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 
     const chatContainer = document.getElementById('chat-container');
     if (chatContainer) {
