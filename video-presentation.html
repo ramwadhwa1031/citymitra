@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Mitra — Feature Video</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Serif+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--brand:#2D46B9;--orange:#E07B2A;--green:#16A34A;--red:#DC2626;--purple:#7C3AED;--cyan:#0891B2}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Plus Jakarta Sans',sans-serif}
+.slide{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.8s;padding:60px;text-align:center}
+.slide.active{opacity:1;pointer-events:auto}
+.slide h1{font-size:clamp(32px,5vw,64px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:16px;letter-spacing:-0.03em}
+.slide h2{font-size:clamp(20px,3vw,36px);font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:12px}
+.slide .hindi{font-family:'Noto Serif Devanagari',serif;font-size:clamp(18px,2.5vw,30px);color:rgba(255,255,255,0.6);margin-bottom:24px}
+.slide p{font-size:clamp(16px,2vw,22px);color:rgba(255,255,255,0.7);max-width:700px;line-height:1.7}
+.slide .icon{font-size:72px;margin-bottom:20px;display:block}
+.slide .tag{display:inline-block;padding:8px 20px;border-radius:99px;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px}
+.gradient-text{background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:10px 20px;border-radius:14px;color:#fff;font-size:16px;font-weight:600;margin:6px}
+
+/* BG effects */
+.bg-gradient{position:fixed;inset:0;z-index:-1}
+.s-intro .bg-gradient{background:radial-gradient(ellipse at 30% 50%,rgba(45,70,185,0.3),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(124,58,237,0.2),transparent 50%),#0a0a1a}
+.s-feature .bg-gradient{background:radial-gradient(ellipse at 50% 50%,rgba(37,99,235,0.15),transparent 60%),#0a0a1a}
+.s1 .bg-gradient{background:radial-gradient(ellipse at 40% 40%,rgba(224,123,42,0.25),transparent 55%),#0a0a1a}
+.s2 .bg-gradient{background:radial-gradient(ellipse at 60% 40%,rgba(22,163,74,0.25),transparent 55%),#0a0a1a}
+.s3 .bg-gradient{background:radial-gradient(ellipse at 40% 60%,rgba(220,38,38,0.25),transparent 55%),#0a0a1a}
+.s4 .bg-gradient{background:radial-gradient(ellipse at 50% 40%,rgba(124,58,237,0.25),transparent 55%),#0a0a1a}
+.s5 .bg-gradient{background:radial-gradient(ellipse at 60% 50%,rgba(8,145,178,0.25),transparent 55%),#0a0a1a}
+.s6 .bg-gradient{background:radial-gradient(ellipse at 50% 50%,rgba(45,70,185,0.2),transparent 55%),radial-gradient(ellipse at 30% 70%,rgba(224,123,42,0.15),transparent 50%),#0a0a1a}
+.s7 .bg-gradient{background:radial-gradient(ellipse at 50% 50%,rgba(22,163,74,0.3),transparent 55%),#0a0a1a}
+.s-end .bg-gradient{background:radial-gradient(ellipse at 50% 50%,rgba(45,70,185,0.3),transparent 50%),radial-gradient(ellipse at 30% 30%,rgba(224,123,42,0.2),transparent 50%),radial-gradient(ellipse at 70% 70%,rgba(124,58,237,0.2),transparent 50%),#0a0a1a}
+
+/* Feature grid */
+.feat-grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px;max-width:800px}
+
+/* Animated border glow */
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(45,70,185,0.3)}50%{box-shadow:0 0 40px rgba(124,58,237,0.5)}}
+.glow-box{animation:glow 3s ease-in-out infinite}
+
+/* Particle canvas */
+#particles{position:fixed;inset:0;z-index:-1;pointer-events:none}
+
+/* Progress bar */
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#60a5fa,#a78bfa,#f472b6);z-index:100;transition:width 0.8s ease}
+
+/* City cards */
+.city-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:20px;min-width:140px;text-align:center}
+.city-card .emoji{font-size:36px;margin-bottom:8px;display:block}
+.city-card .name{color:#fff;font-weight:700;font-size:16px}
+.city-card .state{color:rgba(255,255,255,0.5);font-size:12px;margin-top:2px}
+
+/* Subtitle bar */
+.subtitle-bar{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 28px;max-width:85%;z-index:50;text-align:center;opacity:0;transition:opacity 0.5s}
+.subtitle-bar.show{opacity:1}
+.subtitle-bar .en{color:#fff;font-size:16px;font-weight:600;line-height:1.5}
+.subtitle-bar .hi{font-family:'Noto Serif Devanagari',serif;color:rgba(255,255,255,0.6);font-size:14px;margin-top:4px}
+
+/* Mute toggle */
+.mute-btn{position:fixed;top:16px;right:16px;z-index:200;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:8px 14px;color:#fff;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<canvas id="particles"></canvas>
+<button class="mute-btn" id="muteBtn" onclick="toggleMute()">🔊 Voice ON</button>
+
+<div class="subtitle-bar" id="subtitleBar">
+  <div class="en" id="subEn"></div>
+  <div class="hi" id="subHi"></div>
+</div>
+
+<!-- SLIDE 0: Intro -->
+<div class="slide s-intro active" id="slide-0">
+  <div class="bg-gradient"></div>
+  <span class="icon">🏛️</span>
+  <div class="tag" style="background:rgba(45,70,185,0.2);color:#60a5fa">INTRODUCING / परिचय</div>
+  <h1><span class="gradient-text">City Mitra</span></h1>
+  <div class="hindi">सिटी मित्र — हर शहर का AI सहायक</div>
+  <p>India's first AI-powered Civic Assistant for every district</p>
+</div>
+
+<!-- SLIDE 1: Problem -->
+<div class="slide s1" id="slide-1">
+  <div class="bg-gradient"></div>
+  <span class="icon">❓</span>
+  <div class="tag" style="background:rgba(224,123,42,0.2);color:#fb923c">THE PROBLEM / समस्या</div>
+  <h2>Citizens struggle to find district info</h2>
+  <div class="hindi">नागरिकों को जिला जानकारी पाने में कठिनाई होती है</div>
+  <p>Officers' contacts, schemes, emergency numbers, tourism info — scattered across dozens of websites and offices.</p>
+</div>
+
+<!-- SLIDE 2: Solution -->
+<div class="slide s2" id="slide-2">
+  <div class="bg-gradient"></div>
+  <span class="icon">💡</span>
+  <div class="tag" style="background:rgba(22,163,74,0.2);color:#4ade80">THE SOLUTION / समाधान</div>
+  <h2>One AI Bot — All District Info</h2>
+  <div class="hindi">एक AI बॉट — सारी जिला जानकारी</div>
+  <p>City Mitra brings everything together in one intelligent chatbot. Ask anything, get instant answers 24/7.</p>
+</div>
+
+<!-- SLIDE 3: Feature - Officers -->
+<div class="slide s3 s-feature" id="slide-3">
+  <div class="bg-gradient"></div>
+  <span class="icon">👤</span>
+  <div class="tag" style="background:rgba(220,38,38,0.2);color:#f87171">FEATURE 1 / सुविधा 1</div>
+  <h2>Officers & Departments</h2>
+  <div class="hindi">अधिकारी और विभाग</div>
+  <p>Instantly find the DC, SDM, and all district officers with their contact details and office locations.</p>
+  <div class="feat-grid">
+    <span class="pill">👤 Who is DC?</span>
+    <span class="pill">🏢 SDM Office</span>
+    <span class="pill">📞 Contact Details</span>
+  </div>
+</div>
+
+<!-- SLIDE 4: Feature - Tourism -->
+<div class="slide s4 s-feature" id="slide-4">
+  <div class="bg-gradient"></div>
+  <span class="icon">🏛️</span>
+  <div class="tag" style="background:rgba(124,58,237,0.2);color:#a78bfa">FEATURE 2 / सुविधा 2</div>
+  <h2>Tourist Places & Heritage</h2>
+  <div class="hindi">पर्यटन स्थल और विरासत</div>
+  <p>Explore temples, historical sites, and cultural landmarks. Get directions, timings, and significance of each place.</p>
+  <div class="feat-grid">
+    <span class="pill">🛕 Temples</span>
+    <span class="pill">🏺 Heritage Sites</span>
+    <span class="pill">📿 Cultural Events</span>
+  </div>
+</div>
+
+<!-- SLIDE 5: Feature - Emergency -->
+<div class="slide s5 s-feature" id="slide-5">
+  <div class="bg-gradient"></div>
+  <span class="icon">🚨</span>
+  <div class="tag" style="background:rgba(8,145,178,0.2);color:#22d3ee">FEATURE 3 / सुविधा 3</div>
+  <h2>Emergency Contacts</h2>
+  <div class="hindi">आपातकालीन संपर्क</div>
+  <p>Police, ambulance, fire brigade, hospitals — all emergency numbers at your fingertips, instantly accessible.</p>
+  <div class="feat-grid">
+    <span class="pill">🚑 Ambulance</span>
+    <span class="pill">🚓 Police</span>
+    <span class="pill">🏥 Hospitals</span>
+    <span class="pill">🔥 Fire Brigade</span>
+  </div>
+</div>
+
+<!-- SLIDE 6: Feature - Schemes -->
+<div class="slide s6 s-feature" id="slide-6">
+  <div class="bg-gradient"></div>
+  <span class="icon">📋</span>
+  <div class="tag" style="background:rgba(45,70,185,0.2);color:#60a5fa">FEATURE 4 / सुविधा 4</div>
+  <h2>Government Schemes & Services</h2>
+  <div class="hindi">सरकारी योजनाएं और सेवाएं</div>
+  <p>Birth certificates, farmer schemes, job vacancies, tenders — know your rights and benefits.</p>
+  <div class="feat-grid">
+    <span class="pill">📋 Birth Certificate</span>
+    <span class="pill">🌾 Farmer Schemes</span>
+    <span class="pill">💼 Job Vacancies</span>
+  </div>
+</div>
+
+<!-- SLIDE 7: Feature - Voice + Bilingual -->
+<div class="slide s7 s-feature" id="slide-7">
+  <div class="bg-gradient"></div>
+  <span class="icon">🎙️</span>
+  <div class="tag" style="background:rgba(22,163,74,0.2);color:#4ade80">FEATURE 5 / सुविधा 5</div>
+  <h2>Voice Input + Bilingual</h2>
+  <div class="hindi">आवाज़ से पूछें + हिंदी-अंग्रेजी</div>
+  <p>Speak your question in Hindi or English. The bot listens, understands, and responds in your preferred language.</p>
+  <div class="feat-grid">
+    <span class="pill">🎤 Voice Input</span>
+    <span class="pill">🇬🇧 English</span>
+    <span class="pill">🇮🇳 हिंदी</span>
+    <span class="pill">🔊 Listen Responses</span>
+  </div>
+</div>
+
+<!-- SLIDE 8: Feature - WhatsApp + Autocomplete -->
+<div class="slide s1 s-feature" id="slide-8">
+  <div class="bg-gradient"></div>
+  <span class="icon">📱</span>
+  <div class="tag" style="background:rgba(224,123,42,0.2);color:#fb923c">FEATURE 6 / सुविधा 6</div>
+  <h2>WhatsApp Sharing + Smart Search</h2>
+  <div class="hindi">WhatsApp शेयरिंग + स्मार्ट सर्च</div>
+  <p>Share any answer on WhatsApp instantly. Smart autocomplete suggests questions as you type.</p>
+  <div class="feat-grid">
+    <span class="pill">💬 WhatsApp Share</span>
+    <span class="pill">🔍 Auto-Complete</span>
+    <span class="pill">📤 Share App</span>
+  </div>
+</div>
+
+<!-- SLIDE 9: Multi-City -->
+<div class="slide s4" id="slide-9">
+  <div class="bg-gradient"></div>
+  <span class="icon">🇮🇳</span>
+  <div class="tag" style="background:rgba(124,58,237,0.2);color:#a78bfa">SCALABLE / विस्तार योग्य</div>
+  <h2>One Platform — Every District</h2>
+  <div class="hindi">एक प्लेटफॉर्म — हर जिला</div>
+  <div class="feat-grid" style="margin-top:24px">
+    <div class="city-card"><span class="emoji">🕉️</span><div class="name">Kurukshetra</div><div class="state">Live ✅</div></div>
+    <div class="city-card"><span class="emoji">🏛️</span><div class="name">Ambala</div><div class="state">Live ✅</div></div>
+    <div class="city-card"><span class="emoji">🌾</span><div class="name">Karnal</div><div class="state">Live ✅</div></div>
+    <div class="city-card"><span class="emoji">🏔️</span><div class="name">Panchkula</div><div class="state">Ready</div></div>
+    <div class="city-card"><span class="emoji">🏭</span><div class="name">Faridabad</div><div class="state">Ready</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Why Districts Need This -->
+<div class="slide s2" id="slide-10">
+  <div class="bg-gradient"></div>
+  <span class="icon">🏆</span>
+  <div class="tag" style="background:rgba(22,163,74,0.2);color:#4ade80">WHY ADOPT / क्यों अपनाएं</div>
+  <h2>Why Every District Needs City Mitra</h2>
+  <div class="hindi">हर जिले को सिटी मित्र क्यों चाहिए</div>
+  <div class="feat-grid" style="margin-top:16px">
+    <span class="pill">🕐 24/7 Availability</span>
+    <span class="pill">🆓 Free for Citizens</span>
+    <span class="pill">⚡ Instant Answers</span>
+    <span class="pill">🌐 Works Offline (PWA)</span>
+    <span class="pill">📱 Mobile Friendly</span>
+    <span class="pill">🔒 Official Data Only</span>
+  </div>
+</div>
+
+<!-- SLIDE 11: CTA -->
+<div class="slide s-end" id="slide-11">
+  <div class="bg-gradient"></div>
+  <span class="icon">🙏</span>
+  <h1><span class="gradient-text">City Mitra</span></h1>
+  <div class="hindi" style="font-size:24px;color:rgba(255,255,255,0.7)">सिटी मित्र — हर नागरिक का अधिकार</div>
+  <p style="margin-top:16px;font-size:20px;color:rgba(255,255,255,0.5)">citymitra.app</p>
+  <p style="margin-top:8px;font-size:16px;color:rgba(255,255,255,0.35)">Civic AI for Every Indian City 🇮🇳</p>
+</div>
+
+<script>
+// Slide data with narration
+const slides = [
+  {en:"Introducing City Mitra — India's first AI-powered civic assistant for every district.",
+   hi:"पेश है सिटी मित्र — भारत का पहला AI-संचालित नागरिक सहायक, हर जिले के लिए।"},
+  {en:"Citizens face a major problem. Finding district information is hard — officers' contacts, schemes, emergency numbers are scattered everywhere.",
+   hi:"नागरिकों को जिला जानकारी पाने में बहुत कठिनाई होती है। अधिकारियों के संपर्क, योजनाएं, आपातकालीन नंबर — सब बिखरे हुए हैं।"},
+  {en:"City Mitra is the solution. One intelligent chatbot that brings all district information together, available 24 hours a day, 7 days a week.",
+   hi:"सिटी मित्र इसका समाधान है। एक बुद्धिमान चैटबॉट जो सारी जिला जानकारी एक जगह लाता है, 24 घंटे, 7 दिन उपलब्ध।"},
+  {en:"Feature one — Officers and Departments. Instantly find the D.C., S.D.M., and all district officers with their contact details.",
+   hi:"सुविधा एक — अधिकारी और विभाग। तुरंत DC, SDM और सभी जिला अधिकारियों की जानकारी पाएं।"},
+  {en:"Feature two — Tourist Places and Heritage. Explore temples, historical sites, and cultural landmarks with complete information.",
+   hi:"सुविधा दो — पर्यटन स्थल और विरासत। मंदिर, ऐतिहासिक स्थल और सांस्कृतिक धरोहर की पूरी जानकारी पाएं।"},
+  {en:"Feature three — Emergency Contacts. Police, ambulance, fire brigade, hospitals — all emergency numbers instantly accessible.",
+   hi:"सुविधा तीन — आपातकालीन संपर्क। पुलिस, एम्बुलेंस, फायर ब्रिगेड, अस्पताल — सब नंबर तुरंत उपलब्ध।"},
+  {en:"Feature four — Government Schemes and Services. Birth certificates, farmer schemes, job vacancies — know your rights and benefits.",
+   hi:"सुविधा चार — सरकारी योजनाएं और सेवाएं। जन्म प्रमाण पत्र, किसान योजनाएं, नौकरियां — अपने अधिकार और लाभ जानें।"},
+  {en:"Feature five — Voice Input and Bilingual support. Speak your question in Hindi or English. The bot listens and responds in your language.",
+   hi:"सुविधा पांच — आवाज़ से पूछें, हिंदी और अंग्रेजी दोनों में। बोलकर सवाल पूछें, बॉट आपकी भाषा में जवाब देगा।"},
+  {en:"Feature six — WhatsApp Sharing and Smart Search. Share any answer on WhatsApp. Smart autocomplete suggests questions as you type.",
+   hi:"सुविधा छह — WhatsApp शेयरिंग और स्मार्ट सर्च। कोई भी जवाब WhatsApp पर शेयर करें। टाइप करते ही सुझाव मिलें।"},
+  {en:"City Mitra scales to every district. Already live in Kurukshetra, Ambala, and Karnal — with Panchkula and Faridabad ready to launch.",
+   hi:"सिटी मित्र हर जिले तक पहुंचता है। कुरुक्षेत्र, अंबाला, करनाल में पहले से लाइव — पंचकूला और फरीदाबाद लॉन्च के लिए तैयार।"},
+  {en:"Why every district needs City Mitra — 24/7 availability, free for citizens, instant answers, works offline, mobile friendly, and uses only official data.",
+   hi:"हर जिले को सिटी मित्र क्यों चाहिए — 24/7 उपलब्ध, नागरिकों के लिए मुफ्त, तुरंत जवाब, ऑफलाइन काम करता है, मोबाइल फ्रेंडली, केवल आधिकारिक डेटा।"},
+  {en:"City Mitra — Civic AI for Every Indian City. Visit citymitra.app. Thank you!",
+   hi:"सिटी मित्र — हर भारतीय शहर के लिए नागरिक AI। citymitra.app पर जाएं। धन्यवाद!"}
+];
+
+let current = 0;
+let isMuted = false;
+const totalSlides = slides.length;
+
+// Particles
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+for(let i=0;i<60;i++){
+  particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+    r:Math.random()*2+0.5,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5,
+    a:Math.random()*0.3+0.1});
+}
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${p.a})`;ctx.fill();
+    p.x+=p.dx;p.y+=p.dy;
+    if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+    if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+function showSlide(n){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('slide-'+n);
+  if(el)el.classList.add('active');
+  document.getElementById('progress').style.width=((n+1)/totalSlides*100)+'%';
+}
+
+function showSubtitle(en,hi){
+  const bar=document.getElementById('subtitleBar');
+  document.getElementById('subEn').textContent=en;
+  document.getElementById('subHi').textContent=hi;
+  bar.classList.add('show');
+}
+function hideSubtitle(){document.getElementById('subtitleBar').classList.remove('show')}
+
+function speak(text, lang){
+  return new Promise(resolve=>{
+    if(isMuted||!window.speechSynthesis){resolve();return}
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=lang==='hi'?'hi-IN':'en-US';
+    u.rate=lang==='hi'?0.9:0.95;
+    u.pitch=1;
+    u.volume=1;
+    // Try to find a good voice
+    const voices=speechSynthesis.getVoices();
+    const preferred=voices.find(v=>v.lang.startsWith(lang==='hi'?'hi':'en')&&v.name.includes('Google'));
+    if(preferred)u.voice=preferred;
+    else{const fallback=voices.find(v=>v.lang.startsWith(lang==='hi'?'hi':'en'));if(fallback)u.voice=fallback;}
+    u.onend=()=>resolve();
+    u.onerror=()=>resolve();
+    speechSynthesis.speak(u);
+  });
+}
+
+function toggleMute(){
+  isMuted=!isMuted;
+  document.getElementById('muteBtn').textContent=isMuted?'🔇 Voice OFF':'🔊 Voice ON';
+  if(isMuted)speechSynthesis.cancel();
+}
+
+async function runPresentation(){
+  // Wait for voices to load
+  await new Promise(r=>{
+    if(speechSynthesis.getVoices().length>0)r();
+    else speechSynthesis.onvoiceschanged=()=>r();
+    setTimeout(r,2000);
+  });
+
+  for(let i=0;i<totalSlides;i++){
+    current=i;
+    showSlide(i);
+    const s=slides[i];
+    
+    // Show English subtitle + speak English
+    showSubtitle(s.en, '');
+    await speak(s.en,'en');
+    
+    // Brief pause
+    await new Promise(r=>setTimeout(r,400));
+    
+    // Show Hindi subtitle + speak Hindi
+    showSubtitle('', s.hi);
+    await speak(s.hi,'hi');
+    
+    hideSubtitle();
+    
+    // Pause between slides
+    await new Promise(r=>setTimeout(r,800));
+  }
+}
+
+// Start after 1.5s
+setTimeout(runPresentation, 1500);
+</script>
+</body>
+</html>

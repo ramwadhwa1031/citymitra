@@ -406,6 +406,90 @@
             background: var(--brand-lt);
         }
 
+        /* Nearby Alerts Toggle in Menu — Featured Section */
+        .menu-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF9 100%);
+            border-radius: 10px;
+            margin: 6px 8px 4px;
+            border: 1px solid rgba(5, 150, 105, 0.12);
+            transition: all 0.15s;
+        }
+
+        .menu-toggle-row:hover {
+            background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%);
+        }
+
+        .menu-toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #065F46;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        .menu-toggle-label i {
+            width: 16px;
+            height: 16px;
+            color: #059669;
+        }
+
+        .menu-toggle-subtitle {
+            font-size: 9.5px;
+            font-weight: 500;
+            color: #6EE7B7;
+            letter-spacing: 0.03em;
+            margin-top: 1px;
+        }
+
+        /* Compact iOS toggle */
+        .mini-toggle {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: #D1D5DB;
+            border-radius: 20px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .mini-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .mini-toggle:checked {
+            background: #059669;
+        }
+
+        .mini-toggle:checked::after {
+            transform: translateX(16px);
+        }
+
+        /* Menu section divider */
+        .menu-divider {
+            height: 1px;
+            background: var(--line2);
+            margin: 4px 14px;
+        }
+
         /* ══════════════════════════════════════
            CITY HERO — Kurukshetra identity card
         ══════════════════════════════════════ */
@@ -1468,6 +1552,18 @@
                         <span></span><span></span><span></span>
                     </div>
                     <div id="menu-dropdown" class="hidden" onclick="event.stopPropagation()">
+                        <!-- Featured: Nearby Alerts Toggle -->
+                        <div class="menu-toggle-row">
+                            <div>
+                                <div class="menu-toggle-label">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Nearby Alerts</span>
+                                </div>
+                                <div class="menu-toggle-subtitle">GPS-based place alerts</div>
+                            </div>
+                            <input type="checkbox" id="location-toggle" class="mini-toggle" onchange="toggleLocationAlerts()">
+                        </div>
+                        <div class="menu-divider"></div>
                         <button onclick="clearChat()">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                             <span id="menu-clear">Clear chat</span>
@@ -1602,6 +1698,7 @@
     <script src="script_mic.js?v=9.0"></script>
     <script src="script_listen.js?v=9.0"></script>
     <script src="settings-integration.js?v=9.0"></script>
+    <script src="proximity-alerts.js?v=1.0"></script>
 
     <!-- ═══════════════════════════════════════════════════
          INPUT FOCUS EFFECTS

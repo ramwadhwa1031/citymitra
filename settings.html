@@ -385,6 +385,23 @@
             transition: width 0.3s ease;
             margin: 0 auto;
         }
+
+        /* Radar pulse animation for Nearby Places */
+        @keyframes radarPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.2);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(5, 150, 105, 0);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Green slider track fill */
+        .modern-slider.green-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, #059669 0%, #059669 var(--slider-fill, 60%), #E2E8F0 var(--slider-fill, 60%), #E2E8F0 100%);
+        }
     </style>
 </head>
 <body>
@@ -558,6 +575,61 @@
                             <div class="text-xs text-slate-500">Show exact delivery times</div>
                         </div>
                         <input type="checkbox" id="timestamps-toggle" class="ios-toggle" checked onchange="toggleTimestamps(this.checked)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nearby Places -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #ECFDF5; color: #059669;"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="card-title">Nearby Places</h2>
+                        <p class="card-subtitle">Get alerts when you're near tourist sites & landmarks</p>
+                    </div>
+                </div>
+
+                <!-- Enable/Disable toggle -->
+                <div class="flex items-center justify-between mb-5">
+                    <div>
+                        <div class="text-sm font-bold text-slate-800">Enable Nearby Alerts</div>
+                        <div class="text-xs text-slate-500">Receive notifications for nearby places</div>
+                    </div>
+                    <input type="checkbox" id="nearby-alerts-toggle" class="ios-toggle" checked>
+                </div>
+
+                <!-- Radius slider -->
+                <div class="pt-4 border-t border-slate-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">Alert Radius</div>
+                            <div class="text-xs text-slate-500">How close you need to be to receive an alert</div>
+                        </div>
+                        <div class="flex items-center gap-1 px-3 py-1 rounded-full font-bold text-sm" style="background: #ECFDF5; color: #059669;">
+                            <span id="radius-value">10</span>
+                            <span>KM</span>
+                        </div>
+                    </div>
+                    <input type="range" id="radius-slider" min="1" max="15" value="10" class="modern-slider mb-3" oninput="updateRadiusDisplay(this.value)" style="accent-color: #059669;">
+                    <div class="flex justify-between text-xs font-semibold text-slate-400 px-1">
+                        <span>1 KM</span>
+                        <span style="color: #059669;">Default: 10 KM</span>
+                        <span>15 KM</span>
+                    </div>
+                </div>
+
+                <!-- Visual radius preview -->
+                <div class="mt-4 pt-4 border-t border-slate-100">
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 relative overflow-hidden" style="min-height: 80px;">
+                        <div class="flex items-center justify-center" style="height: 80px;">
+                            <!-- Animated radar ring -->
+                            <div id="radar-ring" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(5, 150, 105, 0.2); display: flex; align-items: center; justify-content: center; position: relative; animation: radarPulse 2s ease-in-out infinite;">
+                                <div style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(5, 150, 105, 0.35); display: flex; align-items: center; justify-content: center;">
+                                    <div style="width: 14px; height: 14px; border-radius: 50%; background: #059669; box-shadow: 0 0 8px rgba(5, 150, 105, 0.4);"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] font-bold text-slate-400 tracking-wider mt-1">DETECTION RADIUS PREVIEW</div>
                     </div>
                 </div>
             </div>
@@ -754,6 +826,17 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
+        // Radius display update (design-only)
+        function updateRadiusDisplay(value) {
+            document.getElementById('radius-value').textContent = value;
+            // Scale the radar ring visual
+            const ring = document.getElementById('radar-ring');
+            if (ring) {
+                const scale = 40 + (parseInt(value) / 15) * 50; // 40px - 90px
+                ring.style.width = scale + 'px';
+                ring.style.height = scale + 'px';
+            }
+        }
     </script>
 </body>
 </html>

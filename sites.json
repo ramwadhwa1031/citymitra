@@ -1,0 +1,137 @@
+[
+    {
+        "id": "pipli_parakeet",
+        "name": "Pipli / Parakeet Tourist Complex",
+        "lat": 29.9675,
+        "lng": 76.8770,
+        "radius_km": 1.5,
+        "message": "Welcome to Kurukshetra! You are near the Pipli highway crossing and Parakeet Tourist Complex. Drive safely!",
+        "link": "https://kurukshetra.gov.in/where-to-stay-in-kurukshetra/"
+    },
+    {
+        "id": "nid_kurukshetra",
+        "name": "National Institute of Design (NID)",
+        "lat": 29.9635,
+        "lng": 76.8885,
+        "radius_km": 1.0,
+        "message": "You are passing by the National Institute of Design (NID) campus in Umri.",
+        "link": "https://nid.ac.in/"
+    },
+    {
+        "id": "nielit_kurukshetra",
+        "name": "NIELIT Kurukshetra",
+        "lat": 29.9620,
+        "lng": 76.8850,
+        "radius_km": 1.0,
+        "message": "You are near NIELIT Kurukshetra (Govt. Polytechnic Campus). Need information on their digital courses?",
+        "link": "https://nielit.gov.in/kurukshetra/"
+    },
+    {
+        "id": "dc_office",
+        "name": "DC Office / Mini Secretariat",
+        "lat": 29.9570,
+        "lng": 76.8480,
+        "radius_km": 0.8,
+        "message": "You are near the Mini Secretariat (DC Office). Do you need to know about any administrative services or officers?",
+        "link": "https://kurukshetra.gov.in/whoswho/"
+    },
+    {
+        "id": "dronacharya_stadium",
+        "name": "Dronacharya Stadium",
+        "lat": 29.9650,
+        "lng": 76.8520,
+        "radius_km": 0.8,
+        "message": "You are close to Dronacharya Stadium. Looking for district sports facilities or events?",
+        "link": "https://kurukshetra.gov.in/"
+    },
+    {
+        "id": "panorama_centre",
+        "name": "Kurukshetra Panorama & Science Centre",
+        "lat": 29.9615,
+        "lng": 76.8210,
+        "radius_km": 1.0,
+        "message": "You are near the Panorama and Science Centre! It features a brilliant 3D diorama of the Mahabharata war.",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/kurukshetra-panorama-science-centre/"
+    },
+    {
+        "id": "sannihit_sarovar",
+        "name": "Sannihit Sarovar",
+        "lat": 29.9665,
+        "lng": 76.8250,
+        "radius_km": 1.2,
+        "message": "You are near the sacred Sannihit Sarovar, believed to be the permanent abode of Lord Vishnu.",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/sannihit-sarovar/"
+    },
+    {
+        "id": "kdb_office",
+        "name": "Kurukshetra Development Board (KDB)",
+        "lat": 29.9630,
+        "lng": 76.8280,
+        "radius_km": 0.8,
+        "message": "You are near the Kurukshetra Development Board (KDB) office, the authority managing the 48 Kos tirthas.",
+        "link": "https://48koskurukshetra.com/"
+    },
+    {
+        "id": "brahma_sarovar",
+        "name": "Brahma Sarovar",
+        "lat": 29.9601,
+        "lng": 76.8315,
+        "radius_km": 2.0,
+        "message": "You are very close to the holy Brahma Sarovar! Would you like to know more about its history?",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/brahma-sarovar/"
+    },
+    {
+        "id": "sheikh_chilli",
+        "name": "Sheikh Chilli Tomb",
+        "lat": 29.9720,
+        "lng": 76.8140,
+        "radius_km": 1.0,
+        "message": "You are near the Sheikh Chilli Tomb, a beautiful Mughal-era architectural marvel.",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/sheikh-chilli-tomb/"
+    },
+    {
+        "id": "bhadrakali",
+        "name": "Bhadrakali Temple",
+        "lat": 29.9750,
+        "lng": 76.8200,
+        "radius_km": 1.0,
+        "message": "You are near the Bhadrakali Temple, one of the 51 Shakti Peethas. Click to read about its significance.",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/bhadrakali-temple/"
+    },
+    {
+        "id": "kuk_campus",
+        "name": "Kurukshetra University (KUK)",
+        "lat": 29.9500,
+        "lng": 76.8150,
+        "radius_km": 1.5,
+        "message": "You are at the Kurukshetra University (KUK) campus. Do you need the university map or department info?",
+        "link": "https://kuk.ac.in/"
+    },
+    {
+        "id": "nit_kurukshetra",
+        "name": "NIT Kurukshetra",
+        "lat": 29.9450,
+        "lng": 76.8100,
+        "radius_km": 1.5,
+        "message": "You are passing by the National Institute of Technology (NIT) Kurukshetra campus.",
+        "link": "https://nitkkr.ac.in/"
+    },
+    {
+        "id": "jyotisar",
+        "name": "Jyotisar",
+        "lat": 29.9542,
+        "lng": 76.7570,
+        "radius_km": 1.5,
+        "message": "You are near Jyotisar, the sacred site where Lord Krishna delivered the Bhagavad Gita.",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/jyotisar/"
+    },
+    {
+        "id": "pehowa_saraswati",
+        "name": "Saraswati Tirtha (Pehowa)",
+        "lat": 29.9800,
+        "lng": 76.5850,
+        "radius_km": 2.0,
+        "message": "You have reached Pehowa. You are near the sacred Saraswati Tirtha. Need directions to the ghats?",
+        "link": "https://kurukshetra.gov.in/kurukshetraattractions/"
+    }
+]
