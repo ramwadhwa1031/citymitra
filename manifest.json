@@ -6,15 +6,27 @@
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#2D46B9",
-  "background_color": "#1A2E8A",
+  "background_color": "#FFFFFF",
   "lang": "en",
   "categories": ["government", "utilities"],
   "icons": [
     {
-      "src": "./icons/city-mitra-bot.png",
-      "sizes": "1024x1024",
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [],
@@ -24,14 +36,14 @@
       "short_name": "Emergency",
       "description": "Get emergency numbers instantly",
       "url": "./city.html?q=emergency+contacts",
-      "icons": [{ "src": "./icons/city-mitra-bot.png", "sizes": "1024x1024" }]
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Tourist Places",
       "short_name": "Tourism",
       "description": "Explore local heritage and culture",
       "url": "./city.html?q=tourist+places",
-      "icons": [{ "src": "./icons/city-mitra-bot.png", "sizes": "1024x1024" }]
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

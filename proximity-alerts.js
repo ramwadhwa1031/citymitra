@@ -100,6 +100,8 @@ function stopLocationTracking() {
     if (locationWatchId !== null) {
         navigator.geolocation.clearWatch(locationWatchId);
         locationWatchId = null;
+        // Clear notified sites so re-enabling will trigger alerts again
+        notifiedSites.clear();
         addProximitySystemMessage("🔕 Nearby alerts disabled.");
     }
 }
