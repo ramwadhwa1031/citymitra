@@ -4,7 +4,7 @@
 //  BUMP THIS VERSION every time you deploy changes!
 // ============================================================
 
-const CACHE_NAME = 'infobot-v2.1';
+const CACHE_NAME = 'infobot-v3.0';
 
 // Assets to pre-cache on install (offline fallback)
 const PRECACHE_ASSETS = [
@@ -13,6 +13,7 @@ const PRECACHE_ASSETS = [
   './city.html',
   './settings.html',
   './feedback.html',
+  './city-config.js',
   './script.js',
   './script_mic.js',
   './script_listen.js',
