@@ -130,7 +130,7 @@
         "name": "Saraswati Tirtha (Pehowa)",
         "lat": 29.9800,
         "lng": 76.5850,
-        "radius_km": 300.0,
+        "radius_km": 1.50,
         "message": "You have reached Pehowa. You are near the sacred Saraswati Tirtha. Need directions to the ghats?",
         "link": "https://kurukshetra.gov.in/kurukshetraattractions/"
     }

@@ -404,22 +404,39 @@
     }
 
     .hero-pls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      animation: up .9s .8s both
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+      animation: up .9s .8s both;
+      mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent)
     }
 
     .hpl {
       font-size: 13px;
       color: var(--text-m);
-      font-weight: 500
+      font-weight: 500;
+      text-align: center;
+      display: block;
+      margin-bottom: 10px
     }
 
     .hprow {
       display: flex;
-      gap: 8px
+      gap: 10px;
+      white-space: nowrap;
+      animation: heroScroll 20s linear infinite
+    }
+
+    .hprow:hover {
+      animation-play-state: paused
+    }
+
+    @keyframes heroScroll {
+      0% { transform: translateX(0) }
+      100% { transform: translateX(-50%) }
     }
 
     .hp {
@@ -2553,6 +2570,118 @@
         animation-duration: 12s
       }
     }
+
+    /* VISION QUOTE */
+    .s-vision {
+      padding: 100px 5%;
+      background: linear-gradient(160deg, #0F172A 0%, #1E1B4B 40%, #312E81 70%, #0F172A 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center
+    }
+    .s-vision::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 30% 40%, rgba(99,102,241,.12), transparent),
+                  radial-gradient(ellipse 40% 50% at 70% 60%, rgba(234,88,12,.08), transparent);
+      pointer-events: none
+    }
+    .vision-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2
+    }
+    .vision-quote {
+      font-size: clamp(18px, 2.8vw, 24px);
+      color: rgba(255,255,255,.85);
+      line-height: 1.75;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 32px;
+      position: relative;
+      padding: 0 20px
+    }
+    .vision-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: -30px;
+      left: -10px;
+      font-size: 120px;
+      color: rgba(99,102,241,.15);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none
+    }
+    .vision-cta-line {
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 800;
+      font-family: var(--h);
+      color: #fff;
+      margin-bottom: 36px;
+      letter-spacing: -.02em
+    }
+    .vision-cta-line span {
+      background: linear-gradient(135deg, #6366F1, #A855F7, #EC4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+    .vision-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(10px);
+      padding: 14px 32px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--h);
+      color: rgba(255,255,255,.7);
+      letter-spacing: .06em
+    }
+    .vision-tagline .vt-flag {
+      font-size: 22px
+    }
+    .vision-tagline .vt-sep {
+      color: rgba(255,255,255,.2)
+    }
+    .vision-contact {
+      margin-top: 36px
+    }
+    .vision-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      font-family: var(--h);
+      padding: 16px 34px;
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: var(--sh-blue);
+      transition: all .3s
+    }
+    .vision-contact a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(37,99,235,.4)
+    }
+    /* Floating sparkle particles for vision */
+    .vision-sparkle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      background: rgba(165,180,252,.3)
+    }
+    .vision-sparkle.vs1 { width: 4px; height: 4px; top: 20%; left: 15%; animation: floatUp 7s ease-in-out infinite }
+    .vision-sparkle.vs2 { width: 6px; height: 6px; top: 60%; right: 18%; animation: floatUp 9s 2s ease-in-out infinite }
+    .vision-sparkle.vs3 { width: 3px; height: 3px; top: 35%; right: 30%; animation: floatUp 11s 4s ease-in-out infinite }
+    .vision-sparkle.vs4 { width: 5px; height: 5px; bottom: 25%; left: 25%; animation: floatUp 8s 1s ease-in-out infinite }
   </style>
 </head>
 
@@ -2600,8 +2729,8 @@
         </a>
         <a href="#features" class="btn-o">See Features</a>
       </div>
-      <div class="hero-pls">
-        <span class="hpl">Live now →</span>
+            <div class="hero-pls">
+        <span class="hpl">Live now across India</span>
         <div class="hprow">
           <a href="https://kkr.citymitra.app" target="_blank" class="hp on"><em></em> Kurukshetra</a>
           <a href="https://karnal.citymitra.app" target="_blank" class="hp on"><em></em> Karnal</a>
@@ -2610,8 +2739,27 @@
           <a href="https://srs.citymitra.app" target="_blank" class="hp on"><em></em> Sirsa</a>
           <a href="https://palwal.citymitra.app" target="_blank" class="hp on"><em></em> Palwal</a>
           <a href="https://fbd.citymitra.app" target="_blank" class="hp on"><em></em> Faridabad</a>
+          <a href="https://ddn.citymitra.app" target="_blank" class="hp on"><em></em> Dehradun</a>
+          <a href="https://asr.citymitra.app" target="_blank" class="hp on"><em></em> Amritsar</a>
+          <a href="https://vns.citymitra.app" target="_blank" class="hp on"><em></em> Varanasi</a>
+          <a href="https://indore.citymitra.app" target="_blank" class="hp on"><em></em> Indore</a>
+          <a href="https://ranchi.citymitra.app" target="_blank" class="hp on"><em></em> Ranchi</a>
+          <a href="https://jaipur.citymitra.app" target="_blank" class="hp on"><em></em> Jaipur</a>
+          <a href="https://kkr.citymitra.app" target="_blank" class="hp on"><em></em> Kurukshetra</a>
+          <a href="https://karnal.citymitra.app" target="_blank" class="hp on"><em></em> Karnal</a>
+          <a href="https://ambala.citymitra.app" target="_blank" class="hp on"><em></em> Ambala</a>
+          <a href="https://pkl.citymitra.app" target="_blank" class="hp on"><em></em> Panchkula</a>
+          <a href="https://srs.citymitra.app" target="_blank" class="hp on"><em></em> Sirsa</a>
+          <a href="https://palwal.citymitra.app" target="_blank" class="hp on"><em></em> Palwal</a>
+          <a href="https://fbd.citymitra.app" target="_blank" class="hp on"><em></em> Faridabad</a>
+          <a href="https://ddn.citymitra.app" target="_blank" class="hp on"><em></em> Dehradun</a>
+          <a href="https://asr.citymitra.app" target="_blank" class="hp on"><em></em> Amritsar</a>
+          <a href="https://vns.citymitra.app" target="_blank" class="hp on"><em></em> Varanasi</a>
+          <a href="https://indore.citymitra.app" target="_blank" class="hp on"><em></em> Indore</a>
+          <a href="https://ranchi.citymitra.app" target="_blank" class="hp on"><em></em> Ranchi</a>
+          <a href="https://jaipur.citymitra.app" target="_blank" class="hp on"><em></em> Jaipur</a>
         </div>
-      </div>
+      </div>
     </div>
   </section>
 
@@ -2703,8 +2851,8 @@
         <div class="sec-tag">✦ DISTRICT NETWORK</div>
         <h2 class="sec-title">Expanding Across <span class="bots-gt">India.</span></h2>
         <p class="sec-sub">Each city has its own dedicated AI bot, trained exclusively on official district data — always accurate, always local. Scaling to every state.</p>
-        <div class="bots-live-badge"><span class="blb-dot"></span> 7 Demo Districts · More Coming</div>
-        <div class="india-scope-badge"><span class="india-flag">🇮🇳</span> Haryana · Punjab · Uttarakhand · Uttar Pradesh</div>
+        <div class="bots-live-badge"><span class="blb-dot"></span> 13 Live Districts · More Coming</div>
+        <div class="india-scope-badge"><span class="india-flag">🇮🇳</span> Haryana · Punjab · Uttarakhand · UP · MP · Jharkhand · Rajasthan</div>
       </div>
       <div class="bots-hd-globe">
         <div class="india-map-container">
@@ -2712,6 +2860,9 @@
           <span class="map-label ml-1"><span class="ml-dot"></span>Haryana</span>
           <span class="map-label ml-2"><span class="ml-dot"></span>Punjab</span>
           <span class="map-label ml-3"><span class="ml-dot"></span>Uttarakhand</span>
+          <span class="map-label ml-5" style="background:linear-gradient(135deg,#BE123C,#E11D48);top:34%;left:22%;animation:glLabelFloat 6s 1.5s ease-in-out infinite"><span class="ml-dot"></span>Rajasthan</span>
+          <span class="map-label ml-6" style="background:linear-gradient(135deg,#0369A1,#0284C7);top:42%;left:36%;animation:glLabelFloat 5s 2.5s ease-in-out infinite"><span class="ml-dot"></span>Madhya Pradesh</span>
+          <span class="map-label ml-7" style="background:linear-gradient(135deg,#15803D,#16A34A);top:38%;left:58%;animation:glLabelFloat 7s 0.5s ease-in-out infinite"><span class="ml-dot"></span>Jharkhand</span>
           <span class="map-label ml-4"><span class="ml-dot"></span>Uttar Pradesh</span>
           <div class="map-counter"><span class="mc-pulse"></span>Expanding Pan-India</div>
         </div>
@@ -2818,26 +2969,56 @@
         </div>
       </a>
 
-      <!-- ═══ PUNJAB — Coming Soon ═══ -->
+      <!-- ═══ UTTARAKHAND ═══ -->
       <div class="state-group-header">
-        <span class="state-flag"><em>🔜</em> Punjab — Coming Soon</span>
+        <span class="state-flag"><em>🟢</em> Uttarakhand — Live</span>
         <div class="state-divider"></div>
       </div>
+      <a href="https://ddn.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#064E3B,#047857,#6EE7B7);--bc-shadow:rgba(4,120,87,.25);transition-delay:.46s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏔️</span></div>
+          <div class="bc-name">Dehradun</div>
+          <div class="bc-desc">Gateway to the Himalayas — Mussoorie, FRI, Robber's Cave, government services, and nature tourism.</div>
+          <div class="bc-tags"><span class="bc-tag">Nature</span><span class="bc-tag">Tourism</span><span class="bc-tag">Hill Station</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
       <div class="bc coming-soon rv"
-        style="--bc-bg:linear-gradient(135deg,#92400E,#D97706,#FCD34D);--bc-shadow:rgba(217,119,6,.2);transition-delay:.46s">
+        style="--bc-bg:linear-gradient(135deg,#1E1B4B,#6D28D9,#C084FC);--bc-shadow:rgba(109,40,217,.2);transition-delay:.50s">
         <div class="bc-strip"></div>
         <div class="bc-body">
           <div class="bc-badge soon">🔜 COMING SOON</div>
-          <div class="bc-icon-wrap"><span class="bc-em">🏯</span></div>
-          <div class="bc-name">Amritsar</div>
-          <div class="bc-desc">Home of the Golden Temple — rich Sikh heritage, vibrant culture, tourism, civic services, and local administration.</div>
-          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Tourism</span><span
-              class="bc-tag">Culture</span></div>
+          <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
+          <div class="bc-name">Haridwar</div>
+          <div class="bc-desc">Sacred city on the Ganges — Har Ki Pauri, Kumbh Mela, spiritual tourism, and civic services for pilgrims.</div>
+          <div class="bc-tags"><span class="bc-tag">Pilgrimage</span><span class="bc-tag">Spiritual</span><span
+              class="bc-tag">Tourism</span></div>
           <div class="bc-go">In Progress <span>⏳</span></div>
         </div>
       </div>
+
+      <!-- ═══ PUNJAB ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🟢</em> Punjab — Live</span>
+        <div class="state-divider"></div>
+      </div>
+      <a href="https://asr.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#92400E,#D97706,#FCD34D);--bc-shadow:rgba(217,119,6,.25);transition-delay:.52s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏯</span></div>
+          <div class="bc-name">Amritsar</div>
+          <div class="bc-desc">Home of the Golden Temple — rich Sikh heritage, vibrant culture, tourism, and civic services.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Tourism</span><span class="bc-tag">Culture</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
       <div class="bc coming-soon rv"
-        style="--bc-bg:linear-gradient(135deg,#7C2D12,#DC2626,#F87171);--bc-shadow:rgba(220,38,38,.2);transition-delay:.52s">
+        style="--bc-bg:linear-gradient(135deg,#7C2D12,#DC2626,#F87171);--bc-shadow:rgba(220,38,38,.2);transition-delay:.55s">
         <div class="bc-strip"></div>
         <div class="bc-body">
           <div class="bc-badge soon">🔜 COMING SOON</div>
@@ -2850,13 +3031,25 @@
         </div>
       </div>
 
-      <!-- ═══ UTTAR PRADESH — Coming Soon ═══ -->
+      <!-- ═══ UTTAR PRADESH ═══ -->
       <div class="state-group-header">
-        <span class="state-flag"><em>🔜</em> Uttar Pradesh — Coming Soon</span>
+        <span class="state-flag"><em>🟢</em> Uttar Pradesh — Live</span>
         <div class="state-divider"></div>
       </div>
+      <a href="https://vns.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#B45309,#D97706,#FDE68A);--bc-shadow:rgba(180,83,9,.25);transition-delay:.58s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
+          <div class="bc-name">Varanasi</div>
+          <div class="bc-desc">Spiritual capital of India — Kashi Vishwanath, Ganga Aarti, ghats, and civic services.</div>
+          <div class="bc-tags"><span class="bc-tag">Spiritual</span><span class="bc-tag">Heritage</span><span class="bc-tag">Tourism</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
       <div class="bc coming-soon rv"
-        style="--bc-bg:linear-gradient(135deg,#1E3A5F,#1E40AF,#3B82F6);--bc-shadow:rgba(30,64,175,.2);transition-delay:.58s">
+        style="--bc-bg:linear-gradient(135deg,#1E3A5F,#1E40AF,#3B82F6);--bc-shadow:rgba(30,64,175,.2);transition-delay:.61s">
         <div class="bc-strip"></div>
         <div class="bc-body">
           <div class="bc-badge soon">🔜 COMING SOON</div>
@@ -2869,7 +3062,7 @@
         </div>
       </div>
       <div class="bc coming-soon rv"
-        style="--bc-bg:linear-gradient(135deg,#312E81,#4F46E5,#A78BFA);--bc-shadow:rgba(79,70,229,.2);transition-delay:.64s">
+        style="--bc-bg:linear-gradient(135deg,#312E81,#4F46E5,#A78BFA);--bc-shadow:rgba(79,70,229,.2);transition-delay:.63s">
         <div class="bc-strip"></div>
         <div class="bc-body">
           <div class="bc-badge soon">🔜 COMING SOON</div>
@@ -2882,37 +3075,59 @@
         </div>
       </div>
 
-      <!-- ═══ UTTARAKHAND — Coming Soon ═══ -->
+      <!-- ═══ MADHYA PRADESH ═══ -->
       <div class="state-group-header">
-        <span class="state-flag"><em>🔜</em> Uttarakhand — Coming Soon</span>
+        <span class="state-flag"><em>🟢</em> Madhya Pradesh — Live</span>
         <div class="state-divider"></div>
       </div>
-      <div class="bc coming-soon rv"
-        style="--bc-bg:linear-gradient(135deg,#064E3B,#047857,#6EE7B7);--bc-shadow:rgba(4,120,87,.2);transition-delay:.7s">
+      <a href="https://indore.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#0369A1,#0284C7,#7DD3FC);--bc-shadow:rgba(3,105,161,.25);transition-delay:.64s">
         <div class="bc-strip"></div>
         <div class="bc-body">
-          <div class="bc-badge soon">🔜 COMING SOON</div>
-          <div class="bc-icon-wrap"><span class="bc-em">🏔️</span></div>
-          <div class="bc-name">Dehradun</div>
-          <div class="bc-desc">Gateway to the Himalayas — Mussoorie, FRI, Robber's Cave, government services, and nature tourism.</div>
-          <div class="bc-tags"><span class="bc-tag">Nature</span><span class="bc-tag">Tourism</span><span
-              class="bc-tag">Hill Station</span></div>
-          <div class="bc-go">In Progress <span>⏳</span></div>
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏙️</span></div>
+          <div class="bc-name">Indore</div>
+          <div class="bc-desc">Cleanest city of India — smart city features, administration, and civic services.</div>
+          <div class="bc-tags"><span class="bc-tag">Smart City</span><span class="bc-tag">Clean India</span><span class="bc-tag">Services</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
         </div>
+      </a>
+
+      <!-- ═══ JHARKHAND ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🟢</em> Jharkhand — Live</span>
+        <div class="state-divider"></div>
       </div>
-      <div class="bc coming-soon rv"
-        style="--bc-bg:linear-gradient(135deg,#1E1B4B,#6D28D9,#C084FC);--bc-shadow:rgba(109,40,217,.2);transition-delay:.76s">
+      <a href="https://ranchi.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#15803D,#16A34A,#86EFAC);--bc-shadow:rgba(21,128,61,.25);transition-delay:.70s">
         <div class="bc-strip"></div>
         <div class="bc-body">
-          <div class="bc-badge soon">🔜 COMING SOON</div>
-          <div class="bc-icon-wrap"><span class="bc-em">🛕</span></div>
-          <div class="bc-name">Haridwar</div>
-          <div class="bc-desc">Sacred city on the Ganges — Har Ki Pauri, Kumbh Mela, spiritual tourism, and civic services for pilgrims.</div>
-          <div class="bc-tags"><span class="bc-tag">Pilgrimage</span><span class="bc-tag">Spiritual</span><span
-              class="bc-tag">Tourism</span></div>
-          <div class="bc-go">In Progress <span>⏳</span></div>
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏞️</span></div>
+          <div class="bc-name">Ranchi</div>
+          <div class="bc-desc">City of Waterfalls — Hundru Falls, Jonha Falls, tribal culture, and local administration.</div>
+          <div class="bc-tags"><span class="bc-tag">Nature</span><span class="bc-tag">Waterfalls</span><span class="bc-tag">Culture</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
         </div>
+      </a>
+
+      <!-- ═══ RAJASTHAN ═══ -->
+      <div class="state-group-header">
+        <span class="state-flag"><em>🟢</em> Rajasthan — Live</span>
+        <div class="state-divider"></div>
       </div>
+      <a href="https://jaipur.citymitra.app" target="_blank" class="bc live rv"
+        style="--bc-bg:linear-gradient(135deg,#BE123C,#E11D48,#FDA4AF);--bc-shadow:rgba(190,18,60,.25);transition-delay:.76s">
+        <div class="bc-strip"></div>
+        <div class="bc-body">
+          <div class="bc-badge on">● LIVE</div>
+          <div class="bc-icon-wrap"><span class="bc-em">🏰</span></div>
+          <div class="bc-name">Jaipur</div>
+          <div class="bc-desc">The Pink City — Hawa Mahal, Amber Fort, royal heritage, and district services.</div>
+          <div class="bc-tags"><span class="bc-tag">Heritage</span><span class="bc-tag">Forts</span><span class="bc-tag">Tourism</span></div>
+          <div class="bc-go">Open Bot <span>→</span></div>
+        </div>
+      </a>
 
       <!-- Expansion CTA -->
       <div class="bots-expand-cta rv">
@@ -3143,12 +3358,12 @@
       <div class="stats-grid">
         <div class="stat-c rv"
           style="--g:linear-gradient(135deg,rgba(37,99,235,.04),rgba(124,58,237,.04));transition-delay:.04s">
-          <div class="stat-n" style="color:var(--blue)" data-t="7">0</div>
-          <div class="stat-l">Demo Cities</div>
+          <div class="stat-n" style="color:var(--blue)" data-t="13">0</div>
+          <div class="stat-l">Live Cities</div>
         </div>
         <div class="stat-c rv"
           style="--g:linear-gradient(135deg,rgba(8,145,178,.04),rgba(37,99,235,.04));transition-delay:.1s">
-          <div class="stat-n" style="color:var(--cyan)" data-t="4">0</div>
+          <div class="stat-n" style="color:var(--cyan)" data-t="7">0</div>
           <div class="stat-l">States Covered</div>
         </div>
         <div class="stat-c rv"
@@ -3161,6 +3376,26 @@
           <div class="stat-n" style="color:var(--purple)" data-t="2">0</div>
           <div class="stat-l">Languages Supported</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- VISION -->
+  <section class="s-vision">
+    <div class="vision-sparkle vs1"></div>
+    <div class="vision-sparkle vs2"></div>
+    <div class="vision-sparkle vs3"></div>
+    <div class="vision-sparkle vs4"></div>
+    <div class="vision-inner rv">
+      <p class="vision-quote">Every district that joins us helps shape the future of digital governance in India. Together, we can ensure that no citizen — rich or poor, literate or not, urban or rural — is left without access to the information they deserve. City Mitra is that bridge.</p>
+      <div class="vision-cta-line">Be the district that showed India <span>how it's done.</span></div>
+      <div class="vision-tagline">
+        <span class="vt-flag">🇮🇳</span>
+        One Vision <span class="vt-sep">·</span> Every District <span class="vt-sep">·</span> Every Citizen
+      </div>
+      <div class="vision-contact">
+        <a href="javascript:void(0)" id="vision-contact-link">🤝 Partner With Us <span>→</span></a>
       </div>
     </div>
   </section>
@@ -3182,6 +3417,12 @@
         <a href="https://srs.citymitra.app" target="_blank" class="cta-btn b">🌿 Sirsa</a>
         <a href="https://palwal.citymitra.app" target="_blank" class="cta-btn c">🛕 Palwal</a>
         <a href="https://fbd.citymitra.app" target="_blank" class="cta-btn a">🏭 Faridabad</a>
+        <a href="https://ddn.citymitra.app" target="_blank" class="cta-btn b">🏔️ Dehradun</a>
+        <a href="https://asr.citymitra.app" target="_blank" class="cta-btn c">🏯 Amritsar</a>
+        <a href="https://vns.citymitra.app" target="_blank" class="cta-btn a">🛕 Varanasi</a>
+        <a href="https://indore.citymitra.app" target="_blank" class="cta-btn b">🏙️ Indore</a>
+        <a href="https://ranchi.citymitra.app" target="_blank" class="cta-btn c">🏞️ Ranchi</a>
+        <a href="https://jaipur.citymitra.app" target="_blank" class="cta-btn a">🏰 Jaipur</a>
       </div>
     </div>
   </section>

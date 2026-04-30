@@ -7,7 +7,7 @@
 // city-specific configuration to the rest of the app.
 //
 // Examples:
-//   citymitra.app         → Kurukshetra (default)
+
 //   kkr.citymitra.app     → Kurukshetra
 //   karnal.citymitra.app  → Karnal
 //   ambala.citymitra.app  → Ambala
@@ -870,7 +870,254 @@
                     hi: '_फरीदाबाद खोजें_'
                 }
             }
+        },
+
+        // ─────────────────────────────────
+        // DEHRADUN
+        // ─────────────────────────────────
+        ddn: {
+            id: 'ddn',
+            name: { en: 'Dehradun', hi: 'देहरादून' },
+            district: { en: 'Dehradun', hi: 'देहरादून' },
+            state: { en: 'Uttarakhand', hi: 'उत्तराखंड' },
+            heroEmoji: '🏔️',
+            govWebsite: 'https://dehradun.nic.in',
+            privacyPolicy: 'https://dehradun.nic.in/privacy-policy/',
+            colors: { city: '#064E3B', cityLt: '#ECFDF5', cityDeep: '#022C22' },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'dehradun.nic.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-dehradun.json',
+            storageKey: 'city_mitra_chat_dehradun',
+            welcomeDevanagari: 'देहरादून — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    { title: "🏛️ General Info", questions: [{ icon: "👤", text: "Who is DM?" }, { icon: "🚨", text: "Emergency" }, { icon: "🏔️", text: "Tourist Places" }, { icon: "📊", text: "Population" }] },
+                    { title: "📋 Services", questions: [{ icon: "📋", text: "Birth Certificate" }, { icon: "🏥", text: "Hospitals" }, { icon: "🎓", text: "Universities" }, { icon: "🚍", text: "How to reach?" }] }
+                ],
+                hi: [
+                    { title: "🏛️ सामान्य जानकारी", questions: [{ icon: "👤", text: "DM कौन हैं?" }, { icon: "🚨", text: "आपातकालीन नंबर" }, { icon: "🏔️", text: "पर्यटन स्थल" }, { icon: "📊", text: "जनसंख्या" }] },
+                    { title: "📋 सेवाएं", questions: [{ icon: "📋", text: "जन्म प्रमाण पत्र" }, { icon: "🏥", text: "अस्पताल" }, { icon: "🎓", text: "विश्वविद्यालय" }, { icon: "🚍", text: "कैसे पहुंचें?" }] }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🏔️ *City Mitra - AI Chatbot*\n\nDiscover Dehradun digitally!\n\n🔗 Chat now:\n${url}`,
+                    hi: (url) => `🏔️ *City Mitra - AI Chatbot*\n\nदेहरादून को डिजिटल रूप से खोजें!\n\n🔗 अभी चैट करें:\n${url}`
+                },
+                botMessageFooter: { en: '_Discover Dehradun_', hi: '_देहरादून खोजें_' }
+            }
+        },
+
+        // ─────────────────────────────────
+        // AMRITSAR
+        // ─────────────────────────────────
+        asr: {
+            id: 'asr',
+            name: { en: 'Amritsar', hi: 'अमृतसर' },
+            district: { en: 'Amritsar', hi: 'अमृतसर' },
+            state: { en: 'Punjab', hi: 'पंजाब' },
+            heroEmoji: '🏯',
+            govWebsite: 'https://amritsar.nic.in',
+            privacyPolicy: 'https://amritsar.nic.in/privacy-policy/',
+            colors: { city: '#92400E', cityLt: '#FEF3C7', cityDeep: '#78350F' },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'amritsar.nic.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-amritsar.json',
+            storageKey: 'city_mitra_chat_amritsar',
+            welcomeDevanagari: 'अमृतसर — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    { title: "🏛️ General Info", questions: [{ icon: "👤", text: "Who is DC?" }, { icon: "🚨", text: "Emergency" }, { icon: "🏯", text: "Tourist Places" }, { icon: "📊", text: "Population" }] },
+                    { title: "📋 Services", questions: [{ icon: "📋", text: "Birth Certificate" }, { icon: "🏥", text: "Hospitals" }, { icon: "🎓", text: "Universities" }, { icon: "🚍", text: "How to reach?" }] }
+                ],
+                hi: [
+                    { title: "🏛️ सामान्य जानकारी", questions: [{ icon: "👤", text: "DC कौन हैं?" }, { icon: "🚨", text: "आपातकालीन नंबर" }, { icon: "🏯", text: "पर्यटन स्थल" }, { icon: "📊", text: "जनसंख्या" }] },
+                    { title: "📋 सेवाएं", questions: [{ icon: "📋", text: "जन्म प्रमाण पत्र" }, { icon: "🏥", text: "अस्पताल" }, { icon: "🎓", text: "विश्वविद्यालय" }, { icon: "🚍", text: "कैसे पहुंचें?" }] }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🏯 *City Mitra - AI Chatbot*\n\nDiscover Amritsar digitally!\n\n🔗 Chat now:\n${url}`,
+                    hi: (url) => `🏯 *City Mitra - AI Chatbot*\n\nअमृतसर को डिजिटल रूप से खोजें!\n\n🔗 अभी चैट करें:\n${url}`
+                },
+                botMessageFooter: { en: '_Discover Amritsar_', hi: '_अमृतसर खोजें_' }
+            }
+        },
+
+        // ─────────────────────────────────
+        // VARANASI
+        // ─────────────────────────────────
+        vns: {
+            id: 'vns',
+            name: { en: 'Varanasi', hi: 'वाराणसी' },
+            district: { en: 'Varanasi', hi: 'वाराणसी' },
+            state: { en: 'Uttar Pradesh', hi: 'उत्तर प्रदेश' },
+            heroEmoji: '🛕',
+            govWebsite: 'https://varanasi.nic.in',
+            privacyPolicy: 'https://varanasi.nic.in/privacy-policy/',
+            colors: { city: '#B45309', cityLt: '#FEF3C7', cityDeep: '#78350F' },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'varanasi.nic.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-varanasi.json',
+            storageKey: 'city_mitra_chat_varanasi',
+            welcomeDevanagari: 'वाराणसी — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    { title: "🏛️ General Info", questions: [{ icon: "👤", text: "Who is DM?" }, { icon: "🚨", text: "Emergency" }, { icon: "🛕", text: "Tourist Places" }, { icon: "📊", text: "Population" }] },
+                    { title: "📋 Services", questions: [{ icon: "📋", text: "Birth Certificate" }, { icon: "🏥", text: "Hospitals" }, { icon: "🎓", text: "Universities" }, { icon: "🚍", text: "How to reach?" }] }
+                ],
+                hi: [
+                    { title: "🏛️ सामान्य जानकारी", questions: [{ icon: "👤", text: "DM कौन हैं?" }, { icon: "🚨", text: "आपातकालीन नंबर" }, { icon: "🛕", text: "पर्यटन स्थल" }, { icon: "📊", text: "जनसंख्या" }] },
+                    { title: "📋 सेवाएं", questions: [{ icon: "📋", text: "जन्म प्रमाण पत्र" }, { icon: "🏥", text: "अस्पताल" }, { icon: "🎓", text: "विश्वविद्यालय" }, { icon: "🚍", text: "कैसे पहुंचें?" }] }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🛕 *City Mitra - AI Chatbot*\n\nDiscover Varanasi digitally!\n\n🔗 Chat now:\n${url}`,
+                    hi: (url) => `🛕 *City Mitra - AI Chatbot*\n\nवाराणसी को डिजिटल रूप से खोजें!\n\n🔗 अभी चैट करें:\n${url}`
+                },
+                botMessageFooter: { en: '_Discover Varanasi_', hi: '_वाराणसी खोजें_' }
+            }
+        },
+
+        // ─────────────────────────────────
+        // INDORE
+        // ─────────────────────────────────
+        indore: {
+            id: 'indore',
+            name: { en: 'Indore', hi: 'इंदौर' },
+            district: { en: 'Indore', hi: 'इंदौर' },
+            state: { en: 'Madhya Pradesh', hi: 'मध्य प्रदेश' },
+            heroEmoji: '🏙️',
+            govWebsite: 'https://indore.nic.in',
+            privacyPolicy: 'https://indore.nic.in/privacy-policy/',
+            colors: { city: '#0369A1', cityLt: '#E0F2FE', cityDeep: '#0C4A6E' },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'indore.nic.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-indore.json',
+            storageKey: 'city_mitra_chat_indore',
+            welcomeDevanagari: 'इंदौर — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    { title: "🏛️ General Info", questions: [{ icon: "👤", text: "Who is Collector?" }, { icon: "🚨", text: "Emergency" }, { icon: "🏙️", text: "Tourist Places" }, { icon: "📊", text: "Population" }] },
+                    { title: "📋 Services", questions: [{ icon: "📋", text: "Birth Certificate" }, { icon: "🏥", text: "Hospitals" }, { icon: "🎓", text: "Universities" }, { icon: "🚍", text: "How to reach?" }] }
+                ],
+                hi: [
+                    { title: "🏛️ सामान्य जानकारी", questions: [{ icon: "👤", text: "कलेक्टर कौन हैं?" }, { icon: "🚨", text: "आपातकालीन नंबर" }, { icon: "🏙️", text: "पर्यटन स्थल" }, { icon: "📊", text: "जनसंख्या" }] },
+                    { title: "📋 सेवाएं", questions: [{ icon: "📋", text: "जन्म प्रमाण पत्र" }, { icon: "🏥", text: "अस्पताल" }, { icon: "🎓", text: "विश्वविद्यालय" }, { icon: "🚍", text: "कैसे पहुंचें?" }] }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🏙️ *City Mitra - AI Chatbot*\n\nDiscover Indore digitally!\n\n🔗 Chat now:\n${url}`,
+                    hi: (url) => `🏙️ *City Mitra - AI Chatbot*\n\nइंदौर को डिजिटल रूप से खोजें!\n\n🔗 अभी चैट करें:\n${url}`
+                },
+                botMessageFooter: { en: '_Discover Indore_', hi: '_इंदौर खोजें_' }
+            }
+        },
+
+        // ─────────────────────────────────
+        // RANCHI
+        // ─────────────────────────────────
+        ranchi: {
+            id: 'ranchi',
+            name: { en: 'Ranchi', hi: 'राँची' },
+            district: { en: 'Ranchi', hi: 'राँची' },
+            state: { en: 'Jharkhand', hi: 'झारखंड' },
+            heroEmoji: '🏞️',
+            govWebsite: 'https://ranchi.nic.in',
+            privacyPolicy: 'https://ranchi.nic.in/privacy-policy/',
+            colors: { city: '#15803D', cityLt: '#DCFCE7', cityDeep: '#14532D' },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'ranchi.nic.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-ranchi.json',
+            storageKey: 'city_mitra_chat_ranchi',
+            welcomeDevanagari: 'राँची — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    { title: "🏛️ General Info", questions: [{ icon: "👤", text: "Who is DC?" }, { icon: "🚨", text: "Emergency" }, { icon: "🏞️", text: "Tourist Places" }, { icon: "📊", text: "Population" }] },
+                    { title: "📋 Services", questions: [{ icon: "📋", text: "Birth Certificate" }, { icon: "🏥", text: "Hospitals" }, { icon: "🎓", text: "Universities" }, { icon: "🚍", text: "How to reach?" }] }
+                ],
+                hi: [
+                    { title: "🏛️ सामान्य जानकारी", questions: [{ icon: "👤", text: "DC कौन हैं?" }, { icon: "🚨", text: "आपातकालीन नंबर" }, { icon: "🏞️", text: "पर्यटन स्थल" }, { icon: "📊", text: "जनसंख्या" }] },
+                    { title: "📋 सेवाएं", questions: [{ icon: "📋", text: "जन्म प्रमाण पत्र" }, { icon: "🏥", text: "अस्पताल" }, { icon: "🎓", text: "विश्वविद्यालय" }, { icon: "🚍", text: "कैसे पहुंचें?" }] }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🏞️ *City Mitra - AI Chatbot*\n\nDiscover Ranchi digitally!\n\n🔗 Chat now:\n${url}`,
+                    hi: (url) => `🏞️ *City Mitra - AI Chatbot*\n\nराँची को डिजिटल रूप से खोजें!\n\n🔗 अभी चैट करें:\n${url}`
+                },
+                botMessageFooter: { en: '_Discover Ranchi_', hi: '_राँची खोजें_' }
+            }
+        },
+
+        // ─────────────────────────────────
+        // JAIPUR
+        // ─────────────────────────────────
+        jaipur: {
+            id: 'jaipur',
+            name: { en: 'Jaipur', hi: 'जयपुर' },
+            district: { en: 'Jaipur', hi: 'जयपुर' },
+            state: { en: 'Rajasthan', hi: 'राजस्थान' },
+            heroEmoji: '🏰',
+            govWebsite: 'https://jaipur.rajasthan.gov.in',
+            privacyPolicy: 'https://jaipur.rajasthan.gov.in/privacy-policy/',
+            colors: { city: '#BE123C', cityLt: '#FFE4E6', cityDeep: '#881337' },
+            features: { gita: false, heritage: true },
+            webhooks: {
+                chat: 'https://n8n-workflow-test.duckdns.org/webhook/chat',
+                feedback: 'https://n8n-workflow-test.duckdns.org/webhook/InfoBot_Feed',
+                gita: null
+            },
+            apiPatterns: ['n8n-workflow-test', 'jaipur.rajasthan.gov.in/api', 'webhook'],
+            autocompleteFile: 'autocomplete-data-jaipur.json',
+            storageKey: 'city_mitra_chat_jaipur',
+            welcomeDevanagari: 'जयपुर — आपकी सेवा में',
+            questionSets: {
+                en: [
+                    { title: "🏛️ General Info", questions: [{ icon: "👤", text: "Who is Collector?" }, { icon: "🚨", text: "Emergency" }, { icon: "🏰", text: "Tourist Places" }, { icon: "📊", text: "Population" }] },
+                    { title: "📋 Services", questions: [{ icon: "📋", text: "Birth Certificate" }, { icon: "🏥", text: "Hospitals" }, { icon: "🎓", text: "Universities" }, { icon: "🚍", text: "How to reach?" }] }
+                ],
+                hi: [
+                    { title: "🏛️ सामान्य जानकारी", questions: [{ icon: "👤", text: "कलेक्टर कौन हैं?" }, { icon: "🚨", text: "आपातकालीन नंबर" }, { icon: "🏰", text: "पर्यटन स्थल" }, { icon: "📊", text: "जनसंख्या" }] },
+                    { title: "📋 सेवाएं", questions: [{ icon: "📋", text: "जन्म प्रमाण पत्र" }, { icon: "🏥", text: "अस्पताल" }, { icon: "🎓", text: "विश्वविद्यालय" }, { icon: "🚍", text: "कैसे पहुंचें?" }] }
+                ]
+            },
+            shareMessages: {
+                appInvite: {
+                    en: (url) => `🏰 *City Mitra - AI Chatbot*\n\nDiscover Jaipur digitally!\n\n🔗 Chat now:\n${url}`,
+                    hi: (url) => `🏰 *City Mitra - AI Chatbot*\n\nजयपुर को डिजिटल रूप से खोजें!\n\n🔗 अभी चैट करें:\n${url}`
+                },
+                botMessageFooter: { en: '_Discover Jaipur_', hi: '_जयपुर खोजें_' }
+            }
         }
+
     };
 
     // ── Subdomain aliases ──
@@ -881,8 +1128,19 @@
         'amabla': 'ambala',
         'panchkula': 'pkl',    // full name → short key
         'sirsa': 'srs',
-        'faridabad': 'fbd'
-    };
+        'kurukshetra': 'kkr',
+        'localhost': 'kkr',     // localhost → default for dev
+        'amabla': 'ambala',
+        'panchkula': 'pkl',    // full name → short key
+        'sirsa': 'srs',
+        'faridabad': 'fbd',
+        'dehradun': 'ddn',
+        'amritsar': 'asr',
+        'varanasi': 'vns',
+        'indore': 'indore',
+        'ranchi': 'ranchi',
+        'jaipur': 'jaipur'
+    };;
 
     // ══════════════════════════════════
     // SUBDOMAIN DETECTION
