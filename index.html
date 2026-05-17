@@ -268,10 +268,11 @@
     }
 
     .gt {
-      background: linear-gradient(135deg, #818CF8, #A78BFA, #C084FC);
+      background: linear-gradient(135deg, #FF9933, #FFB347, #FFFFFF);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(255,153,51,.4))
     }
 
     /* HERO — Vibrant Civic AI Theme */
@@ -284,7 +285,10 @@
       padding: 130px 5% 80px;
       background: linear-gradient(160deg, #0B1120 0%, #0F1B3D 25%, #1A1054 50%, #0D2847 75%, #081428 100%);
       position: relative;
-      overflow: hidden
+      overflow: hidden;
+      /* Prevents horizontal scroll from absolute children */
+      clip-path: inset(0);
+      -webkit-clip-path: inset(0)
     }
 
     /* Animated gradient mesh overlay */
@@ -309,8 +313,8 @@
     /* Morph blobs — vibrant animated background shapes */
     .hero-morph-blob {
       position: absolute;
-      width: 420px;
-      height: 420px;
+      width: min(420px, 55vw);
+      height: min(420px, 55vw);
       border-radius: 50%;
       background: radial-gradient(circle, rgba(99,102,241,.3), rgba(139,92,246,.15), transparent 70%);
       filter: blur(80px);
@@ -318,11 +322,12 @@
       right: -8%;
       z-index: 1;
       animation: morphDrift 14s ease-in-out infinite;
-      will-change: transform
+      will-change: transform;
+      max-width: 100vw
     }
     .hero-morph-blob.hmb-2 {
-      width: 350px;
-      height: 350px;
+      width: min(350px, 45vw);
+      height: min(350px, 45vw);
       background: radial-gradient(circle, rgba(236,72,153,.25), rgba(251,146,60,.12), transparent 70%);
       filter: blur(70px);
       top: auto;
@@ -333,8 +338,8 @@
     }
     @keyframes morphDrift {
       0%, 100% { transform: translate(0,0) scale(1) rotate(0deg) }
-      33% { transform: translate(40px,-30px) scale(1.12) rotate(5deg) }
-      66% { transform: translate(-25px,20px) scale(.92) rotate(-3deg) }
+      33% { transform: translate(20px,-15px) scale(1.08) rotate(3deg) }
+      66% { transform: translate(-15px,10px) scale(.95) rotate(-2deg) }
     }
 
     #hc {
@@ -2977,13 +2982,15 @@
       pointer-events: none;
       opacity: .28;
       filter: grayscale(0) drop-shadow(0 0 8px rgba(99,102,241,.3));
-      will-change: transform
+      will-change: transform;
+      /* Prevent overflow on mobile */
+      max-width: 40px
     }
     .cf-chat  { top: 12%; left: 6%;  animation: civicDrift 9s ease-in-out infinite; font-size: 32px; opacity: .35 }
     .cf-pin   { top: 18%; right: 8%; animation: civicDrift 11s 1.5s ease-in-out infinite }
     .cf-gov   { top: 65%; left: 4%;  animation: civicDrift 13s 3s ease-in-out infinite; font-size: 26px }
     .cf-sos   { top: 72%; right: 6%; animation: civicDrift 10s 2s ease-in-out infinite; opacity: .25 }
-    .cf-doc   { top: 35%; left: 88%; animation: civicDrift 12s 4s ease-in-out infinite; font-size: 22px; opacity: .22 }
+    .cf-doc   { top: 35%; right: 5%; animation: civicDrift 12s 4s ease-in-out infinite; font-size: 22px; opacity: .22 }
     .cf-user  { bottom: 18%; left: 14%; animation: civicDrift 8s .5s ease-in-out infinite; font-size: 24px; opacity: .25 }
     .cf-bot   { top: 25%; right: 15%; animation: civicDrift 14s 2.5s ease-in-out infinite; font-size: 30px; opacity: .32 }
     .cf-phone { bottom: 25%; right: 12%; animation: civicDrift 10s 1s ease-in-out infinite; font-size: 24px; opacity: .22 }
@@ -3026,13 +3033,13 @@
        ══════════════════════════════════════ */
 
     @media(max-width:768px) {
-      .civic-float { font-size: 20px; opacity: .18 }
-      .cf-chat { font-size: 24px }
-      .cf-bot { font-size: 22px }
-      .cf-doc, .cf-phone { display: none }
-      .hero-morph-blob { width: 250px; height: 250px; filter: blur(60px) }
-      .hero-morph-blob.hmb-2 { width: 200px; height: 200px }
-      .civic-flow-svg { opacity: .06 }
+      .civic-float { font-size: 18px; opacity: .15 }
+      .cf-chat { font-size: 22px }
+      .cf-bot { font-size: 20px }
+      .cf-doc, .cf-phone, .cf-user { display: none }
+      .hero-morph-blob { width: min(200px, 50vw); height: min(200px, 50vw); filter: blur(60px) }
+      .hero-morph-blob.hmb-2 { width: min(160px, 40vw); height: min(160px, 40vw) }
+      .civic-flow-svg { opacity: .04 }
 
       .hero-pls {
         max-width: 100%;
@@ -3062,10 +3069,15 @@
     }
 
     @media(max-width:500px) {
-      .civic-float { font-size: 16px; opacity: .14 }
-      .cf-chat { font-size: 20px }
-      .cf-gov, .cf-sos, .cf-user { display: none }
-      .hero-morph-blob { width: 180px; height: 180px }
+      .civic-float { font-size: 14px; opacity: .12 }
+      .cf-chat { font-size: 18px }
+      .cf-gov, .cf-sos, .cf-user, .cf-pin, .cf-bot { display: none }
+      .hero-morph-blob { width: min(140px, 40vw); height: min(140px, 40vw); filter: blur(50px) }
+      .hero-morph-blob.hmb-2 { width: min(120px, 35vw); height: min(120px, 35vw) }
+
+      .s-hero {
+        padding: 110px 4% 50px
+      }
 
       .hprow {
         gap: 6px;
@@ -3184,7 +3196,7 @@
       <h1 class="hero-h1">Your City's<br>
         <span class="gt">Smartest</span>
         <span
-          style="background:linear-gradient(135deg,#22D3EE,#F472B6,#FB923C);-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+          style="background:linear-gradient(135deg,#FFFFFF,#2ED573,#138808);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(46,213,115,.35))">
           Assistant.</span>
       </h1>
       <p class="hero-sub">Hyper-local AI chatbots built for every Indian district — heritage, officers, emergency, welfare
@@ -4030,25 +4042,93 @@
     // NAV
     window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('sc', scrollY > 20));
 
-    // THREE.JS HERO SPHERES
+    // THREE.JS HERO — Premium 3D Motion Graphics
     (function () {
       const c = document.getElementById('hc'); if (!c || !window.THREE) return;
+      const isMobile = window.innerWidth < 768;
       const scene = new THREE.Scene();
-      const cam = new THREE.PerspectiveCamera(55, c.parentElement.clientWidth / c.parentElement.clientHeight, .1, 100); cam.position.z = 12;
-      const R = new THREE.WebGLRenderer({ canvas: c, alpha: true, antialias: true });
-      R.setSize(c.parentElement.clientWidth, c.parentElement.clientHeight); R.setPixelRatio(Math.min(devicePixelRatio, 2));
-      scene.add(new THREE.AmbientLight(0xffffff, .6));
-      [[0x2563EB, 5, 5], [0x7C3AED, -6, -3], [0xEA580C, 2, -5], [0x0891B2, -3, 4], [0xDB2777, 4, -2]].forEach(([col, x, y]) => { const l = new THREE.DirectionalLight(col, 2.5); l.position.set(x, y, 4); scene.add(l) });
-      const ms = [];
-      [{ s: .55, c: 0x2563EB, x: 4, y: 2.5, z: 0 }, { s: .38, c: 0x7C3AED, x: -3, y: -2, z: 1 }, { s: .28, c: 0xEA580C, x: 1.5, y: -3, z: -1 }, { s: .45, c: 0x0891B2, x: -4, y: 1.5, z: -.5 }, { s: .2, c: 0xDB2777, x: 3, y: -2, z: .8 }, { s: .32, c: 0x16A34A, x: -2, y: 3.2, z: -1 }, { s: .17, c: 0x2563EB, x: 4.5, y: .5, z: 1.2 }, { s: .23, c: 0x7C3AED, x: -4.5, y: -1.5, z: .4 }, { s: .15, c: 0xEA580C, x: 2, y: 3.8, z: -.8 }].forEach(d => {
-        const m = new THREE.Mesh(new THREE.SphereGeometry(d.s, 32, 32), new THREE.MeshPhysicalMaterial({ color: d.c, metalness: .1, roughness: .15, clearcoat: 1, clearcoatRoughness: .08, transparent: true, opacity: .72 }));
-        m.position.set(d.x, d.y, d.z); m.userData = { by: d.y, sp: .3 + Math.random() * .6, ph: Math.random() * Math.PI * 2 }; scene.add(m); ms.push(m);
+      const cam = new THREE.PerspectiveCamera(55, c.parentElement.clientWidth / c.parentElement.clientHeight, .1, 100);
+      cam.position.z = isMobile ? 15 : 12;
+      const R = new THREE.WebGLRenderer({ canvas: c, alpha: true, antialias: !isMobile });
+      R.setSize(c.parentElement.clientWidth, c.parentElement.clientHeight);
+      R.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+
+      // Lighting — cinematic multi-color setup
+      scene.add(new THREE.AmbientLight(0xffffff, .5));
+      const pointLight1 = new THREE.PointLight(0x6366F1, 3, 30); pointLight1.position.set(5, 5, 5); scene.add(pointLight1);
+      const pointLight2 = new THREE.PointLight(0xEC4899, 2.5, 25); pointLight2.position.set(-5, -3, 3); scene.add(pointLight2);
+      const pointLight3 = new THREE.PointLight(0x22D3EE, 2, 20); pointLight3.position.set(0, 4, -4); scene.add(pointLight3);
+      [[0x6366F1, 5, 5], [0xA855F7, -6, -3], [0xFB923C, 2, -5], [0x22D3EE, -3, 4]].forEach(([col, x, y]) => {
+        const l = new THREE.DirectionalLight(col, 1.8); l.position.set(x, y, 4); scene.add(l);
       });
+
+      const ms = [];
+      const matOpts = (col, op) => ({ color: col, metalness: .25, roughness: .12, clearcoat: 1, clearcoatRoughness: .05, transparent: true, opacity: op || .65 });
+
+      // Mixed premium 3D geometries
+      const shapes = isMobile ? [
+        // Reduced set for mobile
+        { geo: new THREE.TorusKnotGeometry(.35, .12, 64, 12, 2, 3), c: 0x6366F1, x: 3.5, y: 2, z: 0, rs: .006, op: .55 },
+        { geo: new THREE.IcosahedronGeometry(.45, 0), c: 0xA855F7, x: -3.5, y: -1.5, z: 1, rs: .004, op: .6 },
+        { geo: new THREE.SphereGeometry(.5, 32, 32), c: 0x22D3EE, x: -2.5, y: 2.5, z: -1, rs: .003, op: .5 },
+        { geo: new THREE.OctahedronGeometry(.4, 0), c: 0xFB923C, x: 2, y: -2.5, z: .5, rs: .005, op: .55 },
+        { geo: new THREE.TorusGeometry(.3, .12, 16, 32), c: 0xEC4899, x: -1, y: 3, z: -1.5, rs: .007, op: .45 },
+      ] : [
+        // Full desktop scene
+        { geo: new THREE.TorusKnotGeometry(.4, .14, 100, 16, 2, 3), c: 0x6366F1, x: 4, y: 2.5, z: 0, rs: .006, op: .55 },
+        { geo: new THREE.IcosahedronGeometry(.5, 0), c: 0xA855F7, x: -3.5, y: -2, z: 1, rs: .004, op: .6 },
+        { geo: new THREE.OctahedronGeometry(.4, 0), c: 0xFB923C, x: 1.5, y: -3, z: -1, rs: .005, op: .58 },
+        { geo: new THREE.SphereGeometry(.55, 32, 32), c: 0x22D3EE, x: -4, y: 1.5, z: -.5, rs: .003, op: .5 },
+        { geo: new THREE.TorusGeometry(.35, .14, 16, 48), c: 0xEC4899, x: 3, y: -1.5, z: .8, rs: .007, op: .5 },
+        { geo: new THREE.DodecahedronGeometry(.35, 0), c: 0x16A34A, x: -2, y: 3.2, z: -1, rs: .004, op: .55 },
+        { geo: new THREE.TetrahedronGeometry(.3, 0), c: 0x6366F1, x: 4.5, y: .5, z: 1.2, rs: .008, op: .45 },
+        { geo: new THREE.IcosahedronGeometry(.28, 1), c: 0xA855F7, x: -4.5, y: -1.5, z: .4, rs: .005, op: .5 },
+        { geo: new THREE.TorusKnotGeometry(.2, .08, 64, 8, 3, 2), c: 0xFB923C, x: 2, y: 3.8, z: -.8, rs: .009, op: .4 },
+      ];
+
+      shapes.forEach(d => {
+        const mat = new THREE.MeshPhysicalMaterial(matOpts(d.c, d.op));
+        const m = new THREE.Mesh(d.geo, mat);
+        m.position.set(d.x, d.y, d.z);
+        m.userData = { by: d.y, sp: .2 + Math.random() * .5, ph: Math.random() * Math.PI * 2, rs: d.rs || .005 };
+
+        // Add wireframe edge glow for premium feel
+        if (!isMobile && Math.random() > .4) {
+          const edge = new THREE.LineSegments(
+            new THREE.EdgesGeometry(d.geo),
+            new THREE.LineBasicMaterial({ color: d.c, transparent: true, opacity: .15 })
+          );
+          m.add(edge);
+        }
+        scene.add(m); ms.push(m);
+      });
+
       let px = 0, py = 0;
-      document.addEventListener('mousemove', e => { px = (e.clientX - innerWidth / 2) * .0007; py = (e.clientY - innerHeight / 2) * .0007 });
-      window.addEventListener('resize', () => { cam.aspect = c.parentElement.clientWidth / c.parentElement.clientHeight; cam.updateProjectionMatrix(); R.setSize(c.parentElement.clientWidth, c.parentElement.clientHeight) });
+      document.addEventListener('mousemove', e => { px = (e.clientX - innerWidth / 2) * .0008; py = (e.clientY - innerHeight / 2) * .0008 });
+      window.addEventListener('resize', () => {
+        cam.aspect = c.parentElement.clientWidth / c.parentElement.clientHeight;
+        cam.updateProjectionMatrix();
+        R.setSize(c.parentElement.clientWidth, c.parentElement.clientHeight);
+      });
       const clk = new THREE.Clock();
-      (function a() { requestAnimationFrame(a); const t = clk.getElapsedTime(); ms.forEach(m => { m.position.y = m.userData.by + Math.sin(t * m.userData.sp + m.userData.ph) * .38; m.rotation.x += .003; m.rotation.y += .005 }); scene.rotation.y += (px - scene.rotation.y) * .025; scene.rotation.x += (py - scene.rotation.x) * .025; R.render(scene, cam) })();
+      (function a() {
+        requestAnimationFrame(a);
+        const t = clk.getElapsedTime();
+        ms.forEach(m => {
+          m.position.y = m.userData.by + Math.sin(t * m.userData.sp + m.userData.ph) * .45;
+          m.position.x += Math.sin(t * .15 + m.userData.ph) * .003;
+          m.rotation.x += m.userData.rs * .7;
+          m.rotation.y += m.userData.rs;
+          m.rotation.z += m.userData.rs * .3;
+        });
+        // Gentle parallax from mouse
+        scene.rotation.y += (px - scene.rotation.y) * .02;
+        scene.rotation.x += (py - scene.rotation.x) * .02;
+        // Subtle light movement
+        pointLight1.position.x = 5 + Math.sin(t * .4) * 2;
+        pointLight2.position.y = -3 + Math.cos(t * .3) * 2;
+        R.render(scene, cam);
+      })();
     })();
 
     // SCROLL REVEAL
