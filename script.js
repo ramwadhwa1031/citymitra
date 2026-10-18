@@ -54,6 +54,7 @@ const translations = {
         welcomeSuggestion: "Try the suggestions below to get started!",
         inputPlaceholder: "Ask me anything about " + CITY_CONFIG.name.en + "...",
         clearChat: "Clear chat",
+        menuCitySwitch: "Switch City",
         visitWebsite: "Visit Website",
         suggestions: "Suggestions",
         typing: "Typing...",
@@ -85,6 +86,7 @@ const translations = {
         welcomeSuggestion: "शुरू करने के लिए नीचे दिए गए सुझाव आज़माएं!",
         inputPlaceholder: CITY_CONFIG.name.hi + " के बारे में कुछ भी पूछें...",
         clearChat: "चैट साफ़ करें",
+        menuCitySwitch: "शहर बदलें",
         visitWebsite: "वेबसाइट पर जाएं",
         suggestions: "सुझाव",
         typing: "टाइप कर रहा है...",
@@ -950,7 +952,10 @@ function updateUI() {
 
     // ── Dynamic City Config Updates ──
     const cityNameEl = document.getElementById('city-name-display');
-    if (cityNameEl) cityNameEl.textContent = CITY_CONFIG.name.en;
+    if (cityNameEl) cityNameEl.textContent = (currentLanguage === 'hi' && CITY_CONFIG.name.hi) ? CITY_CONFIG.name.hi : CITY_CONFIG.name.en;
+
+    const switchCityEl = document.getElementById('menu-city-switch');
+    if (switchCityEl) switchCityEl.textContent = t.menuCitySwitch || (currentLanguage === 'hi' ? 'शहर बदलें' : 'Switch City');
 
     const visitBtn = document.getElementById('visit-website-btn');
     if (visitBtn) visitBtn.setAttribute('onclick', "window.open('" + CITY_CONFIG.govWebsite + "', '_blank')");

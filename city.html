@@ -251,6 +251,194 @@
             gap: 5px;
             position: relative;
             z-index: 1;
+            padding: 3px 8px 3px 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .city-badge:hover {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-0.5px);
+        }
+
+        .city-badge:active {
+            transform: scale(0.97);
+        }
+
+        /* ── City Switcher Modal ── */
+        .city-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 14, 26, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            transition: opacity 0.2s ease;
+        }
+
+        .city-modal-overlay.hidden {
+            display: none !important;
+        }
+
+        .city-modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            max-height: 82vh;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.94) translateY(12px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .city-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid #ECEFF3;
+        }
+
+        .city-modal-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .city-modal-icon {
+            font-size: 22px;
+        }
+
+        .city-modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111318;
+            line-height: 1.2;
+        }
+
+        .city-modal-subtitle {
+            font-size: 11px;
+            color: #6B7280;
+            margin-top: 2px;
+        }
+
+        .city-modal-close {
+            background: #F3F4F6;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 14px;
+            color: #6B7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .city-modal-close:hover {
+            background: #E5E7EB;
+            color: #111318;
+        }
+
+        .city-modal-search-wrap {
+            padding: 12px 18px 8px;
+        }
+
+        .city-modal-search {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1.5px solid #E2E8F0;
+            font-size: 13.5px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s;
+            background: #F8FAFC;
+            box-sizing: border-box;
+        }
+
+        .city-modal-search:focus {
+            border-color: #2D46B9;
+            background: #FFFFFF;
+        }
+
+        .city-modal-list {
+            padding: 6px 14px 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .city-modal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #F1F3F5;
+            background: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .city-modal-item:hover {
+            background: #F5F7FF;
+            border-color: rgba(45, 70, 185, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .city-modal-item.active {
+            background: #EEF1FF;
+            border-color: #2D46B9;
+        }
+
+        .city-item-left {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .city-item-emoji {
+            font-size: 20px;
+        }
+
+        .city-item-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111318;
+        }
+
+        .city-item-sub {
+            font-size: 11.5px;
+            color: #6B7280;
+        }
+
+        .city-item-badge {
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #2D46B9;
+            color: #ffffff;
         }
 
         .city-dot {
@@ -1537,9 +1725,10 @@
                     </div>
                 </div>
                 <div class="brand-divider"></div>
-                <div class="city-badge">
+                <div class="city-badge" id="city-badge-btn" onclick="openCityModal()" title="Switch City / शहर बदलें">
                     <div class="city-dot"></div>
                     <div class="city-name-sm" id="city-name-display">Kurukshetra</div>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px; opacity: 0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
             </div>
             <div class="brand-right">
@@ -1564,6 +1753,10 @@
                             <input type="checkbox" id="location-toggle" class="mini-toggle" onchange="toggleLocationAlerts()">
                         </div>
                         <div class="menu-divider"></div>
+                        <button onclick="document.getElementById('menu-dropdown').classList.add('hidden'); openCityModal()">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            <span id="menu-city-switch">Switch City</span>
+                        </button>
                         <button onclick="clearChat()">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                             <span id="menu-clear">Clear chat</span>
@@ -1692,6 +1885,83 @@
             <span class="bf-text">Civic AI for Every Indian City</span>
         </div>
     </div>
+
+    <!-- ════ CITY SWITCHER MODAL ════ -->
+    <div id="city-modal" class="city-modal-overlay hidden" onclick="closeCityModal(event)">
+        <div class="city-modal-card" onclick="event.stopPropagation()">
+            <div class="city-modal-header">
+                <div class="city-modal-title-wrap">
+                    <div class="city-modal-icon">🏛️</div>
+                    <div>
+                        <h3 class="city-modal-title">Select Your City</h3>
+                        <p class="city-modal-subtitle">अपना शहर चुनें · 13 Districts Available</p>
+                    </div>
+                </div>
+                <button class="city-modal-close" onclick="closeCityModal()" aria-label="Close">✕</button>
+            </div>
+            <div class="city-modal-search-wrap">
+                <input type="text" id="city-search-input" class="city-modal-search" placeholder="Search city or state / शहर या राज्य खोजें…" oninput="filterCities(this.value)">
+            </div>
+            <div class="city-modal-list hide-scrollbar" id="city-modal-list">
+                <!-- Dynamically populated from window.CITY_CONFIG_ALL -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCityModal() {
+            const modal = document.getElementById('city-modal');
+            if (!modal) return;
+            renderCityModalList();
+            modal.classList.remove('hidden');
+            const input = document.getElementById('city-search-input');
+            if (input) { input.value = ''; setTimeout(() => input.focus(), 80); }
+        }
+
+        function closeCityModal(e) {
+            if (e && e.target && e.target !== e.currentTarget && !e.target.classList.contains('city-modal-close')) return;
+            const modal = document.getElementById('city-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function renderCityModalList(filter = '') {
+            const container = document.getElementById('city-modal-list');
+            if (!container || !window.CITY_CONFIG_ALL) return;
+            const currentId = window.CITY_CONFIG ? window.CITY_CONFIG.id : 'kkr';
+            const q = filter.toLowerCase().trim();
+
+            let html = '';
+            for (const [id, c] of Object.entries(window.CITY_CONFIG_ALL)) {
+                const enName = c.name ? c.name.en : id;
+                const hiName = c.name ? c.name.hi : '';
+                const state = c.state ? (c.state.en || 'India') : '';
+                if (q && !enName.toLowerCase().includes(q) && !hiName.includes(q) && !state.toLowerCase().includes(q)) {
+                    continue;
+                }
+                const isActive = id === currentId;
+                html += `
+                    <div class="city-modal-item ${isActive ? 'active' : ''}" onclick="window.switchCity('${id}')">
+                        <div class="city-item-left">
+                            <span class="city-item-emoji">${c.heroEmoji || '🏙️'}</span>
+                            <div>
+                                <div class="city-item-name">${enName} · <span style="font-weight:500;">${hiName}</span></div>
+                                <div class="city-item-sub">${state}</div>
+                            </div>
+                        </div>
+                        ${isActive ? '<span class="city-item-badge">Active</span>' : '<span style="color:#9CA3AF;font-size:16px;">›</span>'}
+                    </div>
+                `;
+            }
+            if (!html) {
+                html = '<div style="padding:24px;text-align:center;color:#9CA3AF;font-size:13px;">No cities found matching your search.</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        function filterCities(val) {
+            renderCityModalList(val);
+        }
+    </script>
 
     <!-- External JavaScript -->
     <script src="script.js?v=9.0"></script>

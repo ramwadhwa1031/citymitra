@@ -1143,43 +1143,63 @@
     };;
 
     // ══════════════════════════════════
-    // SUBDOMAIN DETECTION
+    // CITY DETECTION & RESOLUTION
     // ══════════════════════════════════
 
+    function resolveCity(raw) {
+        if (!raw || typeof raw !== 'string') return null;
+        const key = raw.toLowerCase().trim();
+        if (ALIASES[key]) return ALIASES[key];
+        if (CITIES[key]) return key;
+        return null;
+    }
+
     function detectCity() {
-        const hostname = window.location.hostname;
-
-        // localhost / 127.0.0.1 / direct IP → default
-        if (hostname === 'localhost' || hostname === '127.0.0.1' || /^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
-            console.log('[CityConfig] Dev environment detected → default city');
-            return 'kkr';
+        // 1. Check URL Query Parameter (?city=karnal or ?c=karnal or ?district=karnal)
+        try {
+            if (typeof window !== 'undefined' && window.location && window.location.search) {
+                const params = new URLSearchParams(window.location.search);
+                const queryCity = params.get('city') || params.get('c') || params.get('district');
+                const resolved = resolveCity(queryCity);
+                if (resolved) {
+                    console.log(`[CityConfig] City matched from URL parameter: "${queryCity}" → "${resolved}"`);
+                    try { localStorage.setItem('selected_city', resolved); } catch (e) { }
+                    return resolved;
+                }
+            }
+        } catch (e) {
+            console.warn('[CityConfig] URLSearchParams check failed:', e);
         }
 
-        const parts = hostname.split('.');
+        // 2. Check Subdomain (e.g. karnal.citymitra.app if DNS configured in future)
+        try {
+            const hostname = window.location.hostname;
+            if (hostname && hostname !== 'localhost' && hostname !== '127.0.0.1' && !/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
+                const parts = hostname.split('.');
+                if (parts.length > 2 && !(parts.length === 3 && parts[0].toLowerCase() === 'www')) {
+                    const subdomain = parts[0].toLowerCase();
+                    const resolved = resolveCity(subdomain);
+                    if (resolved) {
+                        console.log(`[CityConfig] City matched from subdomain: "${subdomain}" → "${resolved}"`);
+                        try { localStorage.setItem('selected_city', resolved); } catch (e) { }
+                        return resolved;
+                    }
+                }
+            }
+        } catch (e) { }
 
-        // citymitra.app (no subdomain) OR www.citymitra.app → generic/default fallback
-        if (parts.length <= 2 || (parts.length === 3 && parts[0].toLowerCase() === 'www')) {
-            console.log('[CityConfig] Bare domain detected → defaulting to kkr');
-            return 'kkr';
-        }
+        // 3. Check Stored User Preference from localStorage
+        try {
+            const saved = localStorage.getItem('selected_city');
+            const resolved = resolveCity(saved);
+            if (resolved) {
+                console.log(`[CityConfig] City loaded from localStorage preference: "${saved}" → "${resolved}"`);
+                return resolved;
+            }
+        } catch (e) { }
 
-        // karnal.citymitra.app → subdomain = "karnal"
-        const subdomain = parts[0].toLowerCase();
-
-        // Check aliases first
-        if (ALIASES[subdomain]) {
-            console.log(`[CityConfig] Alias "${subdomain}" → "${ALIASES[subdomain]}"`);
-            return ALIASES[subdomain];
-        }
-
-        // Check direct match
-        if (CITIES[subdomain]) {
-            console.log(`[CityConfig] City matched: "${subdomain}"`);
-            return subdomain;
-        }
-
-        // Unknown subdomain → default
-        console.warn(`[CityConfig] Unknown subdomain "${subdomain}" → default city`);
+        // 4. Default fallback
+        console.log('[CityConfig] Defaulting to kkr');
         return 'kkr';
     }
 
@@ -1193,9 +1213,22 @@
     // Expose globally
     window.CITY_CONFIG = config;
 
-    // Also expose the full cities map and detection function for debugging
+    // Also expose the full cities map, detection function, and city switcher
     window.CITY_CONFIG_ALL = CITIES;
     window.CITY_CONFIG_DETECT = detectCity;
+    window.CITY_CONFIG_RESOLVE = resolveCity;
+
+    window.switchCity = function (newCityId) {
+        const resolved = resolveCity(newCityId);
+        if (!resolved) {
+            console.error('[CityConfig] Unknown city:', newCityId);
+            return;
+        }
+        try { localStorage.setItem('selected_city', resolved); } catch (e) { }
+        const url = new URL(window.location.href);
+        url.searchParams.set('city', resolved);
+        window.location.href = url.toString();
+    };
 
     // ── Inject city-specific CSS variables ──
     const style = document.createElement('style');

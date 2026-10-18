@@ -427,6 +427,22 @@
 
         <div class="px-5 py-6">
 
+            <!-- Active District / City Selection -->
+            <div class="setting-card">
+                <div class="card-header">
+                    <div class="card-icon"><i data-lucide="map-pin" class="w-5 h-5 text-indigo-600"></i></div>
+                    <div>
+                        <h2 class="card-title">Active District / City</h2>
+                        <p class="card-subtitle">Choose which city's civic AI you are using</p>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <select id="settings-city-select" onchange="onSettingsCityChange(this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+            </div>
+
             <!-- Theme Selection -->
             <div class="setting-card">
                 <div class="card-header">
@@ -703,6 +719,30 @@
             document.getElementById('timestamps-toggle').checked = settings.timestamps !== false;
             
             document.getElementById('width-slider').value = settings.width || 100;
+            
+            populateSettingsCitySelect();
+        }
+
+        function populateSettingsCitySelect() {
+            const select = document.getElementById('settings-city-select');
+            if (!select || typeof CITY_CONFIG_ALL === 'undefined') return;
+            const currentId = (typeof CITY_CONFIG !== 'undefined') ? CITY_CONFIG.id : 'kkr';
+            
+            select.innerHTML = Object.entries(CITY_CONFIG_ALL).map(([id, c]) => {
+                const en = c.name ? c.name.en : id;
+                const hi = c.name ? c.name.hi : '';
+                const state = c.state ? (c.state.en || '') : '';
+                return `<option value="${id}" ${id === currentId ? 'selected' : ''}>${c.heroEmoji || '🏙️'} ${en} (${hi}) — ${state}</option>`;
+            }).join('');
+        }
+
+        function onSettingsCityChange(newCityId) {
+            if (typeof window.switchCity === 'function') {
+                window.switchCity(newCityId);
+            } else {
+                try { localStorage.setItem('selected_city', newCityId); } catch(e) {}
+                window.location.href = 'city.html?city=' + newCityId;
+            }
         }
 
         function saveSettings() {
