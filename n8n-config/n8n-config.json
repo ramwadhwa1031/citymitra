@@ -1,1024 +1,1307 @@
 {
-    "kkr": {
-        "meta": {
-            "districtKey": "kurukshetra",
-            "districtName": "Kurukshetra",
-            "districtNameHindi": "कुरुक्षेत्र",
-            "state": "Haryana",
-            "population": "9,64,655",
-            "area": "1,530 sq km",
-            "appDomain": "https://kkr-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://kurukshetra.gov.in",
-            "tourismPortal": "https://kkrtour.com",
-            "48kosPortal": "https://48koskurukshetra.com",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "anubhavKendra": "https://mahabharatanubhavkendra.com",
-            "university": "https://kuk.ac.in",
-            "nit": "https://nitkkr.ac.in",
-            "districtCourt": "https://kurukshetra.dcourts.gov.in",
-            "policeWebsite": "https://kurukshetra.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/kurukshetra",
-            "swiggy": "https://www.swiggy.com/city/kurukshetra",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-kurukshetra",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Kurukshetra"
-        },
-        "govtPages": {
-            "attractions": "https://kurukshetra.gov.in/kurukshetraattractions/",
-            "knowAbout": "https://kurukshetra.gov.in/know-about-kurukshetra/",
-            "aboutDistrict": "https://kurukshetra.gov.in/about-district/",
-            "whereToStay": "https://kurukshetra.gov.in/where-to-stay-in-kurukshetra/",
-            "whoswho": "https://kurukshetra.gov.in/whoswho/",
-            "directory": "https://kurukshetra.gov.in/directory/",
-            "adminSetup": "https://kurukshetra.gov.in/administrative-setup-kurukshetra/",
-            "politicalSetup": "https://kurukshetra.gov.in/political-setup-kurukshetra/",
-            "education": "https://kurukshetra.gov.in/education/",
-            "48kosMain": "https://kurukshetra.gov.in/48kos-kurukshetra/",
-            "48kosKurukshetra": "https://kurukshetra.gov.in/48kos-religious-places-in-kurukshetra/",
-            "48kosKarnal": "https://kurukshetra.gov.in/48kos-religious-places-in-karnal/",
-            "48kosKaithal": "https://kurukshetra.gov.in/48kos-religious-places-in-kaithal/",
-            "48kosPanipat": "https://kurukshetra.gov.in/48kos-religious-places-in-panipat/",
-            "48kosJind": "https://kurukshetra.gov.in/48kos-religious-places-in-jind/",
-            "censusData": "https://kurukshetra.gov.in/know-about-kurukshetra/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:kkrtour.com",
-            "tourismSite2": "site:kurukshetra.gov.in -inurl:class- -inurl:recruitment -inurl:tender -inurl:download -inurl:gallery",
-            "tourismSite3": "(site:48koskurukshetra.com OR site:kurukshetra.gov.in) -inurl:class- -inurl:recruitment -inurl:tender",
-            "generalSite": "site:kurukshetra.gov.in OR site:kkrtour.com",
-            "contextSuffix": "Kurukshetra Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "1Po82vtiRaf-Cocx37UekRiFd-IbfX7r6j-dvj6aQmWA",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "https://script.google.com/macros/s/AKfycbxCvs-tk8PecmOgORx8WIgszAO0VfqobnCCj75RM0kOiwxZep5UHJFl0Eub28uvHL2WWA/exec"
-        },
-        "webhooks": {
-            "infobotPath": "kkr-chat",
-            "askGitaPath": "kkr-AskGita",
-            "feedbackPath": "kkr-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Kurukshetra, Haryana (India).",
-            "askGitaSystemRole": "You are AskGita, an AI scholar for International Gita Mahotsav 2025. Answer ONLY about: 1) Bhagavad Gita (chapters 1-18), 2) Kurukshetra's 48 Kos sites, 3) Today's IGM program. NEVER give legal/medical advice.",
-            "districtContext": "Kurukshetra district, Haryana, India. Famous for Bhagavad Gita, Mahabharata battlefield, 48 Kos pilgrimage circuit, Brahma Sarovar, Jyotisar, International Gita Mahotsav."
-        },
-        "tourismSites": {
-            "primaryPortal": "kkrtour.com",
-            "secondaryPortal": "kurukshetra.gov.in",
-            "tertiary48Kos": "48koskurukshetra.com",
-            "broadQueryPrimary": "https://kkrtour.com/viewall.html",
-            "broadQuerySecondary": "https://kurukshetra.gov.in/kurukshetraattractions/",
-            "generalListPrimary": "https://kkrtour.com",
-            "generalListSecondary": "https://kurukshetra.gov.in/kurukshetraattractions/",
-            "kkrTourListTemplate": "https://kkrtour.com/List.php?id={siteId}",
-            "48kosTemplate": "https://48koskurukshetra.com/{kosSite}/"
-        },
-        "perspectiveFallbackUrls": {
-            "buddhist": {
-                "primary": "https://kurukshetra.gov.in/about-district/",
-                "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/"
-            },
-            "sikh": {
-                "primary": "https://kurukshetra.gov.in/about-district/",
-                "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/"
-            },
-            "jain": {
-                "primary": "https://kurukshetra.gov.in/about-district/",
-                "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/"
-            },
-            "historical": {
-                "primary": "https://kurukshetra.gov.in/about-district/",
-                "secondary": "https://kurukshetra.gov.in/know-about-kurukshetra/"
-            },
-            "hindu": {
-                "primary": "https://kkrtour.com/viewall.html",
-                "secondary": "https://kurukshetra.gov.in/about-district/"
-            },
-            "parikrama": {
-                "primary": "https://48koskurukshetra.com/",
-                "secondary": "https://kurukshetra.gov.in/about-district/"
-            },
-            "general": {
-                "primary": "https://kkrtour.com/viewall.html",
-                "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://kurukshetra.gov.in/political-setup-kurukshetra/",
-            "village_admin": "https://kurukshetra.gov.in/directory/",
-            "admin_structure": "https://kurukshetra.gov.in/administrative-setup-kurukshetra/",
-            "demographic": "https://kurukshetra.gov.in/know-about-kurukshetra/",
-            "accommodation": "https://kurukshetra.gov.in/where-to-stay-in-kurukshetra/",
-            "tourism_general": "https://kurukshetra.gov.in/kurukshetraattractions/",
-            "police": "https://kurukshetra.haryanapolice.gov.in/",
-            "court": "https://kurukshetra.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Thanesar",
-                "Pehowa",
-                "Shahabad",
-                "Ladwa"
-            ],
-            "subTehsils": [
-                "Babain",
-                "Ismailabad"
-            ],
-            "blocks": 7,
-            "villages": 460
-        },
-        "keywords": {
-            "localities": [
-                "umri",
-                "kamauda",
-                "thanesar",
-                "pipli",
-                "bir",
-                "amin",
-                "pehowa",
-                "jhansa",
-                "rattangarh",
-                "ladwa",
-                "shahabad"
-            ],
-            "tourismSpecifics": [
-                "brahma",
-                "sarovar",
-                "jyotisar",
-                "sthaneshwar",
-                "baan ganga",
-                "sannihit",
-                "sheikh chilli",
-                "kalpana chawla",
-                "panorama"
-            ],
-            "queryModifiers": [
-                "kurukshetra mein",
-                "kurukshetra ke",
-                "visit kurukshetra",
-                "places in kurukshetra"
-            ]
-        },
-        "knownSites": {
-            "brahma sarovar": {
-                "type": "tourism",
-                "id": 2
-            },
-            "jyotisar": {
-                "type": "tourism",
-                "id": 1
-            },
-            "nabhi kamal": {
-                "type": "heritage",
-                "url": "https://48koskurukshetra.com/nabhiqimal-tirtha-thanesar/"
-            }
-        }
+  "kkr": {
+    "meta": {
+      "districtKey": "kurukshetra",
+      "districtName": "Kurukshetra",
+      "districtNameHindi": "कुरुक्षेत्र",
+      "state": "Haryana",
+      "population": "9,64,655",
+      "area": "1,530 sq km",
+      "appDomain": "https://citymitra.app"
     },
-    "karnal": {
-        "meta": {
-            "districtKey": "karnal",
-            "districtName": "Karnal",
-            "districtNameHindi": "करनाल",
-            "state": "Haryana",
-            "population": "1,505,324",
-            "area": "2,520 sq km",
-            "appDomain": "https://karnal-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://karnal.gov.in",
-            "tourismPortal": "https://haryanatourism.gov.in",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "university": "https://ndri.res.in",
-            "districtCourt": "https://karnal.dcourts.gov.in",
-            "policeWebsite": "https://karnal.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/karnal",
-            "swiggy": "https://www.swiggy.com/city/karnal",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-karnal",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Karnal"
-        },
-        "govtPages": {
-            "attractions": "https://karnal.gov.in/tourist-places/",
-            "knowAbout": "https://karnal.gov.in/about-karnal/",
-            "aboutDistrict": "https://karnal.gov.in/about-karnal/",
-            "whereToStay": "https://karnal.gov.in/where-to-stay/",
-            "whoswho": "https://karnal.gov.in/whoswho/",
-            "directory": "https://karnal.gov.in/directory/",
-            "adminSetup": "https://karnal.gov.in/administrative-setup/",
-            "politicalSetup": "https://karnal.gov.in/political-setup/",
-            "censusData": "https://karnal.gov.in/about-karnal/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:haryanatourism.gov.in karnal",
-            "tourismSite2": "site:karnal.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
-            "tourismSite3": "site:karnal.gov.in OR site:haryanatourism.gov.in",
-            "generalSite": "site:karnal.gov.in",
-            "contextSuffix": "Karnal Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "REPLACE_WITH_KARNAL_SHEET_ID",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "REPLACE_WITH_KARNAL_APPS_SCRIPT_URL"
-        },
-        "webhooks": {
-            "infobotPath": "karnal-chat",
-            "askGitaPath": "karnal-AskGita",
-            "feedbackPath": "karnal-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Karnal, Haryana (India).",
-            "askGitaSystemRole": "You are an AI guide for Karnal district. Answer questions about Karnal's history, tourism, government services, and culture. NEVER give legal/medical advice.",
-            "districtContext": "Karnal district, Haryana, India. Known as the City of Karna, rice bowl of India, Kalpana Chawla birthplace, National Dairy Research Institute (NDRI)."
-        },
-        "tourismSites": {
-            "primaryPortal": "haryanatourism.gov.in",
-            "secondaryPortal": "karnal.gov.in",
-            "broadQueryPrimary": "https://haryanatourism.gov.in/destination/karnal/",
-            "broadQuerySecondary": "https://karnal.gov.in/tourist-places/",
-            "generalListPrimary": "https://haryanatourism.gov.in/destination/karnal/",
-            "generalListSecondary": "https://karnal.gov.in/tourist-places/"
-        },
-        "perspectiveFallbackUrls": {
-            "historical": {
-                "primary": "https://karnal.gov.in/about-karnal/",
-                "secondary": "https://karnal.gov.in/tourist-places/"
-            },
-            "general": {
-                "primary": "https://haryanatourism.gov.in/destination/karnal/",
-                "secondary": "https://karnal.gov.in/tourist-places/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://karnal.gov.in/political-setup/",
-            "village_admin": "https://karnal.gov.in/directory/",
-            "admin_structure": "https://karnal.gov.in/administrative-setup/",
-            "demographic": "https://karnal.gov.in/about-karnal/",
-            "accommodation": "https://karnal.gov.in/where-to-stay/",
-            "tourism_general": "https://karnal.gov.in/tourist-places/",
-            "police": "https://karnal.haryanapolice.gov.in/",
-            "court": "https://karnal.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Karnal",
-                "Indri",
-                "Nilokheri",
-                "Gharaunda",
-                "Assandh"
-            ],
-            "subTehsils": [
-                "Nigdhu",
-                "Ballah",
-                "Kunjpura"
-            ],
-            "blocks": 8,
-            "villages": 435
-        },
-        "keywords": {
-            "localities": [
-                "indri",
-                "nilokheri",
-                "gharaunda",
-                "assandh",
-                "taraori",
-                "kunjpura",
-                "karnal city"
-            ],
-            "tourismSpecifics": [
-                "karna lake",
-                "cantonment church",
-                "kalander shah tomb",
-                "babarpur"
-            ],
-            "queryModifiers": [
-                "karnal mein",
-                "karnal ke",
-                "visit karnal",
-                "places in karnal"
-            ]
-        },
-        "knownSites": {
-            "karna lake": {
-                "type": "tourism",
-                "url": "https://karnaltourism.com/karna-lake"
-            },
-            "cantonment church": {
-                "type": "tourism",
-                "url": "https://karnaltourism.com/church"
-            }
-        }
+    "urls": {
+      "districtGovt": "https://kurukshetra.gov.in",
+      "tourismPortal": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "48kosPortal": "https://48koskurukshetra.com",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "anubhavKendra": "https://mahabharatanubhavkendra.com",
+      "university": "https://kuk.ac.in",
+      "nit": "https://nitkkr.ac.in",
+      "districtCourt": "https://kurukshetra.dcourts.gov.in",
+      "policeWebsite": "https://kurukshetra.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/kurukshetra",
+      "swiggy": "https://www.swiggy.com/city/kurukshetra",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-kurukshetra",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Kurukshetra"
     },
-    "ambala": {
-        "meta": {
-            "districtKey": "ambala",
-            "districtName": "Ambala",
-            "districtNameHindi": "अम्बाला",
-            "state": "Haryana",
-            "population": "1,128,350",
-            "area": "1,574 sq km",
-            "appDomain": "https://ambala-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://ambala.gov.in",
-            "tourismPortal": "https://haryanatourism.gov.in",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "university": "",
-            "districtCourt": "https://ambala.dcourts.gov.in",
-            "policeWebsite": "https://ambala.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/ambala",
-            "swiggy": "https://www.swiggy.com/city/ambala",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-ambala",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Ambala"
-        },
-        "govtPages": {
-            "attractions": "https://ambala.gov.in/tourist-places/",
-            "knowAbout": "https://ambala.gov.in/demography/",
-            "aboutDistrict": "https://ambala.gov.in/about-district/",
-            "whereToStay": "https://ambala.gov.in/accommodation/",
-            "whoswho": "https://ambala.gov.in/whoswho/",
-            "directory": "https://ambala.gov.in/directory/",
-            "adminSetup": "https://ambala.gov.in/administrative-setup/",
-            "politicalSetup": "https://ambala.gov.in/political-setup/",
-            "censusData": "https://ambala.gov.in/demography/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:haryanatourism.gov.in ambala",
-            "tourismSite2": "site:ambala.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
-            "tourismSite3": "site:ambala.gov.in OR site:haryanatourism.gov.in",
-            "generalSite": "site:ambala.gov.in",
-            "contextSuffix": "Ambala Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "REPLACE_WITH_AMBALA_SHEET_ID",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "REPLACE_WITH_AMBALA_APPS_SCRIPT_URL"
-        },
-        "webhooks": {
-            "infobotPath": "ambala-chat",
-            "askGitaPath": "ambala-AskGita",
-            "feedbackPath": "ambala-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Ambala, Haryana (India).",
-            "askGitaSystemRole": "You are an AI guide for Ambala district. Answer questions about Ambala's history, tourism, government services, and culture. NEVER give legal/medical advice.",
-            "districtContext": "Ambala district, Haryana, India. Known as the Twin City, famous for its large cantonment, scientific instruments industry, and cloth market."
-        },
-        "tourismSites": {
-            "primaryPortal": "haryanatourism.gov.in",
-            "secondaryPortal": "ambala.gov.in",
-            "broadQueryPrimary": "https://haryanatourism.gov.in/destination/ambala/",
-            "broadQuerySecondary": "https://ambala.gov.in/tourist-places/",
-            "generalListPrimary": "https://haryanatourism.gov.in/destination/ambala/",
-            "generalListSecondary": "https://ambala.gov.in/tourist-places/"
-        },
-        "perspectiveFallbackUrls": {
-            "historical": {
-                "primary": "https://ambala.gov.in/about-district/",
-                "secondary": "https://ambala.gov.in/tourist-places/"
-            },
-            "general": {
-                "primary": "https://haryanatourism.gov.in/destination/ambala/",
-                "secondary": "https://ambala.gov.in/tourist-places/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://ambala.gov.in/political-setup/",
-            "village_admin": "https://ambala.gov.in/directory/",
-            "admin_structure": "https://ambala.gov.in/administrative-setup/",
-            "demographic": "https://ambala.gov.in/demography/",
-            "accommodation": "https://ambala.gov.in/accommodation/",
-            "tourism_general": "https://ambala.gov.in/tourist-places/",
-            "police": "https://ambala.haryanapolice.gov.in/",
-            "court": "https://ambala.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Ambala",
-                "Ambala Cantt",
-                "Barara",
-                "Naraingarh"
-            ],
-            "subTehsils": [
-                "Saha",
-                "Mullana",
-                "Shahzadpur"
-            ],
-            "blocks": 6,
-            "villages": 420
-        },
-        "keywords": {
-            "localities": [
-                "ambala cantt",
-                "ambala city",
-                "barara",
-                "naraingarh",
-                "saha",
-                "mullana",
-                "shahzadpur",
-                "baldev nagar",
-                "model town"
-            ],
-            "tourismSpecifics": [
-                "bhawani amba temple",
-                "holy redeemer church",
-                "badshahi bagh gurudwara",
-                "sis ganj gurudwara",
-                "rani ka talab",
-                "jain mandir"
-            ],
-            "queryModifiers": [
-                "ambala mein",
-                "ambala ke",
-                "visit ambala",
-                "places in ambala"
-            ]
-        },
-        "knownSites": {
-            "bhawani amba temple": {
-                "type": "tourism",
-                "url": "https://ambala.gov.in/tourist-place/bhawani-amba-temple/"
-            },
-            "badshahi bagh gurudwara": {
-                "type": "tourism",
-                "url": "https://ambala.gov.in/tourist-place/badshahi-bagh-gurudwara/"
-            },
-            "sis ganj gurudwara": {
-                "type": "tourism",
-                "url": "https://ambala.gov.in/tourist-place/sis-ganj-gurudwara/"
-            }
-        }
+    "govtPages": {
+      "attractions": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "knowAbout": "https://kurukshetra.gov.in/know-about-kurukshetra/",
+      "aboutDistrict": "https://kurukshetra.gov.in/about-district/",
+      "whereToStay": "https://kurukshetra.gov.in/where-to-stay-in-kurukshetra/",
+      "whoswho": "https://kurukshetra.gov.in/whoswho/",
+      "directory": "https://kurukshetra.gov.in/directory/",
+      "adminSetup": "https://kurukshetra.gov.in/administrative-setup-kurukshetra/",
+      "politicalSetup": "https://kurukshetra.gov.in/political-setup-kurukshetra/",
+      "education": "https://kurukshetra.gov.in/education/",
+      "48kosMain": "https://kurukshetra.gov.in/48kos-kurukshetra/",
+      "48kosKurukshetra": "https://kurukshetra.gov.in/48kos-religious-places-in-kurukshetra/",
+      "48kosKarnal": "https://kurukshetra.gov.in/48kos-religious-places-in-karnal/",
+      "48kosKaithal": "https://kurukshetra.gov.in/48kos-religious-places-in-kaithal/",
+      "48kosPanipat": "https://kurukshetra.gov.in/48kos-religious-places-in-panipat/",
+      "48kosJind": "https://kurukshetra.gov.in/48kos-religious-places-in-jind/",
+      "censusData": "https://kurukshetra.gov.in/know-about-kurukshetra/"
     },
-    "srs": {
-        "meta": {
-            "districtKey": "sirsa",
-            "districtName": "Sirsa",
-            "districtNameHindi": "सिरसा",
-            "state": "Haryana",
-            "population": "1,295,189",
-            "area": "4,277 sq km",
-            "appDomain": "https://sirsa-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://sirsa.gov.in",
-            "tourismPortal": "https://haryanatourism.gov.in",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "university": "https://cdlu.ac.in",
-            "districtCourt": "https://sirsa.dcourts.gov.in",
-            "policeWebsite": "https://sirsa.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/sirsa",
-            "swiggy": "https://www.swiggy.com/city/sirsa",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-sirsa",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Sirsa"
-        },
-        "govtPages": {
-            "attractions": "https://sirsa.gov.in/tourist-places/",
-            "knowAbout": "https://sirsa.gov.in/about-district/demography/",
-            "aboutDistrict": "https://sirsa.gov.in/about-district/",
-            "whereToStay": "https://sirsa.gov.in/accommodation/",
-            "whoswho": "https://sirsa.gov.in/about-district/whos-who/",
-            "directory": "https://sirsa.gov.in/directory/",
-            "adminSetup": "https://sirsa.gov.in/about-district/administrative-setup/",
-            "politicalSetup": "https://sirsa.gov.in/political-setup/",
-            "censusData": "https://sirsa.gov.in/about-district/demography/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:haryanatourism.gov.in sirsa",
-            "tourismSite2": "site:sirsa.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
-            "tourismSite3": "site:sirsa.gov.in OR site:haryanatourism.gov.in",
-            "generalSite": "site:sirsa.gov.in",
-            "contextSuffix": "Sirsa Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "REPLACE_WITH_SIRSA_SHEET_ID",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "REPLACE_WITH_SIRSA_APPS_SCRIPT_URL"
-        },
-        "webhooks": {
-            "infobotPath": "sirsa-chat",
-            "askGitaPath": "sirsa-AskGita",
-            "feedbackPath": "sirsa-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Sirsa, Haryana (India).",
-            "askGitaSystemRole": "You are an AI guide for Sirsa district. Answer questions about Sirsa's history, tourism, government services, and culture. NEVER give legal/medical advice.",
-            "districtContext": "Sirsa district, Haryana, India. It is the largest district of Haryana by area, named after the Shirish tree, and is known for Tara Baba Kutia and its agricultural prominence."
-        },
-        "tourismSites": {
-            "primaryPortal": "haryanatourism.gov.in",
-            "secondaryPortal": "sirsa.gov.in",
-            "broadQueryPrimary": "https://haryanatourism.gov.in/destination/sirsa/",
-            "broadQuerySecondary": "https://sirsa.gov.in/tourist-places/",
-            "generalListPrimary": "https://haryanatourism.gov.in/destination/sirsa/",
-            "generalListSecondary": "https://sirsa.gov.in/tourist-places/"
-        },
-        "perspectiveFallbackUrls": {
-            "historical": {
-                "primary": "https://sirsa.gov.in/about-district/",
-                "secondary": "https://sirsa.gov.in/tourist-places/"
-            },
-            "general": {
-                "primary": "https://haryanatourism.gov.in/destination/sirsa/",
-                "secondary": "https://sirsa.gov.in/tourist-places/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://sirsa.gov.in/political-setup/",
-            "village_admin": "https://sirsa.gov.in/directory/",
-            "admin_structure": "https://sirsa.gov.in/about-district/administrative-setup/",
-            "demographic": "https://sirsa.gov.in/about-district/demography/",
-            "accommodation": "https://sirsa.gov.in/accommodation/",
-            "tourism_general": "https://sirsa.gov.in/tourist-places/",
-            "police": "https://sirsa.haryanapolice.gov.in/",
-            "court": "https://sirsa.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Sirsa",
-                "Dabwali",
-                "Rania",
-                "Ellenabad",
-                "Nathusari Chopta",
-                "Kalanwali",
-                "Goriwala"
-            ],
-            "subTehsils": [
-                "Talwandi Sabo",
-                "Madho Singhana"
-            ],
-            "blocks": 7,
-            "villages": 334
-        },
-        "keywords": {
-            "localities": [
-                "dabwali",
-                "rania",
-                "ellenabad",
-                "kalanwali",
-                "nathusari chopta",
-                "odhan",
-                "sirsa city"
-            ],
-            "tourismSpecifics": [
-                "tara baba kutia",
-                "gurudwara chilla sahib",
-                "jama masjid",
-                "ghaggar"
-            ],
-            "queryModifiers": [
-                "sirsa mein",
-                "sirsa ke",
-                "visit sirsa",
-                "places in sirsa"
-            ]
-        },
-        "knownSites": {
-            "tara baba kutia": {
-                "type": "tourism",
-                "url": "https://sirsa.gov.in/tourist-place/tara-baba-kutia/"
-            },
-            "gurudwara chilla sahib": {
-                "type": "tourism",
-                "url": "https://sirsa.gov.in/tourist-place/gurudwara-chilla-sahib/"
-            }
-        }
+    "serpapi": {
+      "tourismSite1": "site:kurukshetra.gov.in/kurukshetraattractions/",
+      "tourismSite2": "site:kurukshetra.gov.in -inurl:class- -inurl:recruitment -inurl:tender -inurl:download -inurl:gallery",
+      "tourismSite3": "(site:48koskurukshetra.com OR site:kurukshetra.gov.in) -inurl:class- -inurl:recruitment -inurl:tender",
+      "generalSite": "site:kurukshetra.gov.in OR site:48koskurukshetra.com",
+      "contextSuffix": "Kurukshetra Haryana"
     },
-    "palwal": {
-        "meta": {
-            "districtKey": "palwal",
-            "districtName": "Palwal",
-            "districtNameHindi": "पलवल",
-            "state": "Haryana",
-            "population": "1,042,708",
-            "area": "1,359 sq km",
-            "appDomain": "https://palwal-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://palwal.gov.in",
-            "tourismPortal": "https://haryanatourism.gov.in",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "university": "https://svsu.ac.in",
-            "districtCourt": "https://palwal.dcourts.gov.in",
-            "policeWebsite": "https://palwal.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/palwal",
-            "swiggy": "https://www.swiggy.com/city/palwal",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-palwal",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Palwal"
-        },
-        "govtPages": {
-            "attractions": "https://palwal.gov.in/tourist-places/",
-            "knowAbout": "https://palwal.gov.in/demography/",
-            "aboutDistrict": "https://palwal.gov.in/about-district/",
-            "whereToStay": "https://palwal.gov.in/accommodation/",
-            "whoswho": "https://palwal.gov.in/whoswho/",
-            "directory": "https://palwal.gov.in/directory/",
-            "adminSetup": "https://palwal.gov.in/administrative-setup/",
-            "politicalSetup": "https://palwal.gov.in/political-setup/",
-            "censusData": "https://palwal.gov.in/demography/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:haryanatourism.gov.in palwal",
-            "tourismSite2": "site:palwal.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
-            "tourismSite3": "site:palwal.gov.in OR site:haryanatourism.gov.in",
-            "generalSite": "site:palwal.gov.in",
-            "contextSuffix": "Palwal Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "REPLACE_WITH_PALWAL_SHEET_ID",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "REPLACE_WITH_PALWAL_APPS_SCRIPT_URL"
-        },
-        "webhooks": {
-            "infobotPath": "palwal-chat",
-            "askGitaPath": "palwal-AskGita",
-            "feedbackPath": "palwal-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Palwal, Haryana (India).",
-            "askGitaSystemRole": "You are an AI guide for Palwal district. Answer questions about Palwal's history, tourism, government services, and culture. NEVER give legal/medical advice.",
-            "districtContext": "Palwal district, Haryana, India. Historically known as Apelava, famous for the Panchavati Temple and its association with Mahatma Gandhi's first arrest during the freedom struggle."
-        },
-        "tourismSites": {
-            "primaryPortal": "haryanatourism.gov.in",
-            "secondaryPortal": "palwal.gov.in",
-            "broadQueryPrimary": "https://haryanatourism.gov.in/destination/palwal/",
-            "broadQuerySecondary": "https://palwal.gov.in/tourist-places/",
-            "generalListPrimary": "https://haryanatourism.gov.in/destination/palwal/",
-            "generalListSecondary": "https://palwal.gov.in/tourist-places/"
-        },
-        "perspectiveFallbackUrls": {
-            "historical": {
-                "primary": "https://palwal.gov.in/about-district/",
-                "secondary": "https://palwal.gov.in/tourist-places/"
-            },
-            "general": {
-                "primary": "https://haryanatourism.gov.in/destination/palwal/",
-                "secondary": "https://palwal.gov.in/tourist-places/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://palwal.gov.in/political-setup/",
-            "village_admin": "https://palwal.gov.in/directory/",
-            "admin_structure": "https://palwal.gov.in/administrative-setup/",
-            "demographic": "https://palwal.gov.in/demography/",
-            "accommodation": "https://palwal.gov.in/accommodation/",
-            "tourism_general": "https://palwal.gov.in/tourist-places/",
-            "police": "https://palwal.haryanapolice.gov.in/",
-            "court": "https://palwal.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Palwal",
-                "Hodal",
-                "Hathin"
-            ],
-            "subTehsils": [
-                "Hassanpur",
-                "Bahin"
-            ],
-            "blocks": 6,
-            "villages": 282
-        },
-        "keywords": {
-            "localities": [
-                "hodal",
-                "hathin",
-                "hassanpur",
-                "prithla",
-                "bamnikhera",
-                "palwal city"
-            ],
-            "tourismSpecifics": [
-                "panchavati temple",
-                "dauji temple",
-                "sati temple",
-                "draupadi ghat"
-            ],
-            "queryModifiers": [
-                "palwal mein",
-                "palwal ke",
-                "visit palwal",
-                "places in palwal"
-            ]
-        },
-        "knownSites": {
-            "panchavati temple": {
-                "type": "tourism",
-                "url": "https://palwal.gov.in/tourist-place/panchavati-temple/"
-            },
-            "sati temple": {
-                "type": "tourism",
-                "url": "https://palwal.gov.in/tourist-place/sati-temple-hodal/"
-            }
-        }
+    "googleSheets": {
+      "spreadsheetId": "1Po82vtiRaf-Cocx37UekRiFd-IbfX7r6j-dvj6aQmWA",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
     },
-    "fbd": {
-        "meta": {
-            "districtKey": "faridabad",
-            "districtName": "Faridabad",
-            "districtNameHindi": "फरीदाबाद",
-            "state": "Haryana",
-            "population": "1,809,733",
-            "area": "741 sq km",
-            "appDomain": "https://faridabad-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://faridabad.gov.in",
-            "tourismPortal": "https://haryanatourism.gov.in",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "university": "https://jcboseust.ac.in",
-            "districtCourt": "https://faridabad.dcourts.gov.in",
-            "policeWebsite": "https://faridabad.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/ncr/faridabad-restaurants",
-            "swiggy": "https://www.swiggy.com/city/faridabad",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-faridabad",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Faridabad"
-        },
-        "govtPages": {
-            "attractions": "https://faridabad.gov.in/tourist-places/",
-            "knowAbout": "https://faridabad.gov.in/demography/",
-            "aboutDistrict": "https://faridabad.gov.in/about-district/",
-            "whereToStay": "https://faridabad.gov.in/accommodation/",
-            "whoswho": "https://faridabad.gov.in/whoswho/",
-            "directory": "https://faridabad.gov.in/directory/",
-            "adminSetup": "https://faridabad.gov.in/administrative-setup/",
-            "politicalSetup": "https://faridabad.gov.in/political-setup/",
-            "censusData": "https://faridabad.gov.in/demography/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:haryanatourism.gov.in faridabad",
-            "tourismSite2": "site:faridabad.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
-            "tourismSite3": "site:faridabad.gov.in OR site:haryanatourism.gov.in",
-            "generalSite": "site:faridabad.gov.in",
-            "contextSuffix": "Faridabad Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "REPLACE_WITH_FARIDABAD_SHEET_ID",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "REPLACE_WITH_FARIDABAD_APPS_SCRIPT_URL"
-        },
-        "webhooks": {
-            "infobotPath": "faridabad-chat",
-            "askGitaPath": "faridabad-AskGita",
-            "feedbackPath": "faridabad-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Faridabad, Haryana (India).",
-            "askGitaSystemRole": "You are an AI guide for Faridabad district. Answer questions about Faridabad's history, tourism, government services, and culture. NEVER give legal/medical advice.",
-            "districtContext": "Faridabad district, Haryana, India. It is a major industrial hub of Haryana, famous for the Surajkund International Crafts Mela, Badkhal Lake, and Baba Farid's tomb."
-        },
-        "tourismSites": {
-            "primaryPortal": "haryanatourism.gov.in",
-            "secondaryPortal": "faridabad.gov.in",
-            "broadQueryPrimary": "https://haryanatourism.gov.in/destination/faridabad/",
-            "broadQuerySecondary": "https://faridabad.gov.in/tourist-places/",
-            "generalListPrimary": "https://haryanatourism.gov.in/destination/faridabad/",
-            "generalListSecondary": "https://faridabad.gov.in/tourist-places/"
-        },
-        "perspectiveFallbackUrls": {
-            "historical": {
-                "primary": "https://faridabad.gov.in/about-district/",
-                "secondary": "https://faridabad.gov.in/tourist-places/"
-            },
-            "general": {
-                "primary": "https://haryanatourism.gov.in/destination/faridabad/",
-                "secondary": "https://faridabad.gov.in/tourist-places/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://faridabad.gov.in/political-setup/",
-            "village_admin": "https://faridabad.gov.in/directory/",
-            "admin_structure": "https://faridabad.gov.in/administrative-setup/",
-            "demographic": "https://faridabad.gov.in/demography/",
-            "accommodation": "https://faridabad.gov.in/accommodation/",
-            "tourism_general": "https://faridabad.gov.in/tourist-places/",
-            "police": "https://faridabad.haryanapolice.gov.in/",
-            "court": "https://faridabad.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Faridabad",
-                "Ballabgarh",
-                "Badkhal"
-            ],
-            "subTehsils": [
-                "Mohna",
-                "Tigaon"
-            ],
-            "blocks": 2,
-            "villages": 111
-        },
-        "keywords": {
-            "localities": [
-                "ballabgarh",
-                "nit faridabad",
-                "surajkund",
-                "badkhal",
-                "sector",
-                "old faridabad"
-            ],
-            "tourismSpecifics": [
-                "surajkund",
-                "badkhal lake",
-                "raja nahar singh palace",
-                "baba farid tomb",
-                "town park"
-            ],
-            "queryModifiers": [
-                "faridabad mein",
-                "faridabad ke",
-                "visit faridabad",
-                "places in faridabad"
-            ]
-        },
-        "knownSites": {
-            "surajkund": {
-                "type": "tourism",
-                "url": "https://haryanatourism.gov.in/destination/surajkund/"
-            },
-            "badkhal lake": {
-                "type": "tourism",
-                "url": "https://haryanatourism.gov.in/destination/badkhal/"
-            }
-        }
+    "feedback": {
+      "googleAppsScriptUrl": "https://script.google.com/macros/s/AKfycbxCvs-tk8PecmOgORx8WIgszAO0VfqobnCCj75RM0kOiwxZep5UHJFl0Eub28uvHL2WWA/exec"
     },
-    "pkl": {
-        "meta": {
-            "districtKey": "panchkula",
-            "districtName": "Panchkula",
-            "districtNameHindi": "पंचकुला",
-            "state": "Haryana",
-            "population": "561,293",
-            "area": "898 sq km",
-            "appDomain": "https://panchkula-citymitra.app"
-        },
-        "urls": {
-            "districtGovt": "https://panchkula.gov.in",
-            "tourismPortal": "https://haryanatourism.gov.in",
-            "stateHaryanaTourism": "https://haryanatourism.gov.in",
-            "university": "",
-            "districtCourt": "https://panchkula.dcourts.gov.in",
-            "policeWebsite": "https://panchkula.haryanapolice.gov.in",
-            "zomato": "https://www.zomato.com/chandigarh/panchkula-restaurants",
-            "swiggy": "https://www.swiggy.com/city/chandigarh",
-            "sulekha": "https://www.sulekha.com",
-            "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-panchkula",
-            "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Panchkula"
-        },
-        "govtPages": {
-            "attractions": "https://panchkula.gov.in/tourist-places/",
-            "knowAbout": "https://panchkula.gov.in/demography/",
-            "aboutDistrict": "https://panchkula.gov.in/about-district/",
-            "whereToStay": "https://panchkula.gov.in/accommodation/",
-            "whoswho": "https://panchkula.gov.in/whoswho/",
-            "directory": "https://panchkula.gov.in/directory/",
-            "adminSetup": "https://panchkula.gov.in/administrative-setup/",
-            "politicalSetup": "https://panchkula.gov.in/political-setup/",
-            "censusData": "https://panchkula.gov.in/demography/"
-        },
-        "serpapi": {
-            "tourismSite1": "site:haryanatourism.gov.in panchkula",
-            "tourismSite2": "site:panchkula.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
-            "tourismSite3": "site:panchkula.gov.in OR site:haryanatourism.gov.in",
-            "generalSite": "site:panchkula.gov.in",
-            "contextSuffix": "Panchkula Haryana"
-        },
-        "googleSheets": {
-            "spreadsheetId": "REPLACE_WITH_PANCHKULA_SHEET_ID",
-            "infobotCacheSheet": "InfoBot_Cache",
-            "askGitaCacheSheet": "AskGita_Cache",
-            "infobotLogSheet": "InfoBot_Log",
-            "askGitaLogSheet": "AskGita_Log",
-            "feedbackSheet": "Feedback"
-        },
-        "feedback": {
-            "googleAppsScriptUrl": "REPLACE_WITH_PANCHKULA_APPS_SCRIPT_URL"
-        },
-        "webhooks": {
-            "infobotPath": "panchkula-chat",
-            "askGitaPath": "panchkula-AskGita",
-            "feedbackPath": "panchkula-Feed"
-        },
-        "aiPrompts": {
-            "infobotSystemRole": "You are an official district information assistant for Panchkula, Haryana (India).",
-            "askGitaSystemRole": "You are an AI guide for Panchkula district. Answer questions about Panchkula's history, tourism, government services, and culture. NEVER give legal/medical advice.",
-            "districtContext": "Panchkula district, Haryana, India. It forms a part of the Chandigarh capital region. Known for the Shivalik hills, Mansa Devi Temple, Morni Hills, and Pinjore Gardens."
-        },
-        "tourismSites": {
-            "primaryPortal": "haryanatourism.gov.in",
-            "secondaryPortal": "panchkula.gov.in",
-            "broadQueryPrimary": "https://haryanatourism.gov.in/destination/panchkula/",
-            "broadQuerySecondary": "https://panchkula.gov.in/tourist-places/",
-            "generalListPrimary": "https://haryanatourism.gov.in/destination/panchkula/",
-            "generalListSecondary": "https://panchkula.gov.in/tourist-places/"
-        },
-        "perspectiveFallbackUrls": {
-            "historical": {
-                "primary": "https://panchkula.gov.in/about-district/",
-                "secondary": "https://panchkula.gov.in/tourist-places/"
-            },
-            "general": {
-                "primary": "https://haryanatourism.gov.in/destination/panchkula/",
-                "secondary": "https://panchkula.gov.in/tourist-places/"
-            }
-        },
-        "hardcodedPageLinks": {
-            "person_fallback": "https://panchkula.gov.in/political-setup/",
-            "village_admin": "https://panchkula.gov.in/directory/",
-            "admin_structure": "https://panchkula.gov.in/administrative-setup/",
-            "demographic": "https://panchkula.gov.in/demography/",
-            "accommodation": "https://panchkula.gov.in/accommodation/",
-            "tourism_general": "https://panchkula.gov.in/tourist-places/",
-            "police": "https://panchkula.haryanapolice.gov.in/",
-            "court": "https://panchkula.dcourts.gov.in/"
-        },
-        "adminStructure": {
-            "tehsils": [
-                "Panchkula",
-                "Kalka",
-                "Raipur Rani"
-            ],
-            "subTehsils": [
-                "Barwala",
-                "Morni"
-            ],
-            "blocks": 4,
-            "villages": 263
-        },
-        "keywords": {
-            "localities": [
-                "kalka",
-                "pinjore",
-                "morni",
-                "raipur rani",
-                "barwala",
-                "mansa devi complex"
-            ],
-            "tourismSpecifics": [
-                "mansa devi temple",
-                "pinjore gardens",
-                "morni hills",
-                "nada sahib gurudwara",
-                "cactus garden"
-            ],
-            "queryModifiers": [
-                "panchkula mein",
-                "panchkula ke",
-                "visit panchkula",
-                "places in panchkula"
-            ]
-        },
-        "knownSites": {
-            "mansa devi temple": {
-                "type": "tourism",
-                "url": "https://panchkula.gov.in/tourist-place/mansa-devi-temple/"
-            },
-            "pinjore gardens": {
-                "type": "tourism",
-                "url": "https://haryanatourism.gov.in/destination/pinjore/"
-            }
-        }
+    "webhooks": {
+      "infobotPath": "kkr-chat",
+      "askGitaPath": "kkr-AskGita",
+      "feedbackPath": "kkr-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Kurukshetra, Haryana (India).",
+      "askGitaSystemRole": "You are AskGita, an AI scholar for International Gita Mahotsav 2025. Answer ONLY about: 1) Bhagavad Gita (chapters 1-18), 2) Kurukshetra's 48 Kos sites, 3) Today's IGM program. NEVER give legal/medical advice.",
+      "districtContext": "Kurukshetra district, Haryana, India. Famous for Bhagavad Gita, Mahabharata battlefield, 48 Kos pilgrimage circuit, Brahma Sarovar, Jyotisar, International Gita Mahotsav."
+    },
+    "tourismSites": {
+      "primaryPortal": "kurukshetra.gov.in/kurukshetraattractions/",
+      "secondaryPortal": "kurukshetra.gov.in",
+      "tertiary48Kos": "48koskurukshetra.com",
+      "broadQueryPrimary": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "broadQuerySecondary": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "generalListPrimary": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "generalListSecondary": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "kkrTourListTemplate": "https://48koskurukshetra.com",
+      "48kosTemplate": "https://48koskurukshetra.com/{kosSite}/"
+    },
+    "perspectiveFallbackUrls": {
+      "buddhist": { "primary": "https://kurukshetra.gov.in/about-district/", "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/" },
+      "sikh": { "primary": "https://kurukshetra.gov.in/about-district/", "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/" },
+      "jain": { "primary": "https://kurukshetra.gov.in/about-district/", "secondary": "https://kurukshetra.gov.in/kurukshetraattractions/" },
+      "historical": { "primary": "https://kurukshetra.gov.in/about-district/", "secondary": "https://kurukshetra.gov.in/know-about-kurukshetra/" },
+      "hindu": { "primary": "https://kurukshetra.gov.in/kurukshetraattractions/", "secondary": "https://kurukshetra.gov.in/about-district/" },
+      "parikrama": { "primary": "https://48koskurukshetra.com/", "secondary": "https://kurukshetra.gov.in/about-district/" },
+      "general": { "primary": "https://kurukshetra.gov.in/kurukshetraattractions/", "secondary": "https://48koskurukshetra.com/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://kurukshetra.gov.in/political-setup-kurukshetra/",
+      "village_admin": "https://kurukshetra.gov.in/directory/",
+      "admin_structure": "https://kurukshetra.gov.in/administrative-setup-kurukshetra/",
+      "demographic": "https://kurukshetra.gov.in/know-about-kurukshetra/",
+      "accommodation": "https://kurukshetra.gov.in/where-to-stay-in-kurukshetra/",
+      "tourism_general": "https://kurukshetra.gov.in/kurukshetraattractions/",
+      "police": "https://kurukshetra.haryanapolice.gov.in/",
+      "court": "https://kurukshetra.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Thanesar", "Pehowa", "Shahabad", "Ladwa"],
+      "subTehsils": ["Babain", "Ismailabad"],
+      "blocks": 7,
+      "villages": 460
+    },
+    "keywords": {
+      "localities": ["umri", "kamauda", "thanesar", "pipli", "bir", "amin", "pehowa", "jhansa", "rattangarh", "ladwa", "shahabad"],
+      "tourismSpecifics": ["brahma", "sarovar", "jyotisar", "sthaneshwar", "baan ganga", "sannihit", "sheikh chilli", "kalpana chawla", "panorama"],
+      "queryModifiers": ["kurukshetra mein", "kurukshetra ke", "visit kurukshetra", "places in kurukshetra"]
+    },
+    "knownSites": {
+      "brahma sarovar": { "type": "tourism", "id": 2 },
+      "jyotisar": { "type": "tourism", "id": 1 },
+      "nabhi kamal": { "type": "heritage", "url": "https://48koskurukshetra.com/nabhiqimal-tirtha-thanesar/" }
     }
+  },
+
+  "karnal": {
+    "meta": {
+      "districtKey": "karnal",
+      "districtName": "Karnal",
+      "districtNameHindi": "करनाल",
+      "state": "Haryana",
+      "population": "1,505,324",
+      "area": "2,520 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://karnal.gov.in",
+      "tourismPortal": "https://haryanatourism.gov.in",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "university": "https://ndri.res.in",
+      "districtCourt": "https://karnal.dcourts.gov.in",
+      "policeWebsite": "https://karnal.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/karnal",
+      "swiggy": "https://www.swiggy.com/city/karnal",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-karnal",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Karnal"
+    },
+    "govtPages": {
+      "attractions": "https://karnal.gov.in/tourist-places/",
+      "knowAbout": "https://karnal.gov.in/about-karnal/",
+      "aboutDistrict": "https://karnal.gov.in/demography/",
+      "whereToStay": "https://karnal.gov.in/where-to-stay/",
+      "whoswho": "https://karnal.gov.in/about-district/whos-who/",
+      "directory": "https://karnal.gov.in/directory/",
+      "adminSetup": "https://karnal.gov.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://karnal.gov.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:haryanatourism.gov.in karnal",
+      "tourismSite2": "site:karnal.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:karnal.gov.in OR site:haryanatourism.gov.in",
+      "generalSite": "site:karnal.gov.in",
+      "contextSuffix": "Karnal Haryana"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_KARNAL_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_KARNAL_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "karnal-chat",
+      "askGitaPath": "karnal-AskGita",
+      "feedbackPath": "karnal-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Karnal, Haryana (India).",
+      "askGitaSystemRole": "You are an AI guide for Karnal district. Answer questions about Karnal's history, tourism, government services, and culture. NEVER give legal/medical advice.",
+      "districtContext": "Karnal district, Haryana, India. Known as the City of Karna, rice bowl of India, Kalpana Chawla birthplace, National Dairy Research Institute (NDRI)."
+    },
+    "tourismSites": {
+      "primaryPortal": "haryanatourism.gov.in",
+      "secondaryPortal": "karnal.gov.in",
+      "broadQueryPrimary": "https://haryanatourism.gov.in/destination/karnal/",
+      "broadQuerySecondary": "https://karnal.gov.in/tourist-places/",
+      "generalListPrimary": "https://haryanatourism.gov.in/destination/karnal/",
+      "generalListSecondary": "https://karnal.gov.in/tourist-places/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://karnal.gov.in/about-karnal/", "secondary": "https://karnal.gov.in/tourist-places/" },
+      "general": { "primary": "https://haryanatourism.gov.in/destination/karnal/", "secondary": "https://karnal.gov.in/tourist-places/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://karnal.gov.in/about-district/whos-who/",
+      "village_admin": "https://karnal.gov.in/directory/",
+      "admin_structure": "https://karnal.gov.in/administrative-setup/",
+      "demographic": "https://karnal.gov.in/demography/",
+      "accommodation": "https://karnal.gov.in/where-to-stay/",
+      "tourism_general": "https://karnal.gov.in/tourist-places/",
+      "police": "https://karnal.haryanapolice.gov.in/",
+      "court": "https://karnal.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Karnal", "Indri", "Nilokheri", "Gharaunda", "Assandh"],
+      "subTehsils": ["Nigdhu", "Ballah", "Kunjpura"],
+      "blocks": 8,
+      "villages": 435
+    },
+    "keywords": {
+      "localities": ["indri", "nilokheri", "gharaunda", "assandh", "taraori", "kunjpura", "karnal city"],
+      "tourismSpecifics": ["karna lake", "cantonment church", "kalander shah tomb", "babarpur"],
+      "queryModifiers": ["karnal mein", "karnal ke", "visit karnal", "places in karnal"]
+    },
+    "knownSites": {
+      "karna lake": { "type": "tourism", "url": "https://karnaltourism.com/karna-lake" },
+      "cantonment church": { "type": "tourism", "url": "https://karnaltourism.com/church" }
+    }
+  },
+
+  "ambala": {
+    "meta": {
+      "districtKey": "ambala",
+      "districtName": "Ambala",
+      "districtNameHindi": "अम्बाला",
+      "state": "Haryana",
+      "population": "1,128,350",
+      "area": "1,574 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://ambala.gov.in",
+      "tourismPortal": "https://ambala.gov.in/tourist-places/",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "university": "",
+      "districtCourt": "https://ambala.dcourts.gov.in",
+      "policeWebsite": "https://ambala.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/ambala",
+      "swiggy": "https://www.swiggy.com/city/ambala",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-ambala",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Ambala"
+    },
+    "govtPages": {
+      "attractions": "https://ambala.gov.in/tourist-places/",
+      "knowAbout": "https://ambala.gov.in/demography/",
+      "aboutDistrict": "https://ambala.gov.in/about-district/",
+      "whereToStay": "https://ambala.gov.in/accommodation/",
+      "whoswho": "https://ambala.gov.in/whoswho/",
+      "directory": "https://ambala.gov.in/directory/",
+      "adminSetup": "https://ambala.gov.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://ambala.gov.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:haryanatourism.gov.in ambala",
+      "tourismSite2": "site:ambala.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:ambala.gov.in OR site:haryanatourism.gov.in",
+      "generalSite": "site:ambala.gov.in",
+      "contextSuffix": "Ambala Haryana"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_AMBALA_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_AMBALA_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "ambala-chat",
+      "askGitaPath": "ambala-AskGita",
+      "feedbackPath": "ambala-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Ambala, Haryana (India).",
+      "askGitaSystemRole": "You are an AI guide for Ambala district. Answer questions about Ambala's history, tourism, government services, and culture. NEVER give legal/medical advice.",
+      "districtContext": "Ambala district, Haryana, India. Known as the Twin City, famous for its large cantonment, scientific instruments industry, and cloth market."
+    },
+    "tourismSites": {
+      "primaryPortal": "ambala.gov.in/tourist-places/",
+      "secondaryPortal": "ambala.gov.in",
+      "broadQueryPrimary": "https://ambala.gov.in/tourist-places/",
+      "broadQuerySecondary": "https://ambala.gov.in/tourist-places/",
+      "generalListPrimary": "https://haryanatourism.gov.in/destination/ambala/",
+      "generalListSecondary": "https://ambala.gov.in/tourist-places/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://ambala.gov.in/about-district/", "secondary": "https://ambala.gov.in/tourist-places/" },
+      "general": { "primary": "https://ambala.gov.in/tourist-places/", "secondary": "https://haryanatourism.gov.in/destination/ambala/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://ambala.gov.in/political-setup/",
+      "village_admin": "https://ambala.gov.in/directory/",
+      "admin_structure": "https://ambala.gov.in/administrative-setup/",
+      "demographic": "https://ambala.gov.in/demography/",
+      "accommodation": "https://ambala.gov.in/accommodation/",
+      "tourism_general": "https://ambala.gov.in/tourist-places/",
+      "police": "https://ambala.haryanapolice.gov.in/",
+      "court": "https://ambala.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Ambala", "Ambala Cantt", "Barara", "Naraingarh"],
+      "subTehsils": ["Saha", "Mullana", "Shahzadpur"],
+      "blocks": 6,
+      "villages": 420
+    },
+    "keywords": {
+      "localities": ["ambala cantt", "ambala city", "barara", "naraingarh", "saha", "mullana", "shahzadpur", "baldev nagar", "model town"],
+      "tourismSpecifics": ["bhawani amba temple", "holy redeemer church", "badshahi bagh gurudwara", "sis ganj gurudwara", "rani ka talab", "jain mandir"],
+      "queryModifiers": ["ambala mein", "ambala ke", "visit ambala", "places in ambala"]
+    },
+    "knownSites": {
+      "bhawani amba temple": { "type": "tourism", "url": "https://ambala.gov.in/tourist-place/bhawani-amba-temple/" },
+      "badshahi bagh gurudwara": { "type": "tourism", "url": "https://ambala.gov.in/tourist-place/badshahi-bagh-gurudwara/" },
+      "sis ganj gurudwara": { "type": "tourism", "url": "https://ambala.gov.in/tourist-place/sis-ganj-gurudwara/" }
+    }
+  },
+
+  "srs": {
+    "meta": {
+      "districtKey": "sirsa",
+      "districtName": "Sirsa",
+      "districtNameHindi": "सिरसा",
+      "state": "Haryana",
+      "population": "1,295,189",
+      "area": "4,277 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://sirsa.gov.in",
+      "tourismPortal": "https://sirsa.gov.in/culture-heritage",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "university": "https://cdlu.ac.in",
+      "districtCourt": "https://sirsa.dcourts.gov.in",
+      "policeWebsite": "https://sirsa.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/sirsa",
+      "swiggy": "https://www.swiggy.com/city/sirsa",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-sirsa",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Sirsa"
+    },
+    "govtPages": {
+      "attractions": "https://sirsa.gov.in/culture-heritage/",
+      "knowAbout": "https://sirsa.gov.in/about-district/demography/",
+      "aboutDistrict": "https://sirsa.gov.in/history/",
+      "whereToStay": "https://sirsa.gov.in/accommodation/",
+      "whoswho": "https://sirsa.gov.in/whos-who/",
+      "directory": "https://sirsa.gov.in/directory/",
+      "adminSetup": "https://sirsa.gov.in/about-district/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://sirsa.gov.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:sirsa.gov.in/culture-heritage/",
+      "tourismSite2": "site:sirsa.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:sirsa.gov.in OR site:haryanatourism.gov.in",
+      "generalSite": "site:sirsa.gov.in",
+      "contextSuffix": "Sirsa Haryana"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_SIRSA_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_SIRSA_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "sirsa-chat",
+      "askGitaPath": "sirsa-AskGita",
+      "feedbackPath": "sirsa-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Sirsa, Haryana (India).",
+      "askGitaSystemRole": "You are an AI guide for Sirsa district. Answer questions about Sirsa's history, tourism, government services, and culture. NEVER give legal/medical advice.",
+      "districtContext": "Sirsa district, Haryana, India. It is the largest district of Haryana by area, named after the Shirish tree, and is known for Tara Baba Kutia and its agricultural prominence."
+    },
+    "tourismSites": {
+      "primaryPortal": "sirsa.gov.in/culture-heritage/",
+      "secondaryPortal": "haryanatourism.gov.in",
+      "broadQueryPrimary": "https://haryanatourism.gov.in/destination/sirsa/",
+      "broadQuerySecondary": "https://sirsa.gov.in/culture-heritage/",
+      "generalListPrimary": "https://haryanatourism.gov.in/destination/sirsa/",
+      "generalListSecondary": "https://sirsa.gov.in/culture-heritage/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://sirsa.gov.in/about-district/", "secondary": "https://sirsa.gov.in/culture-heritage/" },
+      "general": { "primary": "https://haryanatourism.gov.in/destination/sirsa/", "secondary": "https://sirsa.gov.in/culture-heritage/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://sirsa.gov.in/whos-who/",
+      "village_admin": "https://sirsa.gov.in/directory/",
+      "admin_structure": "https://sirsa.gov.in/about-district/administrative-setup/",
+      "demographic": "https://sirsa.gov.in/demography/",
+      "accommodation": "https://sirsa.gov.in/accommodation/",
+      "tourism_general": "https://sirsa.gov.in/culture-heritage/",
+      "police": "https://sirsa.haryanapolice.gov.in/",
+      "court": "https://sirsa.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Sirsa", "Dabwali", "Rania", "Ellenabad", "Nathusari Chopta", "Kalanwali", "Goriwala"],
+      "subTehsils": ["Talwandi Sabo", "Madho Singhana"],
+      "blocks": 7,
+      "villages": 334
+    },
+    "keywords": {
+      "localities": ["dabwali", "rania", "ellenabad", "kalanwali", "nathusari chopta", "odhan", "sirsa city"],
+      "tourismSpecifics": ["tara baba kutia", "gurudwara chilla sahib", "jama masjid", "ghaggar"],
+      "queryModifiers": ["sirsa mein", "sirsa ke", "visit sirsa", "places in sirsa"]
+    },
+    "knownSites": {
+      "tara baba kutia": { "type": "tourism", "url": "" },
+      "gurudwara chilla sahib": { "type": "tourism", "url": "" }
+    }
+  },
+
+  "palwal": {
+    "meta": {
+      "districtKey": "palwal",
+      "districtName": "Palwal",
+      "districtNameHindi": "पलवल",
+      "state": "Haryana",
+      "population": "1,042,708",
+      "area": "1,359 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://palwal.gov.in",
+      "tourismPortal": "https://haryanatourism.gov.in",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "university": "https://svsu.ac.in",
+      "districtCourt": "https://palwal.dcourts.gov.in",
+      "policeWebsite": "https://palwal.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/palwal",
+      "swiggy": "https://www.swiggy.com/city/palwal",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-palwal",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Palwal"
+    },
+    "govtPages": {
+      "attractions": "https://palwal.gov.in/tourist-places/",
+      "knowAbout": "https://palwal.gov.in/demography/",
+      "aboutDistrict": "https://palwal.gov.in/about-district/",
+      "whereToStay": "https://palwal.gov.in/accommodation/",
+      "whoswho": "https://palwal.gov.in/whoswho/",
+      "directory": "https://palwal.gov.in/directory/",
+      "adminSetup": "https://palwal.gov.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://palwal.gov.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:haryanatourism.gov.in palwal",
+      "tourismSite2": "site:palwal.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:palwal.gov.in OR site:haryanatourism.gov.in",
+      "generalSite": "site:palwal.gov.in",
+      "contextSuffix": "Palwal Haryana"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_PALWAL_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_PALWAL_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "palwal-chat",
+      "askGitaPath": "palwal-AskGita",
+      "feedbackPath": "palwal-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Palwal, Haryana (India).",
+      "askGitaSystemRole": "You are an AI guide for Palwal district. Answer questions about Palwal's history, tourism, government services, and culture. NEVER give legal/medical advice.",
+      "districtContext": "Palwal district, Haryana, India. Historically known as Apelava, famous for the Panchavati Temple and its association with Mahatma Gandhi's first arrest during the freedom struggle."
+    },
+    "tourismSites": {
+      "primaryPortal": "haryanatourism.gov.in",
+      "secondaryPortal": "palwal.gov.in",
+      "broadQueryPrimary": "https://haryanatourism.gov.in/destination/palwal/",
+      "broadQuerySecondary": "https://palwal.gov.in/tourist-places/",
+      "generalListPrimary": "https://haryanatourism.gov.in/destination/palwal/",
+      "generalListSecondary": "https://palwal.gov.in/tourist-places/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://palwal.gov.in/about-district/", "secondary": "https://palwal.gov.in/tourist-places/" },
+      "general": { "primary": "https://haryanatourism.gov.in/destination/palwal/", "secondary": "https://palwal.gov.in/tourist-places/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://palwal.gov.in/political-setup/",
+      "village_admin": "https://palwal.gov.in/directory/",
+      "admin_structure": "https://palwal.gov.in/administrative-setup/",
+      "demographic": "https://palwal.gov.in/demography/",
+      "accommodation": "https://palwal.gov.in/accommodation/",
+      "tourism_general": "https://palwal.gov.in/tourist-places/",
+      "police": "https://palwal.haryanapolice.gov.in/",
+      "court": "https://palwal.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Palwal", "Hodal", "Hathin"],
+      "subTehsils": ["Hassanpur", "Bahin"],
+      "blocks": 6,
+      "villages": 282
+    },
+    "keywords": {
+      "localities": ["hodal", "hathin", "hassanpur", "prithla", "bamnikhera", "palwal city"],
+      "tourismSpecifics": ["panchavati temple", "dauji temple", "sati temple", "draupadi ghat"],
+      "queryModifiers": ["palwal mein", "palwal ke", "visit palwal", "places in palwal"]
+    },
+    "knownSites": {
+      "panchavati temple": { "type": "tourism", "url": "https://palwal.gov.in/tourist-place/panchavati-temple/" },
+      "sati temple": { "type": "tourism", "url": "https://palwal.gov.in/tourist-place/sati-temple-hodal/" }
+    }
+  },
+
+  "fbd": {
+    "meta": {
+      "districtKey": "faridabad",
+      "districtName": "Faridabad",
+      "districtNameHindi": "फरीदाबाद",
+      "state": "Haryana",
+      "population": "1,809,733",
+      "area": "741 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://faridabad.nic.in",
+      "tourismPortal": "https://haryanatourism.gov.in",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "university": "https://jcboseust.ac.in",
+      "districtCourt": "https://faridabad.dcourts.gov.in",
+      "policeWebsite": "https://faridabad.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/ncr/faridabad-restaurants",
+      "swiggy": "https://www.swiggy.com/city/faridabad",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-faridabad",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Faridabad"
+    },
+    "govtPages": {
+      "attractions": "https://faridabad.nic.in/places-of-interest/",
+      "knowAbout": "https://faridabad.nic.in/history/",
+      "aboutDistrict": "https://faridabad.nic.in/about-district/",
+      "whereToStay": "https://faridabad.nic.in/accommodation/",
+      "whoswho": "https://faridabad.nic.in/whos-who/",
+      "directory": "https://faridabad.nic.in/directory/",
+      "adminSetup": "https://faridabad.nic.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://faridabad.nic.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:haryanatourism.gov.in faridabad",
+      "tourismSite2": "site:faridabad.nic.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:faridabad.nic.in OR site:haryanatourism.gov.in",
+      "generalSite": "site:faridabad.nic.in",
+      "contextSuffix": "Faridabad Haryana"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_FARIDABAD_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_FARIDABAD_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "faridabad-chat",
+      "askGitaPath": "faridabad-AskGita",
+      "feedbackPath": "faridabad-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Faridabad, Haryana (India).",
+      "askGitaSystemRole": "You are an AI guide for Faridabad district. Answer questions about Faridabad's history, tourism, government services, and culture. NEVER give legal/medical advice.",
+      "districtContext": "Faridabad district, Haryana, India. It is a major industrial hub of Haryana, famous for the Surajkund International Crafts Mela, Badkhal Lake, and Baba Farid's tomb."
+    },
+    "tourismSites": {
+      "primaryPortal": "haryanatourism.gov.in",
+      "secondaryPortal": "faridabad.nic.in",
+      "broadQueryPrimary": "https://haryanatourism.gov.in/destination/faridabad/",
+      "broadQuerySecondary": "https://faridabad.nic.in/tourist-places/",
+      "generalListPrimary": "https://haryanatourism.gov.in/destination/faridabad/",
+      "generalListSecondary": "https://faridabad.nic.in/tourist-places/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://faridabad.nic.in/about-district/", "secondary": "https://faridabad.nic.in/tourist-places/" },
+      "general": { "primary": "https://haryanatourism.gov.in/destination/faridabad/", "secondary": "https://faridabad.nic.in/tourist-places/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://faridabad.nic.in/whos-who/",
+      "village_admin": "https://faridabad.nic.in/directory/",
+      "admin_structure": "https://faridabad.nic.in/administrative-setup/",
+      "demographic": "https://faridabad.nic.in/demography/",
+      "accommodation": "https://faridabad.nic.in/accommodation/",
+      "tourism_general": "https://faridabad.nic.in/tourist-places/",
+      "police": "https://faridabad.haryanapolice.gov.in/",
+      "court": "https://faridabad.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Faridabad", "Ballabgarh", "Badkhal"],
+      "subTehsils": ["Mohna", "Tigaon"],
+      "blocks": 2,
+      "villages": 111
+    },
+    "keywords": {
+      "localities": ["ballabgarh", "nit faridabad", "surajkund", "badkhal", "sector", "old faridabad"],
+      "tourismSpecifics": ["surajkund", "badkhal lake", "raja nahar singh palace", "baba farid tomb", "town park"],
+      "queryModifiers": ["faridabad mein", "faridabad ke", "visit faridabad", "places in faridabad"]
+    },
+    "knownSites": {
+      "surajkund": { "type": "tourism", "url": "https://haryanatourism.gov.in/destination/surajkund/" },
+      "badkhal lake": { "type": "tourism", "url": "https://haryanatourism.gov.in/destination/badkhal/" }
+    }
+  },
+
+  "pkl": {
+    "meta": {
+      "districtKey": "panchkula",
+      "districtName": "Panchkula",
+      "districtNameHindi": "पंचकुला",
+      "state": "Haryana",
+      "population": "561,293",
+      "area": "898 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://panchkula.nic.in",
+      "tourismPortal": "https://haryanatourism.gov.in",
+      "stateHaryanaTourism": "https://haryanatourism.gov.in",
+      "university": "",
+      "districtCourt": "https://panchkula.dcourts.gov.in",
+      "policeWebsite": "https://panchkula.haryanapolice.gov.in",
+      "zomato": "https://www.zomato.com/chandigarh/panchkula-restaurants",
+      "swiggy": "https://www.swiggy.com/city/chandigarh",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-panchkula",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Panchkula"
+    },
+    "govtPages": {
+      "attractions": "https://panchkula.nic.in/tourist-places/",
+      "knowAbout": "https://panchkula.nic.in/demography/",
+      "aboutDistrict": "https://panchkula.nic.in/history/",
+      "whereToStay": "https://panchkula.nic.in/accommodation/",
+      "whoswho": "https://panchkula.nic.in/whos-who/",
+      "directory": "https://panchkula.nic.in/directory/",
+      "adminSetup": "https://panchkula.nic.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://panchkula.nic.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:haryanatourism.gov.in panchkula",
+      "tourismSite2": "site:panchkula.nic.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:panchkula.nic.in OR site:haryanatourism.gov.in",
+      "generalSite": "site:panchkula.nic.in",
+      "contextSuffix": "Panchkula Haryana"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_PANCHKULA_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_PANCHKULA_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "panchkula-chat",
+      "askGitaPath": "panchkula-AskGita",
+      "feedbackPath": "panchkula-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Panchkula, Haryana (India).",
+      "askGitaSystemRole": "You are an AI guide for Panchkula district. Answer questions about Panchkula's history, tourism, government services, and culture. NEVER give legal/medical advice.",
+      "districtContext": "Panchkula district, Haryana, India. It forms a part of the Chandigarh capital region. Known for the Shivalik hills, Mansa Devi Temple, Morni Hills, and Pinjore Gardens."
+    },
+    "tourismSites": {
+      "primaryPortal": "haryanatourism.gov.in",
+      "secondaryPortal": "panchkula.nic.in",
+      "broadQueryPrimary": "https://haryanatourism.gov.in/destination/panchkula/",
+      "broadQuerySecondary": "https://panchkula.nic.in/tourist-places/",
+      "generalListPrimary": "https://haryanatourism.gov.in/destination/panchkula/",
+      "generalListSecondary": "https://panchkula.nic.in/tourist-places/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://panchkula.nic.in/about-district/", "secondary": "https://panchkula.nic.in/tourist-places/" },
+      "general": { "primary": "https://haryanatourism.gov.in/destination/panchkula/", "secondary": "https://panchkula.nic.in/tourist-places/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://panchkula.nic.in/whos-who/",
+      "village_admin": "https://panchkula.nic.in/directory/",
+      "admin_structure": "https://panchkula.nic.in/administrative-setup/",
+      "demographic": "https://panchkula.nic.in/demography/",
+      "accommodation": "https://panchkula.nic.in/accommodation/",
+      "tourism_general": "https://panchkula.nic.in/tourist-places/",
+      "police": "https://panchkula.haryanapolice.gov.in/",
+      "court": "https://panchkula.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Panchkula", "Kalka", "Raipur Rani"],
+      "subTehsils": ["Barwala", "Morni"],
+      "blocks": 4,
+      "villages": 263
+    },
+    "keywords": {
+      "localities": ["kalka", "pinjore", "morni", "raipur rani", "barwala", "mansa devi complex"],
+      "tourismSpecifics": ["mansa devi temple", "pinjore gardens", "morni hills", "nada sahib gurudwara", "cactus garden"],
+      "queryModifiers": ["panchkula mein", "panchkula ke", "visit panchkula", "places in panchkula"]
+    },
+    "knownSites": {
+      "mansa devi temple": { "type": "tourism", "url": "https://panchkula.nic.in/tourist-place/mansa-devi-temple/" },
+      "pinjore gardens": { "type": "tourism", "url": "https://haryanatourism.gov.in/destination/pinjore/" }
+    }
+  },
+
+  "ranchi": {
+    "meta": {
+      "districtKey": "ranchi",
+      "districtName": "Ranchi",
+      "districtNameHindi": "राँची",
+      "state": "Jharkhand",
+      "population": "2,914,253",
+      "area": "5,097 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://ranchi.nic.in",
+      "tourismPortal": "https://tourism.jharkhand.gov.in/",
+      "stateTourism": "https://www.jharkhandtourism.gov.in",
+      "university": "https://www.ranchiuniversity.ac.in",
+      "districtCourt": "https://ranchi.dcourts.gov.in",
+      "policeWebsite": "https://ranchipolice.jharkhand.gov.in",
+      "zomato": "https://www.zomato.com/ranchi",
+      "swiggy": "https://www.swiggy.com/city/ranchi",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-ranchi",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Ranchi"
+    },
+    "govtPages": {
+      "attractions": "https://ranchi.nic.in/tourist-places/",
+      "knowAbout": "https://ranchi.nic.in/demography/",
+      "aboutDistrict": "https://ranchi.nic.in/about-district/",
+      "whereToStay": "https://ranchi.nic.in/accommodation/",
+      "whoswho": "https://ranchi.nic.in/whos-who/",
+      "directory": "https://ranchi.nic.in/directory/",
+      "adminSetup": "https://ranchi.nic.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://ranchi.nic.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:jharkhandtourism.gov.in ranchi",
+      "tourismSite2": "site:ranchi.nic.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:ranchi.nic.in OR site:jharkhandtourism.gov.in",
+      "generalSite": "site:ranchi.nic.in",
+      "contextSuffix": "Ranchi Jharkhand"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_RANCHI_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_RANCHI_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "ranchi-chat",
+      "askGitaPath": "ranchi-AskGita",
+      "feedbackPath": "ranchi-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Ranchi, Jharkhand (India).",
+      "askGitaSystemRole": "You are an AI guide for Ranchi district. Answer questions about Ranchi's history, tourism, and services. NEVER give legal/medical advice.",
+      "districtContext": "Ranchi is the capital of Jharkhand, known as the 'City of Waterfalls'. Famous for Hundru Falls, Jonha Falls, and the Jagannath Temple."
+    },
+    "tourismSites": {
+      "primaryPortal": "jharkhandtourism.gov.in",
+      "secondaryPortal": "ranchi.nic.in",
+      "broadQueryPrimary": "https://tourism.jharkhand.gov.in/destination/ranchi",
+      "broadQuerySecondary": "https://ranchi.nic.in/tourist-places/",
+      "generalListPrimary": "https://tourism.jharkhand.gov.in/",
+      "generalListSecondary": "https://ranchi.nic.in/tourist-places/"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://ranchi.nic.in/about-district/", "secondary": "https://ranchi.nic.in/tourist-places/" },
+      "general": { "primary": "https://tourism.jharkhand.gov.in/", "secondary": "https://ranchi.nic.in/tourist-places/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://ranchi.nic.in/whos-who/",
+      "village_admin": "https://ranchi.nic.in/directory/",
+      "admin_structure": "https://ranchi.nic.in/administrative-setup/",
+      "demographic": "https://ranchi.nic.in/demography/",
+      "accommodation": "https://ranchi.nic.in/accommodation/",
+      "tourism_general": "https://ranchi.nic.in/tourist-places/",
+      "police": "https://ranchipolice.jharkhand.gov.in/",
+      "court": "https://ranchi.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Ranchi", "Bundu", "Kanke", "Omanjhi", "Angara"],
+      "subTehsils": [],
+      "blocks": 18,
+      "villages": 1311
+    },
+    "keywords": {
+      "localities": ["kanke", "doranda", "hatia", "bariatu", "namkum", "ratu"],
+      "tourismSpecifics": ["hundru falls", "jonha falls", "dasham falls", "tagore hill", "pahari mandir"],
+      "queryModifiers": ["ranchi mein", "ranchi ke", "visit ranchi"]
+    }
+  },
+
+  "indore": {
+    "meta": {
+      "districtKey": "indore",
+      "districtName": "Indore",
+      "districtNameHindi": "इन्दौर",
+      "state": "Madhya Pradesh",
+      "population": "3,276,697",
+      "area": "3,898 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://indore.nic.in",
+      "tourismPortal": "https://indore.nic.in/tourist-places/",
+      "stateTourism": "https://www.mptourism.com",
+      "university": "https://www.dauniv.ac.in",
+      "districtCourt": "https://indore.dcourts.gov.in",
+      "policeWebsite": "https://indorepolice.gov.in",
+      "zomato": "https://www.zomato.com/indore",
+      "swiggy": "https://www.swiggy.com/city/indore",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-indore",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Indore"
+    },
+    "govtPages": {
+      "attractions": "https://indore.nic.in/tourist-places/",
+      "knowAbout": "https://indore.nic.in/en/history/",
+      "aboutDistrict": "https://indore.nic.in/en/about-district/",
+      "whereToStay": "https://indore.nic.in/accommodation/",
+      "whoswho": "https://indore.nic.in/whoswho/",
+      "directory": "https://indore.nic.in/directory/",
+      "adminSetup": "https://indore.nic.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://indore.nic.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:indore.nic.in/tourist-places/",
+      "tourismSite2": "site:indore.nic.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:indore.nic.in OR site:mptourism.com",
+      "generalSite": "site:indore.nic.in",
+      "contextSuffix": "Indore Madhya Pradesh"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_INDORE_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_INDORE_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "indore-chat",
+      "askGitaPath": "indore-AskGita",
+      "feedbackPath": "indore-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Indore, Madhya Pradesh (India).",
+      "askGitaSystemRole": "You are an AI guide for Indore. Answer questions about cleanliness, food culture, and history. NEVER give legal/medical advice.",
+      "districtContext": "Indore is the cleanest city in India. Famous for Rajwada Palace, Sarafa Bazaar street food, and the Holkar legacy."
+    },
+    "tourismSites": {
+      "primaryPortal": "indore.nic.in/tourist-places/",
+      "secondaryPortal": "mptourism.com",
+      "broadQueryPrimary": "https://indore.nic.in/tourist-places/",
+      "broadQuerySecondary": "https://www.mptourism.com/destination-indore.php",
+      "generalListPrimary": "https://indore.nic.in/tourist-places/",
+      "generalListSecondary": "https://www.mptourism.com"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://indore.nic.in/about-district/", "secondary": "https://indore.nic.in/tourist-places/" },
+      "general": { "primary": "https://indore.nic.in/tourist-places/", "secondary": "https://www.mptourism.com/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://indore.nic.in/whoswho/",
+      "village_admin": "https://indore.nic.in/directory/",
+      "admin_structure": "https://indore.nic.in/administrative-setup/",
+      "demographic": "https://indore.nic.in/demography/",
+      "accommodation": "https://indore.nic.in/accommodation/",
+      "tourism_general": "https://indore.nic.in/tourist-places/",
+      "police": "https://indorepolice.gov.in/",
+      "court": "https://indore.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Indore", "Mhow", "Depalpur", "Sanwer"],
+      "blocks": 4,
+      "villages": 612
+    },
+    "keywords": {
+      "localities": ["vijay nagar", "rajendra nagar", "mhow", "palasia", "annapurna"],
+      "tourismSpecifics": ["rajwada palace", "lal bagh palace", "khajrana ganesh", "sarafa bazaar"],
+      "queryModifiers": ["indore mein", "indore ke", "visit indore"]
+    }
+  },
+
+  "ddn": {
+    "meta": {
+      "districtKey": "dehradun",
+      "districtName": "Dehradun",
+      "districtNameHindi": "देहरादून",
+      "state": "Uttarakhand",
+      "population": "1,696,694",
+      "area": "3,088 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://dehradun.gov.in",
+      "tourismPortal": "https://dehradun.gov.in/tourist-places/",
+      "stateTourism": "https://uttarakhandtourism.gov.in",
+      "university": "https://www.doonuniversity.ac.in",
+      "districtCourt": "https://dehradun.dcourts.gov.in",
+      "policeWebsite": "https://dehradunpolice.uk.gov.in",
+      "zomato": "https://www.zomato.com/dehradun",
+      "swiggy": "https://www.swiggy.com/city/dehradun",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-dehradun",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Dehradun"
+    },
+    "govtPages": {
+      "attractions": "https://dehradun.gov.in/tourist-places/",
+      "knowAbout": "https://dehradun.nic.in/history/",
+      "aboutDistrict": "https://dehradun.nic.in/history/",
+      "whereToStay": "https://dehradun.gov.in/accommodation/",
+      "whoswho": "https://dehradun.nic.in/about-district/whos-who/",
+      "directory": "https://dehradun.gov.in/directory/",
+      "adminSetup": "https://dehradun.gov.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://dehradun.nic.in/population/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:dehradun.gov.in/tourist-places/",
+      "tourismSite2": "site:dehradun.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:dehradun.gov.in OR site:https://uttarakhandtourism.gov.in/public/destination/dehradun",
+      "generalSite": "site:dehradun.gov.in",
+      "contextSuffix": "Dehradun Uttarakhand"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_DEHRADUN_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_DEHRADUN_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "dehradun-chat",
+      "askGitaPath": "dehradun-AskGita",
+      "feedbackPath": "dehradun-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Dehradun, Uttarakhand (India).",
+      "askGitaSystemRole": "You are an AI guide for Dehradun. Answer questions about the Doon Valley and tourism. NEVER give legal/medical advice.",
+      "districtContext": "Dehradun is the gateway to Mussoorie and Rishikesh. Famous for FRI, Robber's Cave, and its basmati rice."
+    },
+    "tourismSites": {
+      "primaryPortal": "dehradun.gov.in",
+      "secondaryPortal": "uttarakhandtourism.gov.in/public/destination/dehradun",
+      "broadQueryPrimary": "https://dehradun.gov.in/tourist-places/",
+      "broadQuerySecondary": "https://uttarakhandtourism.gov.in/public/destination/dehradun",
+      "generalListPrimary": "https://dehradun.gov.in/tourist-places/",
+      "generalListSecondary": "https://uttarakhandtourism.gov.in"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://dehradun.gov.in/about-district/", "secondary": "https://dehradun.gov.in/tourist-places/" },
+      "general": { "primary": "https://dehradun.gov.in/tourist-places/", "secondary": "https://uttarakhandtourism.gov.in/public/destination/dehradun" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://dehradun.nic.in/about-district/whos-who/",
+      "village_admin": "https://dehradun.gov.in/directory/",
+      "admin_structure": "https://dehradun.gov.in/administrative-setup/",
+      "demographic": "https://dehradun.nic.in/population/",
+      "accommodation": "https://dehradun.gov.in/accommodation/",
+      "tourism_general": "https://dehradun.gov.in/tourist-places/",
+      "police": "https://dehradunpolice.uk.gov.in/",
+      "court": "https://dehradun.dcourts.gov.in/",
+      "dm_link": "https://dehradun.gov.in/dm-profile/"
+    },
+    "adminStructure": {
+      "tehsils": ["Dehradun", "Chakrata", "Vikasnagar", "Rishikesh", "Doiwala", "Mussoorie"],
+      "blocks": 6,
+      "villages": 764
+    },
+    "keywords": {
+      "localities": ["rajpur road", "clemen town", "ballupur", "selakui", "patel nagar"],
+      "tourismSpecifics": ["robber's cave", "sahastradhara", "tapkeshwar", "fri", "muddling monastery"],
+      "queryModifiers": ["dehradun mein", "dehradun ke", "visit dehradun"],
+      "adminDesignations": ["DM", "District Magistrate", "Collector"]
+    }
+  },
+
+  "jaipur": {
+    "meta": {
+      "districtKey": "jaipur",
+      "districtName": "Jaipur",
+      "districtNameHindi": "जयपुर",
+      "state": "Rajasthan",
+      "population": "6,626,178",
+      "area": "11,143 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://jaipur.rajasthan.gov.in",
+      "tourismPortal": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "stateTourism": "https://www.tourism.rajasthan.gov.in",
+      "university": "https://www.uniraj.ac.in",
+      "districtCourt": "https://jaipur.dcourts.gov.in",
+      "policeWebsite": "https://jaipurpolice.rajasthan.gov.in",
+      "zomato": "https://www.zomato.com/jaipur",
+      "swiggy": "https://www.swiggy.com/city/jaipur",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-jaipur",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Jaipur"
+    },
+    "govtPages": {
+      "attractions": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "knowAbout": "https://jaipur.rajasthan.gov.in/demography/",
+      "aboutDistrict": "https://jaipur.rajasthan.gov.in/sm/jankalyan-category-and-entry-type/12177/37/4/1",
+      "whereToStay": "https://jaipur.rajasthan.gov.in/accommodation/",
+      "whoswho": "https://jaipur.rajasthan.gov.in/whoswho/",
+      "directory": "https://jaipur.rajasthan.gov.in/directory/",
+      "adminSetup": "https://jaipur.rajasthan.gov.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://jaipur.rajasthan.gov.in/sm/jankalyan-category-and-entry-type/12179/37/1/4"
+    },
+    "serpapi": {
+      "tourismSite1": "site:jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "tourismSite2": "site:jaipur.rajasthan.gov.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:jaipur.rajasthan.gov.in OR site:tourism.rajasthan.gov.in",
+      "generalSite": "site:jaipur.rajasthan.gov.in",
+      "contextSuffix": "Jaipur Rajasthan"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_JAIPUR_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_JAIPUR_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "jaipur-chat",
+      "askGitaPath": "jaipur-AskGita",
+      "feedbackPath": "jaipur-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Jaipur, Rajasthan (India).",
+      "askGitaSystemRole": "You are an AI guide for Jaipur. Answer questions about the Pink City and Rajputana history. NEVER give legal/medical advice.",
+      "districtContext": "Jaipur is the capital of Rajasthan, part of the Golden Triangle. Famous for Hawa Mahal, Amer Fort, and its UNESCO heritage city center."
+    },
+    "tourismSites": {
+      "primaryPortal": "jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "secondaryPortal": "tourism.rajasthan.gov.in",
+      "broadQueryPrimary": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "broadQuerySecondary": "https://www.tourism.rajasthan.gov.in/jaipur.html",
+      "generalListPrimary": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "generalListSecondary": "https://www.tourism.rajasthan.gov.in"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://jaipur.rajasthan.gov.in/about-district/", "secondary": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29" },
+      "general": { "primary": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29", "secondary": "https://www.tourism.rajasthan.gov.in/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://jaipur.rajasthan.gov.in/whoswho/",
+      "village_admin": "https://jaipur.rajasthan.gov.in/directory/",
+      "admin_structure": "https://jaipur.rajasthan.gov.in/administrative-setup/",
+      "demographic": "https://jaipur.rajasthan.gov.in/sm/jankalyan-category-and-entry-type/12179/37/1/4",
+      "accommodation": "https://jaipur.rajasthan.gov.in/accommodation/",
+      "tourism_general": "https://jaipur.rajasthan.gov.in/pages/sm/district-info-detail/12184/37/29",
+      "police": "https://jaipurpolice.rajasthan.gov.in/",
+      "court": "https://jaipur.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Jaipur", "Sanganer", "Amer", "Chomu", "Phulera", "Kotputli"],
+      "blocks": 15,
+      "villages": 2369
+    },
+    "keywords": {
+      "localities": ["malviya nagar", "mansarovar", "vaishali nagar", "bani park", "johar bazaar"],
+      "tourismSpecifics": ["hawa mahal", "city palace", "amer fort", "nahargarh", "jal mahal"],
+      "queryModifiers": ["jaipur mein", "jaipur ke", "visit jaipur"]
+    }
+  },
+
+  "asr": {
+    "meta": {
+      "districtKey": "amritsar",
+      "districtName": "Amritsar",
+      "districtNameHindi": "अमृतसर",
+      "state": "Punjab",
+      "population": "2,490,656",
+      "area": "2,647 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://amritsar.nic.in",
+      "tourismPortal": "https://amritsar.nic.in/tourist-places/",
+      "stateTourism": "https://punjabtourism.punjab.gov.in",
+      "university": "https://online.gndu.ac.in",
+      "districtCourt": "https://amritsar.dcourts.gov.in",
+      "policeWebsite": "https://amritsarpolice.gov.in",
+      "zomato": "https://www.zomato.com/amritsar",
+      "swiggy": "https://www.swiggy.com/city/amritsar",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-amritsar",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Amritsar"
+    },
+    "govtPages": {
+      "attractions": "https://amritsar.nic.in/tourist-places/",
+      "knowAbout": "https://amritsar.nic.in/history/",
+      "aboutDistrict": "https://amritsar.nic.in/history/",
+      "whereToStay": "https://amritsar.nic.in/accommodation/",
+      "whoswho": "https://amritsar.nic.in/whos-who/",
+      "directory": "https://amritsar.nic.in/directory/",
+      "adminSetup": "https://amritsar.nic.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://amritsar.nic.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:amritsar.nic.in/tourist-places/",
+      "tourismSite2": "site:amritsar.nic.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:amritsar.nic.in OR site:punjabtourism.punjab.gov.in",
+      "generalSite": "site:amritsar.nic.in",
+      "contextSuffix": "Amritsar Punjab"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_AMRITSAR_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_AMRITSAR_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "amritsar-chat",
+      "askGitaPath": "amritsar-AskGita",
+      "feedbackPath": "amritsar-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Amritsar, Punjab (India).",
+      "askGitaSystemRole": "You are an AI guide for Amritsar. Answer questions about the Golden Temple and Wagah Border. NEVER give legal/medical advice.",
+      "districtContext": "Amritsar is the spiritual center of Sikhism. Famous for the Harmandir Sahib, Wagah Border, and Jallianwala Bagh."
+    },
+    "tourismSites": {
+      "primaryPortal": "amritsar.nic.in/tourist-places/",
+      "secondaryPortal": "punjabtourism.punjab.gov.in",
+      "broadQueryPrimary": "https://amritsar.nic.in/tourist-places/",
+      "broadQuerySecondary": "https://punjabtourism.punjab.gov.in/destination/amritsar/",
+      "generalListPrimary": "https://amritsar.nic.in/tourist-places/",
+      "generalListSecondary": "https://punjabtourism.punjab.gov.in"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://amritsar.nic.in/tourist-places/", "secondary": "https://amritsar.nic.in/about-district/" },
+      "general": { "primary": "https://amritsar.nic.in/tourist-places/", "secondary": "https://punjabtourism.punjab.gov.in/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://amritsar.nic.in/whos-who/",
+      "village_admin": "https://amritsar.nic.in/directory/",
+      "admin_structure": "https://amritsar.nic.in/administrative-setup/",
+      "demographic": "https://amritsar.nic.in/demography/",
+      "accommodation": "https://amritsar.nic.in/accommodation/",
+      "tourism_general": "https://amritsar.nic.in/tourist-places/",
+      "police": "https://amritsarpolice.gov.in/",
+      "court": "https://amritsar.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Amritsar", "Ajnala", "Baba Bakala", "Majitha"],
+      "blocks": 9,
+      "villages": 846
+    },
+    "keywords": {
+      "localities": ["ranjit avenue", "civil lines", "putlighar", "lawrence road"],
+      "tourismSpecifics": ["golden temple", "jallianwala bagh", "wagah border", "partition museum"],
+      "queryModifiers": ["amritsar mein", "amritsar ke", "visit amritsar"]
+    }
+  },
+
+  "vns": {
+    "meta": {
+      "districtKey": "varanasi",
+      "districtName": "Varanasi",
+      "districtNameHindi": "वाराणसी",
+      "state": "Uttar Pradesh",
+      "population": "3,676,841",
+      "area": "1,535 sq km",
+      "appDomain": "https://citymitra.app"
+    },
+    "urls": {
+      "districtGovt": "https://varanasi.nic.in",
+      "tourismPortal": "https://varanasi.nic.in/tourist-places/",
+      "stateTourism": "https://www.uptourism.gov.in",
+      "university": "https://www.bhu.ac.in",
+      "districtCourt": "https://varanasi.dcourts.gov.in",
+      "policeWebsite": "https://varanasipolice.gov.in",
+      "zomato": "https://www.zomato.com/varanasi",
+      "swiggy": "https://www.swiggy.com/city/varanasi",
+      "sulekha": "https://www.sulekha.com",
+      "sulekha_pg": "https://www.sulekha.com/paying-guest-accomodation-varanasi",
+      "googleMapsDistrict": "http://googleusercontent.com/maps.google.com/?q=Varanasi"
+    },
+    "govtPages": {
+      "attractions": "https://varanasi.nic.in/tourist-places/",
+      "knowAbout": "https://varanasi.nic.in/history/",
+      "aboutDistrict": "https://varanasi.nic.in/about-district/",
+      "whereToStay": "https://varanasi.nic.in/accommodation/",
+      "whoswho": "https://varanasi.nic.in/whoswho/",
+      "directory": "https://varanasi.nic.in/directory/",
+      "adminSetup": "https://varanasi.nic.in/administrative-setup/",
+      "politicalSetup": "",
+      "censusData": "https://varanasi.nic.in/demography/"
+    },
+    "serpapi": {
+      "tourismSite1": "site:varanasi.nic.in/tourist-places/",
+      "tourismSite2": "site:varanasi.nic.in -inurl:class- -inurl:recruitment -inurl:tender",
+      "tourismSite3": "site:varanasi.nic.in OR site:uptourism.gov.in",
+      "generalSite": "site:varanasi.nic.in",
+      "contextSuffix": "Varanasi Uttar Pradesh"
+    },
+    "googleSheets": {
+      "spreadsheetId": "REPLACE_WITH_VARANASI_SHEET_ID",
+      "infobotCacheSheet": "InfoBot_Cache",
+      "askGitaCacheSheet": "AskGita_Cache",
+      "infobotLogSheet": "InfoBot_Log",
+      "askGitaLogSheet": "AskGita_Log",
+      "feedbackSheet": "Feedback"
+    },
+    "feedback": {
+      "googleAppsScriptUrl": "REPLACE_WITH_VARANASI_APPS_SCRIPT_URL"
+    },
+    "webhooks": {
+      "infobotPath": "varanasi-chat",
+      "askGitaPath": "varanasi-AskGita",
+      "feedbackPath": "varanasi-Feed"
+    },
+    "aiPrompts": {
+      "infobotSystemRole": "You are an official district information assistant for Varanasi, Uttar Pradesh (India).",
+      "askGitaSystemRole": "You are an AI guide for Varanasi. Answer questions about Kashi, Ganga Aarti, and Sarnath. NEVER give legal/medical advice.",
+      "districtContext": "Varanasi is one of the oldest living cities. Famous for Kashi Vishwanath Temple, Ganga Ghats, and the Banarasi Saree industry."
+    },
+    "tourismSites": {
+      "primaryPortal": "varanasi.nic.in",
+      "secondaryPortal": "uptourism.gov.in",
+      "broadQueryPrimary": "https://varanasi.nic.in/tourist-places/",
+      "broadQuerySecondary": "https://www.uptourism.gov.in/destination/varanasi/",
+      "generalListPrimary": "https://varanasi.nic.in/tourist-places/",
+      "generalListSecondary": "https://www.uptourism.gov.in"
+    },
+    "perspectiveFallbackUrls": {
+      "historical": { "primary": "https://varanasi.nic.in/about-district/", "secondary": "https://varanasi.nic.in/tourist-places/" },
+      "general": { "primary": "https://varanasi.nic.in/tourist-places/", "secondary": "https://www.uptourism.gov.in/" }
+    },
+    "hardcodedPageLinks": {
+      "person_fallback": "https://varanasi.nic.in/whoswho/",
+      "village_admin": "https://varanasi.nic.in/directory/",
+      "admin_structure": "https://varanasi.nic.in/administrative-setup/",
+      "demographic": "https://varanasi.nic.in/demography/",
+      "accommodation": "https://varanasi.nic.in/accommodation/",
+      "tourism_general": "https://varanasi.nic.in/tourist-places/",
+      "police": "https://varanasipolice.gov.in/",
+      "court": "https://varanasi.dcourts.gov.in/"
+    },
+    "adminStructure": {
+      "tehsils": ["Varanasi", "Pindra", "Rajatalao"],
+      "blocks": 8,
+      "villages": 1327
+    },
+    "keywords": {
+      "localities": ["lanka", "godowlia", "sigra", "cantt", "sarnath"],
+      "tourismSpecifics": ["kashi vishwanath", "dashashwamedh ghat", "assi ghat", "sarnath"],
+      "queryModifiers": ["varanasi mein", "varanasi ke", "visit varanasi"]
+    }
+  }
 }

@@ -417,8 +417,8 @@
             district: { en: 'Panchkula', hi: 'पंचकूला' },
             state: { en: 'Haryana', hi: 'हरियाणा' },
             heroEmoji: '🏔️',
-            govWebsite: 'https://panchkula.gov.in',
-            privacyPolicy: 'https://panchkula.gov.in/privacy-policy/',
+            govWebsite: 'https://panchkula.nic.in',
+            privacyPolicy: 'https://panchkula.nic.in/privacy-policy/',
             colors: {
                 city: '#00695C',
                 cityLt: '#E0F2F1',
@@ -765,8 +765,8 @@
             district: { en: 'Faridabad', hi: 'फरीदाबाद' },
             state: { en: 'Haryana', hi: 'हरियाणा' },
             heroEmoji: '🏭',
-            govWebsite: 'https://faridabad.gov.in',
-            privacyPolicy: 'https://faridabad.gov.in/privacy-policy/',
+            govWebsite: 'https://faridabad.nic.in',
+            privacyPolicy: 'https://faridabad.nic.in/privacy-policy/',
             colors: {
                 city: '#C62828',
                 cityLt: '#FFEBEE',
@@ -881,8 +881,8 @@
             district: { en: 'Dehradun', hi: 'देहरादून' },
             state: { en: 'Uttarakhand', hi: 'उत्तराखंड' },
             heroEmoji: '🏔️',
-            govWebsite: 'https://dehradun.nic.in',
-            privacyPolicy: 'https://dehradun.nic.in/privacy-policy/',
+            govWebsite: 'https://dehradun.gov.in',
+            privacyPolicy: 'https://dehradun.gov.in/privacy-policy/',
             colors: { city: '#064E3B', cityLt: '#ECFDF5', cityDeep: '#022C22' },
             features: { gita: false, heritage: true },
             webhooks: {
